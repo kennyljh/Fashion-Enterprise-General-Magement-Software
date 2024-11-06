@@ -1,0 +1,10 @@
+item1:
+name/apple
+price/4.12
+quantity/500
+
+item2:
+name/banana
+price/1.32
+quantity/2000
+
