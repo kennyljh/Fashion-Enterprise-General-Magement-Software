@@ -116,6 +116,15 @@ public class PoorTextEditor {
 	}
 	
 	/**
+	 * Creates a String array of all array item names
+	 * @return String array of all array item names
+	 */
+	public String[] getArrayNames() {
+		
+		return getArrayNamesList();
+	}
+	
+	/**
 	 * Retrieves a HashMap of Key Value data under a specified array
 	 * item name
 	 * @param arrayItemName specific array item name
@@ -123,12 +132,11 @@ public class PoorTextEditor {
 	 */
 	private Map<String, Object> getArrayItemList(String arrayItemName) {
 		
-		if (repository.isEmpty()) {
+		if (checkRepositoryData()) {
 			
-			System.out.println("Repository has not been initialized with data");
 			return null;
 		}
-		
+
 		Map<String, Object> arrayItem;
 		
 		if (repository.containsKey(arrayItemName)) {
@@ -140,7 +148,8 @@ public class PoorTextEditor {
 			System.out.println("ArrayItem: " + arrayItemName + " not found");
 			return null;
 		}
-		return arrayItem;	
+		return arrayItem;
+		
 	}
 	
 	/**
@@ -152,9 +161,8 @@ public class PoorTextEditor {
 	 */
 	private String retrieveValueFromKey(String arrayName, String keyName) {
 		
-		if (repository.isEmpty()) {
-			
-			System.out.println("Repository has not been initialized with data");
+		if (checkRepositoryData()) {
+		
 			return null;
 		}
 		
@@ -192,12 +200,8 @@ public class PoorTextEditor {
 	 */
 	private void setValueFromKey(String arrayName, String keyName, String value) {
 		
-		if (repository.isEmpty()) {
-			
-			System.out.println("Repository has not been initiated with data");
-		}
-		else {
-			
+		if (!checkRepositoryData()) {
+
 			if (repository.containsKey(arrayName)) {
 				
 				Map<String, Object> arrayItem = (Map<String, Object>) repository.get(arrayName);
@@ -326,43 +330,79 @@ public class PoorTextEditor {
      */
     private void writeDataToFile(String filePath) {
         
-        BufferedWriter writer = null;
-        
-        try {
-        	
-            writer = new BufferedWriter(new FileWriter(filePath));
+    	if (!checkRepositoryData()) {
+    		
+    		BufferedWriter writer = null;
             
-            // Iterate over the repository map
-            for (Map.Entry<String, Object> entry : repository.entrySet()) {
-                
-                String arrayName = entry.getKey();
-                Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
-                
-                // writing the array name followed by ":"
-                writer.write(arrayName + ":\n");
-                
-                // write all key-value pairs under array item
-                for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
-                    writer.write(keyValueEntry.getKey() + "/" + keyValueEntry.getValue() + "\n");
-                }
-                
-                // adding blank line to separate array items
-                writer.write("\n");
-            }
-            
-            // debug
-            System.out.println("Data written to " + filePath + " successfully.");
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
             try {
-                if (writer != null) {
-                    writer.close();
+            	
+                writer = new BufferedWriter(new FileWriter(filePath));
+                
+                // Iterate over the repository map
+                for (Map.Entry<String, Object> entry : repository.entrySet()) {
+                    
+                    String arrayName = entry.getKey();
+                    Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
+                    
+                    // writing the array name followed by ":"
+                    writer.write(arrayName + ":\n");
+                    
+                    // write all key-value pairs under array item
+                    for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
+                        writer.write(keyValueEntry.getKey() + "/" + keyValueEntry.getValue() + "\n");
+                    }
+                    
+                    // adding blank line to separate array items
+                    writer.write("\n");
                 }
+                
+                // debug
+                System.out.println("Data written to " + filePath + " successfully.");
+                
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+    		
+    	}
+    }
+    
+    /**
+     * Checks if repository is empty
+     * @return true if empty, otherwise false
+     */
+    private boolean checkRepositoryData() {
+    	
+    	if (repository.isEmpty()) {
+    		System.out.println("Repository not initialized with data");
+			return true;
+		}
+    	return false;
+    }
+    
+    /**
+	 * Creates a String array of all array item names
+	 * @return String array of all array item names
+	 */
+    private String[] getArrayNamesList() {
+    	
+    	String[] arrayNamesList = null;
+    	
+    	int index = 0;
+    	for (Map.Entry<String, Object> entry : repository.entrySet()) {
+    		
+    		if (!entry.getKey().isEmpty()) {
+    			arrayNamesList[index] = entry.getKey();
+    			index++;
+    		}
+    	}
+    	return arrayNamesList;
     }
 }
