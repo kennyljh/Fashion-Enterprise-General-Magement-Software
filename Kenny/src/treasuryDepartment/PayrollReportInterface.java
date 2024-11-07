@@ -1,3 +1,6 @@
+/**
+ * @author Kenny
+ */
 package treasuryDepartment;
 
 public interface PayrollReportInterface {

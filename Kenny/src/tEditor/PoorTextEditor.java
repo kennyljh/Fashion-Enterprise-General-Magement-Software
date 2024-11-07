@@ -360,7 +360,7 @@ public class PoorTextEditor {
 				// otherwise process key and value pairs
 				else if (currentItem != null && currentLine.contains("/")) {
 					
-					// split current line into key and value pair at ","
+					// split current line into key and value pair at "/"
 					String[] keyValue = currentLine.split("/", 2);
 					
 					if (keyValue.length == 2) {

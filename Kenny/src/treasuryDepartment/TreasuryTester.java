@@ -1,3 +1,7 @@
+/**
+ * @author Kenny
+ */
+
 package treasuryDepartment;
 
 public class TreasuryTester {
