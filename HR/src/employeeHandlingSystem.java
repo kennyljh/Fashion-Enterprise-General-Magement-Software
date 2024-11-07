@@ -30,5 +30,6 @@ public class employeeHandlingSystem {
         handler.displayRecords();
         // print out just a department -> DESIGN
         handler.displayDepartment(Department.DESIGN);
+        System.out.println(handler.collateSalariesByDepartment(Department.DESIGN));
     }
 }

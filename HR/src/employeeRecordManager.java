@@ -52,4 +52,14 @@ public class employeeRecordManager {
             }
         }
     }
+
+    public int collateSalariesByDepartment(Department department) {
+        int totalSalary = 0;
+        for (Employee emp : employeeList) {
+            if(emp.department == department) {
+                totalSalary += emp.salary;
+            }
+        }
+        return totalSalary;
+    }
 }
