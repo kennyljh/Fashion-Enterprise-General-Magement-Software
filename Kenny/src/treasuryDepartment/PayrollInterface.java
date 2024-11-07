@@ -4,13 +4,13 @@ public interface PayrollInterface {
 
 	boolean addEmployeeData(String filePath);
 	
-	boolean addPayrollRates(Payroll payroll);
+	boolean addPayrollRates(String filePath);
 	
-	PayrollReport createPayroll(Employee employee);
+	boolean processPayroll(String fileDirectory);
 	
-	Payslip createPayslip(Employee employee);
+	void createPayroll(String fileDirectory);
 	
-	boolean deleteEmployeeData(String employeeId);
+	void createPayslip(String fileDirectory);
 	
 	PayrollApproval retrieveApproval(String reportID);
 }

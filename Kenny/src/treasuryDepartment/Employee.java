@@ -1,3 +1,7 @@
+/**
+ * @author Kenny
+ */
+
 package treasuryDepartment;
 
 public class Employee implements EmployeeInterface{
@@ -26,9 +30,44 @@ public class Employee implements EmployeeInterface{
 		return this;
 	}
 
+	public String getEmployeeID() {
+		
+		return employeeID;
+	}
+	
+	public String getName() {
+		
+		return name;
+	}
+	
+	public String getPosition() {
+		
+		return position;
+	}
+	
+	public String getDepartment() {
+		
+		return department;
+	}
+	
+	public double getWorkHours() {
+		
+		return workHours;
+	}
+	
+	public double getBenefits() {
+		
+		return benefits;
+	}
+	
+	public double getOvertime() {
+		
+		return overtime;
+	}
+	
 	@Override
 	public double getSalary() {
-		// TODO Auto-generated method stub
+		
 		return salary;
 	}
 

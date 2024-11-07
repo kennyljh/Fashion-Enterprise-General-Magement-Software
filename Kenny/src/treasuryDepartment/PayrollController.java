@@ -1,3 +1,7 @@
+/**
+ * @author Kenny
+ */
+
 package treasuryDepartment;
 
 import java.util.Scanner;
@@ -16,34 +20,68 @@ public class PayrollController implements PayrollControllerInterface{
 		this.controller = controller;
 	}
 	
+	public PayrollController() {};
+	
+	/**
+	 * Run the payroll program
+	 */
 	public void run() {
 		
 		System.out.println("Welcome to the Payroll System");
-		System.out.println("1. Load Department Employee Data List");
-		System.out.println("2. Load Payroll Rates");
-		System.out.println("3. Process Payroll");
-		System.out.println("4. Exit program");
+		
 		
 		Scanner scan = new Scanner(System.in);
-		int choice = scan.nextInt();
+		boolean exit = false;
 		
-		switch (choice) {
+		while (!exit) {
 			
-			case 1:
-				System.out.println("Enter path of Department Employee Data List");
-				String filePath = scan.nextLine();
-				addEmployeeData(filePath);
-				break;
-			case 2:
-				System.out.println("Enter ");
-			case 3:
+			System.out.println("1. Load Department Employee Data List");
+			System.out.println("2. Load Payroll Rates");
+			System.out.println("3. Process Payroll & Payslips");
+			System.out.println("4. Exit program");
 			
-			case 4:
-				System.out.println("Closing program...");
-				break;
-			default:
-				System.out.println("Incorrect choice. Try again.");
-				run();
+			int choice = scan.nextInt();
+			scan.nextLine();
+			
+			switch (choice) {
+				
+				case 1:
+					System.out.println("Enter path of Department Employee Data File:");
+					String filePath = scan.nextLine();
+					if (addEmployeeData(filePath)) {;
+						System.out.println("Department Employee Data added successfully\n");
+					}
+					else {
+						System.out.println("Invalid Employee Data file\n");
+					}
+					break;
+				case 2:
+					System.out.println("Enter path of Payroll Rate File:");
+					String filePath2 = scan.nextLine();
+					if (addPayrollRates(filePath2)) {
+						System.out.println("Payroll Rate added successfully\n");
+					}
+					else {
+						System.out.println("Invalid Payroll Rate file\n");
+					}
+					break;
+				case 3:
+					System.out.println("Enter path to store Payroll Report & Payslips: (e.g. User\\Documents\\(files stored in here))");
+					String filePath3 = scan.nextLine();
+					if (processPayroll(filePath3)) {
+						System.out.println("Payroll successfully processed and saved\n");
+					}
+					else {
+						System.out.println("No Employee Data or Payroll Data found\n");
+					}
+					break;
+				case 4:
+					System.out.println("Closing program...");
+					exit = true;
+					break;
+				default:
+					System.out.println("Incorrect choice. Try again.");
+			}
 		}
 		scan.close();
 	}
@@ -56,14 +94,14 @@ public class PayrollController implements PayrollControllerInterface{
 
 	@Override
 	public boolean addPayrollRates(String filePath) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return this.getPayrollInstance().addPayrollRates(filePath);
 	}
 
 	@Override
-	public boolean createReport(String filepath) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean processPayroll(String filePath) {
+		
+		return this.getPayrollInstance().processPayroll(filePath);
 	}
 
 	/**

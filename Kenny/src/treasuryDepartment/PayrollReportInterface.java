@@ -1,18 +1,14 @@
 package treasuryDepartment;
 
 public interface PayrollReportInterface {
-
-	double getReportSummary();
 	
-	double getGrossPay();
+	double getTotalBasePay();
 	
-	double getOvertimePay();
+	double getTotalBenefitsPay();
 	
-	double getBenefitsPay();
+	double getTotalOvertimePay();
 	
-	double getBasePay();
+	double getTotalGrossPay();
 	
-	double getNetPay();
-	
-	String getdateCreated();
+	double getTotalNetPay();
 }

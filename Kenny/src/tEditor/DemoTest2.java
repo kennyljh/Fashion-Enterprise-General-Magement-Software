@@ -20,6 +20,6 @@ public class DemoTest2 {
 			editor.setValue(s, "price", "5.00");
 			System.out.println(s);
 		}
-		editor.writeToTextFile("src/resources/DELETEME.txt");
+		editor.writeToTextFile("src/resources/DELETEME");
 	}
 }

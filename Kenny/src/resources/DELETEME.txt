@@ -1,5 +1,5 @@
 apple:
-name/apple
+name/apple banana?
 price/5.00
 quantity/500
 
