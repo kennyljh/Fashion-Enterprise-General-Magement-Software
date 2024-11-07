@@ -13,6 +13,9 @@ import java.util.Map;
 
 /**
  * A very limited text parser, editor, and printer
+ * 
+ * Necessary functionalities are all called from
+ * public methods
  */
 public class PoorTextEditor {
 
@@ -73,6 +76,28 @@ public class PoorTextEditor {
 	}
 	
 	/**
+     * Writes the data from the repository (HashMap) to a text file.
+     * The output format will look like:
+     * 
+     * item1:
+     * name/apple
+     * price/4.12
+     * quantity/500
+     * 
+     * item2:
+     * name/banana
+     * price/1.32
+     * quantity/2000
+     * 
+     * @param hashmap repository
+     * @param filePath desired path of the file to write to
+     */
+	public void writeToTextFile(Map<String, Object> givenRepo, String filePath) {
+		
+		writeDataToFile(givenRepo, filePath);
+	}
+	
+	/**
 	 * @return the HashMap repository
 	 */
 	public Map<String, Object> getRepository() {
@@ -122,6 +147,15 @@ public class PoorTextEditor {
 	public String[] getArrayNames() {
 		
 		return getArrayNamesList();
+	}
+	
+	/**
+	 * Remove an array item with the given array name
+	 * @param arrayName
+	 */
+	public void removeArrayItem(String arrayName) {
+		
+		removeArrayItemByKey(arrayName);
 	}
 	
 	/**
@@ -375,6 +409,69 @@ public class PoorTextEditor {
     }
     
     /**
+     * Writes the data from the repository (HashMap) to a text file.
+     * The output format will look like:
+     * 
+     * item1:
+     * name/apple
+     * price/4.12
+     * quantity/500
+     * 
+     * item2:
+     * name/banana
+     * price/1.32
+     * quantity/2000
+     * 
+     * @param givenRepo hashmap repository
+     * @param filePath path of the file to write to
+     */
+    private void writeDataToFile(Map<String, Object> givenRepo, String filePath) {
+        
+    	if (!checkRepositoryData()) {
+    		
+    		BufferedWriter writer = null;
+            
+            try {
+            	
+                writer = new BufferedWriter(new FileWriter(filePath));
+                
+                // Iterate over the repository map
+                for (Map.Entry<String, Object> entry : givenRepo.entrySet()) {
+                    
+                    String arrayName = entry.getKey();
+                    Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
+                    
+                    // writing the array name followed by ":"
+                    writer.write(arrayName + ":\n");
+                    
+                    // write all key-value pairs under array item
+                    for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
+                        writer.write(keyValueEntry.getKey() + "/" + keyValueEntry.getValue() + "\n");
+                    }
+                    
+                    // adding blank line to separate array items
+                    writer.write("\n");
+                }
+                
+                // debug
+                System.out.println("Data written to " + filePath + " successfully.");
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+    		
+    	}
+    }
+    
+    /**
      * Checks if repository is empty
      * @return true if empty, otherwise false
      */
@@ -393,7 +490,9 @@ public class PoorTextEditor {
 	 */
     private String[] getArrayNamesList() {
     	
-    	String[] arrayNamesList = null;
+    	System.out.println("Array Items Names List:");
+    	
+    	String[] arrayNamesList = new String[repository.size()];
     	
     	int index = 0;
     	for (Map.Entry<String, Object> entry : repository.entrySet()) {
@@ -404,5 +503,24 @@ public class PoorTextEditor {
     		}
     	}
     	return arrayNamesList;
+    }
+    
+    /**
+	 * Remove an array item with the given array name
+	 * @param arrayName
+	 */
+    private void removeArrayItemByKey(String arrayName) {
+    	
+    	if (!checkRepositoryData()) {
+    		
+    		if (repository.containsKey(arrayName)) {
+    			
+    			repository.remove(arrayName);
+    			System.out.println("ArrayItem: " + arrayName + " has been successfully removed");
+    		}
+    		else {
+    			System.out.println("ArrayItem: " + arrayName + " not found");
+    		}
+    	}	
     }
 }
