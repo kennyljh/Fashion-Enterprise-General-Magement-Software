@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Sam Gumm
+ */
 public class employeeRecordManager {
     private List<Employee> employeeList = new ArrayList<>();
 

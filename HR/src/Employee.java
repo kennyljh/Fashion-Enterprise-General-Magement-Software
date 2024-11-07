@@ -1,3 +1,6 @@
+/**
+ * @author Sam Gumm
+ */
 class Employee {
     String employeeId;
     String name;

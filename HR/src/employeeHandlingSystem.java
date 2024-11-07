@@ -1,3 +1,6 @@
+/**
+ * @author Sam Gumm
+ */
 public class employeeHandlingSystem {
     
     /** 
