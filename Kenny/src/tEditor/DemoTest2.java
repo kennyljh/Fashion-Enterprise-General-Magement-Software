@@ -6,10 +6,10 @@ public class DemoTest2 {
 	public static void main(String[] args) {
 		
 		PoorTextEditor editor = new PoorTextEditor();
-		editor.processTextFile("src/resources/FruitsInventory.txt");
+		editor.processTextFile("Kenny/src/resources/FruitsInventory.txt");
 		
 		editor.setValue("pineapple", "price", "5.00");
 		
-		editor.writeToTextFile("src/resources/DELETEME.txt");
+		editor.writeToTextFile("Inventory/DELETEME.txt");
 	}
 }
