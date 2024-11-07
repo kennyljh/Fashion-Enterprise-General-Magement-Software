@@ -1,4 +1,8 @@
-package HR.src;
+package HR;
+
+/**
+ * @author Sam Gumm
+ */
 
 class Candidate {
     String candidateId;
@@ -13,6 +17,10 @@ class Candidate {
         this.status = "Applied";
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return String.format("ID: %s, Name: %s, Position Applied: %s, Status: %s", 
