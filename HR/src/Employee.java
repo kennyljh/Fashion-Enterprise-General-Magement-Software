@@ -1,11 +1,13 @@
-class Employee {
+package HR.src;
+
+public class Employee {
     String employeeId;
     String name;
     String department;
     String position;
     String employmentStatus;
 
-    Employee(String employeeId, String name, String department, String position, String employmentStatus) {
+    public Employee(String employeeId, String name, String department, String position, String employmentStatus) {
         this.employeeId = employeeId;
         this.name = name;
         this.department = department;

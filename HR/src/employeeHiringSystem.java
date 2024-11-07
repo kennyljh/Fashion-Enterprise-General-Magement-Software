@@ -1,3 +1,5 @@
+package HR.src;
+
 public class employeeHiringSystem {
     public static void main(String[] args) {
         // Add a new employee

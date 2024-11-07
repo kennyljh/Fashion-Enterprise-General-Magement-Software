@@ -1,3 +1,5 @@
+package HR.src;
+
 class Candidate {
     String candidateId;
     String name;
