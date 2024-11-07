@@ -10,5 +10,5 @@ public interface PayrollControllerInterface {
 	
 	boolean addPayrollRates(String filePath);
 	
-	boolean createReport(String filepath);
+	boolean processPayroll(String filepath);
 }

@@ -117,6 +117,11 @@ public class PoorTextEditor {
 		return retrieveValueFromKey(arrayName, keyName);
 	}
 	
+	public double getDoubleValue(String arrayName, String keyName) {
+		
+		return retrieveDoubleFromKey(arrayName, keyName);
+	}
+	
 	/**
 	 * To set a specific value for a specific key under a specific array
 	 * item
@@ -226,6 +231,45 @@ public class PoorTextEditor {
 	}
 	
 	/**
+	 * To retrieve a specific double value for a specific key under a specific 
+	 * array item
+	 * @param arrayName specific name of array item
+	 * @param keyName specific name of key name
+	 * @return value associated with key and array item
+	 */
+	private double retrieveDoubleFromKey(String arrayName, String keyName) {
+		
+		if (checkRepositoryData()) {
+		
+			return -1;
+		}
+		
+		String value = null;
+		
+		if (repository.containsKey(arrayName)) {
+			
+			Map<String, Object> arrayItem = (Map<String, Object>) repository.get(arrayName);
+			
+			if (arrayItem.containsKey(keyName)) {
+				
+				value = (String) arrayItem.get(keyName);
+				
+				if (value == null) {
+					
+					System.out.println("Value not found for key: " + keyName + " under arrayItem: " + arrayName);
+				}
+			}
+			else {
+				System.out.println("Key: " + keyName + " not found under arrayItem: " + arrayName);
+			}
+		}
+		else {
+			System.out.println("ArrayItem: " + arrayName + " not found");
+		}
+		return Double.parseDouble(value);
+	}
+	
+	/**
 	 * To set a specific value for a specific key under a specific array
 	 * item
 	 * @param arrayName specific name of array item
@@ -286,8 +330,8 @@ public class PoorTextEditor {
 		// to store array items in HashMap
 		Map<String, Object> arrayItemList = new LinkedHashMap<>();
 		Map<String, Object> currentItem = null;
-		// more efficient compared to Scanner
 		String currentArrayItem = null;
+		// more efficient compared to Scanner
 		BufferedReader reader = null;
 		
 		try {
@@ -489,8 +533,6 @@ public class PoorTextEditor {
 	 * @return String array of all array item names
 	 */
     private String[] getArrayNamesList() {
-    	
-    	System.out.println("Array Items Names List:");
     	
     	String[] arrayNamesList = new String[repository.size()];
     	
