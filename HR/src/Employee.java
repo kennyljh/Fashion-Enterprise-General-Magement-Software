@@ -1,4 +1,6 @@
-class Employee {
+package HR.src;
+
+public class Employee {
     String employeeId;
     String name;
     String department;
