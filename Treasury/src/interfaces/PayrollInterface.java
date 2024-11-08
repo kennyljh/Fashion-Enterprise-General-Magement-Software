@@ -1,0 +1,18 @@
+package Treasury.src.interfaces;
+
+import Treasury.src.PayrollApproval;
+
+public interface PayrollInterface {
+
+	boolean addEmployeeData(String filePath);
+	
+	boolean addPayrollRates(String filePath);
+	
+	boolean processPayroll(String fileDirectory);
+	
+	void createPayroll(String fileDirectory);
+	
+	void createPayslip(String fileDirectory);
+	
+	PayrollApproval retrieveApproval(String reportID);
+}

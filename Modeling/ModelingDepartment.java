@@ -1,6 +1,9 @@
 package Modeling;
 
+import HR.src.Department;
 import HR.src.Employee;
+import Modeling.src.HOD;
+import Modeling.src.Manager;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -9,7 +12,7 @@ public class ModelingDepartment {
     HOD hod = new HOD();
     Manager manager = new Manager();
 
-    public void runTasks() {
+    public void start() {
         System.out.println("Please choose an action you want to take: \n 1: haveEvent \n 2: scheduleFitting");
         Scanner s = new Scanner(System.in);
         int c = s.nextInt();
@@ -45,7 +48,7 @@ public class ModelingDepartment {
                 int hour = s.nextInt();
                 LocalDateTime date = LocalDateTime.of(2024, month, day, hour, 0);
 
-                Employee e = new Employee("1", model, "Modeling", "Model", "Employed");
+                Employee e = new Employee("1", model, Department.MODELING, "Model", "Employed", 10000);
 
                 manager.requestFitting(e, date);
         }
