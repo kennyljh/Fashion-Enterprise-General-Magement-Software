@@ -1,4 +1,4 @@
-package treasuryDepartment;
+package Treasury;
 
 public class EmployeeDescription {
 

@@ -2,7 +2,7 @@
  * @author Kenny
  */
 
-package treasuryDepartment;
+package Treasury;
 
 public class Employee implements EmployeeInterface{
 

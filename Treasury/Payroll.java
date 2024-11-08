@@ -2,7 +2,7 @@
  * @author Kenny
  */
 
-package treasuryDepartment;
+package Treasury;
 
 import java.io.BufferedWriter;
 import java.io.File;
