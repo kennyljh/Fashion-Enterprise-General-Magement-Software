@@ -16,6 +16,7 @@ public interface DesignSpecifications {
     int getQuantities();
     String getDesignName();
     String getDesignImage();
+    String displayAllSpecifications();
 
 
 }

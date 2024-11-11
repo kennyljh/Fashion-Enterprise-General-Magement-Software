@@ -55,12 +55,12 @@ public class DesignSketch implements DesignSpecifications {
 
     @Override
     public List<String> getRawMaterials() {
-        return List.of();
+        return rawMaterials;
     }
 
     @Override
     public List<String> getSizes() {
-        return rawMaterials;
+        return sizes;
     }
 
     @Override
@@ -77,13 +77,16 @@ public class DesignSketch implements DesignSpecifications {
     public String getDesignImage() {
         return designImage;
     }
-    public void displayAllSketchSpecifications() {
-        System.out.println("All Final Design Specifications:");
-        System.out.println("Design Name: " + designName);
-        System.out.println("Design Image: " + designImage);
-        System.out.println("Design Colors: " + colors);
-        System.out.println("Design Raw Materials: " + rawMaterials);
-        System.out.println("Design Sizes: " + sizes);
-        System.out.println("Design Quantities: " + quantity);
+
+    @Override
+    public String displayAllSpecifications() {
+        return
+                "Display all design specifications\n" +
+                        "Design Name: " + designName + "\n" +
+                        "Design Image: " + designImage + "\n" +
+                        "Design Colors: " + colors + "\n" +
+                        "Design Raw Materials: " + rawMaterials + "\n" +
+                        "Design Sizes: " + sizes + "\n" +
+                        "Design Quantities: " + quantity;
     }
 }

@@ -13,6 +13,7 @@ public class DesignSpecificationsController {
     private HeadOfDesignTeam headOfDesignTeam;
     private List<DesignSketch> sketches;
     private FinalDesign finalDesign;
+    private DesignSketch sketch;
 
     public DesignSpecificationsController() {
 
@@ -41,6 +42,7 @@ public class DesignSpecificationsController {
             switch (option) {
                 case 1:
                     System.out.println("Begin Listing the Specifications for the design sketch.");
+                    System.out.println("If entering multiple entries input as such S,M,L with no spaces");
                     System.out.println("Enter Design Name: ");
                     String designName = scan.nextLine();
                     System.out.println("Enter raw materials needed: ");
@@ -54,14 +56,16 @@ public class DesignSpecificationsController {
                     scan.nextLine();
                     System.out.println("Enter image of the design: ");
                     String imageOfDesign = scan.nextLine();
-
                     //call to helper to set all specifications
                     createDesignSketch(designName, rawMaterialsNeeded, colorsNeeded, sizesNeeded, designQuantity, imageOfDesign);
                     break;
                 case 2:
                     headOfDesignTeam.viewSketches(sketches);
+                    if (sketches.isEmpty()) {
+                        break;
+                    }
                     System.out.println("Select the Design Sketch to verify");
-                    int sketchNumber = scan.nextInt(); // maybe -1
+                    int sketchNumber = scan.nextInt() - 1;
                     scan.nextLine();
                     headOfDesignTeam.selectSketch(sketchNumber, sketches);
                     System.out.println("(Y/N) Do you want to verify the design sketch?");
@@ -70,8 +74,8 @@ public class DesignSpecificationsController {
                         //call to begin Final Design case 3
                         FinalDesign selectedSketch = headOfDesignTeam.confirmFinalDesign();
                         if (selectedSketch != null) {
-                            System.out.println("The sketch has been verified and will become the final design.");
-                            selectedSketch.displayAllFinalSpecifications();
+                            System.out.println("Sketch Verfied\nDisplay specifications:\n" + selectedSketch.displayAllSpecifications());
+                            finalDesign = selectedSketch;
                         } else {
                             System.out.println("No sketch has been selected. Try again.");
                         }
@@ -82,23 +86,39 @@ public class DesignSpecificationsController {
                     }
                     break;
                 case 3:
-                    System.out.println("The Sketch has been approved the Head of Manufacturing");
-                    System.out.println("Set a Final Design and set specifications of the final design");
-                    System.out.println("Enter Design Name: ");
-                    String finalDesignName = scan.nextLine();
-                    System.out.println("Enter raw materials needed: ");
-                    String finalRawMaterialsNeeded = scan.nextLine();
-                    System.out.println("Enter the colors you want for design: ");
-                    String finalColorsNeeded = scan.nextLine();
-                    System.out.println("Enter sizes for design: ");
-                    String finalSizesNeeded = scan.nextLine();
-                    System.out.println("Enter design  quantity: ");
-                    int finalDesignQuantity = scan.nextInt();
-                    scan.nextLine();
-                    System.out.println("Enter image of the design: ");
-                    String finalImageOfDesign = scan.nextLine();
-                    //call to set the final design
-                    setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
+
+                    if (finalDesign == null) {
+                        System.out.println("No Final Design has been set. Verify a design first");
+                        break;
+                    } else {
+                        System.out.println("Design was verified by the Head of Design");
+                    }
+                    System.out.println("Current Final Design Specifications: \n" + finalDesign.displayAllSpecifications());
+                    System.out.println("Do you want to modify the current final design?");
+                    System.out.println("(Y/N)");
+                    String modifyDesign = scan.nextLine();
+                    if (modifyDesign.equals("Y")) {
+                        System.out.println("Set a Final Design and set specifications of the final design");
+                        System.out.println("Enter Design Name: ");
+                        String finalDesignName = scan.nextLine();
+                        System.out.println("Enter raw materials needed: ");
+                        String finalRawMaterialsNeeded = scan.nextLine();
+                        System.out.println("Enter the colors you want for design: ");
+                        String finalColorsNeeded = scan.nextLine();
+                        System.out.println("Enter sizes for design: ");
+                        String finalSizesNeeded = scan.nextLine();
+                        System.out.println("Enter design  quantity: ");
+                        int finalDesignQuantity = scan.nextInt();
+                        scan.nextLine();
+                        System.out.println("Enter image of the design: ");
+                        String finalImageOfDesign = scan.nextLine();
+                        setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
+                    } else if (modifyDesign.equals("N")) {
+                        System.out.println("No changes are needed in the Final Design");
+                        break;
+                    } else {
+                        System.out.println("Invalid Input. Select Y or N");
+                    }
                 case 4:
                     System.out.println("Exit Program");
                     exit = true;
@@ -118,8 +138,7 @@ public class DesignSpecificationsController {
         List<String> colors = List.of(colorsNeeded.split(","));
         List<String> sizes = List.of(sizesNeeded.split(","));
         //make sure I am calling this correctly
-        DesignSketch sketch = new DesignSketch(designName);
-
+        sketch = new DesignSketch(designName);
         sketch.setDesignName(designName);
         sketch.setRawMaterials(rawMaterials);
         sketch.setColor(colors);
@@ -127,6 +146,7 @@ public class DesignSpecificationsController {
         sketch.setQuantities(designQuantity);
         sketch.setDesignImage(imageOfDesign);
         sketches.add(sketch);
+        sketch.displayAllSpecifications();
         System.out.println("Sketch created and added to a list of sketches waiting to be approved");
 
     }
@@ -152,7 +172,7 @@ public class DesignSpecificationsController {
         finalDesign.setDesignImage(finalImageOfDesign);
 
         System.out.println("Final Design has been set with all specifications");
-        finalDesign.displayAllFinalSpecifications();
+        finalDesign.displayAllSpecifications();
     }
 
 

@@ -25,16 +25,16 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
         }
         System.out.println("Select a sketch");
         for (int i = 0; i < sketches.size(); i++) {
-            System.out.println((i) + ". " + sketches.get(i).toString());
+            System.out.println((i+1) + ". " + sketches.get(i).getDesignName());
         }
     }
 
     @Override
     public void selectSketch(int sketchIndex, List<DesignSketch> sketches) {
 
-        if (sketchIndex > 0 && sketchIndex < sketches.size()) {
+        if (sketchIndex >= 0 && sketchIndex < sketches.size()) {
             selectedSketch = sketches.get(sketchIndex);
-            System.out.println("Selcted sketch was: " + selectedSketch.toString());
+            System.out.println("Selcted sketch was: " + selectedSketch.getDesignName());
         } else {
             System.out.println("Incorrect Sketch selected, Try Again");
         }
@@ -55,7 +55,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
         finalDesign.setSizes(selectedSketch.getSizes());
         finalDesign.setQuantities(selectedSketch.getQuantities());
         finalDesign.setRawMaterials(selectedSketch.getRawMaterials());
-        finalDesign.displayAllFinalSpecifications();
+        finalDesign.displayAllSpecifications();
 
         return finalDesign;
     }

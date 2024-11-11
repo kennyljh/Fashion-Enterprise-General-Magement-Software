@@ -21,32 +21,32 @@ public class FinalDesign implements DesignSpecifications {
 
     @Override
     public void setColor(List<String> colors) {
-    this.colors = colors;
+        this.colors = colors;
     }
 
     @Override
     public void setRawMaterials(List<String> rawMaterials) {
-this.rawMaterials = rawMaterials;
+        this.rawMaterials = rawMaterials;
     }
 
     @Override
     public void setSizes(List<String> sizes) {
-this.sizes = sizes;
+        this.sizes = sizes;
     }
 
     @Override
     public void setQuantities(int quantities) {
-this.quantity = quantities;
+        this.quantity = quantities;
     }
 
     @Override
     public void setDesignName(String designName) {
-this.designName = designName;
+        this.designName = designName;
     }
 
     @Override
     public void setDesignImage(String image) {
-this.designImage = image;
+        this.designImage = image;
     }
 
     @Override
@@ -79,13 +79,15 @@ this.designImage = image;
         return designImage;
     }
 
-    public void displayAllFinalSpecifications() {
-        System.out.println("All Final Design Specifications:");
-        System.out.println("Design Name: " + designName);
-        System.out.println("Design Image: " + designImage);
-        System.out.println("Design Colors: " + colors);
-        System.out.println("Design Raw Materials: " + rawMaterials);
-        System.out.println("Design Sizes: " + sizes);
-        System.out.println("Design Quantities: " + quantity);
+    @Override
+    public String displayAllSpecifications() {
+
+        return
+                "Design Name: " + designName + "\n" +
+                        "Design Image: " + designImage + "\n" +
+                        "Design Colors: " + colors + "\n" +
+                        "Design Raw Materials: " + rawMaterials + "\n" +
+                        "Design Sizes: " + sizes + "\n" +
+                        "Design Quantities: " + quantity;
     }
 }
