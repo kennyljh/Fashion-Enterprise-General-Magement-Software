@@ -74,7 +74,7 @@ public class PayrollController implements PayrollControllerInterface {
 						System.out.println("Payroll successfully processed and saved\n");
 					}
 					else {
-						System.out.println("No Employee Data or Payroll Data found\n");
+						System.out.println("Payroll processing failed\n");
 					}
 					break;
 				case 4:
@@ -82,7 +82,7 @@ public class PayrollController implements PayrollControllerInterface {
 					exit = true;
 					break;
 				default:
-					System.out.println("Incorrect choice. Try again.");
+					System.out.println("Incorrect choice. Try again");
 			}
 		}
 		scan.close();
