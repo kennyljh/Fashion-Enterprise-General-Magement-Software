@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import src.Treasury.src.interfaces.PayrollInterface;
-import txedt.PoorTextEditor;
+import src.TextEditor.PoorTextEditor;
 
 /*
  * Information Expert that knows Employee and Rates
@@ -28,28 +28,37 @@ public class Payroll implements PayrollInterface {
 	private Map<String, PayrollReport> payrollReportRepo = new HashMap<>();
 	
 	PoorTextEditor editor = new PoorTextEditor();
-	
+
 	@Override
 	public boolean addEmployeeData(String employeeData) {
-		
+
 		editor.processTextFile(employeeData);
-		
+
 		if (editor.getRepository().isEmpty()) {
 			return false;
 		}
-		
+
 		String[] temp = editor.getArrayNames();
 		for (String s : temp) {
-			
+
 			// storing employees to repo
 			Employee employee = new Employee(s, editor.retrieveValue(s, "name"),
-											 editor.retrieveValue(s, "position"),
-											 editor.retrieveValue(s, "department"),
-											 editor.getDoubleValue(s, "work hours"),
-											 editor.getDoubleValue(s, "benefits"),
-											 editor.getDoubleValue(s, "overtime"),
-											 editor.getDoubleValue(s, "salary"));
-			employeeRepo.add(employee);
+					editor.retrieveValue(s, "position"),
+					editor.retrieveValue(s, "department"),
+					editor.getDoubleValue(s, "work hours"),
+					editor.getDoubleValue(s, "benefits"),
+					editor.getDoubleValue(s, "overtime"),
+					editor.getDoubleValue(s, "salary"));
+
+			if (employee.getName() == null || employee.getPosition() == null || employee.getDepartment() == null ||
+					employee.getWorkHours() == 0 || employee.getBenefits() == 0 || employee.getOvertime() == 0 ||
+					employee.getSalary() == 0){
+
+				return false;
+			}
+			else {
+				employeeRepo.add(employee);
+			}
 		}
 		return true;
 	}
@@ -72,8 +81,11 @@ public class Payroll implements PayrollInterface {
 	public boolean processPayroll(String fileDirectory) {
 		
 		if (employeeRepo.isEmpty() || payrollData == null) {
+			System.out.println("No Employee Data or Payroll Data found\n");
 			return false;
 		}
+
+
 		
 		File directory = new File(fileDirectory);
 		if (!directory.exists()) {
@@ -81,11 +93,18 @@ public class Payroll implements PayrollInterface {
 			System.out.println("Directory does not exist");
 			return false;
 		}
-		
-		calculatePayroll();
+
+		verifyDiscrepancy();
+		if (!calculatePayroll()){
+			return false;
+		}
 		
 		createPayroll(fileDirectory);
 		createPayslip(fileDirectory);
+
+		// a copy of payroll report and payslips to HR
+		createPayroll("src/HR/repository/payrollReports/");
+		createPayslip("src/HR/repository/payslips");
 		return true;
 	}
 
@@ -95,7 +114,7 @@ public class Payroll implements PayrollInterface {
 		return null;
 	}
 
-	private void calculatePayroll() {
+	private boolean calculatePayroll() {
 		
 		editor.processTextFile(payrollData);
 		double salaryRate = editor.getDoubleValue("payrollRate", "salaryRate");
@@ -103,6 +122,8 @@ public class Payroll implements PayrollInterface {
 		double overtimeRate = editor.getDoubleValue("payrollRate", "overtimeRate");
 		double taxRate = editor.getDoubleValue("payrollRate", "taxRate");
 		double retirementRate = editor.getDoubleValue("payrollRate", "retirementRate");
+
+		double total;
 		
 		for (int i = 0; i < employeeRepo.size(); i++) {
 			
@@ -113,6 +134,11 @@ public class Payroll implements PayrollInterface {
 			double taxDeduction = Double.parseDouble(String.format("%.2f", grossPay * (taxRate / 100.0)));
 			double retirementDeduction = Double.parseDouble(String.format("%.2f", grossPay * (retirementRate / 100.0)));
 			double netPay = Double.parseDouble(String.format("%.2f", grossPay - taxDeduction - retirementDeduction));
+
+			if (netPay < 0){
+				System.out.println("Salary for " + employeeRepo.get(i).getName() + " is negative after deductions");
+				return false;
+			}
 			
 			PayrollReport subreport = new PayrollReport(basePay, benefitsPay, overtimePay, grossPay, netPay);
 			
@@ -131,6 +157,7 @@ public class Payroll implements PayrollInterface {
 			}
 			employeeRepo.get(i).setSalary(netPay);
 		}
+		return verifyBudget();
 	}
 	
 	private double getPositionBasePay(String position) {
@@ -149,6 +176,42 @@ public class Payroll implements PayrollInterface {
 			System.out.println("No such job position");
 		}
 		return baseSalary;
+	}
+
+	private double getPositionWorkHours(String position){
+
+		double workHourMaximum = -1;
+
+		switch (position) {
+
+			case "employee":
+				workHourMaximum = 200;
+				break;
+			case "manager":
+				workHourMaximum = 210;
+				break;
+			default:
+				System.out.println("No such Job position");
+		}
+		return workHourMaximum;
+	}
+
+	private double getPositionOvertime(String position){
+
+		double overtimeMaximum = -1;
+
+		switch (position) {
+
+			case "employee":
+				overtimeMaximum = 15;
+				break;
+			case "manager":
+				overtimeMaximum = 15;
+				break;
+			default:
+				System.out.println("No such Job position");
+		}
+		return overtimeMaximum;
 	}
 	
 	@Override
@@ -228,5 +291,42 @@ public class Payroll implements PayrollInterface {
 	            }
 	        }
 		}
+	}
+
+	private void verifyDiscrepancy(){
+
+        for (Employee employee : employeeRepo) {
+
+            if (employee.getWorkHours() > getPositionWorkHours(employee.getPosition())) {
+
+                System.out.println("Employee " + employee.getName() + " from " + employee.getDepartment() + " has discrepancy:");
+                System.out.println("Current work hours: " + employee.getWorkHours() + ", Maximum: " + getPositionWorkHours(employee.getPosition()) + "\n");
+            } else if (employee.getOvertime() > getPositionOvertime(employee.getPosition())) {
+
+                System.out.println("Employee " + employee.getName() + " from " + employee.getDepartment() + " has discrepancy:");
+                System.out.println("Current overtime: " + employee.getOvertime() + ", Maximum: " + getPositionOvertime(employee.getPosition()) + "\n");
+            }
+        }
+	}
+
+	private boolean verifyBudget(){
+
+		double salaries = 0;
+
+		for (Map.Entry<String, PayrollReport> entry : payrollReportRepo.entrySet()) {
+
+			String departmentName = entry.getKey();
+			PayrollReport report = entry.getValue();
+			salaries += report.getTotalNetPay();
+		}
+
+		editor.processTextFile("src/Treasury/repository/budgetData/budget.txt");
+		double budget = Double.parseDouble(editor.retrieveValue("budget", "maxBudget"));
+
+		if (salaries > budget){
+			System.out.println("Total salaries paid: " + salaries + "$ has exceeded budget: " + budget + "$\n");
+			return false;
+		}
+		return true;
 	}
 }

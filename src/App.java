@@ -34,6 +34,7 @@ public class App {
                 hrDepartment.start();
                 break;
             case 2:
+                treasuryDepartment.start();
                 break;
             case 3:
                 manufacturingDepartment.start();
