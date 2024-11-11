@@ -4,54 +4,60 @@ import src.Design.src.interfaces.*;
 
 import java.util.List;
 
-public class HeadOfDesignTeam implements FinalDesignApproval {
+public class HeadOfDesignTeam implements HeadOfDesignInterface {
 
-    private List<DesignSketch> sketches;
-    private FinalDesign finalDesign;
 
-    public HeadOfDesignTeam(List<DesignSketch> sketches, FinalDesign finalDesign) {
-        this.sketches = sketches;
-        this.finalDesign = finalDesign;
+    private List<DesignSketch> allSketches;
+    private DesignSketch selectedSketch;
+
+
+    public HeadOfDesignTeam(List<DesignSketch> sketches) {
+        this.allSketches = sketches;
+    }
+
+
+    @Override
+    public void viewSketches(List<DesignSketch> sketches) {
+
+        if (sketches.isEmpty()) {
+            System.out.println("No sketch selected");
+            return;
+        }
+        System.out.println("Select a sketch");
+        for (int i = 0; i < sketches.size(); i++) {
+            System.out.println((i+1) + ". " + sketches.get(i).getDesignName());
+        }
     }
 
     @Override
-    public void approveFinalDesign(FinalDesign finalDesign) {
+    public void selectSketch(int sketchIndex, List<DesignSketch> sketches) {
 
-        if (finalDesign != null) {
-            System.out.println(sketches);
-            finalDesign.setApproved(true);
-            this.finalDesign = finalDesign;
+        if (sketchIndex >= 0 && sketchIndex < sketches.size()) {
+            selectedSketch = sketches.get(sketchIndex);
+            System.out.println("Selcted sketch was: " + selectedSketch.getDesignName());
         } else {
-            System.out.println("No final Design approved");
+            System.out.println("Incorrect Sketch selected, Try Again");
         }
     }
-
 
     @Override
-    public boolean isApprovedDesi(FinalDesign finalDesign) {
-        if(finalDesign != null && finalDesign.setApproved(true)) {
-            finalDesign.displayAllDesignSpecifications();
-            return true;
+    public FinalDesign confirmFinalDesign() {
+
+        if (selectedSketch == null) {
+            System.out.println("No sketch selected");
+            return null;
         }
-        else{
-            System.out.println("No final Design approved");
-            return false;
-        }
+        FinalDesign finalDesign = new FinalDesign(selectedSketch.getDesignName());
+
+        finalDesign.setDesignName(selectedSketch.getDesignName());
+        finalDesign.setColor(selectedSketch.getColors());
+        finalDesign.setDesignImage(selectedSketch.getDesignImage());
+        finalDesign.setSizes(selectedSketch.getSizes());
+        finalDesign.setQuantities(selectedSketch.getQuantities());
+        finalDesign.setRawMaterials(selectedSketch.getRawMaterials());
+        finalDesign.displayAllSpecifications();
+
+        return finalDesign;
     }
-
-
-
-
-    public void setDesignSpecifications(DesignSpecifications design) {
-
-        design.setColor(design.getColors());
-        design.setRawMaterials(design.getRawMaterials());
-        design.setSizes(design.getSizes());
-        design.setQuantities(design.getQuantities());
-
-        System.out.println("Head of Design has set all the specifications" + design);
-    }
-
-
 
 }
