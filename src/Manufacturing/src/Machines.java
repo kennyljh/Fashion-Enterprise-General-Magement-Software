@@ -5,68 +5,24 @@ import src.Manufacturing.src.interfaces.MachineOperations;
 public class Machines implements MachineOperations {
 
 
-    private boolean isRunning;
-    private boolean isProducing;
+    private boolean running;
 
-    public Machines() {
-        isRunning = false;
-        isProducing = false;
-    }
-    //isRunning
-    @Override
-    public boolean isRunning() {
 
-        return isRunning;
-    }
-
-    //checkStatus
     @Override
     public void startMachine() {
-
-        if(!isRunning) {
-            isRunning = true;
-            System.out.println("Machine is running.");
-        }else{
-            System.out.println("Machine is already running.");
-        }
+        this.running = true;
+        System.out.println("Starting Machine");
     }
 
     @Override
     public void stopMachine() {
-        if(isRunning) {
-            isRunning = false;
-            System.out.println("Machine is stopped.");
-        }
-        else{
-            System.out.println("Machine is not running.");
-        }
+        this.running = false;
+        System.out.println("Stopping Machine");
+
     }
 
     @Override
-    public void startProduction() {
-
-        if(isRunning && !isProducing) {
-            isProducing = true;
-            System.out.println("Machine is producing.");
-        }
-        else if(!isRunning){
-            System.out.println("Machine is not producing.");
-        }
-        else{
-            System.out.println("Machine is already producing.");
-        }
+    public boolean isRunning() {
+        return running;
     }
-
-    @Override
-    public void stopProduction() {
-
-        if(isProducing){
-            isProducing = false;
-            System.out.println("Machine is stopped.");
-        }
-        else{
-            System.out.println("Machine is not producing.");
-        }
-    }
-
 }

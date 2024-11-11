@@ -1,109 +1,50 @@
 package src.Manufacturing.src;
 
+import src.Manufacturing.src.interfaces.HeadOfManufacturingInterface;
 import src.Manufacturing.src.interfaces.MachineOperations;
-import src.Manufacturing.src.interfaces.RawMaterialHandler;
+import src.Manufacturing.src.interfaces.ManagerInterface;
 
 import java.util.List;
 
 /*
 @author
  */
-public class ManufacturingManager implements MachineOperations, RawMaterialHandler {
+public class ManufacturingManager implements ManagerInterface {
 
-    private WarehouseStorage warehouse;
-    private HeadOfManufacturing headOfManufacturing;
-    private List<ManufacturingWorkers> workers;
-    private MachineOperations machines;
-
-    public ManufacturingManager(WarehouseStorage warehouse, HeadOfManufacturing headOfManufacturing,
-                                List<ManufacturingWorkers> workers, MachineOperations machines) {
-        this.warehouse = warehouse;
-        this.headOfManufacturing = headOfManufacturing;
-        this.workers = workers;
-    }
-    //collect the raw materials for the Head of src.Manufacturing
-    @Override
-    public void getRawMaterials(String material, int quantity) {
-        System.out.println("material: " + material + "quantity: " + quantity);
-        warehouse.retrieveRawMaterials(material, quantity);
-    }
-
-    //decrement rawMaterialCount from the warehouseStorage
-    @Override
-    public void decrementRawMaterialCount(String material, int quantity) {
-        System.out.println("material: " + material + "new quantity: " + quantity);
-        warehouse.decrementMaterialCount(material, quantity);
-    }
-    //verify machines to use from the head of manufacturing
+    private List<String> collectedMaterials;
+    private SimpleProduct product;
 
     @Override
-    public boolean isRunning() {
-        return machines.isRunning();
+    public void collectRawMaterials(int quantity, String material) {
+        for(int i = 0; i < quantity; i++){
+            collectedMaterials.add(material);
+        }
     }
 
-    //start the machines that the head of manufacturing told to start
     @Override
-    public void startMachine() {
+    public boolean createProduct() {
 
-        if(machines.isRunning()){
-            System.out.println("Machine is already running");
+        if(!collectedMaterials.isEmpty()){
+            this.product = new SimpleProduct(getProduct().getName());
+            return true;
         }
         else{
-            machines.startMachine();
+            System.out.println("Incorrect Materials for the Product");
+            return false;
         }
     }
 
     @Override
-    public void stopMachine() {
+    public void deliverProduct(HeadOfManufacturingInterface headMan) {
 
-        if(machines.isRunning()){
-           System.out.println("Machine is already running");
-           machines.stopMachine();
-        }
-        else{
-          System.out.println("Machine is already stopped");
-        }
-    }
-    @Override
-    public void startProduction(){
-
-        if(machines.isRunning()){
-            System.out.println("machine is already running");
-        }else{
-            machines.startProduction();
-        }
+        System.out.println("Delivering to the head of manufacturing");
+        headMan.verifyProudct(this.product);
     }
 
-    @Override
-    public void stopProduction() {
-
-        if(machines.isRunning()){
-            System.out.println("machine is already running");
-            machines.stopMachine();
-        }
-        else{
-            System.out.println("machine is already stopped");
-        }
+    public List<String> getCollectedMaterials() {
+        return collectedMaterials;
     }
-
-
-    //supervise the workers to make sure they are working
-    /*
-    After the product is completed
-     */
-    public void beginProduction(int quantity) {
-        System.out.println("begin mass production of "+ quantity + "units");
-
-        if(!machines.isRunning()){
-            startMachine();
-        }
-        for(int i=0; i < quantity; i++){
-            System.out.println("production of " + i + "units");
-            machines.startProduction();
-        }
-        machines.stopProduction();
-        machines.stopMachine();
+    public SimpleProduct getProduct(){
+        return product;
     }
-
-
 }
