@@ -1,18 +1,89 @@
 package src.Design.src;
 
-public class DesignSketch {
+import src.Design.src.interfaces.DesignSpecifications;
 
-  private final String sketchId;
-  private final String sketchDescription;
+import java.util.List;
 
-  public DesignSketch(String sketchId, String sketchDescription) {
-      this.sketchId = sketchId;
-      this.sketchDescription = sketchDescription;
-  }
-  public String getSketchId() {
-      return sketchId;
-  }
-  public String getSketchDescription() {
-      return sketchDescription;
-  }
+public class DesignSketch implements DesignSpecifications {
+
+    private String designName;
+    private String designImage;
+    private List<String> colors;
+    private List<String> rawMaterials;
+    private List<String> sizes;
+    private int quantity;
+
+    public DesignSketch(String designName) {
+        this.designName = designName;
+    }
+
+    @Override
+    public void setColor(List<String> colors) {
+
+        this.colors = colors;
+    }
+
+    @Override
+    public void setRawMaterials(List<String> rawMaterials) {
+        this.rawMaterials = rawMaterials;
+    }
+
+    @Override
+    public void setSizes(List<String> sizes) {
+        this.sizes = sizes;
+    }
+
+    @Override
+    public void setQuantities(int quantities) {
+        this.quantity = quantities;
+    }
+
+    @Override
+    public void setDesignName(String designName) {
+        this.designName = designName;
+    }
+
+    @Override
+    public void setDesignImage(String image) {
+        this.designImage = image;
+    }
+
+    @Override
+    public List<String> getColors() {
+        return colors;
+    }
+
+    @Override
+    public List<String> getRawMaterials() {
+        return List.of();
+    }
+
+    @Override
+    public List<String> getSizes() {
+        return rawMaterials;
+    }
+
+    @Override
+    public int getQuantities() {
+        return quantity;
+    }
+
+    @Override
+    public String getDesignName() {
+        return designName;
+    }
+
+    @Override
+    public String getDesignImage() {
+        return designImage;
+    }
+    public void displayAllSketchSpecifications() {
+        System.out.println("All Final Design Specifications:");
+        System.out.println("Design Name: " + designName);
+        System.out.println("Design Image: " + designImage);
+        System.out.println("Design Colors: " + colors);
+        System.out.println("Design Raw Materials: " + rawMaterials);
+        System.out.println("Design Sizes: " + sizes);
+        System.out.println("Design Quantities: " + quantity);
+    }
 }
