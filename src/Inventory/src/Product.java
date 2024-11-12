@@ -1,5 +1,7 @@
 package src.Inventory.src;
 
+import src.Inventory.src.interfaces.ProductDescription;
+
 /**
  * @ Mani Raj
  */
@@ -7,7 +9,7 @@ public class Product {
 	  private int id;
 	    private String name;
 	    private double price;
-	    private BasicInventManage.ProductDescription productDescription;
+	    private ProductDescription productDescription;
 
 	    public Product(int id, String name, double price) {
 	        this.id = id;
@@ -16,7 +18,7 @@ public class Product {
 	        
 	    }
 	    
-	    public void setProductDescription( BasicInventManage.ProductDescription productDescription)
+	    public void setProductDescription( ProductDescription productDescription)
 	    {
 	    	this.productDescription = productDescription;
 	    }
@@ -33,7 +35,7 @@ public class Product {
 	        return price;
 	    }
 
-	    public BasicInventManage.ProductDescription getProductDescription() {
+	    public ProductDescription getProductDescription() {
 	        return productDescription;
 	    }
 }

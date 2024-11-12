@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class BasicStorage implements Storage {
 	private String location;
-	private Map<Integer, Integer> availableProducts; // Product ID mapped to Quantity
+	private Map<Integer, Integer> availableProducts; // src.Inventory.src.Product ID mapped to Quantity
 	private List<Order> orderList;
 
 	public BasicStorage() {

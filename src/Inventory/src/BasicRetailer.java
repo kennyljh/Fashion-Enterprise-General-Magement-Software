@@ -1,9 +1,11 @@
 package src.Inventory.src;
 
+import src.Inventory.src.interfaces.Retailer;
+
 /**
  * @ Mani Raj
  */
-public class BasicRetailer implements BasicInventManage.Retailer {
+public class BasicRetailer implements Retailer {
 	private String name;
 	private String location;
 

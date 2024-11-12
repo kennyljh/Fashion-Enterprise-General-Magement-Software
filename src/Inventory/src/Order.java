@@ -3,7 +3,7 @@ package src.Inventory.src;
 import java.util.HashMap;
 import java.util.Map;
 
-import txedt.PoorTextEditor;
+import src.TextEditor.PoorTextEditor;
 
 /**
  * @ Mani Raj
@@ -23,7 +23,7 @@ public class Order {
 		productList.put(productId, quantity);
 		// Update the text file
 		PoorTextEditor textEditor = new PoorTextEditor();
-		textEditor.setValue("Order" + id, "product" + productId, String.valueOf(quantity));
+		textEditor.setValue("src.Inventory.src.Order" + id, "product" + productId, String.valueOf(quantity));
 		textEditor.writeToTextFile(path);
 	}
 
@@ -31,7 +31,7 @@ public class Order {
 		productList.remove(productId);
 		// Update the text file
 		PoorTextEditor textEditor = new PoorTextEditor();
-		textEditor.setValue("Order" + id, "product" + productId, null);
+		textEditor.setValue("src.Inventory.src.Order" + id, "product" + productId, null);
 		textEditor.writeToTextFile(path);
 	}
 

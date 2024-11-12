@@ -1,9 +1,9 @@
 package src.Inventory.src;
-
+import src.Inventory.src.interfaces.ProductDescription;
 /**
  * @ Mani Raj
  */
-public class BasicProductDescription implements BasicInventManage.ProductDescription {
+public class BasicProductDescription implements ProductDescription {
 
 	    private String description;
 
