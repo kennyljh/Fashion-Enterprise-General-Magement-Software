@@ -110,13 +110,20 @@ public class BasicInventoryController implements InventoryController {
                 case 7:
                     System.out.println("Exiting program...");
                     exit = true;
-                    App.prompt();
-//                    break;
+                    try{
+                        App.prompt();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
         scan.close();
+
     }
 
     private Boolean validateStoreLoc(String loc)

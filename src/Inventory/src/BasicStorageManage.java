@@ -1,4 +1,5 @@
 package src.Inventory.src;
+import java.io.File;
 import java.util.*;
 
 import src.TextEditor.PoorTextEditor;
@@ -46,23 +47,37 @@ public class BasicStorageManage implements StorageManagement {
 
 	private void set()
 	{
+
+		String pPath=repoPath + "Products.txt";
+		String rPath=repoPath + "Retailers.txt";
+		String aPPath=repoPath + "AvailableProducts.txt";
+
 		try {
-			textEditor.processTextFile(repoPath + "Products.txt");
-			products = textEditor.getRepositoryString();
+			File pFile=new File(pPath);
+			if(pFile.exists()) {
+				textEditor.processTextFile(repoPath + "Products.txt");
+				products = textEditor.getRepositoryString();
+			}
 		} catch (Exception e) {
 			System.out.println("Error processing Products.txt ");
 
 		}
 		try {
-			textEditor.processTextFile(repoPath + "Retailers.txt");
-			retailers = textEditor.getRepositoryString();
+			File rFile=new File(rPath);
+			if(rFile.exists()) {
+				textEditor.processTextFile(rPath);
+				products = textEditor.getRepositoryString();
+			}
 		} catch (Exception e) {
 			System.out.println("Error processing Retailers.txt" );
 
 		}
 		try {
-			textEditor.processTextFile(repoPath + "AvailableProducts.txt");
-			products = textEditor.getRepositoryString();
+			File aPPFile=new File(aPPath);
+			if(aPPFile.exists()) {
+				textEditor.processTextFile(aPPath);
+				products = textEditor.getRepositoryString();
+			}
 		} catch (Exception e) {
 			System.out.println("Error processing AvailableProducts.txt " );
 		}

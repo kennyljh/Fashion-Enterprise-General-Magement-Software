@@ -42,11 +42,13 @@ public class BasicRetailer implements Retailer {
 	}
 
 	public void print() {
+		System.out.println("-----------------------------------------------------");
+		System.out.println("Retailer Information");
 		for (Map.Entry<String, String> rd : rDetails.entrySet()) {
-			System.out.println("-----------------------------------------------------");
-			System.out.println("Retailer Information");
+
 			System.out.printf("%-30s %s%n", rd.getKey(), rd.getValue());
-			System.out.println("-----------------------------------------------------");
+
 		}
+		System.out.println("-----------------------------------------------------");
 	}
 }

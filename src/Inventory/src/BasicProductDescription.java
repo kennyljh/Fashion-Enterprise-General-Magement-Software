@@ -22,11 +22,14 @@ public class BasicProductDescription implements ProductDescription {
 	}
 
 	public void print() {
+		System.out.println("-----------------------------------------------------");
+		System.out.println("Product Information");
 		for (Map.Entry<String, String> pd : pDesc.entrySet()) {
-			System.out.println("-----------------------------------------------------");
-			System.out.println("Product Information");
+
+
 			System.out.printf("%-30s %s%n", pd.getKey(), pd.getValue());
-			System.out.println("-----------------------------------------------------");
+
 		}
+		System.out.println("-----------------------------------------------------");
 	}
 }
