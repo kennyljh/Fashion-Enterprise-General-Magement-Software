@@ -1,24 +1,75 @@
 package src.HR.src;
 
+import src.HR.src.interfaces.ICandidate;
+
 /**
  * @author Sam Gumm
  */
 
-class Candidate {
+public class Candidate implements ICandidate {
     String candidateId;
     String name;
     String positionApplied;
     String status;
 
-    Candidate(String candidateId, String name, String positionApplied) {
+    /**
+     * @param candidateId
+     * @param name
+     * @param positionApplied
+     */
+    public Candidate(String candidateId, String name, String positionApplied, String status) {
         this.candidateId = candidateId;
         this.name = name;
         this.positionApplied = positionApplied;
-        this.status = "Applied";
+        this.status = status;
     }
 
-    
-    /** 
+    /**
+     *
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     *
+     * @return candidateId
+     */
+    @Override
+    public String getCandidateId() {
+        return candidateId;
+    }
+
+    /**
+     *
+     * @return positionApplied
+     */
+    @Override
+    public String getPositionApplied() {
+        return positionApplied;
+    }
+
+    /**
+     *
+     * @return status
+     */
+    @Override
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     *
+     * @param status
+     */
+    @Override
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
      * @return String
      */
     @Override
