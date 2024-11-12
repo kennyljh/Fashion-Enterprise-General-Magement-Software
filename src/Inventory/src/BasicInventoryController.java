@@ -1,23 +1,22 @@
 package src.Inventory.src;
-import src.Inventory.src.BasicInventManage;
 import src.Inventory.src.interfaces.InventoryController;
-import src.Inventory.src.interfaces.InventoryManagement;
-import src.Inventory.src.interfaces.Storage;
+import src.Inventory.src.interfaces.StorageManagement;
 
+import java.io.File;
 import java.util.Scanner;
 
 /**
  * Handles user interaction for inventory management.
- * Provides options to register products and retailers, 
+ * Provides options to register products and retailers,
  * and to add or remove product quantities from storage.
  *
  */
 
 public class BasicInventoryController implements InventoryController {
 
-    private BasicInventManage inventory = null;
-    private BasicStorage store=null;
+    private BasicStorageManage storage ;
 
+    private String StorageLocation;
     public BasicInventoryController() {}
 
     /**
@@ -26,61 +25,84 @@ public class BasicInventoryController implements InventoryController {
     public void run() {
         System.out.println("Welcome to the Inventory Management System");
 
-        Scanner scan = new Scanner(System.in);
-        boolean exit = false;
 
+        Scanner scan = new Scanner(System.in);
+        boolean isExist = false;
+
+        System.out.println("Enter Storage Location:");
+        StorageLocation = scan.nextLine();
+        validateStoreLoc(StorageLocation);
+
+
+
+
+        boolean exit = false;
         while (!exit) {
-            System.out.println("1. Register src.Inventory.src.Product");
-            System.out.println("2. Register src.Inventory.src.interfaces.Retailer");
-            System.out.println("3. Add src.Inventory.src.Product Quantity");
-            System.out.println("4. Remove src.Inventory.src.Product Quantity");
-            System.out.println("5. Exit Program");
+            System.out.println("1. Register New Product");
+            System.out.println("2. Register New Retailer");
+            System.out.println("3. Register New Storage");
+            System.out.println("4. Add Product Quantity");
+            System.out.println("5. Remove Product Quantity");
+            System.out.println("6. Re-Enter Storage Location");
+            System.out.println("7. Exit Program");
 
             int choice = scan.nextInt();
             scan.nextLine(); // Consume newline
 
             switch (choice) {
                 case 1:
-                    System.out.println("Enter src.Inventory.src.Product ID:");
-                    int productId = scan.nextInt();
-                    scan.nextLine(); // Consume newline
-                    System.out.println("Enter src.Inventory.src.Product Name:");
+
+                    System.out.println("Enter Product Name:");
                     String productName = scan.nextLine();
-                    System.out.println("Enter src.Inventory.src.Product Price:");
-                    double productPrice = scan.nextDouble();
-                    registerProduct(productId, productName, productPrice);
+
+                    System.out.println("Enter Product description:");
+                    String productDesc = scan.nextLine();
+
+                    registerProduct(productName,productDesc);
                     break;
                 case 2:
-                    System.out.println("Enter src.Inventory.src.interfaces.Retailer ID:");
-                    int retailerId = scan.nextInt();
-                    scan.nextLine(); // Consume newline
-                    System.out.println("Enter src.Inventory.src.interfaces.Retailer Name:");
+
+                    System.out.println("Enter Retailer Name:");
                     String retailerName = scan.nextLine();
-                    System.out.println("Enter src.Inventory.src.interfaces.Retailer Location:");
+                    System.out.println("Enter Retailer Location:");
                     String retailerLocation = scan.nextLine();
                     registerRetailer(retailerName, retailerLocation);
                     break;
+
                 case 3:
-                    System.out.println("Enter src.Inventory.src.Product ID to add quantity:");
+                    System.out.println("Enter Storage Location:");
+                    String location = scan.nextLine();
+                    File directory = new File("src/inventory/repository/"+location);
+                    if (directory.mkdirs()) {
+                        StorageLocation=location;
+                        System.out.println("Storage location registered successfully!");
+                    } else {
+                        System.out.println("Failed to register new storage location!");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Enter Product ID to add quantity:");
                     int addProductId = scan.nextInt();
                     System.out.println("Enter Quantity to Add:");
                     int addQuantity = scan.nextInt();
-                    scan.nextLine(); // Consume newline
-                    System.out.println("Enter src.Inventory.src.interfaces.Storage Location:");
-                    String addLocation = scan.nextLine();
-                    updateProductQuantity(addProductId, addQuantity, addLocation);
+
+                    addProductQuantity(addProductId, addQuantity);
                     break;
-                case 4:
-                    System.out.println("Enter src.Inventory.src.Product ID to remove quantity:");
+                case 5:
+                    System.out.println("Enter Product ID to remove quantity:");
                     int removeProductId = scan.nextInt();
                     System.out.println("Enter Quantity to Remove:");
                     int removeQuantity = scan.nextInt();
-                    scan.nextLine(); // Consume newline
-                    System.out.println("Enter src.Inventory.src.interfaces.Storage Location:");
-                    String removeLocation = scan.nextLine();
-                    updateProductQuantity(removeProductId, removeQuantity, removeLocation);
+
+                    removeProductQuantity(removeProductId, removeQuantity);
                     break;
-                case 5:
+
+                case 6:
+                    System.out.println("Enter Storage Location:");
+                    StorageLocation = scan.nextLine();
+                    validateStoreLoc(StorageLocation);
+                    break;
+                case 7:
                     System.out.println("Exiting program...");
                     exit = true;
                     break;
@@ -91,52 +113,52 @@ public class BasicInventoryController implements InventoryController {
         scan.close();
     }
 
+    private Boolean validateStoreLoc(String loc)
+    {
+        File directory = new File("src/inventory/repository/"+loc);
+        // Check if the directory exists and is a directory
+        if (!(directory.exists() && directory.isDirectory())) {
+            System.out.println("The Storage location does not exist. Register the storage location if needed");
+            return false;
+        }
+        return true;
+    }
+
+
     // Method to register a new product
-    public void registerProduct(int id, String name, double price) {
-        getInventoryInstance().registerProduct(new Product(id, name, price));
-        System.out.println("src.Inventory.src.Product registered successfully: " + name);
+    public void registerProduct(String name, String desc) {
+        getStorageInstance().registerProduct(name,desc);
     }
 
     // Method to register a new retailer
     public void registerRetailer(String name, String location) {
-        getInventoryInstance().registerRetailer(new BasicRetailer(name, location));
-        System.out.println("src.Inventory.src.interfaces.Retailer registered successfully: " + name);
+        getStorageInstance().registerRetailer(name, location);
     }
 
-    // Method to add product quantity
-    public void addOrder(int id) {
-        boolean success = getStorageInsatnce().addOrder(new Order(id));
-        if (success) {
-            System.out.println("order added");
-        } else {
-            System.out.println("Failed to add product quantity. Check if the product or location exists.");
-        }
+
+    public void addOrder(int rid) {
+
+        getStorageInstance().addOrder(rid);
+
     }
 
-    // Method to remove product quantity
-    public void updateProductQuantity(int productId, int quantity, String location) {
-        boolean success = getStorageInsatnce().updateProductCount(productId, quantity);
-        if (success) {
-            System.out.println("updated " + quantity + " units of product ID " + productId + " from storage at " + location);
-        } else {
-            System.out.println("Failed to remove product quantity. Check if the product or location exists and has sufficient quantity.");
-        }
+
+    public void addProductQuantity(int productId, int quantity) {
+        getStorageInstance().addProductCount(productId, quantity);
     }
+
+    public void removeProductQuantity(int productId, int quantity) {
+        getStorageInstance().removeProductCount(productId, quantity);
+    }
+
 
     // Singleton method to get the Inventory instance
-    private InventoryManagement getInventoryInstance() {
-        if (inventory == null) {
-            inventory = new BasicInventManage();
+    private StorageManagement getStorageInstance() {
+        if (storage == null) {
+            storage = new BasicStorageManage(StorageLocation);
         }
-        return inventory;
+        return storage;
     }
-    
-    private Storage getStorageInsatnce()
-    {
-    	if (store == null) {
-            store= new BasicStorage();
-        }
-        return store;
-    }
+
 }
 

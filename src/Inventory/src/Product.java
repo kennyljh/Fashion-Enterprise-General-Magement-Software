@@ -2,40 +2,54 @@ package src.Inventory.src;
 
 import src.Inventory.src.interfaces.ProductDescription;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @ Mani Raj
  */
 public class Product {
-	  private int id;
-	    private String name;
-	    private double price;
-	    private ProductDescription productDescription;
 
-	    public Product(int id, String name, double price) {
-	        this.id = id;
-	        this.name = name;
-	        this.price = price;
-	        
-	    }
-	    
-	    public void setProductDescription( ProductDescription productDescription)
-	    {
-	    	this.productDescription = productDescription;
-	    }
+	private int id;
 
-	    public int getId() {
-	        return id;
-	    }
+	private double price;
+	private int count;
 
-	    public String getName() {
-	        return name;
-	    }
+	private Map<String,String> pdetails =new HashMap<>();
 
-	    public double getPrice() {
-	        return price;
-	    }
+	public Product(int id, double price, int count) {
+		this.id = id;
 
-	    public ProductDescription getProductDescription() {
-	        return productDescription;
-	    }
+		this.price = price;
+		this.count=count;
+
+		pdetails.put("id",String.valueOf(id));
+
+		setPrice(price);
+		setCount(count);
+	}
+
+	public void setPrice(double price)
+	{
+		pdetails.put("price",String.valueOf(price));
+	}
+	public void setCount(int count)
+	{
+		pdetails.put("count",String.valueOf(count));
+	}
+
+	public Map<String,String> getPdetails()
+	{
+		return pdetails;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+
 }

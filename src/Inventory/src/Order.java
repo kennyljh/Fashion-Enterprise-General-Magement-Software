@@ -3,47 +3,47 @@ package src.Inventory.src;
 import java.util.HashMap;
 import java.util.Map;
 
-import src.TextEditor.PoorTextEditor;
 
-/**
- * @ Mani Raj
- */
 public class Order {
 	private int id;
-	private Map<Integer, Integer> productList; // productId mapped to quantity
+	private Map<String, String> productList; // productId mapped to quantity
 
-	private String path="";
-	
-	public Order(int id) {
+	private String retailerName;
+
+	private Map<String, Object> orderDetails=new HashMap<>();
+
+	public Order(int id,String retailerName) {
 		this.id = id;
+		this.retailerName=retailerName;
 		this.productList = new HashMap<>();
+
 	}
 
-	public void addProduct(int productId, int quantity) {
-		productList.put(productId, quantity);
-		// Update the text file
-		PoorTextEditor textEditor = new PoorTextEditor();
-		textEditor.setValue("src.Inventory.src.Order" + id, "product" + productId, String.valueOf(quantity));
-		textEditor.writeToTextFile(path);
+	public void setOrderDetails()
+	{
+		orderDetails.put(retailerName,productList);
 	}
 
-	public void deleteProduct(int productId) {
-		productList.remove(productId);
-		// Update the text file
-		PoorTextEditor textEditor = new PoorTextEditor();
-		textEditor.setValue("src.Inventory.src.Order" + id, "product" + productId, null);
-		textEditor.writeToTextFile(path);
+	public void addProduct(String pName, int quantity) {
+		productList.put(pName, String.valueOf(quantity));
 	}
 
-	public Map<Integer, Integer> getProductList() {
+	public void deleteProduct(String pName) {
+		productList.remove(pName);
+	}
+
+	public  Map<String, Object> getOrderDetails()
+	{
+		return orderDetails;
+	}
+
+	public Map<String, String> getProductList() {
 		return productList;
 	}
 
-	public void setPath(String filePath)
-	{
-		path =filePath;
-	}
 	public int getId() {
+
 		return id;
 	}
+
 }
