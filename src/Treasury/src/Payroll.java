@@ -22,13 +22,21 @@ import src.TextEditor.PoorTextEditor;
  */
 public class Payroll implements PayrollInterface {
 
-	// department name to filepath repository
 	private ArrayList<Employee> employeeRepo = new ArrayList<Employee>();
+	private Map<String, EmployeeDescription> employeeDescriptionRepo = new HashMap<>();
 	private String payrollData = null;
 	private Map<String, PayrollReport> payrollReportRepo = new HashMap<>();
+	private Map<String, PayrollDescription> payrollDescriptionRepo = new HashMap<>();
+
+	private double totalTaxDeductions, totalRetirementDeductions;
 	
 	PoorTextEditor editor = new PoorTextEditor();
 
+	/**
+	 * Add new department employee(s) to employee repository
+	 * @param employeeData filepath to employee data
+	 * @return true if successful, false otherwise
+	 */
 	@Override
 	public boolean addEmployeeData(String employeeData) {
 
@@ -58,11 +66,20 @@ public class Payroll implements PayrollInterface {
 			}
 			else {
 				employeeRepo.add(employee);
+
+				EmployeeDescription details = new EmployeeDescription(s, editor.retrieveValue(s, "name"),
+												editor.retrieveValue(s, "position"), editor.retrieveValue(s, "department"));
+				employeeDescriptionRepo.put(s, details);
 			}
 		}
 		return true;
 	}
 
+	/**
+	 * Add payroll rate data
+	 * @param payrollData filepath to payroll rate data
+	 * @return true if successful, false otherwise
+	 */
 	@Override
 	public boolean addPayrollRates(String payrollData) {
 
@@ -77,6 +94,11 @@ public class Payroll implements PayrollInterface {
 		return true;
 	}
 
+	/**
+	 * Begin process of creating payroll and payslips
+	 * @param fileDirectory filepath to save payroll and payslips
+	 * @return true if successful, false otherwise
+	 */
 	@Override
 	public boolean processPayroll(String fileDirectory) {
 		
@@ -85,8 +107,6 @@ public class Payroll implements PayrollInterface {
 			return false;
 		}
 
-
-		
 		File directory = new File(fileDirectory);
 		if (!directory.exists()) {
 			
@@ -114,6 +134,10 @@ public class Payroll implements PayrollInterface {
 		return null;
 	}
 
+	/**
+	 * Payroll calculation
+	 * @return true if successful, false otherwise
+	 */
 	private boolean calculatePayroll() {
 		
 		editor.processTextFile(payrollData);
@@ -132,7 +156,9 @@ public class Payroll implements PayrollInterface {
 			double overtimePay = Double.parseDouble(String.format("%.2f", overtimeRate * employeeRepo.get(i).getOvertime()));
 			double grossPay = Double.parseDouble(String.format("%.2f", basePay + benefitsPay + overtimePay));
 			double taxDeduction = Double.parseDouble(String.format("%.2f", grossPay * (taxRate / 100.0)));
+			totalTaxDeductions += (grossPay - taxDeduction);
 			double retirementDeduction = Double.parseDouble(String.format("%.2f", grossPay * (retirementRate / 100.0)));
+			totalRetirementDeductions += (grossPay - retirementDeduction);
 			double netPay = Double.parseDouble(String.format("%.2f", grossPay - taxDeduction - retirementDeduction));
 
 			if (netPay < 0){
@@ -159,7 +185,12 @@ public class Payroll implements PayrollInterface {
 		}
 		return verifyBudget();
 	}
-	
+
+	/**
+	 * Retrieve position based pay
+	 * @param position position of current employee
+	 * @return base pay of employee position
+	 */
 	private double getPositionBasePay(String position) {
 		
 		double baseSalary = -1;
@@ -178,6 +209,11 @@ public class Payroll implements PayrollInterface {
 		return baseSalary;
 	}
 
+	/**
+	 * Retrieve position work hour maximum
+	 * @param position position of current employee
+	 * @return work hour maximum of current employee
+	 */
 	private double getPositionWorkHours(String position){
 
 		double workHourMaximum = -1;
@@ -196,6 +232,11 @@ public class Payroll implements PayrollInterface {
 		return workHourMaximum;
 	}
 
+	/**
+	 * Retrieve position overtime maximum
+	 * @param position position of current employee
+	 * @return overtime maximum of current employee
+	 */
 	private double getPositionOvertime(String position){
 
 		double overtimeMaximum = -1;
@@ -213,22 +254,27 @@ public class Payroll implements PayrollInterface {
 		}
 		return overtimeMaximum;
 	}
-	
+
+	/**
+	 * Creation of payroll report
+	 * @param fileDirectory filepath to store report
+	 */
 	@Override
 	public void createPayroll(String fileDirectory) {
 		
 		BufferedWriter writer = null;
 		
 		try {
-			
+			// report ID creation
 			LocalDateTime timeNow = LocalDateTime.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyyHHmmss");
 			String formattedDateTime = timeNow.format(formatter);
-			
+
 			writer = new BufferedWriter(new FileWriter(fileDirectory + "Payroll" + formattedDateTime + ".txt"));
-			
+
+			double benefits = 0;
 			double salaries = 0;
-			
+
 			for (Map.Entry<String, PayrollReport> entry : payrollReportRepo.entrySet()) {
 				
 				String departmentName = entry.getKey();
@@ -241,12 +287,19 @@ public class Payroll implements PayrollInterface {
 				writer.write("Total Gross Pay: " + report.getTotalGrossPay() + "$\n");
 				writer.write("Total Net Pay: " + report.getTotalNetPay() + "$\n");
 				writer.write("\n");
-				
+
+				benefits += report.getTotalBenefitsPay();
 				salaries += report.getTotalNetPay();
 			}
 			
 			writer.write("========================================================================\n");
 			writer.write("Total Salaries Paid: " + salaries + "$\n");
+
+			String payrollID = "Payroll" + formattedDateTime;
+			PayrollDescription description = new PayrollDescription(payrollID, salaries, benefits, totalTaxDeductions,
+																	totalRetirementDeductions, employeeRepo.size());
+			payrollDescriptionRepo.put(payrollID, description);
+
 		} catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -260,7 +313,11 @@ public class Payroll implements PayrollInterface {
         }
 		
 	}
-	
+
+	/**
+	 * Creation of payslips
+	 * @param fileDirectory filepath to store payslips
+	 */
 	@Override
 	public void createPayslip(String fileDirectory) {
 		
@@ -293,6 +350,9 @@ public class Payroll implements PayrollInterface {
 		}
 	}
 
+	/**
+	 * To verify employee work hours or overtime discrepancies
+	 */
 	private void verifyDiscrepancy(){
 
         for (Employee employee : employeeRepo) {
@@ -309,6 +369,10 @@ public class Payroll implements PayrollInterface {
         }
 	}
 
+	/**
+	 * To verify if payroll total exceeds given budget
+	 * @return true if does not exceed, false otherwise
+	 */
 	private boolean verifyBudget(){
 
 		double salaries = 0;
