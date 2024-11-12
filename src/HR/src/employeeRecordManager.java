@@ -18,7 +18,25 @@ public class employeeRecordManager {
         employeeList.add(employee);
     }
 
-    
+    /**
+     * @param employeeName
+     */
+    //remove employee
+    public void removeEmployee(String employeeName) throws Exception {
+        if (employeeList.isEmpty()) {
+            throw new Exception("Employee list is empty");
+        } else {
+            for (Employee employee : employeeList) {
+                if (employee.getName().equals(employeeName)) {
+                    employeeList.remove(employee);
+                }
+                else {
+                    throw new Exception("Employee does not exist");
+                }
+            }
+        }
+    }
+
     /** 
      * @param employeeId
      * @param department
@@ -50,7 +68,7 @@ public class employeeRecordManager {
     /** 
      * @param departmentName
      */
-    public void displayDepartment(Department departmentName) {
+    public void displayEmployeesByDepartment(Department departmentName) {
         for (Employee emp : employeeList) {
             if(emp.department == departmentName) {
                 System.out.println(emp);

@@ -1,9 +1,11 @@
 package src.HR.src;
 
+import src.HR.src.interfaces.IEmployee;
+
 /**
  * @author Sam Gumm
  */
-public class Employee {
+public class Employee implements IEmployee {
     String employeeId;
     String name;
     Department department;
@@ -11,6 +13,15 @@ public class Employee {
     String employmentStatus;
     int salary;
 
+    /**
+     *
+     * @param employeeId
+     * @param name
+     * @param department
+     * @param position
+     * @param employmentStatus
+     * @param salary
+     */
     public Employee(String employeeId, String name, Department department, String position, String employmentStatus, int salary) {
         this.employeeId = employeeId;
         this.name = name;
@@ -20,8 +31,61 @@ public class Employee {
         this.salary = salary;
     }
 
-    
-    /** 
+    /**
+     *
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     *
+     * @return employeeId
+     */
+    @Override
+    public String getEmployeeID() {
+        return employeeId;
+    }
+
+    /**
+     *
+     * @return department
+     */
+    @Override
+    public Department getDepartment() {
+        return department;
+    }
+
+    /**
+     *
+     * @return position
+     */
+    @Override
+    public String getPosition() {
+        return position;
+    }
+
+    /**
+     *
+     * @return employmentStatus
+     */
+    @Override
+    public String getEmployementStatus() {
+        return employmentStatus;
+    }
+
+    /**
+     *
+     * @return salary
+     */
+    @Override
+    public int getSalary() {
+        return salary;
+    }
+
+    /**
      * @return String
      */
     @Override
