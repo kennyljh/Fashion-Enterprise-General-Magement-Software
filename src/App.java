@@ -18,6 +18,10 @@ public class App {
     public static TreasuryDepartment treasuryDepartment = new TreasuryDepartment();
 
     public static void main(String[] args) throws Exception {
+        prompt();
+    }
+
+    public static void prompt() throws Exception {
         Scanner s = new Scanner(System.in);
 
         System.out.println("--WELCOME TO FASHION EMPIRE--\n You are logged in as: IT SPECIALIST\n\nWhich Department would you like to go to?" +
@@ -49,7 +53,6 @@ public class App {
                 designDepartment.start();
                 break;
         }
-
     }
 }
 
