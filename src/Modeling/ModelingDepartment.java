@@ -11,10 +11,11 @@ import java.util.Scanner;
 
 public class ModelingDepartment {
     HOD hod = new HOD();
-    Manager manager = new Manager();
+    Manager manager = new Manager("" +
+            "", Team.MODELING);
 
-    public void start() {
-        System.out.println("Please choose an action you want to take: \n 1: haveEvent \n 2: scheduleFitting");
+    public void start() throws Exception {
+        System.out.println("\nPlease choose an action you want to take: \n 1: haveEvent \n 2: scheduleFitting\n 3: Back");
         Scanner s = new Scanner(System.in);
         int c = s.nextInt();
 
@@ -37,7 +38,8 @@ public class ModelingDepartment {
                         collab = true;
                 }
 
-                hod.haveEvent(type, celebrity, collab);
+                hod.createEvent(type, celebrity, collab);
+                start();
                 break;
             case 2:
                 System.out.println("What model? (put a name)");
@@ -54,7 +56,10 @@ public class ModelingDepartment {
                 Employee e = new Employee("1", model, Department.MODELING, "Model", "Employed", 10000);
 
                 manager.requestFitting(e, date);
+                start();
                 break;
+            case 3:
+                App.prompt();
         }
     }
 }

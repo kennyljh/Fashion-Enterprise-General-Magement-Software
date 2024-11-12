@@ -1,6 +1,5 @@
 package src.Modeling.src;
 
-import src.HR.src.Department;
 import src.HR.src.Employee;
 import src.Modeling.src.interfaces.IManager;
 
@@ -10,12 +9,12 @@ import java.util.Scanner;
 public class Manager implements IManager {
 
     Employee employeeInfo;
-    Employee[] models;
+    TeamMember[] teamMembers;
 
-    public Manager() {
-        models = new Employee[4];
+    public Manager(String name, Team team) {
+        teamMembers = new TeamMember[4];
         for (int i = 0; i < 4; i++) {
-            models[i] = new Employee(Integer.toString(i), "Model" + i, Department.MODELING, "Model", "Employed", 10000);
+            teamMembers[i] = new TeamMember(i, team.toString() + " Member", team);
         }
     }
 
@@ -38,7 +37,7 @@ public class Manager implements IManager {
     }
 
     @Override
-    public Employee[] getModels() {
-        return models;
+    public TeamMember[] getTeamMembers() {
+        return teamMembers;
     }
 }

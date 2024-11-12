@@ -5,15 +5,15 @@ import src.Modeling.src.interfaces.IEvent;
 
 public class Event implements IEvent {
     int id;
-    Employee[] models;
+    TeamMember[] teamMembers;
     Boolean type; //true for photoshoot, false for fashion show
     String celebrity;
     Boolean collab;
     Boolean completionStatus;
 
-    Event(int id, Employee[] models, Boolean type, String celebrity, Boolean collab) {
+    Event(int id, TeamMember[] teamMembers, Boolean type, String celebrity, Boolean collab) {
         this.id = id;
-        this.models = models;
+        this.teamMembers = teamMembers;
         this.type = type;
         this.celebrity = celebrity;
         this.collab = collab;
@@ -35,8 +35,8 @@ public class Event implements IEvent {
         }
         str += "\nModels: ";
 
-        for (int i = 0; i < models.length - 1; i++) {
-            str += "\n" + models[i].toString();
+        for (int i = 0; i < teamMembers.length - 1; i++) {
+            str += "\n" + teamMembers[i].toString();
         }
         str += "\nCelebrity: " + this.celebrity +
                 "\nCollab: " + this.collab +

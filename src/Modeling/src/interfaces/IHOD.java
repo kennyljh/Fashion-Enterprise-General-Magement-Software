@@ -3,7 +3,7 @@ package src.Modeling.src.interfaces;
 import src.Modeling.src.Event;
 
 public interface IHOD {
-    void haveEvent(Boolean type, String celebrity, Boolean collab);
+    void createEvent(Boolean type, String celebrity, Boolean collab);
 
     Boolean requestAdvertisement(Event event);
 
