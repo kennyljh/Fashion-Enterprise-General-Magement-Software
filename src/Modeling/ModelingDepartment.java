@@ -38,6 +38,7 @@ public class ModelingDepartment {
                 }
 
                 hod.haveEvent(type, celebrity, collab);
+                break;
             case 2:
                 System.out.println("What model? (put a name)");
                 String model = s.next();
@@ -52,7 +53,8 @@ public class ModelingDepartment {
 //                Employee e = App.hrDepartment.getEmployee();
                 Employee e = new Employee("1", model, Department.MODELING, "Model", "Employed", 10000);
 
-//                manager.requestFitting(e, date);
+                manager.requestFitting(e, date);
+                break;
         }
     }
 }

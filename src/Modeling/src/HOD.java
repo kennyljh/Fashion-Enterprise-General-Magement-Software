@@ -4,6 +4,8 @@ import src.HR.src.Department;
 import src.HR.src.Employee;
 import src.Modeling.src.interfaces.IHOD;
 
+import java.util.Scanner;
+
 public class HOD implements IHOD {
     Employee employeeInfo;
     Manager[] managers;
@@ -18,9 +20,16 @@ public class HOD implements IHOD {
     public void haveEvent(Boolean type, String celebrity, Boolean collab) {
         Employee[] models = manager.getModels();
 
-        Event event = new Event();
-        event.addEvent(1,models, type, celebrity, collab);
-        requestAdvertisement(event);
+        Event event = new Event(1,models, type, celebrity, collab);
+//        requestAdvertisement(event);
+
+        System.out.println(event.toString());
+        System.out.println("End Event?");
+        Scanner scanner = new Scanner(System.in);
+        String x = scanner.next();
+        if(x.equals("Y")) {
+            event.endEvent();
+        }
     }
 
     @Override
