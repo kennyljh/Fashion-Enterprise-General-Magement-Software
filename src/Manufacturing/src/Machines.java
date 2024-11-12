@@ -13,14 +13,7 @@ public class Machines implements MachineOperations {
         this.running = true;
         System.out.println("Starting Machine");
     }
-
-    @Override
-    public void stopMachine() {
-        this.running = false;
-        System.out.println("Stopping Machine");
-
-    }
-
+    
     @Override
     public boolean isRunning() {
         return running;

@@ -7,9 +7,7 @@ import java.util.Map;
 
 public interface HeadOfManufacturingInterface {
 
-    void viewRawMaterials(List<String> rawMaterials);
-    void selectRawMaterial(int index, Map<String, Integer> rawMaterials);
+    void viewRawMaterials(Map<String, Integer> rawMaterials);
+    void selectRawMaterial(int index, String rawMaterials);
 
-    void selectMachine(MachineOperations machine);
-    boolean verifyProudct(SimpleProduct product);
 }

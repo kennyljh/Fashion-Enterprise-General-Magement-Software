@@ -1,6 +1,7 @@
 package src.Manufacturing.src;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -9,7 +10,7 @@ public class ManufacturingController {
     private ManufacturingManager manager;
     private HeadOfManufacturing headOfManufacturing;
     private Machines machine;
-
+    private boolean isReady = false;
     private boolean productCreated = false;
 
 
@@ -32,18 +33,19 @@ public class ManufacturingController {
             System.out.println("1. Collect Raw Materials");
             System.out.println("2. Verify Raw Materials");
             System.out.println("3. Create Product");
-            System.out.println("4. Verify Product");
-            System.out.println("5. Exit");
+            System.out.println("4. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
+            Map<String, Integer> collectedMaterials = new HashMap<>();
 
             switch (choice) {
                 case 1:
                     System.out.println("Collect the Raw Materials from Storage");
-                    Map<String, Integer> collectedMaterials = new HashMap<>();
+
 
                     while (true) {
+                        System.out.println("Enter 'done' to exit prompt at any time");
                         System.out.println("Select Type of Raw Material: ");
                         String rawMaterial = sc.nextLine();
                         if (rawMaterial.equals("done")) {
@@ -54,65 +56,93 @@ public class ManufacturingController {
                         int quantity = sc.nextInt();
                         sc.nextLine();
                         collectedMaterials.put(rawMaterial, quantity);
-                        System.out.println("You have " + quantity + " Raw Materials Collected");
+                        System.out.println("You have " + quantity + " items collected of " + rawMaterial);
                     }
                     manager.collectRawMaterials(collectedMaterials);
-                    System.out.println("Raw Materials Collected");
+                    System.out.println("Raw Materials Collected:");
                     collectedMaterials.forEach((rawMaterial, quantity) -> {
-                        System.out.println(rawMaterial + ": " + quantity);
+                        System.out.println(quantity + " items of " + rawMaterial);
                     });
                     break;
                 case 2:
                     System.out.println("Verify the Raw Materials from Storage");
-                    //display the rawMaterials that were collected
-                    headOfManufacturing.viewRawMaterials(manager.getCollectedMaterials());
-                    for(Map.Entry<String, Integer> entry : manager.getCollectedMaterials()) {
-                        String rawMaterial = entry.getKey();
-                        Integer quantity = entry.getValue();
-                        boolean isVerified = headOfManufacturing.selectRawMaterial(quantity, rawMaterial);
-                        System.out.println("(Y/N) do the raw materials match the specifications?");
-                        String verifyRawMaterial = sc.nextLine();
-                        if (verifyRawMaterial.equals("Y")) {
-                           System.out.println("You have " + quantity + " Raw Materials" + rawMaterial + "Collected");
 
-                        }else if(verifyRawMaterial.equals("N")) {
+                    if (manager.getCollectedMaterials() == null || manager.getCollectedMaterials().isEmpty()) {
+//                        System.out.println(manager.getCollectedMaterials()); //displays all materials collected from 1
+//                        headOfManufacturing.viewRawMaterials(manager.getCollectedMaterials());
+                        System.out.println("You have no items collected yet.");
+                        break;
+                    }
+//                    boolean selectedMaterial = false;
+                    headOfManufacturing.viewRawMaterials(manager.getCollectedMaterials());
+                    for (Map.Entry<String, Integer> entry : manager.getCollectedMaterials().entrySet()) {
+                        String rawMaterial = entry.getKey();
+                        int quantity = entry.getValue();
+
+                        System.out.println("Do you want to verify " + quantity + " items of " + rawMaterial + "? (Y/N)");
+                        String verifyRawMaterial = sc.nextLine();
+
+                        if (verifyRawMaterial.equals("Y")) {
+                            headOfManufacturing.selectRawMaterial(quantity, rawMaterial);
+                            System.out.println("You have " + quantity + " items of " + rawMaterial + " verified.");
+                            collectedMaterials.put(rawMaterial, quantity);
+                            isReady = true;
+
+                        } else if (verifyRawMaterial.equals("N")) {
                             System.out.println("Material " + rawMaterial + " is not verified");
-                            break;
-                        }
-                        else{
+                            isReady = false;
+                        } else {
                             System.out.println("Invalid input, select Y or N");
                         }
                     }
                     break;
                 case 3:
 
+                    if (isReady) {
+                        machine.startMachine();
+                    }
                     if (!machine.isRunning()) {
-                        System.out.println("Machine is not running, start the machine first");
+                        System.out.println("Make sure to properly verify all the raw materials before beginning to create a product");
                         break;
                     }
-                    System.out.println("Machine is running. Manager is creating product...");
-                    productCreated = manager.createProduct();
+                    System.out.println("Machine is running");
+                    System.out.println("....................................................");
+                    System.out.println("Manager is creating Product...");
+                    System.out.println("....................................................");
+                    productCreated = manager.createProduct(collectedMaterials);
                     if (productCreated) {
                         System.out.println("Product created. Deliver to head of manufacturing...");
-                        manager.deliverProduct(headOfManufacturing.verifyProudct(productCreated));
+                        String productName = manager.getProductName();
+                        SimpleProduct product = new SimpleProduct(productName);
+                        manager.deliverProduct(product);
                     } else {
                         System.out.println("Product creation failed, Try again");
                     }
-
                     break;
 
+//                case 4:
+//
+//                    if (manager.getProduct() == null) {
+//                        System.out.println("You have no items collected yet.");
+//                        break;
+//                    }
+//                    //if product is not created break
+//                    if (!productCreated) {
+//                        System.out.println("Product is not created");
+//                        break;
+//                    }
+//                    if (!isReady) {
+//                        System.out.println("The machine is not ready to start, it needs to be verified first.");
+//                        break;
+//                    }
+//
                 case 4:
-                    System.out.println("Verify the product that was created.");
-                    //if product is not created break
-                    if (!productCreated) {
-                        System.out.println("Product is not created");
-                        break;
-                    }
-                    //check to see if the product is up standard and verify it as the head of manufacturing.
-                    System.out.println("Verifying the product...");
-
+                    System.out.println("Exit Program");
+                    exit = true;
+                    break;
 
                 default:
+                    System.out.println("Please enter a valid choice");
             }
         }
 

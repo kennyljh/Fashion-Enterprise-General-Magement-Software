@@ -1,50 +1,54 @@
 package src.Manufacturing.src;
 
 import src.Manufacturing.src.interfaces.HeadOfManufacturingInterface;
-import src.Manufacturing.src.interfaces.MachineOperations;
 import src.Manufacturing.src.interfaces.ManagerInterface;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
 @author
  */
 public class ManufacturingManager implements ManagerInterface {
 
-    private List<String> collectedMaterials;
+    private Map<String, Integer> collectedMaterials = new HashMap<>();
     private SimpleProduct product;
 
+
     @Override
-    public void collectRawMaterials(int quantity, String material) {
-        for(int i = 0; i < quantity; i++){
-            collectedMaterials.add(material);
-        }
+    public boolean createProduct(Map<String, Integer> verifiedMaterials) {
+
+        System.out.println("Creating product with the following materials: ");
+        verifiedMaterials.forEach((material, value) -> System.out.println(value + "items of " + material));
+        this.product = new SimpleProduct(verifiedMaterials.toString());
+        return true;
     }
 
     @Override
-    public boolean createProduct() {
+    public void deliverProduct(SimpleProduct product) {
 
-        if(!collectedMaterials.isEmpty()){
-            this.product = new SimpleProduct(getProduct().getName());
-            return true;
+        if (product == null) {
+            System.out.println("Product has not been created");
+            return;
         }
-        else{
-            System.out.println("Incorrect Materials for the Product");
-            return false;
-        }
+        System.out.println("Delivered to the head of manufacturing complete!");
+
+
     }
 
     @Override
-    public void deliverProduct(HeadOfManufacturingInterface headMan) {
-
-        System.out.println("Delivering to the head of manufacturing");
-        headMan.verifyProudct(this.product);
+    public void collectRawMaterials(Map<String, Integer> materials) {
+        collectedMaterials.putAll(materials);
+        System.out.println("Collected Raw Materials: " + collectedMaterials);
     }
 
-    public List<String> getCollectedMaterials() {
+    public Map<String, Integer> getCollectedMaterials() {
         return collectedMaterials;
     }
-    public SimpleProduct getProduct(){
-        return product;
+
+    public String getProductName() {
+        return product.getName();
     }
+
 }

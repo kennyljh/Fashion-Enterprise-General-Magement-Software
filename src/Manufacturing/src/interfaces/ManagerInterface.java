@@ -1,13 +1,14 @@
 package src.Manufacturing.src.interfaces;
 
-import java.util.List;
+import src.Manufacturing.src.SimpleProduct;
+
 import java.util.Map;
 
 public interface ManagerInterface {
 
     void collectRawMaterials(Map<String, Integer> materials);
-    void getCollectedMaterials();
-    boolean createProduct();
-   void deliverProduct(HeadOfManufacturingInterface headMan);
+    Map<String, Integer> getCollectedMaterials();
+    boolean createProduct(Map<String, Integer> materials);
+   void deliverProduct(SimpleProduct product);
 
 }

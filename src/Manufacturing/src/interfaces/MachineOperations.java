@@ -4,6 +4,5 @@ public interface MachineOperations {
 
 
     void startMachine();
-    void stopMachine();
     boolean isRunning();
 }

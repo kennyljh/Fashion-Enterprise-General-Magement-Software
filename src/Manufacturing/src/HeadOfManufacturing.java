@@ -1,8 +1,5 @@
 package src.Manufacturing.src;
 
-import src.Design.src.interfaces.FinalDesignApproval;
-import src.Design.src.interfaces.DesignSpecifications;
-import src.Design.src.FinalDesign;
 import src.Manufacturing.src.interfaces.HeadOfManufacturingInterface;
 import src.Manufacturing.src.interfaces.MachineOperations;
 
@@ -20,34 +17,25 @@ public class HeadOfManufacturing implements HeadOfManufacturingInterface {
     private HeadOfManufacturing rawMaterials;
 
     @Override
-    public void viewRawMaterials(List<String> rawMaterials) {
+    public void viewRawMaterials(Map<String, Integer> rawMaterials) {
         if (rawMaterials == null || rawMaterials.isEmpty()) {
-            System.out.println("No raw materials found");
+            System.out.println("No raw materials collected, collect raw materials first");
             return;
         }
+        int index = 1;
         System.out.println("Select the materials needed");
-        for (int i = 0; i < rawMaterials.size(); i++) {
-            System.out.println((i + 1) + ". " + rawMaterials.get(i));
+        for (Map.Entry<String, Integer> entry : rawMaterials.entrySet()) {
+            System.out.println(index++ + ". " + entry.getKey() + " collected with Quantity: " + entry.getValue());
         }
     }
 
     @Override
-    public void selectRawMaterial(int index, Map<String, Integer> rawMaterials) {
+    public void selectRawMaterial(int materialNumber, String rawMaterials) {
 
-        if(index >= 0 && index < rawMaterials.size()) {
-            rawMaterials.set(index, rawMaterials.get(index));
-            System.out.println("Selected raw material: " + rawMaterials.get(index));
+        if (materialNumber >= 0 && materialNumber < rawMaterials.length()) {
+            System.out.println("Selected raw material: " + rawMaterials);
         }
-    }
 
-    @Override
-    public void selectMachine(MachineOperations machine) {
-
-    }
-
-    @Override
-    public boolean verifyProudct(SimpleProduct product) {
-        return false;
     }
 
 
