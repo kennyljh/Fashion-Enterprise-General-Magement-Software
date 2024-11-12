@@ -27,7 +27,7 @@ public class Event implements IEvent {
     }
 
     public String toString() {
-        String str = "Event: ";
+        String str = "\nEvent: ";
         if(this.type) {
             str += "Photoshoot";
         } else {

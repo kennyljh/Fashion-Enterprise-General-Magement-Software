@@ -12,18 +12,26 @@ public class Fitting implements IFitting {
     LocalDateTime date;
     Boolean completionStatus;
 
-    @Override
-    public Fitting addFitting(int id, Employee model, String garment, LocalDateTime date) {
+    Fitting (int id, Employee model, String garment, LocalDateTime date) {
         this.id = id;
         this.model = model;
         this.garment = garment;
         this.date = date;
         this.completionStatus = false;
-        return null;
     }
 
     @Override
     public void endFitting() {
         this.completionStatus = true;
+        System.out.println(this.toString());
+    }
+
+    public String toString() {
+        String str = "\nFitting: ";
+        str += "\nModel: " + this.model.toString();
+        str += "\nGarment: " + this.garment +
+                "\nDate: " + this.date +
+                "\nCompletion Status: " + this.completionStatus;
+        return str;
     }
 }

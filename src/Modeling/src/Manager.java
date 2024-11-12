@@ -5,6 +5,7 @@ import src.HR.src.Employee;
 import src.Modeling.src.interfaces.IManager;
 
 import java.time.LocalDateTime;
+import java.util.Scanner;
 
 public class Manager implements IManager {
 
@@ -20,9 +21,14 @@ public class Manager implements IManager {
 
     @Override
     public Fitting requestFitting(Employee model, LocalDateTime date) {
-        Fitting fitting = new Fitting();
-
-        fitting.addFitting(1, model, "Clothing", date);
+        Fitting fitting = new Fitting(1, model, "Dress", date);
+        System.out.println(fitting.toString());
+        System.out.println("\nEnd Fitting?");
+        Scanner scanner = new Scanner(System.in);
+        String x = scanner.next();
+        if(x.equals("Y")) {
+            fitting.endFitting();
+        }
         return fitting;
     }
 

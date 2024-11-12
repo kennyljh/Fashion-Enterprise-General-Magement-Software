@@ -24,7 +24,7 @@ public class HOD implements IHOD {
 //        requestAdvertisement(event);
 
         System.out.println(event.toString());
-        System.out.println("End Event?");
+        System.out.println("\nEnd Event?");
         Scanner scanner = new Scanner(System.in);
         String x = scanner.next();
         if(x.equals("Y")) {
