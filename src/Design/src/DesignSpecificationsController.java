@@ -1,6 +1,7 @@
 package src.Design.src;
 
 
+import src.App;
 import src.Design.src.interfaces.DesignSpecifications;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class DesignSpecificationsController {
     }
 
 
-    public void run() {
+    public void run() throws Exception {
 
 
         Scanner scan = new Scanner(System.in);
@@ -122,7 +123,7 @@ public class DesignSpecificationsController {
                 case 4:
                     System.out.println("Exit Program");
                     exit = true;
-                    break;
+                    App.prompt();
 
                 default:
                     System.out.println("Invalid option");

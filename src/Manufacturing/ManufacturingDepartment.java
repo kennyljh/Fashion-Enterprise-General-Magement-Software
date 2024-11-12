@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ManufacturingDepartment {
 
-   public void start() {
+   public void start() throws Exception {
 
       ManufacturingController mc = new ManufacturingController();
       mc.run();

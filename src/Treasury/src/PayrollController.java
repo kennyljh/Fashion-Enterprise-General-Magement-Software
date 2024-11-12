@@ -4,6 +4,7 @@
 
 package src.Treasury.src;
 
+import src.App;
 import src.Treasury.src.interfaces.PayrollControllerInterface;
 
 import java.util.Scanner;
@@ -27,7 +28,7 @@ public class PayrollController implements PayrollControllerInterface {
 	/**
 	 * Run the payroll program
 	 */
-	public void run() {
+	public void run() throws Exception {
 		
 		System.out.println("Welcome to the Payroll System");
 		
@@ -80,7 +81,8 @@ public class PayrollController implements PayrollControllerInterface {
 				case 4:
 					System.out.println("Closing program...");
 					exit = true;
-					break;
+					App.prompt();
+
 				default:
 					System.out.println("Incorrect choice. Try again");
 			}

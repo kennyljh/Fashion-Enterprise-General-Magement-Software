@@ -4,6 +4,7 @@ package src.Inventory.src;
  * @ Mani Raj
  */
 
+import src.App;
 import src.Inventory.src.interfaces.*;
 
 import java.util.Scanner;
@@ -23,7 +24,7 @@ public class BasicInventoryController implements InventoryController {
     /**
      * Runs the inventory management system.
      */
-    public void run() {
+    public void run() throws Exception {
         System.out.println("Welcome to the src.Inventory Management System");
 
         Scanner scan = new Scanner(System.in);
@@ -83,7 +84,8 @@ public class BasicInventoryController implements InventoryController {
                 case 5:
                     System.out.println("Exiting program...");
                     exit = true;
-                    break;
+                    App.prompt();
+//                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }

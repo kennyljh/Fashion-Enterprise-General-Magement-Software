@@ -1,5 +1,6 @@
 package src.HR;
 
+import src.App;
 import src.HR.src.*;
 
 import java.util.Scanner;
@@ -107,7 +108,8 @@ public class HRDepartment {
                 case 0:
                     loop = false;
                     System.out.println("EXITING...");
-                    break;
+                    App.prompt();
+//                    break;
             }
         }
     }
