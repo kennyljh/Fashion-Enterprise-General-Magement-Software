@@ -1,12 +1,18 @@
 package src.Inventory;
 
 import src.Inventory.src.BasicInventoryController;
+import src.Inventory.src.interfaces.InventoryController;
 
 public class InventoryDepartment {
 
-    public void start() throws Exception {
-        BasicInventoryController basicInventoryController = new BasicInventoryController();
-        basicInventoryController.run();
+    // public static void main(String args[])
+    // {
+    //     InventoryController c=new BasicInventoryController();
+    //     c.run();
+    // }
+    public void start() {
 
+        InventoryController c=new BasicInventoryController();
+        c.run();
     }
 }
