@@ -1,8 +1,5 @@
 package src.Treasury.src;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class EmployeeDescription {
 
     private String employeeID, name, position, department;
