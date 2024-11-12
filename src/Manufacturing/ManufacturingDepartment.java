@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ManufacturingDepartment {
 
-   public static void main(String[] args) {
+   public void start() {
 
       ManufacturingController mc = new ManufacturingController();
       mc.run();
