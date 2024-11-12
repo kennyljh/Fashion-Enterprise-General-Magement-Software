@@ -13,8 +13,8 @@ public class ModelingDepartment {
     HOD hod = new HOD();
     Manager manager = new Manager();
 
-    public void start() {
-        System.out.println("Please choose an action you want to take: \n 1: haveEvent \n 2: scheduleFitting");
+    public void start() throws Exception {
+        System.out.println("Please choose an action you want to take: \n 1: haveEvent \n 2: scheduleFitting\n 3:Exit");
         Scanner s = new Scanner(System.in);
         int c = s.nextInt();
 
@@ -55,6 +55,8 @@ public class ModelingDepartment {
 
                 manager.requestFitting(e, date);
                 break;
+            case 3:
+                App.prompt();
         }
     }
 }
