@@ -11,21 +11,36 @@ public class Event implements IEvent {
     Boolean collab;
     Boolean completionStatus;
 
-
-    @Override
-    public Event addEvent(int id, Employee[] models, Boolean type, String celebrity, Boolean collab) {
+    Event(int id, Employee[] models, Boolean type, String celebrity, Boolean collab) {
         this.id = id;
         this.models = models;
         this.type = type;
         this.celebrity = celebrity;
         this.collab = collab;
         this.completionStatus = false;
-
-        return this;
     }
 
     @Override
     public void endEvent() {
         this.completionStatus = true;
+        System.out.println(this.toString());
+    }
+
+    public String toString() {
+        String str = "\nEvent: ";
+        if(this.type) {
+            str += "Photoshoot";
+        } else {
+            str += "Fashion show";
+        }
+        str += "\nModels: ";
+
+        for (int i = 0; i < models.length - 1; i++) {
+            str += "\n" + models[i].toString();
+        }
+        str += "\nCelebrity: " + this.celebrity +
+                "\nCollab: " + this.collab +
+                "\nCompletion Status: " + this.completionStatus;
+        return str;
     }
 }
