@@ -39,9 +39,14 @@ public class PayrollController implements PayrollControllerInterface {
 		while (!exit) {
 			
 			System.out.println("1. Load Department Employee Data List");
-			System.out.println("2. Load Payroll Rates");
-			System.out.println("3. Process Payroll & Payslips");
-			System.out.println("4. Exit program");
+			System.out.println("2. View Entered Employee Data List");
+			System.out.println("3. Remove Employee by ID");
+			System.out.println("4. Load Payroll Rates");
+			System.out.println("5. View Entered Payroll Rates");
+			System.out.println("6. Process Payroll & Payslips");
+			System.out.println("7. View Created Payroll Reports");
+			System.out.println("8. View Created Payslips");
+			System.out.println("0. Exit program");
 			
 			int choice = scan.nextInt();
 			scan.nextLine();
@@ -59,6 +64,16 @@ public class PayrollController implements PayrollControllerInterface {
 					}
 					break;
 				case 2:
+					printEmployeeData();
+					System.out.println();
+					break;
+				case 3:
+					System.out.println("Enter employee to remove by ID: ");
+					String employeeID = scan.nextLine();
+					removeEmployeeByID(employeeID);
+					System.out.println();
+					break;
+				case 4:
 					System.out.println("Enter path of Payroll Rate File:");
 					String filePath2 = scan.nextLine();
 					if (addPayrollRates(filePath2)) {
@@ -68,7 +83,11 @@ public class PayrollController implements PayrollControllerInterface {
 						System.out.println("Invalid Payroll Rate file\n");
 					}
 					break;
-				case 3:
+				case 5:
+					printPayrollRates();
+					System.out.println();
+					break;
+				case 6:
 					System.out.println("Enter path to store Payroll Report & Payslips: (e.g. User\\Documents\\(files stored in here))");
 					String filePath3 = scan.nextLine();
 					if (processPayroll(filePath3)) {
@@ -78,11 +97,16 @@ public class PayrollController implements PayrollControllerInterface {
 						System.out.println("Payroll processing failed\n");
 					}
 					break;
-				case 4:
+				case 7:
+					printPayrollReports();
+					System.out.println();
+					break;
+				case 8:
+					break;
+				case 0:
 					System.out.println("Closing program...");
 					exit = true;
 					App.prompt();
-
 				default:
 					System.out.println("Incorrect choice. Try again");
 			}
@@ -97,15 +121,45 @@ public class PayrollController implements PayrollControllerInterface {
 	}
 
 	@Override
+	public boolean printEmployeeData() {
+
+		return this.getPayrollInstance().printEmployeeData();
+	}
+
+	@Override
+	public boolean removeEmployeeByID(String employeeID) {
+
+		return this.getPayrollInstance().removeEmployeeByID(employeeID);
+	}
+
+	@Override
 	public boolean addPayrollRates(String filePath) {
 		
 		return this.getPayrollInstance().addPayrollRates(filePath);
 	}
 
 	@Override
+	public boolean printPayrollRates() {
+
+		return this.getPayrollInstance().printPayrollRates();
+	}
+
+	@Override
 	public boolean processPayroll(String filePath) {
 		
 		return this.getPayrollInstance().processPayroll(filePath);
+	}
+
+	@Override
+	public boolean printPayrollReports() {
+
+		return this.getPayrollInstance().printPayrollReports();
+	}
+
+	@Override
+	public boolean printPayslips() {
+
+		return this.getPayrollInstance().printPayslips();
 	}
 
 	/**

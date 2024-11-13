@@ -191,6 +191,14 @@ public class PoorTextEditor {
 	}
 
 	/**
+	 * To display all content in text file in pretty format
+	 */
+	public void prettyPrint(){
+
+		prettyPrintRepo();
+	}
+
+	/**
 	 * Retrieves a HashMap of Key Value data under a specified array
 	 * item name
 	 * @param arrayItemName specific array item name
@@ -501,7 +509,6 @@ public class PoorTextEditor {
 					e.printStackTrace();
 				}
 			}
-
 		}
 	}
 
@@ -526,7 +533,7 @@ public class PoorTextEditor {
 
 		if (!givenRepo.isEmpty()) {
 
-			repository=givenRepo;
+			repository = givenRepo;
 
 			BufferedWriter writer = null;
 
@@ -618,6 +625,28 @@ public class PoorTextEditor {
 			else {
 				System.out.println("ArrayItem: " + arrayName + " not found");
 			}
+		}
+	}
+
+	/**
+	 * To display all content in text file in pretty format
+	 */
+	private void prettyPrintRepo(){
+
+		// Iterate over the repository map
+		for (Map.Entry<String, Object> entry : repository.entrySet()) {
+
+			String arrayName = entry.getKey();
+			Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
+
+			// writing the array name followed by ":"
+			System.out.println(arrayName + ":");
+
+			// write all key-value pairs under array item
+			for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
+				System.out.println(keyValueEntry.getKey() + " = " + keyValueEntry.getValue());
+			}
+			System.out.print("\n");
 		}
 	}
 }
