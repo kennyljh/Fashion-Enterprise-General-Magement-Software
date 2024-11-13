@@ -415,6 +415,10 @@ public class Payroll implements PayrollInterface {
 		}
 	}
 
+	/**
+	 * To retrieve and print existing payroll reports
+	 * @return true if successful, false otherwise
+	 */
 	@Override
 	public boolean printPayrollReports() {
 
