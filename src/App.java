@@ -24,7 +24,7 @@ public class App {
     public static void prompt() throws Exception {
         Scanner s = new Scanner(System.in);
 
-        System.out.println("--WELCOME TO FASHION EMPIRE--\n You are logged in as: IT SPECIALIST\n\nWhich Department would you like to go to?" +
+        System.out.println("--WELCOME TO FASHION EMPIRE--\n You are logged in: \n Which Department would you like to go to?" +
                 "\n1: HR Department" +
                 "\n2: Treasury" +
                 "\n3: Manufacturing" +

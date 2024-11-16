@@ -1,17 +1,35 @@
 package src.Inventory.src;
+import src.Inventory.src.interfaces.ProductDescription;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ Mani Raj
  */
-public class BasicProductDescription implements BasicInventManage.ProductDescription {
+public class BasicProductDescription implements ProductDescription {
 
-	    private String description;
+	//product details list
+	private Map<String,String> pDesc=new HashMap<>();
 
-	    public BasicProductDescription(String description) {
-	        this.description = description;
-	    }
-
-	    public String getDescription() {
-	        return description;
-	    }
+	public BasicProductDescription(String pname,String description) {
+		pDesc.put("name",pname);
+		pDesc.put("Description",description);
 	}
+	public Map<String,String> productDetails()
+	{
+		return pDesc;
+	}
+
+	public void print() {
+		System.out.println("-----------------------------------------------------");
+		System.out.println("Product Information");
+		for (Map.Entry<String, String> pd : pDesc.entrySet()) {
+
+
+			System.out.printf("%-30s %s%n", pd.getKey(), pd.getValue());
+
+		}
+		System.out.println("-----------------------------------------------------");
+	}
+}

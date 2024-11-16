@@ -1,6 +1,8 @@
 package src.Inventory.src.interfaces;
 
-public interface ProductDescription {
+import java.util.Map;
 
-	String getDescription();
+public interface ProductDescription {
+	Map<String,String> productDetails();
+	void print();
 }

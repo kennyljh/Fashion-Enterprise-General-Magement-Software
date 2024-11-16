@@ -1,9 +1,13 @@
 package src.Manufacturing.src;
 
+import src.App;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import static src.App.prompt;
 
 public class ManufacturingController {
 
@@ -22,7 +26,7 @@ public class ManufacturingController {
 
     }
 
-    public void run() {
+    public void run() throws Exception {
 
         Scanner sc = new Scanner(System.in);
         boolean exit = false;
@@ -139,7 +143,8 @@ public class ManufacturingController {
                 case 4:
                     System.out.println("Exit Program");
                     exit = true;
-                    break;
+                    App.prompt();
+//                    break;
 
                 default:
                     System.out.println("Please enter a valid choice");
