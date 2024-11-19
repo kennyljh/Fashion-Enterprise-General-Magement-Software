@@ -1,14 +1,12 @@
 package src.HR.src.interfaces;
 
-import src.HR.src.Department;
-
 public interface IEmployee {
     String getName();
     String getEmployeeID();
-    Department getDepartment();
+    String getDepartment();
     String getPosition();
     String getEmployementStatus();
-    int getSalary();
+    String getSalary();
 
     @Override
     String toString();

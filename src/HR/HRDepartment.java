@@ -8,8 +8,14 @@ import java.util.Scanner;
 public class HRDepartment {
 
     public void start() throws Exception {
-        //initializing dummy data holders for local storage
-        employeeRecordManager empHandler = new employeeRecordManager();
+        fileStorageHR storage = new fileStorageHR();
+        if(storage.getFilepath().equals(storage.getDefaultFilepath())) {
+            System.out.println("Using default filepath...");
+        }
+        else {
+            System.out.println("Using alternative filepath: " + storage.getFilepath());
+        }
+        employeeRecordManager empHandler = new employeeRecordManager(storage);
         candidateRecordManager canHandler = new candidateRecordManager();
 
         boolean loop = true;
@@ -54,7 +60,7 @@ public class HRDepartment {
                 case 2:
                     System.out.println("Enter employee name: ");
                     String markedEmployee = input.next();
-                    empHandler.removeEmployee(markedEmployee);
+                    //empHandler.removeEmployee(markedEmployee);
                     System.out.println("Employee removed successfully! Returning to menu...\n\n\n\n");
                     break;
 
@@ -81,14 +87,14 @@ public class HRDepartment {
 
                 case 5:
                     System.out.println("List of all Employees: ");
-                    empHandler.displayRecords();
+                    //empHandler.displayRecords();
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
                     break;
 
                 case 6:
                     System.out.println("Enter Department Name: ");
                     String departmentName = input.next();
-                    empHandler.displayEmployeesByDepartment(Department.valueOf(departmentName));
+                    //empHandler.displayEmployeesByDepartment(Department.valueOf(departmentName));
                     System.out.println("\nReturning to menu...\n\n\n\n");
                     break;
 
@@ -101,7 +107,7 @@ public class HRDepartment {
                 case 8:
                     System.out.println("Enter Department Name: ");
                     String salariedDepartmentName = input.next();
-                    System.out.println("Total Cost of Employees for " + salariedDepartmentName + ": " + empHandler.collateSalariesByDepartment(Department.valueOf(salariedDepartmentName)));
+                    //System.out.println("Total Cost of Employees for " + salariedDepartmentName + ": " + empHandler.collateSalariesByDepartment(Department.valueOf(salariedDepartmentName)));
                     System.out.println("\nReturning to menu...\n\n\n\n");
                     break;
 

@@ -1,88 +1,96 @@
 package src.HR.src;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sam Gumm
  */
 public class employeeRecordManager {
-    private final List<Employee> employeeList = new ArrayList<>();
+    Map<String, Map<String, String>> data = new LinkedHashMap<>();
+    private final fileStorageHR storageHR;
 
-    
-    /** 
-     * @param employee
-     */
-    // Add a new employee
-    public void addEmployee(Employee employee) {
-        employeeList.add(employee);
+    public employeeRecordManager(fileStorageHR storageHR) {
+        this.storageHR = storageHR;
     }
 
     /**
-     * @param employeeName
+     * Adds an Employee to record, then persistently stores it in "empID".txt
+     *
+     * @param employee the Employee object to be added
+     */
+    // Add a new employee
+    public void addEmployee(Employee employee) {
+        Map<String, String> employeeObject = new LinkedHashMap<>();
+        employeeObject.put("name", employee.getName());
+        employeeObject.put("employeeID", employee.getEmployeeID());
+        employeeObject.put("employeeDepartment", employee.getDepartment());
+        employeeObject.put("employeePosition", employee.getPosition());
+        employeeObject.put("employeeStatus", employee.getEmployementStatus());
+        employeeObject.put("employeeSalary", employee.getSalary());
+        data.put(employee.getEmployeeID(), employeeObject);
+        storageHR.poorJarser.setRepositoryStrings(data);
+        storageHR.createFile(storageHR.default_filepath + "\\" + employee.getEmployeeID() + ".txt");
+        storageHR.poorJarser.writeToTextFile(storageHR.getFilepath() + "\\" + employee.getEmployeeID() + ".txt");
+    }
+
+    /**
+     * Removes employee from record and updates storage
+     *
+     * @param employeeID the EmployeeID to be removed
+     *
      */
     //remove employee
-    public void removeEmployee(String employeeName) throws Exception {
-        if (employeeList.isEmpty()) {
-            throw new Exception("Employee list is empty");
-        } else {
-            for (Employee employee : employeeList) {
-                if (employee.getName().equals(employeeName)) {
-                    employeeList.remove(employee);
-                }
-                else {
-                    throw new Exception("Employee does not exist");
-                }
-            }
+    public void removeEmployee(String employeeID) throws Exception {
+        if(!data.containsKey(employeeID)) {
+            throw new Exception("Employee does not exist");
         }
+        data.remove(employeeID);
+        storageHR.poorJarser.setRepositoryStrings(data);
+        storageHR.deleteFile(storageHR.default_filepath + "\\" + employeeID + ".txt");
     }
 
-    /** 
-     * @param employeeId
-     * @param department
-     * @param position
-     * @param employmentStatus
-     * @param salary
+    /**
+     * Takes the EmployeeID of the Employee object to be changed, then checks the LinkedHashMap
+     * for the ID; if it finds the ID, the associated Employee is altered and re-uploaded to file,
+     * otherwise, an error is thrown.
+     *
+     * @param employeeID the associated ID of the Employee
+     * @param department the department of the Employee
+     * @param position the position of the Employee
+     * @param employmentStatus the status of the Employee
+     * @param salary the salary of the Employee
      */
-    // Update employee record
-    public void updateEmployee(String employeeId, Department department, String position, String employmentStatus, int salary) {
-        for (Employee emp : employeeList) {
-            if (emp.employeeId.equals(employeeId)) {
-                emp.department = department;
-                emp.position = position;
-                emp.employmentStatus = employmentStatus;
-                return;
-            }
+    public void updateEmployee(String employeeID, Department department, String position, String employmentStatus, int salary) {
+        if (!data.containsKey(employeeID)) {
+            System.out.println("Employee not found: " + employeeID);
+            return;
         }
-        System.out.println("Employee not found: " + employeeId);
+        Map<String, String> employeeObject = data.get(employeeID);
+        employeeObject.put("employeeDepartment", String.valueOf(department));
+        employeeObject.put("employeePosition", position);
+        employeeObject.put("employeeStatus", employmentStatus);
+        employeeObject.put("employeeSalary", String.valueOf(salary));
+        data.put(employeeID, employeeObject);
+        storageHR.poorJarser.setRepositoryStrings(data);
+        storageHR.poorJarser.writeToTextFile(storageHR.default_filepath + "\\" + employeeID + ".txt");
+
     }
 
-    // Display employee records
+    /**
+     * Display all records currently in the LinkedHashMap "data"
+     */
     public void displayRecords() {
-        for (Employee emp : employeeList) {
-            System.out.println(emp);
-        }
+        data.values().forEach(System.out::println);
     }
 
-    
-    /** 
-     * @param departmentName
+
+    /**
+     * @param departmentName the Department to iterate through.
      */
     public void displayEmployeesByDepartment(Department departmentName) {
-        for (Employee emp : employeeList) {
-            if(emp.department == departmentName) {
-                System.out.println(emp);
-            }
-        }
-    }
-
-    public int collateSalariesByDepartment(Department department) {
-        int totalSalary = 0;
-        for (Employee emp : employeeList) {
-            if(emp.department == department) {
-                totalSalary += emp.salary;
-            }
-        }
-        return totalSalary;
+        data.values().stream()
+                .filter(emp -> departmentName.toString().equals(emp.get("employeeDepartment")))
+                .forEach(System.out::println);
     }
 }
