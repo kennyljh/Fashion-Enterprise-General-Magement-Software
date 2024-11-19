@@ -30,24 +30,36 @@ public class employeeRecordManager {
         employeeObject.put("employeeSalary", employee.getSalary());
         data.put(employee.getEmployeeID(), employeeObject);
         storageHR.poorJarser.setRepositoryStrings(data);
-        storageHR.createFile(storageHR.default_filepath + "\\" + employee.getEmployeeID() + ".txt");
         storageHR.poorJarser.writeToTextFile(storageHR.getFilepath() + "\\" + employee.getEmployeeID() + ".txt");
     }
 
     /**
-     * Removes employee from record and updates storage
+     * Removes employee FILE from employeeStorage repo, uses fileStorageHR filepath to find file.
+     * Also attempts to remove Employee from LinkedHashMap record if it exists there as well.
      *
      * @param employeeID the EmployeeID to be removed
      *
      */
-    //remove employee
     public void removeEmployee(String employeeID) throws Exception {
         if(!data.containsKey(employeeID)) {
-            throw new Exception("Employee does not exist");
+            System.out.println("Employee is not in record");
         }
-        data.remove(employeeID);
-        storageHR.poorJarser.setRepositoryStrings(data);
-        storageHR.deleteFile(storageHR.default_filepath + "\\" + employeeID + ".txt");
+        else {
+            try {
+                data.remove(employeeID);
+                storageHR.poorJarser.setRepositoryStrings(data);
+            } catch (Exception e) {
+                System.out.println("Error in removeEmployee when removing from LinkedHashMap<>()");
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            storageHR.deleteFile(storageHR.default_filepath + "\\" + employeeID + ".txt");
+        } catch (Exception e) {
+            System.out.println("Error in removeEmployee when deleting file from repository");
+            e.printStackTrace();
+        }
     }
 
     /**
