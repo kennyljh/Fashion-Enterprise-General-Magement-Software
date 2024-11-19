@@ -10,7 +10,7 @@ import java.util.Map;
 public class FileManager {
     private Map<String, Map<String, String>> events = new HashMap<>();
     private Map<String, Map<String, String>> teamMembers = new HashMap<>();
-//    private Map<String, Map<String, String>> fittings = new HashMap<>();
+    private Map<String, Map<String, String>> fittings = new HashMap<>();
 
     private final PoorTextEditor editor = new PoorTextEditor();
 
@@ -24,15 +24,14 @@ public class FileManager {
         File f = new File(repo + "events.txt");
         if(f.exists()) {
             editor.processTextFile(repo + "events.txt");
-//            events = editor.getRepository();
             events = editor.getRepositoryStringMap();
         }
 
-//        f = new File(repo + "fittings.txt");
-//        if(f.exists()) {
-//            editor.processTextFile(repo + "fittings.txt");
-//            fittings = editor.getRepositoryString();
-//        }
+        f = new File(repo + "fittings.txt");
+        if(f.exists()) {
+            editor.processTextFile(repo + "fittings.txt");
+            fittings = editor.getRepositoryStringMap();
+        }
 
         f = new File(repo + "department.txt");
         if(f.exists()) {
@@ -53,6 +52,14 @@ public class FileManager {
         ArrayList<Event> tmp = new ArrayList<>();
         for(Map<String, String> event: events.values()) {
             tmp.add(Event.parse(event));
+        }
+        return tmp;
+    }
+
+    public ArrayList<Fitting> getFittings() {
+        ArrayList<Fitting> tmp = new ArrayList<>();
+        for(Map<String, String> event: fittings.values()) {
+            tmp.add(Fitting.parse(event));
         }
         return tmp;
     }
@@ -114,9 +121,13 @@ public class FileManager {
     }
 
     public void addFitting(Fitting fitting) {
-//        fittings.put("Fitting " + fitting.getId(), event.eventToMap());
-//
-//        editor.setRepositoryStrings(events);
-//        editor.writeToTextFile(repo + "events.txt");
+        fittings.put("Fitting " + fitting.getId(), fitting.toMap());
+
+        editor.setRepositoryStrings(fittings);
+        editor.writeToTextFile(repo + "fittings.txt");
+    }
+
+    public TeamMember getModel(int model) {
+        return TeamMember.parse(teamMembers.get("Team Member "+ model));
     }
 }

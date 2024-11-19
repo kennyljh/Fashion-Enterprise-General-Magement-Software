@@ -42,8 +42,11 @@ public class ModelingDepartment {
                     hod.createEvent(type, celebrity, ch);
                     break;
                 case 2:
-                    System.out.println("What model? (put a name)");
-                    String model = s.next();
+                    System.out.println("What model? (0-3)");
+                    int model = s.nextInt();
+                    s.nextLine();
+                    System.out.println("What kind of garment?");
+                    String garment = s.nextLine();
                     System.out.println("What month (1-12)");
                     int month = s.nextInt();
                     System.out.println("What day (1-31)");
@@ -52,10 +55,7 @@ public class ModelingDepartment {
                     int hour = s.nextInt();
                     LocalDateTime date = LocalDateTime.of(2024, month, day, hour, 0);
 
-    //                Employee e = App.hrDepartment.getEmployee();
-                    Employee e = new Employee("1", model, Department.MODELING, "Model", "Employed", 10000);
-
-//                    manager.requestFitting(e, date);
+                    hod.requestFitting(Team.MODELING, ModelingDepartment.fileManager.getModel(model), garment, date);
                     start();
                     break;
                 case 3:

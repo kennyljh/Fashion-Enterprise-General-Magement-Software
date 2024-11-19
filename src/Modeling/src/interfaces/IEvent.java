@@ -1,8 +1,13 @@
 package src.Modeling.src.interfaces;
 
-import src.HR.src.Employee;
-import src.Modeling.src.Event;
+import java.util.Map;
 
 public interface IEvent {
-    void endEvent();
+    int getId();
+    String getType();
+    String getCelebrity();
+    String getCollab();
+    String getCompletion();
+//    void endEvent();
+    Map<String, String> toMap();
 }

@@ -1,10 +1,15 @@
 package src.Modeling.src.interfaces;
 
-import src.HR.src.Employee;
-import src.Modeling.src.Fitting;
+import src.Modeling.src.TeamMember;
 
-import java.time.LocalDateTime;
 
 public interface IFitting {
-    void endFitting();
+    int getId();
+
+    TeamMember getModel();
+
+    String getGarment();
+
+    String getCompletion();
+//    void endFitting();
 }

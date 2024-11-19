@@ -6,6 +6,7 @@ import src.HR.src.Employee;
 import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IManager;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Manager implements IManager {
@@ -63,6 +64,19 @@ public class Manager implements IManager {
     public void addTeamMember(TeamMember member) {
         teamMembers.add(member);
         ModelingDepartment.fileManager.addTeamMember(member);
+    }
+
+    @Override
+    public Fitting scheduleFitting(TeamMember model, String garment, LocalDateTime date) {
+        Fitting fitting = new Fitting(model, garment, date);
+//        System.out.println(fitting);
+//        System.out.println("\nEnd Fitting?");
+//        Scanner scanner = new Scanner(System.in);
+//        String x = scanner.next();
+//        if(x.equals("Y")) {
+//            fitting.endFitting();
+//        }
+        return fitting;
     }
 
     @Override

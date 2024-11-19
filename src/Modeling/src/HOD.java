@@ -5,6 +5,7 @@ import src.HR.src.Employee;
 import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IHOD;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class HOD implements IHOD {
@@ -13,12 +14,14 @@ public class HOD implements IHOD {
     private final ArrayList<Manager> managers;
 
     public ArrayList<Event> events;
+    public ArrayList<Fitting> fittings;
 
     public HOD(Employee employeeInfo, ArrayList<Manager> managers) {
         this.employeeInfo = employeeInfo;
         this.managers = managers;
 
         events = ModelingDepartment.fileManager.getEvents();
+        fittings = ModelingDepartment.fileManager.getFittings();
     }
 
     public HOD() {
@@ -32,7 +35,7 @@ public class HOD implements IHOD {
     }
 
     @Override
-    public Event createEvent(Boolean type, String celebrity, String collab) {
+    public void createEvent(Boolean type, String celebrity, String collab) {
         ArrayList<TeamMember> teamMembers = new ArrayList<>();
 
         for(Manager manager: managers) {
@@ -45,7 +48,6 @@ public class HOD implements IHOD {
         events.add(event);
         System.out.println(event.toString());
         ModelingDepartment.fileManager.addEvent(event);
-        return event;
     }
 
     @Override
@@ -71,6 +73,17 @@ public class HOD implements IHOD {
         ModelingDepartment.fileManager.addManager(manager);
     }
 
+    @Override
+    public Manager getManager(Team team) {
+        for (Manager manager: managers) {
+            if (manager.getTeam() == team) {
+                return manager;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public String toString() {
         String str = "\nHOD: ";
         str += "\nEmployeeInfo: " + this.employeeInfo.toString();
@@ -81,63 +94,18 @@ public class HOD implements IHOD {
         return str;
     }
 
+    @Override
+    public void requestFitting(Team team, TeamMember model, String garment, LocalDateTime date) {
+        Fitting fitting = getManager(team).scheduleFitting(model, garment, date);
+        fittings.add(fitting);
+        System.out.println(fitting.toString());
+        ModelingDepartment.fileManager.addFitting(fitting);
+    }
+
     public static HOD parse(Map<String, String> hod) {
         return new HOD(
                 Employee.parseEmployee(hod.get("employeeInfo")),
                 ModelingDepartment.fileManager.getManagers()
         );
     }
-//
-//    @Override
-//    public Boolean addEvent(Event event) {
-//        editor.processTextFile("/repository/events.txt");
-//        if (editor.getRepository().isEmpty()) {
-//            return false;
-//        }
-//
-////        String[] temp = editor.getArrayNames();
-////        for(String s: temp) {
-////            Event event = new Event(
-////                    editor.retrieveValue()
-////            )
-////        }
-//        return null;
-//    }
-//
-//    @Override
-//    public void printEvent(Event event) {
-//
-//    }
-//
-//    @Override
-//    public void printAllEvents() {
-//
-//    }
-//
-//    @Override
-//    public void assignTask(Manager manager) {
-//
-//    }
-//
-////    public void printEvents() {
-////        for (int i = 0; i < events.size(); i++) {
-////            System.out.println(events.get(i).toString());
-////        }
-////    }
-//
-//    @Override
-//    public Boolean requestAdvertisement(Event event) {
-//        return false;
-//    }
-//
-//    @Override
-//    public Boolean requestContract(String celebrity) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Boolean requestCollab(String brand) {
-//        return null;
-//    }
-
 }

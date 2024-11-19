@@ -35,38 +35,40 @@ public class Event implements IEvent {
         this.completionStatus = completionStatus;
     }
 
+    @Override
     public int getId() {
         return id;
     }
-    public String getTeamMemberString() {
-        StringBuilder s = new StringBuilder();
-        for (TeamMember member: teamMembers) {
-            s.append(member.toString()).append("\n");
-        }
-        return s.toString();
-    }
+
+    @Override
     public String getType() {
         if(this.type) return "Photoshoot";
         return "Fashion Show";
     }
 
+    @Override
     public String getCelebrity() {
         return this.celebrity;
     }
+
+    @Override
     public String getCollab() {
         return this.collab;
     }
+
+    @Override
     public String getCompletion() {
         if(completionStatus) return "true";
         return "false";
     }
 
-    @Override
-    public void endEvent() {
-        this.completionStatus = true;
-        System.out.println(this.toString());
-    }
+//    @Override
+//    public void endEvent() {
+//        this.completionStatus = true;
+//        System.out.println(this.toString());
+//    }
 
+    @Override
     public String toString() {
         String str = "\nEvent: " + id ;
         if(this.type) {
@@ -85,6 +87,7 @@ public class Event implements IEvent {
         return str;
     }
 
+    @Override
     public Map<String, String> toMap() {
             Map<String, String> eventDetails = new HashMap<>();
             eventDetails.put("id", Integer.toString(this.id));

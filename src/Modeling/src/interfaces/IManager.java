@@ -10,11 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public interface IManager extends ITeamMember {
-//    Fitting requestFitting(Employee model, LocalDateTime date);
-//
-//    Boolean scheduleModel(Employee model);
+    ArrayList<TeamMember> getTeamMembers();
+    void addTeamMember(TeamMember member);
 
-    public ArrayList<TeamMember> getTeamMembers();
-    public void addTeamMember(TeamMember member);
-//    public void removeTeamMember(TeamMember member);
+    Fitting scheduleFitting(TeamMember model, String garment, LocalDateTime date);
 }
