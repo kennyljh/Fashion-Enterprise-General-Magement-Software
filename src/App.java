@@ -44,7 +44,7 @@ public class App {
                 manufacturingDepartment.start();
                 break;
             case 4:
-                modelingDepartment.start();
+//                modelingDepartment.start();
                 break;
             case 5:
                 inventoryDepartment.start();

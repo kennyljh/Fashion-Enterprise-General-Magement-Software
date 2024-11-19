@@ -94,7 +94,6 @@ public class PoorTextEditor {
 	 * @param filePath desired path of the file to write to
 	 */
 	public void writeToTextFile(Map<String, Object> givenRepo, String filePath) {
-
 		writeDataToFile(givenRepo, filePath);
 	}
 
@@ -128,8 +127,6 @@ public class PoorTextEditor {
 		}
 		return result;
 	}
-
-
 
 
 	/**

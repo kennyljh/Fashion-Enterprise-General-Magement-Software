@@ -7,12 +7,21 @@ public enum Team {
     CLOTHING;
 
     public String toString() {
-        switch (this) {
-            case MODELING: return "Modeling";
-            case MAKEUP: return "Makeup";
-            case HAIR: return "Hair";
-            case CLOTHING: return "Clothing";
-            default: throw new IllegalArgumentException();
-        }
+        return switch (this) {
+            case MODELING -> "Modeling";
+            case MAKEUP -> "Makeup";
+            case HAIR -> "Hair";
+            case CLOTHING -> "Clothing";
+        };
+    }
+
+    public static Team parseTeam(String team) {
+        return switch (team) {
+            case "Modeling" -> MODELING;
+            case "Makeup" -> MAKEUP;
+            case "Hair" -> HAIR;
+            case "Clothing" -> CLOTHING;
+            default -> throw new IllegalArgumentException();
+        };
     }
 }

@@ -93,4 +93,20 @@ public class Employee implements IEmployee {
         return String.format("ID: %s, Name: %s, Department: %s, Position: %s, Status: %s, Salary: %d", 
                 employeeId, name, department, position, employmentStatus, salary);
     }
+
+    public static Employee parseEmployee(String employeeString) {
+        // Remove unnecessary spaces and split the string by commas
+        String[] parts = employeeString.split(", ");
+
+        // Extract the individual fields using the known format
+        String employeeId = parts[0].split(": ")[1];
+        String name = parts[1].split(": ")[1];
+        Department department = Department.valueOf(parts[2].split(": ")[1].toUpperCase()); // Assuming Department is an enum
+        String position = parts[3].split(": ")[1];
+        String employmentStatus = parts[4].split(": ")[1];
+        int salary = Integer.parseInt(parts[5].split(": ")[1]);
+
+        // Create and return the Employee object
+        return new Employee(employeeId, name, department, position, employmentStatus, salary);
+    }
 }

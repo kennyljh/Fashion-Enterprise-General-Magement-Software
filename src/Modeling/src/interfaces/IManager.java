@@ -6,7 +6,7 @@ import src.Modeling.src.TeamMember;
 
 import java.time.LocalDateTime;
 
-public interface IManager {
+public interface IManager extends ITeamMember {
     Fitting requestFitting(Employee model, LocalDateTime date);
 
     Boolean scheduleModel(Employee model);

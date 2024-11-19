@@ -4,6 +4,7 @@ import src.HR.src.Employee;
 import src.Modeling.src.interfaces.IManager;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Manager implements IManager {
@@ -39,5 +40,15 @@ public class Manager implements IManager {
     @Override
     public TeamMember[] getTeamMembers() {
         return teamMembers;
+    }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
+
+    @Override
+    public Map<String, String> toMap() {
+        return Map.of();
     }
 }

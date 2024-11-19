@@ -113,4 +113,19 @@ public class HRDepartment {
             }
         }
     }
+
+    public Employee getEmployee(String id) {
+//        TODO: Insert get employee by id from file stuff here
+        return null;
+    }
+
+    public Employee getEmployee(Department department) {
+//        TODO: Insert get employee by department from file stuff here
+        return null;
+    }
+
+    public Employee getEmployee(Department department, String name) {
+//        TODO: Insert get employee by department and name from file stuff here
+        return null;
+    }
 }
