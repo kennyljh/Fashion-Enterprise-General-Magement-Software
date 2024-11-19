@@ -5,6 +5,7 @@ import src.App;
 import src.Modeling.src.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ModelingDepartment {
@@ -23,8 +24,8 @@ public class ModelingDepartment {
         while (c != 4) {
             System.out.println("\nPlease choose an action you want to take: \n 1: haveEvent \n 2: scheduleFitting\n 3: Admin Activities\n 4: Back");
             c = s.nextInt();
-            switch (c){
-                case 1:
+            switch (c) {
+                case 1 -> {
                     boolean type = false;
                     System.out.println("What type of event?\n1:Photoshoot\n2:Fashion Show");
                     int x = s.nextInt();
@@ -37,8 +38,8 @@ public class ModelingDepartment {
                     System.out.println("What brand will you collab with? (enter for none)");
                     String ch = s.nextLine();
                     hod.createEvent(type, celebrity, ch);
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("What model? (0-3)");
                     int model = s.nextInt();
                     s.nextLine();
@@ -51,13 +52,10 @@ public class ModelingDepartment {
                     System.out.println("What hour? (1-24)");
                     int hour = s.nextInt();
                     LocalDateTime date = LocalDateTime.of(2024, month, day, hour, 0);
-
                     hod.requestFitting(Team.MODELING, ModelingDepartment.fileManager.getModel(model), garment, date);
                     start();
-                    break;
-                case 3:
-                   initiateAdmin();
-                   break;
+                }
+                case 3 -> initiateAdmin();
             }
             App.prompt();
         }
@@ -94,5 +92,9 @@ public class ModelingDepartment {
                 }
             }
         }
+    }
+
+    public ArrayList<TeamMember> getModels() {
+        return fileManager.getTeamMembers(Team.MODELING);
     }
 }
