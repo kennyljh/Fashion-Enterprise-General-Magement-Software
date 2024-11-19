@@ -16,12 +16,14 @@ public interface SecurityScheduler {
      */
     public boolean showAllEvents();
 
+    /**
+     * Create a new security schedule based on an available security request ID
+     * @param requestID specified requestID
+     * @return true if successfully created, false otherwise
+     */
     public boolean createSchedule(String requestID);
 
-    public boolean editSchedule(String requestID);
+    public boolean editSchedule(String scheduleID);
 
     public boolean addPersonnelToSchedule (String personnelID);
-
-    public boolean createSchedule();
-
 }

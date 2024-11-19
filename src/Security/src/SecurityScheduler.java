@@ -69,25 +69,34 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
             }
         }
 
-        SecurityRequests selectedRequest = securityRequestsRepository.get(requestID);
+        if (checkIfRequestResolved(requestID)){
 
+            System.out.println("This security request has already been resolved. Edit it instead.");
+            return false;
+        }
+
+        // setting resolve status of security request to true
+        SecurityRequests request = securityRequestsRepository.get(requestID);
+        request.setResolved("true");
+
+        if (!securityRequestsPriorityQueue.isEmpty()){
+            // removing specific request from pending request queue
+            securityRequestsPriorityQueue.remove(request);
+        }
+
+        
 
 
         return true;
     }
 
     @Override
-    public boolean editSchedule(String requestID) {
+    public boolean editSchedule(String scheduleID) {
         return false;
     }
 
     @Override
     public boolean addPersonnelToSchedule(String personnelID) {
-        return false;
-    }
-
-    @Override
-    public boolean createSchedule() {
         return false;
     }
 
@@ -240,5 +249,15 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         System.out.println("Date Issued: " + request.getDateIssued());
         System.out.println("Resolve Status: " + request.getResolved());
         System.out.println("====================================================\n");
+    }
+
+    /**
+     * Check if a security request has already been resolved
+     * @param requestID ID of security request
+     * @return true if already resolved, otherwise false
+     */
+    private boolean checkIfRequestResolved(String requestID){
+
+        return Boolean.parseBoolean(securityRequestsRepository.get(requestID).getResolved());
     }
 }

@@ -6,7 +6,7 @@ public class SecurityRequests {
             description, duration, tasks, specialReqs, dateIssued,
             resolved, fileName;
 
-    public SecurityRequests(){};
+    public SecurityRequests(){}
 
     public SecurityRequests (String requestID, String priorityLevel, String department,
                              String location, String description, String duration,
@@ -20,7 +20,7 @@ public class SecurityRequests {
         this.tasks = tasks;
         this.specialReqs = specialReqs;
         this.dateIssued = dateIssued;
-    };
+    }
 
     public String getRequestID() {
         return requestID;
