@@ -2,8 +2,6 @@ package src.Modeling;
 
 import src.App;
 
-import src.HR.src.Department;
-import src.HR.src.Employee;
 import src.Modeling.src.*;
 
 import java.time.LocalDateTime;
@@ -27,13 +25,12 @@ public class ModelingDepartment {
             c = s.nextInt();
             switch (c){
                 case 1:
-                    Boolean type = false;
+                    boolean type = false;
                     System.out.println("What type of event?\n1:Photoshoot\n2:Fashion Show");
                     int x = s.nextInt();
                     s.nextLine();
-                    switch (x) {
-                        case 1:
-                            type = true;
+                    if (x == 1) {
+                        type = true;
                     }
                     System.out.println("Type a name of a Celebrity (enter for none)");
                     String celebrity = s.nextLine();
@@ -71,37 +68,31 @@ public class ModelingDepartment {
         int c = 0;
 
         while (c != 2) {
-            System.out.println("\nPlease choose an action you want to take: " +
-                    "\n 1: manage HOD" +
-                    "\n 2: Back");
+            System.out.println("""
+                    
+                    Please choose an action you want to take: \
+                    
+                     1: manage HOD\
+                    
+                     2: Back""");
             c = s.nextInt();
             if (c == 1) {
                 int response = 0;
                 while (response != 2) {
-                    System.out.println("\nManaging HOD: " +
-                            "\n 1: add" +
-                            "\n 2: Back");
+                    System.out.println("""
+                            
+                            Managing HOD: \
+                            
+                             1: add\
+                            
+                             2: Back""");
                     response = s.nextInt();
                     if (response == 1) {
                         HOD hod = new HOD();
-                        System.out.println(hod.toString());
+                        System.out.println(hod);
                     }
                 }
             }
         }
     }
-
-//    main method made for testing, must be commented out in final program
-//    public static void main(String[] args) {
-//        fileManager = new FileManager();
-//        Event event1 = hod.createEvent(true, "Beyonce", "Nike");
-//        Event event2 = hod.createEvent(true, "Beyonce", "Nike");
-////        System.out.println(event1.toString());
-//        fileManager.addEvent(event1);
-//        fileManager.addEvent(event2);
-//    }
-
-//    public TeamMember getAllModels() {
-//
-//    }
 }

@@ -46,7 +46,7 @@ public class HOD implements IHOD {
         Event event = new Event(teamMembers, type, celebrity, collab);
 
         events.add(event);
-        System.out.println(event.toString());
+        System.out.println(event);
         ModelingDepartment.fileManager.addEvent(event);
     }
 
@@ -85,13 +85,13 @@ public class HOD implements IHOD {
 
     @Override
     public String toString() {
-        String str = "\nHOD: ";
-        str += "\nEmployeeInfo: " + this.employeeInfo.toString();
-        str += "\nManagers: ";
-        for (int i = 0; i < managers.size(); i++) {
-            str += "\n  " + managers.get(i).toString();
+        StringBuilder str = new StringBuilder("\nHOD: ");
+        str.append("\nEmployeeInfo: ").append(this.employeeInfo.toString());
+        str.append("\nManagers: ");
+        for (Manager manager : managers) {
+            str.append("\n  ").append(manager.toString());
         }
-        return str;
+        return str.toString();
     }
 
     @Override

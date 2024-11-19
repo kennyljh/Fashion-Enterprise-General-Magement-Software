@@ -27,7 +27,7 @@ public class Manager implements IManager {
 
     public Manager(int id, Employee employeeInfo, Team team) {
         this.id = id;
-        if(id>nextid) nextid = id++;
+        if(id>nextid) nextid = id+1;
         this.employeeInfo = employeeInfo;
         teamMembers = ModelingDepartment.fileManager.getTeamMembers(team);
         this.team = team;
@@ -51,6 +51,7 @@ public class Manager implements IManager {
         return id;
     }
 
+    @Override
     public Team getTeam() {
         return team;
     }
@@ -68,15 +69,7 @@ public class Manager implements IManager {
 
     @Override
     public Fitting scheduleFitting(TeamMember model, String garment, LocalDateTime date) {
-        Fitting fitting = new Fitting(model, garment, date);
-//        System.out.println(fitting);
-//        System.out.println("\nEnd Fitting?");
-//        Scanner scanner = new Scanner(System.in);
-//        String x = scanner.next();
-//        if(x.equals("Y")) {
-//            fitting.endFitting();
-//        }
-        return fitting;
+        return new Fitting(model, garment, date);
     }
 
     @Override
@@ -93,14 +86,15 @@ public class Manager implements IManager {
         return memberDetails;
     }
 
+    @Override
     public String toString() {
-        String str = "\n" + this.team.toString() + " Manager: " + id ;
-        str += "\nEmployeeInfo: " + this.employeeInfo.toString();
-        str += "\nTeam Members: ";
-        for (int i = 0; i < teamMembers.size(); i++) {
-            str += "\n" + teamMembers.get(i).toString();
+        StringBuilder str = new StringBuilder("\n" + this.team.toString() + " Manager: " + id);
+        str.append("\nEmployeeInfo: ").append(this.employeeInfo.toString());
+        str.append("\nTeam Members: ");
+        for (TeamMember teamMember : teamMembers) {
+            str.append("\n").append(teamMember.toString());
         }
-        return str;
+        return str.toString();
     }
 
     public static Manager parse(Map<String, String> manager) {
@@ -110,29 +104,4 @@ public class Manager implements IManager {
             Team.parseTeam(manager.get("team"))
         );
     }
-
-//
-//    @Override
-//    public Fitting requestFitting(Employee model, LocalDateTime date) {
-//        Fitting fitting = new Fitting(1, model, "Dress", date);
-//        System.out.println(fitting.toString());
-//        System.out.println("\nEnd Fitting?");
-//        Scanner scanner = new Scanner(System.in);
-//        String x = scanner.next();
-//        if(x.equals("Y")) {
-//            fitting.endFitting();
-//        }
-//        return fitting;
-//    }
-//
-//    @Override
-//    public Boolean scheduleModel(Employee Model) {
-//        return null;
-//    }
-//
-//    @Override
-//    public TeamMember[] getTeamMembers() {
-//        return teamMembers;
-//    }
-
 }

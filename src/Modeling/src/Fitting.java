@@ -1,11 +1,9 @@
 package src.Modeling.src;
 
-import src.HR.src.Employee;
 import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IFitting;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +71,7 @@ public class Fitting implements IFitting {
         return str;
     }
 
+    @Override
     public Map<String, String> toMap() {
         Map<String, String> fittingDetails = new HashMap<>();
         fittingDetails.put("id", Integer.toString(this.id));

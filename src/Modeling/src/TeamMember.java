@@ -30,13 +30,6 @@ public class TeamMember implements ITeamMember {
         ModelingDepartment.fileManager.addTeamMember(this);
     }
 
-    TeamMember(Employee employeeInfo, Team team) {
-        id = nextid;
-        nextid++;
-        this.employeeInfo = employeeInfo;
-        this.team = team;
-    }
-
     @Override
     public int getId() {
         return id;

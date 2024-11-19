@@ -1,6 +1,5 @@
 package src.Modeling.src;
 
-import src.HR.src.Employee;
 import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IEvent;
 
@@ -70,21 +69,19 @@ public class Event implements IEvent {
 
     @Override
     public String toString() {
-        String str = "\nEvent: " + id ;
+        StringBuilder str = new StringBuilder("\nEvent: " + id);
         if(this.type) {
-            str += "\nPhotoshoot";
+            str.append("\nPhotoshoot");
         } else {
-            str += "\nFashion show";
+            str.append("\nFashion show");
         }
-        str += "\nTeam Members: ";
+        str.append("\nTeam Members: ");
 
-        for (int i = 0; i < teamMembers.size(); i++) {
-            str += "\n" + teamMembers.get(i).toString();
+        for (TeamMember teamMember : teamMembers) {
+            str.append("\n").append(teamMember.toString());
         }
-        str += "\nCelebrity: " + this.celebrity +
-                "\nCollab: " + this.collab +
-                "\nCompletion Status: " + this.completionStatus;
-        return str;
+        str.append("\nCelebrity: ").append(this.celebrity).append("\nCollab: ").append(this.collab).append("\nCompletion Status: ").append(this.completionStatus);
+        return str.toString();
     }
 
     @Override
@@ -113,27 +110,4 @@ public class Event implements IEvent {
             Boolean.parseBoolean(event.get("completionStatus"))
         );
     }
-
-
-
-//
-//    public static Event parseEvent(String eventString) {
-//        String[] lines = eventString.split("\n");
-//
-//        int id = Integer.parseInt(lines[1].split(": ")[1].trim());
-//        Boolean type = lines[2].contains("Photoshoot");
-//
-//        int modelsStartIndex = 3;
-//        int modelEndIndex = lines.length - 4;
-//        TeamMember[] teamMembers = new TeamMember[modelEndIndex - modelsStartIndex + 1];
-//        for(int i = modelsStartIndex; i <= modelEndIndex; i++) {
-//            teamMembers[i-modelsStartIndex] = TeamMember.parseTeamMember(lines[i].trim());
-//        }
-//
-//        String celebrity = lines[modelEndIndex+1].split(": ")[1].trim();
-//        String collab = lines[modelEndIndex+2].split(": ")[1].trim();
-//        Boolean completionStatus = lines[modelEndIndex+3].contains("true");
-//
-//        return new Event(id, teamMembers, type, celebrity, collab, completionStatus);
-//    }
 }
