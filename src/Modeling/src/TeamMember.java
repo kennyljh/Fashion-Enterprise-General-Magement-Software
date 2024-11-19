@@ -2,6 +2,7 @@ package src.Modeling.src;
 
 import src.HR.src.Department;
 import src.HR.src.Employee;
+import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.ITeamMember;
 
 import java.util.HashMap;
@@ -13,11 +14,20 @@ public class TeamMember implements ITeamMember {
     Employee employeeInfo;
     Team team;
 
-    TeamMember(int i, String name, Team team) {
+    TeamMember(int i, Employee employee, Team team) {
+        id = i;
+        if (id > nextid) nextid = id++;
+        employeeInfo = employee;
+        this.team = team;
+    }
+
+    TeamMember(Team team) {
         id = nextid;
         nextid++;
-        employeeInfo = new Employee(Integer.toString(i), name, Department.MODELING, team.toString(), "Employed", 100000);
+        employeeInfo = new Employee("teamMember", team.toString() + " Member", Department.MODELING, "teamMember", "Employeed", 80000);
         this.team = team;
+
+        ModelingDepartment.fileManager.addTeamMember(this);
     }
 
     TeamMember(Employee employeeInfo, Team team) {
@@ -26,26 +36,32 @@ public class TeamMember implements ITeamMember {
         this.employeeInfo = employeeInfo;
         this.team = team;
     }
+
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String toString() {
-        String str = team.toString() + ": " + employeeInfo.toString();
-        return str;
+        return this.team.toString() + this.id + ": " + employeeInfo.toString();
     }
 
-//    public static TeamMember parseTeamMember(String memberString) {
-//        String lines[] = memberString.split(": ", 2);
-//        Team team = Team.parseTeam(lines[0]);
-//        Employee employeeInfo = Employee.parseEmployee(lines[1]);
-//        return new TeamMember(employeeInfo, team);
-//    }
-
+    @Override
     public Map<String, String> toMap() {
         Map<String, String> memberDetails = new HashMap<>();
+        memberDetails.put("id", Integer.toString(this.id));
         memberDetails.put("employeeInfo", this.employeeInfo.toString());
         memberDetails.put("team", this.team.toString());
         return memberDetails;
+    }
+
+    public static TeamMember parse(Map<String, String> member) {
+        return new TeamMember(
+                Integer.parseInt(member.get("id")),
+                Employee.parseEmployee(member.get("employeeInfo")),
+                Team.parseTeam(member.get("team"))
+        );
+
     }
 }

@@ -2,41 +2,90 @@ package src.Modeling.src;
 
 import src.HR.src.Department;
 import src.HR.src.Employee;
+import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IHOD;
-import src.TextEditor.PoorTextEditor;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class HOD implements IHOD {
-    Employee employeeInfo;
-    Manager[] managers;
-    PoorTextEditor editor;
+
+    private final Employee employeeInfo;
+    private final ArrayList<Manager> managers;
+
+    public ArrayList<Event> events;
+
+    public HOD(Employee employeeInfo, ArrayList<Manager> managers) {
+        this.employeeInfo = employeeInfo;
+        this.managers = managers;
+
+        events = ModelingDepartment.fileManager.getEvents();
+    }
 
     public HOD() {
-//        this.employeeInfo = new Employee("1", "Head of Modeling", Department.MODELING, "HOD", "Employed", 10000);
-//        editor = new PoorTextEditor();
-//        managers = new Manager[3];
-//        managers[0] = new Manager("Clothing Manager", Team.CLOTHING);
-//        managers[1] = new Manager("Makeup Manager", Team.MAKEUP);
-//        managers[2] = new Manager("Modeling Manager", Team.MODELING);
+        employeeInfo = new Employee("hod", "Head of Modeling", Department.MODELING, "HOD", "Employeed", 100000);
+        managers = new ArrayList<>();
+        managers.add(new Manager(Team.MODELING));
+        managers.add(new Manager(Team.MAKEUP));
+        managers.add(new Manager(Team.CLOTHING));
+
+        ModelingDepartment.fileManager.addHOD(this);
     }
 
     @Override
     public Event createEvent(Boolean type, String celebrity, String collab) {
-        TeamMember[] teamMembers = new TeamMember[managers[0].getTeamMembers().length + managers[1].getTeamMembers().length + managers[2].getTeamMembers().length];
+        ArrayList<TeamMember> teamMembers = new ArrayList<>();
 
-        int index = 0;
         for(Manager manager: managers) {
-            TeamMember[] team = manager.getTeamMembers();
-            System.arraycopy(team, 0, teamMembers, index, team.length);
-            index += team.length;
+            ArrayList<TeamMember> team = manager.getTeamMembers();
+            team.addAll(manager.getTeamMembers());
         }
 
         Event event = new Event(teamMembers, type, celebrity, collab);
 
+        events.add(event);
+        System.out.println(event.toString());
+        ModelingDepartment.fileManager.addEvent(event);
         return event;
+    }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
+
+    @Override
+    public Map<String, String> toMap() {
+        Map<String, String> memberDetails = new HashMap<>();
+        memberDetails.put("employeeInfo", this.employeeInfo.toString());
+        Integer[] tmp = new Integer[managers.size()];
+        for(int i = 0; i < managers.size(); i++) {
+            tmp[i] = managers.get(i).getId();
+        }
+        memberDetails.put("managers", Arrays.toString(tmp));
+        return memberDetails;
+    }
+
+    @Override
+    public void addManager(Manager manager) {
+        managers.add(manager);
+        ModelingDepartment.fileManager.addManager(manager);
+    }
+
+    public String toString() {
+        String str = "\nHOD: ";
+        str += "\nEmployeeInfo: " + this.employeeInfo.toString();
+        str += "\nManagers: ";
+        for (int i = 0; i < managers.size(); i++) {
+            str += "\n  " + managers.get(i).toString();
+        }
+        return str;
+    }
+
+    public static HOD parse(Map<String, String> hod) {
+        return new HOD(
+                Employee.parseEmployee(hod.get("employeeInfo")),
+                ModelingDepartment.fileManager.getManagers()
+        );
     }
 //
 //    @Override
@@ -91,13 +140,4 @@ public class HOD implements IHOD {
 //        return null;
 //    }
 
-    @Override
-    public int getId() {
-        return 0;
-    }
-
-    @Override
-    public Map<String, String> toMap() {
-        return Map.of();
-    }
 }

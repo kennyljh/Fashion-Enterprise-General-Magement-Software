@@ -24,13 +24,22 @@ public class App {
     public static void prompt() throws Exception {
         Scanner s = new Scanner(System.in);
 
-        System.out.println("--WELCOME TO FASHION EMPIRE--\n You are logged in: \n Which Department would you like to go to?" +
-                "\n1: HR Department" +
-                "\n2: Treasury" +
-                "\n3: Manufacturing" +
-                "\n4: Modeling" +
-                "\n5: Inventory" +
-                "\n6: Design");
+        System.out.println("""
+                --WELCOME TO FASHION EMPIRE--
+                 You are logged in:\s
+                 Which Department would you like to go to?\
+                
+                1: HR Department\
+                
+                2: Treasury\
+                
+                3: Manufacturing\
+                
+                4: Modeling\
+                
+                5: Inventory\
+                
+                6: Design""");
         int choice = s.nextInt();
 
         switch (choice){
@@ -44,7 +53,7 @@ public class App {
                 manufacturingDepartment.start();
                 break;
             case 4:
-//                modelingDepartment.start();
+                modelingDepartment.start();
                 break;
             case 5:
                 inventoryDepartment.start();
