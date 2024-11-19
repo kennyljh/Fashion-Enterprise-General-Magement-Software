@@ -2,48 +2,110 @@ package src.Modeling.src;
 
 import src.HR.src.Department;
 import src.HR.src.Employee;
+import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IHOD;
 
-import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class HOD implements IHOD {
-    Employee employeeInfo;
-    Manager[] managers;
+
+    private final Employee employeeInfo;
+    private final ArrayList<Manager> managers;
+
+    public ArrayList<Event> events;
+    public ArrayList<Fitting> fittings;
+
+    public HOD(Employee employeeInfo, ArrayList<Manager> managers) {
+        this.employeeInfo = employeeInfo;
+        this.managers = managers;
+
+        events = ModelingDepartment.fileManager.getEvents();
+        fittings = ModelingDepartment.fileManager.getFittings();
+    }
 
     public HOD() {
-        this.employeeInfo = new Employee("1", "Name", Department.MODELING, "HOD", "Employed", 10000);
+        employeeInfo = new Employee("hod", "Head of Modeling", Department.MODELING, "HOD", "Employeed", 100000);
+        managers = new ArrayList<>();
+        managers.add(new Manager(Team.MODELING));
+        managers.add(new Manager(Team.MAKEUP));
+        managers.add(new Manager(Team.CLOTHING));
+
+        ModelingDepartment.fileManager.addHOD(this);
     }
 
-    Manager manager = new Manager();
-
     @Override
-    public void haveEvent(Boolean type, String celebrity, Boolean collab) {
-        Employee[] models = manager.getModels();
+    public void createEvent(Boolean type, String celebrity, String collab) {
+        ArrayList<TeamMember> teamMembers = new ArrayList<>();
 
-        Event event = new Event(1,models, type, celebrity, collab);
-//        requestAdvertisement(event);
-
-        System.out.println(event.toString());
-        System.out.println("\nEnd Event?");
-        Scanner scanner = new Scanner(System.in);
-        String x = scanner.next();
-        if(x.equals("Y")) {
-            event.endEvent();
+        for(Manager manager: managers) {
+            ArrayList<TeamMember> team = manager.getTeamMembers();
+            team.addAll(manager.getTeamMembers());
         }
+
+        Event event = new Event(teamMembers, type, celebrity, collab);
+
+        events.add(event);
+        System.out.println(event);
+        ModelingDepartment.fileManager.addEvent(event);
     }
 
     @Override
-    public Boolean requestAdvertisement(Event event) {
-        return false;
+    public int getId() {
+        return 0;
     }
 
     @Override
-    public Boolean requestContract(String celebrity) {
+    public Map<String, String> toMap() {
+        Map<String, String> memberDetails = new HashMap<>();
+        memberDetails.put("employeeInfo", this.employeeInfo.toString());
+        Integer[] tmp = new Integer[managers.size()];
+        for(int i = 0; i < managers.size(); i++) {
+            tmp[i] = managers.get(i).getId();
+        }
+        memberDetails.put("managers", Arrays.toString(tmp));
+        return memberDetails;
+    }
+
+    @Override
+    public void addManager(Manager manager) {
+        managers.add(manager);
+        ModelingDepartment.fileManager.addManager(manager);
+    }
+
+    @Override
+    public Manager getManager(Team team) {
+        for (Manager manager: managers) {
+            if (manager.getTeam() == team) {
+                return manager;
+            }
+        }
         return null;
     }
 
     @Override
-    public Boolean requestCollab(String brand) {
-        return null;
+    public String toString() {
+        StringBuilder str = new StringBuilder("\nHOD: ");
+        str.append("\nEmployeeInfo: ").append(this.employeeInfo.toString());
+        str.append("\nManagers: ");
+        for (Manager manager : managers) {
+            str.append("\n  ").append(manager.toString());
+        }
+        return str.toString();
+    }
+
+    @Override
+    public void requestFitting(Team team, TeamMember model, String garment, LocalDateTime date) {
+        Fitting fitting = getManager(team).scheduleFitting(model, garment, date);
+        fittings.add(fitting);
+        System.out.println(fitting.toString());
+        ModelingDepartment.fileManager.addFitting(fitting);
+    }
+
+    public static HOD parse(Map<String, String> hod) {
+        return new HOD(
+                Employee.parseEmployee(hod.get("employeeInfo")),
+                ModelingDepartment.fileManager.getManagers()
+        );
     }
 }

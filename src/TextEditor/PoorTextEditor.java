@@ -94,7 +94,6 @@ public class PoorTextEditor {
 	 * @param filePath desired path of the file to write to
 	 */
 	public void writeToTextFile(Map<String, Object> givenRepo, String filePath) {
-
 		writeDataToFile(givenRepo, filePath);
 	}
 
@@ -129,7 +128,28 @@ public class PoorTextEditor {
 		return result;
 	}
 
+	public Map<String, Map<String,String>> getRepositoryStringMap() {
 
+		Map<String,Map<String,String>> result = new HashMap<>();
+
+		for (Map.Entry<String, Object> entry : repository.entrySet()) {
+//			result.put(entry.getKey(), getArrayItemListString(entry.getKey()));
+			String key = entry.getKey();
+			Object value = entry.getValue();
+
+			if(value instanceof Map<?,?>) {
+				Map<?,?> tmp = (Map<?, ?>) value;
+				try {
+					@SuppressWarnings("unchecked")
+					Map<String, String> stringMap = (Map<String, String>) tmp;
+					result.put(key, stringMap);
+				} catch (ClassCastException e) {
+					System.err.println("Key '" + key + "' contains a map with incompatible types.");
+				}
+			}
+		}
+		return result;
+	}
 
 
 	/**
