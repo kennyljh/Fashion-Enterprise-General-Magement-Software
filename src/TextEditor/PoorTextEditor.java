@@ -94,7 +94,6 @@ public class PoorTextEditor {
 	 * @param filePath desired path of the file to write to
 	 */
 	public void writeToTextFile(Map<String, Object> givenRepo, String filePath) {
-
 		writeDataToFile(givenRepo, filePath);
 	}
 
@@ -129,7 +128,28 @@ public class PoorTextEditor {
 		return result;
 	}
 
+	public Map<String, Map<String,String>> getRepositoryStringMap() {
 
+		Map<String,Map<String,String>> result = new HashMap<>();
+
+		for (Map.Entry<String, Object> entry : repository.entrySet()) {
+//			result.put(entry.getKey(), getArrayItemListString(entry.getKey()));
+			String key = entry.getKey();
+			Object value = entry.getValue();
+
+			if(value instanceof Map<?,?>) {
+				Map<?,?> tmp = (Map<?, ?>) value;
+				try {
+					@SuppressWarnings("unchecked")
+					Map<String, String> stringMap = (Map<String, String>) tmp;
+					result.put(key, stringMap);
+				} catch (ClassCastException e) {
+					System.err.println("Key '" + key + "' contains a map with incompatible types.");
+				}
+			}
+		}
+		return result;
+	}
 
 
 	/**
@@ -188,6 +208,14 @@ public class PoorTextEditor {
 	public void removeArrayItem(String arrayName) {
 
 		removeArrayItemByKey(arrayName);
+	}
+
+	/**
+	 * To display all content in text file in pretty format
+	 */
+	public void prettyPrint(){
+
+		prettyPrintRepo();
 	}
 
 	/**
@@ -501,7 +529,6 @@ public class PoorTextEditor {
 					e.printStackTrace();
 				}
 			}
-
 		}
 	}
 
@@ -526,7 +553,7 @@ public class PoorTextEditor {
 
 		if (!givenRepo.isEmpty()) {
 
-			repository=givenRepo;
+			repository = givenRepo;
 
 			BufferedWriter writer = null;
 
@@ -618,6 +645,28 @@ public class PoorTextEditor {
 			else {
 				System.out.println("ArrayItem: " + arrayName + " not found");
 			}
+		}
+	}
+
+	/**
+	 * To display all content in text file in pretty format
+	 */
+	private void prettyPrintRepo(){
+
+		// Iterate over the repository map
+		for (Map.Entry<String, Object> entry : repository.entrySet()) {
+
+			String arrayName = entry.getKey();
+			Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
+
+			// writing the array name followed by ":"
+			System.out.println(arrayName + ":");
+
+			// write all key-value pairs under array item
+			for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
+				System.out.println(keyValueEntry.getKey() + " = " + keyValueEntry.getValue());
+			}
+			System.out.print("\n");
 		}
 	}
 }

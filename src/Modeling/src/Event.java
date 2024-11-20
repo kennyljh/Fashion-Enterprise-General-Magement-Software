@@ -1,46 +1,113 @@
 package src.Modeling.src;
 
-import src.HR.src.Employee;
+import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IEvent;
 
+import java.util.*;
+
 public class Event implements IEvent {
+    static int nextid = 0;
     int id;
-    Employee[] models;
+    ArrayList<TeamMember> teamMembers;
     Boolean type; //true for photoshoot, false for fashion show
     String celebrity;
-    Boolean collab;
+    String collab;
     Boolean completionStatus;
 
-    Event(int id, Employee[] models, Boolean type, String celebrity, Boolean collab) {
-        this.id = id;
-        this.models = models;
+    Event(ArrayList<TeamMember> teamMembers, Boolean type, String celebrity, String collab) {
+        id = nextid;
+        nextid++;
+        this.teamMembers = teamMembers;
         this.type = type;
         this.celebrity = celebrity;
         this.collab = collab;
         this.completionStatus = false;
     }
 
-    @Override
-    public void endEvent() {
-        this.completionStatus = true;
-        System.out.println(this.toString());
+    Event(int id, ArrayList<TeamMember> teamMembers, Boolean type, String celebrity, String collab, Boolean completionStatus) {
+        this.id = id;
+        if (id > nextid) nextid = id+1;
+        this.teamMembers = teamMembers;
+        this.type = type;
+        this.celebrity = celebrity;
+        this.collab = collab;
+        this.completionStatus = completionStatus;
     }
 
-    public String toString() {
-        String str = "\nEvent: ";
-        if(this.type) {
-            str += "Photoshoot";
-        } else {
-            str += "Fashion show";
-        }
-        str += "\nModels: ";
+    @Override
+    public int getId() {
+        return id;
+    }
 
-        for (int i = 0; i < models.length - 1; i++) {
-            str += "\n" + models[i].toString();
+    @Override
+    public String getType() {
+        if(this.type) return "Photoshoot";
+        return "Fashion Show";
+    }
+
+    @Override
+    public String getCelebrity() {
+        return this.celebrity;
+    }
+
+    @Override
+    public String getCollab() {
+        return this.collab;
+    }
+
+    @Override
+    public String getCompletion() {
+        if(completionStatus) return "true";
+        return "false";
+    }
+
+//    @Override
+//    public void endEvent() {
+//        this.completionStatus = true;
+//        System.out.println(this.toString());
+//    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("\nEvent: " + id);
+        if(this.type) {
+            str.append("\nPhotoshoot");
+        } else {
+            str.append("\nFashion show");
         }
-        str += "\nCelebrity: " + this.celebrity +
-                "\nCollab: " + this.collab +
-                "\nCompletion Status: " + this.completionStatus;
-        return str;
+        str.append("\nTeam Members: ");
+
+        for (TeamMember teamMember : teamMembers) {
+            str.append("\n").append(teamMember.toString());
+        }
+        str.append("\nCelebrity: ").append(this.celebrity).append("\nCollab: ").append(this.collab).append("\nCompletion Status: ").append(this.completionStatus);
+        return str.toString();
+    }
+
+    @Override
+    public Map<String, String> toMap() {
+            Map<String, String> eventDetails = new HashMap<>();
+            eventDetails.put("id", Integer.toString(this.id));
+            eventDetails.put("type", this.getType());
+            Integer[] tmp = new Integer[teamMembers.size()];
+            for(int i = 0; i < teamMembers.size(); i++) {
+                tmp[i] = teamMembers.get(i).getId();
+            }
+            eventDetails.put("teamMembers", Arrays.toString(tmp));
+            eventDetails.put("celebrity", this.getCelebrity());
+            eventDetails.put("collab", this.getCollab());
+            eventDetails.put("completionStatus", this.getCompletion());
+            return eventDetails;
+    }
+
+    public static Event parse(Map<String, String> event) {
+        return new Event(
+            Integer.parseInt(event.get("id")),
+            ModelingDepartment.fileManager.getTeamMembers(),
+            event.get("type").equals("Photoshoot"),
+            event.get("celebrity"),
+            event.get("collab"),
+            Boolean.parseBoolean(event.get("completionStatus"))
+        );
     }
 }

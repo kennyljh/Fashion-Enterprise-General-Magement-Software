@@ -1,13 +1,15 @@
 package src.Modeling.src.interfaces;
 
-import src.Modeling.src.Event;
+import src.Modeling.src.Manager;
+import src.Modeling.src.Team;
+import src.Modeling.src.TeamMember;
 
-public interface IHOD {
-    void haveEvent(Boolean type, String celebrity, Boolean collab);
+import java.time.LocalDateTime;
 
-    Boolean requestAdvertisement(Event event);
+public interface IHOD extends ITeamMember {
+    void createEvent(Boolean type, String celebrity, String collab);
+    void addManager(Manager manager);
+    Manager getManager(Team team);
 
-    Boolean requestContract(String celebrity);
-
-    Boolean requestCollab(String brand);
+    void requestFitting(Team team, TeamMember model, String garment, LocalDateTime date);
 }

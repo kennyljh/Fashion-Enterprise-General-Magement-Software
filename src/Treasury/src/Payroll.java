@@ -4,15 +4,13 @@
 
 package src.Treasury.src;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import src.Treasury.src.interfaces.PayrollInterface;
 import src.TextEditor.PoorTextEditor;
@@ -25,6 +23,7 @@ public class Payroll implements PayrollInterface {
 	private ArrayList<Employee> employeeRepo = new ArrayList<Employee>();
 	private Map<String, EmployeeDescription> employeeDescriptionRepo = new HashMap<>();
 	private String payrollData = null;
+
 	private Map<String, PayrollReport> payrollReportRepo = new HashMap<>();
 	private Map<String, PayrollDescription> payrollDescriptionRepo = new HashMap<>();
 
@@ -50,7 +49,8 @@ public class Payroll implements PayrollInterface {
 		for (String s : temp) {
 
 			// storing employees to repo
-			Employee employee = new Employee(s, editor.retrieveValue(s, "name"),
+			Employee employee = new Employee(s,
+					editor.retrieveValue(s, "name"),
 					editor.retrieveValue(s, "position"),
 					editor.retrieveValue(s, "department"),
 					editor.getDoubleValue(s, "work hours"),
@@ -58,9 +58,7 @@ public class Payroll implements PayrollInterface {
 					editor.getDoubleValue(s, "overtime"),
 					editor.getDoubleValue(s, "salary"));
 
-			if (employee.getName() == null || employee.getPosition() == null || employee.getDepartment() == null ||
-					employee.getWorkHours() == 0 || employee.getBenefits() == 0 || employee.getOvertime() == 0 ||
-					employee.getSalary() == 0){
+			if (employee.getName() == null || employee.getPosition() == null || employee.getDepartment() == null){
 
 				return false;
 			}
@@ -70,6 +68,59 @@ public class Payroll implements PayrollInterface {
 				EmployeeDescription details = new EmployeeDescription(s, editor.retrieveValue(s, "name"),
 												editor.retrieveValue(s, "position"), editor.retrieveValue(s, "department"));
 				employeeDescriptionRepo.put(s, details);
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean printEmployeeData() {
+
+		if (employeeRepo.isEmpty()){
+			System.out.println("No employee data found");
+			return false;
+		}
+
+		for (Employee e : employeeRepo){
+
+			System.out.println("Employee ID: " + e.getEmployeeID());
+			System.out.println("Name: " + e.getName());
+			System.out.println("Position: " + e.getPosition());
+			System.out.println("Department: " + e.getDepartment());
+			System.out.println("Work hours: " + e.getWorkHours());
+			System.out.println("Benefits: " + e.getBenefits());
+			System.out.println("Overtime: " + e.getOvertime());
+			System.out.println("Salary: " + e.getSalary());
+			System.out.print("\n");
+		}
+		return true;
+	}
+
+	/**
+	 * Remove entered employee data by ID
+	 * @param employeeID
+	 * @return
+	 */
+	@Override
+	public boolean removeEmployeeByID(String employeeID) {
+
+		if (employeeRepo.isEmpty()){
+			System.out.println("No employee data found");
+			return false;
+		}
+
+		if (!employeeDescriptionRepo.containsKey(employeeID)){
+			System.out.println("Employee with ID: " + employeeID + " not found");
+			return false;
+		}
+
+		for (int i = 0; i < employeeRepo.size(); i++){
+
+			if (employeeRepo.get(i).getEmployeeID().equals(employeeID)){
+
+				employeeRepo.remove(i);
+				System.out.println("Employee with ID: " + employeeID + " removed");
+				break;
 			}
 		}
 		return true;
@@ -91,6 +142,18 @@ public class Payroll implements PayrollInterface {
 		}
 		
 		this.payrollData = payrollData;
+		return true;
+	}
+
+	@Override
+	public boolean printPayrollRates() {
+
+		if (payrollData == null){
+			System.out.println("No payroll data entered");
+			return false;
+		}
+		editor.processTextFile(payrollData);
+		editor.prettyPrint();
 		return true;
 	}
 
@@ -124,7 +187,9 @@ public class Payroll implements PayrollInterface {
 
 		// a copy of payroll report and payslips to HR
 		createPayroll("src/HR/repository/payrollReports/");
-		createPayslip("src/HR/repository/payslips");
+		createPayroll("src/Treasury/repository/payrollReports/");
+		createPayslip("src/HR/repository/payslips/");
+		createPayslip("src/Treasury/repository/payslips/");
 		return true;
 	}
 
@@ -351,6 +416,59 @@ public class Payroll implements PayrollInterface {
 	}
 
 	/**
+	 * To retrieve and print existing payroll reports
+	 * @return true if successful, false otherwise
+	 */
+	@Override
+	public boolean printPayrollReports() {
+
+		String payrollReportDirectory = "src/Treasury/repository/payrollReports/";
+
+		File directory = new File(payrollReportDirectory);
+		File[] textFiles = null;
+
+		if (directory.exists() && directory.isDirectory()){
+
+			// grab list of text files
+			FilenameFilter textFileFilter = (dir, name) -> name.toLowerCase().endsWith(".txt");
+			textFiles = directory.listFiles(textFileFilter);
+		}
+		else {
+			return false;
+		}
+
+		if (textFiles != null){
+
+			if (textFiles.length == 0){
+				System.out.println("No Payroll Reports found");
+				return false;
+			}
+			else {
+				System.out.println("There are " + textFiles.length + " Payroll Reports found: ");
+			}
+
+			for (File file : textFiles){
+				System.out.println(file.getName());
+			}
+			System.out.println("Name a Payroll Report to print (payroll11223344.txt): ");
+
+			Scanner scanner = new Scanner(System.in);
+			String payrollReport = scanner.nextLine();
+			lineByLineFilePrinter(payrollReportDirectory + payrollReport, payrollReport);
+		}
+		else {
+			System.out.println("No Payroll Reports found.");
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean printPayslips() {
+		return false;
+	}
+
+	/**
 	 * To verify employee work hours or overtime discrepancies
 	 */
 	private void verifyDiscrepancy(){
@@ -392,5 +510,21 @@ public class Payroll implements PayrollInterface {
 			return false;
 		}
 		return true;
+	}
+
+	private void lineByLineFilePrinter(String filePath, String fileName){
+
+		System.out.println("Report for " + fileName + ":\n");
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+
+			String line;
+			// Read each line until end of file
+			while ((line = reader.readLine()) != null) {
+				// Output each line to console
+				System.out.println(line);
+			}
+		} catch (IOException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 	}
 }
