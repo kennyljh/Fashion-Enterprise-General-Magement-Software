@@ -13,7 +13,7 @@ public class fileStorageHR {
 
     String default_filepath = "C:\\Users\\samue\\coms362\\src\\HR\\repository\\employeeStorage";
     String filepath = default_filepath;
-    PoorTextEditor poorJarser = new PoorTextEditor(); //hahahaha
+    PoorTextEditor poorJarser = new PoorTextEditor(); //haha haha
 
     public fileStorageHR() {}
 
@@ -57,20 +57,6 @@ public class fileStorageHR {
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public void loadFile(String filename) {
-        try {
-            File file = new File(filename);
-            Scanner scanner = new Scanner(file);
-            while(scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                System.out.println(line);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 

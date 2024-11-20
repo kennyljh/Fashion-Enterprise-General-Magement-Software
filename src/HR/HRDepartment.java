@@ -35,7 +35,7 @@ public class HRDepartment {
             System.out.println("7. Display All Employees");
             System.out.println("8. Display All Employees By Department");
             System.out.println("9. Display All Candidates");
-            System.out.println("10. nothing here rn");
+            System.out.println("10. Edit Used File Path");
 
             System.out.println("0. Exit");
             Scanner input = new Scanner(System.in);
@@ -106,7 +106,7 @@ public class HRDepartment {
 
                 case 7: //list all employees
                     System.out.println("List of all Employees: ");
-                    empHandler.displayRecords();
+                    empHandler.displayFileRecords();
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
                     break;
 
@@ -124,8 +124,11 @@ public class HRDepartment {
                     break;
 
                 case 10:
-                    //TODO
-                    System.out.println("\nReturning to menu...\n\n\n\n");
+                    System.out.println("Current filepath: " + storage.getFilepath());
+                    System.out.print("Enter new ABSOLUTE filepath to save (EMPLOYEES ONLY RN) to: ");
+                    String filepath = input.next();
+                    storage.setFilepath(filepath);
+                    System.out.println("\n\nReturning to menu...\n\n\n\n");
                     break;
 
                 case 0:

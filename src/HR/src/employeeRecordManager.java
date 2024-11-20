@@ -1,6 +1,7 @@
 package src.HR.src;
 
 import javax.swing.text.Position;
+import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -123,6 +124,33 @@ public class employeeRecordManager {
         data.values().forEach(System.out::println);
     }
 
+    public void displayFileRecords() throws FileNotFoundException {
+        String folderPath = storageHR.getFilepath();
+        File folder = new File(folderPath);
+
+        if(folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            int i = 0;
+            do {
+                assert files != null;
+                File file = files[i];
+                if(file.isFile() && file.getName().endsWith(".txt")) {
+                    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                i++;
+            } while (i < files.length);
+        }
+        else {
+            System.out.println("File is not a directory");
+        }
+    }
 
     /**
      * @param departmentName the Department to iterate through.
