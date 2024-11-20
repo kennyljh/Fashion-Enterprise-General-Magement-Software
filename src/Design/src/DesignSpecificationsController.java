@@ -274,7 +274,7 @@ public class DesignSpecificationsController {
 
 
     public void sendToDesignSketch() {
-        String localPath = "Design/repository/DesignSketch/";
+        String localPath = "src/Design/repository/DesignSketch/";
 
         //use PoorFileReader
         File dir = new File(localPath);
@@ -303,7 +303,7 @@ public class DesignSpecificationsController {
     }
 
     public void sendToFinalDesign() {
-        String localPath = "Design/repository/FinalDesign/";
+        String localPath = "src/Design/repository/FinalDesign/";
         //use PoorFileReader
         File dir = new File(localPath);
         if (!dir.exists()) {
