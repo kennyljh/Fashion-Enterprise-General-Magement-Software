@@ -9,6 +9,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
 
     private List<DesignSketch> allSketches;
     private DesignSketch selectedSketch;
+    private CustomDesign customDesign;
 
 
     public HeadOfDesignTeam(List<DesignSketch> sketches) {
@@ -25,7 +26,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
         }
         System.out.println("Select a sketch");
         for (int i = 0; i < sketches.size(); i++) {
-            System.out.println((i+1) + ". " + sketches.get(i).getDesignName());
+            System.out.println((i + 1) + ". " + sketches.get(i).getDesignName());
         }
     }
 
@@ -39,6 +40,20 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
             System.out.println("Incorrect Sketch selected, Try Again");
         }
     }
+
+    @Override
+    public void receiveCustomDesign(CustomDesign customDesign) {
+
+        if (customDesign == null) {
+            System.out.println("Custom design was not received");
+            return;
+        }
+        this.customDesign = customDesign;
+        System.out.println("Custom design received: " + customDesign.getDesignName());
+        customDesign.displayAllSpecifications();
+
+    }
+
 
     @Override
     public FinalDesign confirmFinalDesign() {
@@ -58,6 +73,26 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
         finalDesign.displayAllSpecifications();
 
         return finalDesign;
+    }
+
+    @Override
+    public CustomDesign confirmCustomDesign() {
+
+        if (customDesign == null) {
+            System.out.println("No custom design selected");
+            return null;
+        }
+        CustomDesign custom = new CustomDesign(customDesign.getDesignName());
+
+        custom.setDesignName(customDesign.getDesignName());
+        custom.setColor(customDesign.getColors());
+        custom.setDesignImage(customDesign.getDesignImage());
+        custom.setSizes(customDesign.getSizes());
+        custom.setQuantities(customDesign.getQuantities());
+        custom.setRawMaterials(customDesign.getRawMaterials());
+        custom.displayAllSpecifications();
+
+        return custom;
     }
 
 }

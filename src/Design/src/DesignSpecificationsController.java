@@ -1,9 +1,13 @@
 package src.Design.src;
 
 
-import src.App;
+//import src.App;
+
 import src.Design.src.interfaces.DesignSpecifications;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +19,7 @@ public class DesignSpecificationsController {
     private List<DesignSketch> sketches;
     private FinalDesign finalDesign;
     private DesignSketch sketch;
+    private CustomDesign customDesign;
 
     public DesignSpecificationsController() {
 
@@ -34,8 +39,12 @@ public class DesignSpecificationsController {
         while (!exit) {
             System.out.println("1. Add a Design Sketch");
             System.out.println("2. View and Select a Design Sketch");
-            System.out.println("3. Set a Final Design");
-            System.out.println("4. Exit Program");
+            System.out.println("3. Set a Final Design for Manufacturing");
+            System.out.println("4. Set a Final Design for Marketing");
+            System.out.println("5. Set a custom Final Design for Modelling");
+            System.out.println("6. Send Final Design to Manufacturing");
+            System.out.println("7. Send Final Design to Marketing");
+            System.out.println("8. Exit Program");
 
             int option = scan.nextInt();
             scan.nextLine();
@@ -59,6 +68,7 @@ public class DesignSpecificationsController {
                     String imageOfDesign = scan.nextLine();
                     //call to helper to set all specifications
                     createDesignSketch(designName, rawMaterialsNeeded, colorsNeeded, sizesNeeded, designQuantity, imageOfDesign);
+                    sendToDesignSketch();
                     break;
                 case 2:
                     headOfDesignTeam.viewSketches(sketches);
@@ -114,6 +124,7 @@ public class DesignSpecificationsController {
                         System.out.println("Enter image of the design: ");
                         String finalImageOfDesign = scan.nextLine();
                         setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
+                        sendToFinalDesign();
                     } else if (modifyDesign.equals("N")) {
                         System.out.println("No changes are needed in the Final Design");
                         break;
@@ -121,9 +132,99 @@ public class DesignSpecificationsController {
                         System.out.println("Invalid Input. Select Y or N");
                     }
                 case 4:
+                    if (finalDesign == null) {
+                        System.out.println("No Final Design has been set. Verify a design first");
+                        break;
+                    } else {
+                        System.out.println("Design was verified by the Head of Design");
+                    }
+                    System.out.println("Current Final Design Specifications: \n" + finalDesign.displayAllSpecifications());
+                    System.out.println("Do you want to modify the current final design?");
+                    System.out.println("(Y/N)");
+                    String modifyDesign2 = scan.nextLine();
+                    if (modifyDesign2.equals("Y")) {
+                        System.out.println("Set a Final Design and set specifications of the final design");
+                        System.out.println("Enter Design Name: ");
+                        String finalDesignName = scan.nextLine();
+                        System.out.println("Enter raw materials needed: ");
+                        String finalRawMaterialsNeeded = scan.nextLine();
+                        System.out.println("Enter the colors you want for design: ");
+                        String finalColorsNeeded = scan.nextLine();
+                        System.out.println("Enter sizes for design: ");
+                        String finalSizesNeeded = scan.nextLine();
+                        System.out.println("Enter design  quantity: ");
+                        int finalDesignQuantity = scan.nextInt();
+                        scan.nextLine();
+                        System.out.println("Enter image of the design: ");
+                        String finalImageOfDesign = scan.nextLine();
+                        setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
+                        sendToFinalDesign();
+                    } else if (modifyDesign2.equals("N")) {
+                        System.out.println("No changes are needed in the Final Design");
+                        break;
+                    } else {
+                        System.out.println("Invalid Input. Select Y or N");
+                    }
+                case 5:
+                    if (customDesign == null) {
+                        System.out.println("No Final Design has been set. Verify a design first");
+                        break;
+                    } else {
+                        System.out.println("Design was verified by the Head of Design");
+                    }
+                    System.out.println("Current Final Design Specifications: \n" + customDesign.displayAllSpecifications());
+                    System.out.println("Do you want to modify the current final design?");
+                    System.out.println("(Y/N)");
+                    String response = scan.nextLine();
+                    if (response.equals("Y")) {
+                        System.out.println("Set a Final Design and set specifications of the final design");
+                        System.out.println("Enter Design Name: ");
+                        String finalDesignName = scan.nextLine();
+                        System.out.println("Enter raw materials needed: ");
+                        String finalRawMaterialsNeeded = scan.nextLine();
+                        System.out.println("Enter the colors you want for design: ");
+                        String finalColorsNeeded = scan.nextLine();
+                        System.out.println("Enter sizes for design: ");
+                        String finalSizesNeeded = scan.nextLine();
+                        System.out.println("Enter design  quantity: ");
+                        int finalDesignQuantity = scan.nextInt();
+                        scan.nextLine();
+                        System.out.println("Enter image of the design: ");
+                        String finalImageOfDesign = scan.nextLine();
+                        //have to change to set custom design
+                        setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
+                        sendToCustomDesign();
+                    } else if (response.equals("N")) {
+                        System.out.println("No changes are needed in the Final Design");
+                        break;
+                    } else {
+                        System.out.println("Invalid Input. Select Y or N");
+                    }
+
+                case 6:
+                    //sending to manufacturing
+
+
+                case 7:
+                    //sending to marketing
+                    if (finalDesign == null) {
+                        System.out.println("No Final Design has been set to export. Verify a design first");
+                        return;
+                    }
+                    try (PrintWriter writer = new PrintWriter("marketing_design.txt")) {
+                        writer.write(finalDesign.toString());
+                        System.out.println(finalDesign.toString() + "has been exported");
+                    } catch (IOException e) {
+                        System.out.println("Error exporting file" + e.getMessage());
+                        e.printStackTrace();
+
+                    }
+
+                case 8:
                     System.out.println("Exit Program");
                     exit = true;
-                    App.prompt();
+//                    App.prompt();
+                    break;
 
                 default:
                     System.out.println("Invalid option");
@@ -152,11 +253,6 @@ public class DesignSpecificationsController {
 
     }
 
-    public void selectSketch(List<DesignSketch> sketches) {
-
-
-    }
-
     public void setFinalDesign(String finalDesignName, String finalRawMaterialsNeeded, String finalColorsNeeded, String finalSizesNeeded, int finalDesignQuantity, String finalImageOfDesign) {
 
         List<String> rawMaterials = List.of(finalRawMaterialsNeeded.split(","));
@@ -176,5 +272,90 @@ public class DesignSpecificationsController {
         finalDesign.displayAllSpecifications();
     }
 
+
+    public void sendToDesignSketch() {
+        String localPath = "Design/repository/DesignSketch/";
+
+        //use PoorFileReader
+        File dir = new File(localPath);
+        if (!dir.exists()) {
+            if (dir.mkdirs()) {
+                System.out.println("Directory created at: " + localPath);
+            } else {
+                System.out.println("Directory could not be created at " + localPath);
+                return;
+            }
+        }
+        if (sketches == null) {
+            System.out.println("No Final Design has been set to export. Verify a design first");
+            return;
+        }
+        //use Poor File Reader
+        try (PrintWriter writer = new PrintWriter("sketch_design.txt")) {
+            for (DesignSketch designSketch : sketches) {
+                writer.write(designSketch.displayAllSpecifications());
+                System.out.println(designSketch.displayAllSpecifications() + "has been exported to " + localPath + "manufacturing_design.txt");
+            }
+        } catch (IOException e) {
+            System.out.println("Error exporting file" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void sendToFinalDesign() {
+        String localPath = "Design/repository/FinalDesign/";
+        //use PoorFileReader
+        File dir = new File(localPath);
+        if (!dir.exists()) {
+            if (dir.mkdirs()) {
+                System.out.println("Directory created at: " + localPath);
+            } else {
+                System.out.println("Directory could not be created at " + localPath);
+                return;
+            }
+        }
+
+        if (finalDesign == null) {
+            System.out.println("No Final Design has been set to export. Verify a design first");
+            return;
+        }
+        try (PrintWriter writer = new PrintWriter("final_design.txt")) {
+            writer.write(finalDesign.displayAllSpecifications());
+            System.out.println(finalDesign.displayAllSpecifications() + "has been exported to " + localPath + "final_design.txt");
+
+        } catch (IOException e) {
+            System.out.println("Error exporting file" + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    public void sendToCustomDesign() {
+        String localPath = "Design/repository/CustomDesign/";
+        //use PoorFileReader
+        File dir = new File(localPath);
+        if (!dir.exists()) {
+            if (dir.mkdirs()) {
+                System.out.println("Directory created at: " + localPath);
+            } else {
+                System.out.println("Directory could not be created at " + localPath);
+                return;
+            }
+        }
+
+        if (customDesign == null) {
+            System.out.println("No Final Design has been set to export. Verify a design first");
+            return;
+        }
+        try (PrintWriter writer = new PrintWriter("custom_design.txt")) {
+            writer.write(customDesign.displayAllSpecifications());
+            System.out.println(customDesign.displayAllSpecifications() + "has been exported to " + localPath + "custom_design.txt");
+
+        } catch (IOException e) {
+            System.out.println("Error exporting file" + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
 
 }

@@ -1,5 +1,7 @@
 package src.Design.src.interfaces;
 
+import src.Design.DesignDepartment;
+import src.Design.src.CustomDesign;
 import src.Design.src.DesignSketch;
 import src.Design.src.FinalDesign;
 
@@ -11,6 +13,9 @@ public interface HeadOfDesignInterface {
 
   void selectSketch(int sketchIndex, List<DesignSketch> sketchList);
 
+  void receiveCustomDesign(CustomDesign customDesign);
+
   FinalDesign confirmFinalDesign();
 
+  CustomDesign confirmCustomDesign();
 }
