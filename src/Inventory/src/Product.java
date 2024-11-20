@@ -11,19 +11,16 @@ import java.util.Map;
 public class Product {
 
 	private int id;
-
 	private double price;
 	private int count;
 
 	private Map<String,String> pdetails =new HashMap<>();
 
-	public Product(int id, double price, int count) {
-		this.id = id;
+	public Product(double price, int count) {
+
 
 		this.price = price;
 		this.count=count;
-
-		pdetails.put("id",String.valueOf(id));
 
 		setPrice(price);
 		setCount(count);
@@ -43,13 +40,7 @@ public class Product {
 		return pdetails;
 	}
 
-	public int getId() {
-		return id;
-	}
 
-	public double getPrice() {
-		return price;
-	}
 
 
 }
