@@ -32,7 +32,6 @@ public class PayrollController implements PayrollControllerInterface {
 		
 		System.out.println("Welcome to the Payroll System");
 		
-		
 		Scanner scan = new Scanner(System.in);
 		boolean exit = false;
 		

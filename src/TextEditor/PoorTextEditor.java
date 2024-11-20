@@ -105,9 +105,13 @@ public class PoorTextEditor {
 		return repository;
 	}
 
-	public void setRepository(Map<String, Object> repo) {
+	/**
+	 * Sets the current repository with given HashMap repository
+	 * @param repository given HashMap repository
+	 */
+	public void setRepository(Map<String, Object> repository) {
 
-		repository=repo;
+		this.repository = repository;
 	}
 
 	//sets the HashMap<String, Map<String,String>> repo after converting it to
@@ -593,7 +597,6 @@ public class PoorTextEditor {
 					e.printStackTrace();
 				}
 			}
-
 		}
 	}
 

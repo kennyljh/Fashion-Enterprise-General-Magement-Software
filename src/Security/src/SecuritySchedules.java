@@ -1,10 +1,13 @@
 package src.Security.src;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SecuritySchedules {
 
     private String scheduleID, requestID, priorityLevel, department,
             location, description, duration, tasks, dateScheduled;
-    private String[] assignedEmployeeIDs;
+    private List<String> assignedEmployeeIDs = new ArrayList<>();
 
     public SecuritySchedules(){}
 
@@ -58,6 +61,10 @@ public class SecuritySchedules {
         return dateScheduled;
     }
 
+    public List<String> getAssignedEmployeeIDs(){
+        return assignedEmployeeIDs;
+    }
+
     public void setScheduleID(String scheduleID){
         this.scheduleID = scheduleID;
     }
@@ -70,6 +77,10 @@ public class SecuritySchedules {
         this.priorityLevel = priorityLevel;
     }
 
+    public void setDepartment(String department){
+        this.department = department;
+    }
+
     public void setLocation(String location){
         this.location = location;
     }
@@ -78,11 +89,19 @@ public class SecuritySchedules {
         this.description = description;
     }
 
+    public void setDuration(String duration){
+        this.duration = duration;
+    }
+
     public void setTasks(String tasks){
         this.tasks = tasks;
     }
 
     public void setDateScheduled(String dateScheduled){
         this.dateScheduled = dateScheduled;
+    }
+
+    public void setAssignedEmployeeIDs(List<String> assignedEmployeeIDs){
+        this.assignedEmployeeIDs = assignedEmployeeIDs;
     }
 }
