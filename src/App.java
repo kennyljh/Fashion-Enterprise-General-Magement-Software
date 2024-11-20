@@ -51,6 +51,7 @@ public class App {
                 break;
             case 6:
                 designDepartment.start();
+
                 break;
         }
     }

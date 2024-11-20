@@ -86,20 +86,20 @@ public class BasicInventoryController implements InventoryController {
                     }
                     break;
                 case 4:
-                    System.out.println("Enter Product ID to add quantity:");
-                    int addProductId = scan.nextInt();
+                    System.out.println("Enter Product Name to add quantity:");
+                    String addProductName = scan.nextLine();
                     System.out.println("Enter Quantity to Add:");
                     int addQuantity = scan.nextInt();
 
-                    addProductQuantity(addProductId, addQuantity);
+                    addProductQuantity(addProductName, addQuantity);
                     break;
                 case 5:
-                    System.out.println("Enter Product ID to remove quantity:");
-                    int removeProductId = scan.nextInt();
+                    System.out.println("Enter Product Name to remove quantity:");
+                    String removeProductName = scan.nextLine();
                     System.out.println("Enter Quantity to Remove:");
                     int removeQuantity = scan.nextInt();
 
-                    removeProductQuantity(removeProductId, removeQuantity);
+                    removeProductQuantity(removeProductName, removeQuantity);
                     break;
 
                 case 6:
@@ -155,15 +155,13 @@ public class BasicInventoryController implements InventoryController {
 
     }
 
-
-    public void addProductQuantity(int productId, int quantity) {
-        getStorageInstance().addProductCount(productId, quantity);
+    public void addProductQuantity(String pname, int quantity) {
+        getStorageInstance().addProductCount(pname, quantity);
     }
 
-    public void removeProductQuantity(int productId, int quantity) {
-        getStorageInstance().removeProductCount(productId, quantity);
+    public void removeProductQuantity(String pname, int quantity) {
+        getStorageInstance().removeProductCount(pname, quantity);
     }
-
 
     // Singleton method to get the Inventory instance
     private StorageManagement getStorageInstance() {

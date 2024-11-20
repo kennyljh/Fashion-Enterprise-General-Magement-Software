@@ -10,8 +10,8 @@ public interface StorageManagement {
 
     // Boolean modifyOrder(Order order);
 
-    void addProductCount(int productId, int quantityChange);
+    void addProductCount(String pname, int quantityChange);
 
-    void removeProductCount(int productId, int quantityChange);
+    void removeProductCount(String pname, int quantityChange);
 
 }
