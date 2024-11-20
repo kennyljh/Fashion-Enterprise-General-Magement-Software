@@ -1,7 +1,9 @@
 package src.HR.src;
 
+import javax.swing.text.Position;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * @author Sam Gumm
@@ -40,7 +42,7 @@ public class employeeRecordManager {
      * @param employeeID the EmployeeID to be removed
      *
      */
-    public void removeEmployee(String employeeID) throws Exception {
+    public void removeEmployee(String employeeID) {
         if(!data.containsKey(employeeID)) {
             System.out.println("Employee is not in record");
         }
@@ -68,24 +70,49 @@ public class employeeRecordManager {
      * otherwise, an error is thrown.
      *
      * @param employeeID the associated ID of the Employee
-     * @param department the department of the Employee
-     * @param position the position of the Employee
-     * @param employmentStatus the status of the Employee
-     * @param salary the salary of the Employee
      */
-    public void updateEmployee(String employeeID, Department department, String position, String employmentStatus, int salary) {
-        if (!data.containsKey(employeeID)) {
-            System.out.println("Employee not found: " + employeeID);
-            return;
+    public void updateEmployee(String employeeID) {
+        String filepath = storageHR.getFilepath() + "\\" + employeeID + ".txt";
+
+        //read from employee file
+        storageHR.poorJarser.processTextFile(filepath);
+
+        //initialize data from current repo
+        Map<String, Map<String, String>> data = storageHR.poorJarser.getRepositoryStringMap();
+
+        //make sure it is not null
+        if(data == null) {
+            data = new LinkedHashMap<>();
         }
+
+        //initialize employeeObject to modify
         Map<String, String> employeeObject = data.get(employeeID);
-        employeeObject.put("employeeDepartment", String.valueOf(department));
+        if(employeeObject == null) {
+            employeeObject = new LinkedHashMap<>();
+        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter employee department: ");
+        for(int i = 0; i < Department.values().length; i++) {
+            System.out.println(Department.values()[i].name());
+        }
+        Department department = Department.valueOf(scanner.next().toUpperCase());
+        System.out.println("Enter employee position: ");
+        String position = scanner.next();
+        System.out.println("Enter employee employment status (i.e. onboarding): ");
+        String employmentStatus = scanner.next();
+        System.out.println("Enter employee salary: ");
+        int salary = scanner.nextInt();
+
+
+        employeeObject.put("employeeDepartment", department.toString());
         employeeObject.put("employeePosition", position);
         employeeObject.put("employeeStatus", employmentStatus);
         employeeObject.put("employeeSalary", String.valueOf(salary));
         data.put(employeeID, employeeObject);
+
+
         storageHR.poorJarser.setRepositoryStrings(data);
-        storageHR.poorJarser.writeToTextFile(storageHR.default_filepath + "\\" + employeeID + ".txt");
+        storageHR.poorJarser.writeToTextFile(filepath);
 
     }
 
@@ -104,5 +131,15 @@ public class employeeRecordManager {
         data.values().stream()
                 .filter(emp -> departmentName.toString().equals(emp.get("employeeDepartment")))
                 .forEach(System.out::println);
+    }
+
+    public void displayEmployeesByPosition(Position position) {
+        data.values().stream()
+                .filter(emp -> position.toString().equals(emp.get("employeePosition")))
+                .forEach(System.out::println);
+    }
+
+    public void retrieveEmployeeByEmployeeID(String employeeID) {
+        storageHR.loadFileAndPrint(storageHR.default_filepath + "\\" + employeeID + ".txt");
     }
 }
