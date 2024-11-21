@@ -1,9 +1,6 @@
 package src.Marketing.src.interfaces;
 
-import src.Marketing.src.AdvertType;
-import src.Marketing.src.EventAdvertisement;
-import src.Marketing.src.Manager;
-import src.Marketing.src.Team;
+import src.Marketing.src.*;
 import src.Modeling.src.Event;
 
 import java.util.ArrayList;
@@ -13,6 +10,8 @@ public interface IHOD extends ITeamMember{
     ArrayList<EventAdvertisement> getEventAdverts();
 
     EventAdvertisement createEventAdvert(Event event, AdvertType type);
+
+    DesignAdvertisement createDesignAdvert(AdvertType type, String notes);
 
     Map<String, String> toMap();
     void addManager(Manager manager);

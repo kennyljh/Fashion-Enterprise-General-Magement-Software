@@ -16,7 +16,7 @@ public class TeamMember implements ITeamMember {
 
     TeamMember(int i, Employee employee, Team team) {
         id = i;
-        if (id > nextid) nextid = id++;
+        if (id >= nextid) nextid = id + 1;
         employeeInfo = employee;
         this.team = team;
     }

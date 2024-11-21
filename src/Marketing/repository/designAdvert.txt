@@ -1,0 +1,7 @@
+Advert 0:
+notes/Make it pretty :)
+design/Ball Gown
+associatedTeams/[Social-Media, Editing]
+id/0
+advertType/Social-Media
+

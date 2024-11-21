@@ -26,7 +26,7 @@ public class Event implements IEvent {
 
     Event(int id, ArrayList<TeamMember> teamMembers, Boolean type, String celebrity, String collab, Boolean completionStatus) {
         this.id = id;
-        if (id > nextid) nextid = id+1;
+        if (id >= nextid) nextid = id+1;
         this.teamMembers = teamMembers;
         this.type = type;
         this.celebrity = celebrity;

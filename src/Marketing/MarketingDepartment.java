@@ -25,7 +25,7 @@ public class MarketingDepartment {
         while (c != 4) {
             System.out.println("\nPlease choose an action you want to take: \n" +
                     " 1: advertiseEvent \n" +
-                    " 2: advertiseProduct\n" +
+                    " 2: advertiseDesign\n" +
                     " 3: Admin Activities\n" +
                     " 4: Back");
             c = s.nextInt();
@@ -43,9 +43,8 @@ public class MarketingDepartment {
                             " 1: Billboard\n" +
                             " 2: Magazine\n" +
                             " 3: Social Media\n" +
-                            " 4: Commercial\n");
+                            " 4: Commercial");
                     int x = s.nextInt();
-                    s.nextLine();
                     switch (x) {
                         case 1 -> {
                             type = AdvertType.BILLBOARD;
@@ -62,7 +61,30 @@ public class MarketingDepartment {
                     fileManager.addEventAdvert(e);
                 }
                 case 2 -> {
-
+                    AdvertType type = AdvertType.COMMERCIAL;
+                    System.out.println("What type of Advertisement?\n" +
+                            " 1: Billboard\n" +
+                            " 2: Magazine\n" +
+                            " 3: Social Media\n" +
+                            " 4: Commercial");
+                    int x = s.nextInt();
+                    switch (x) {
+                        case 1 -> {
+                            type = AdvertType.BILLBOARD;
+                        }
+                        case 2 -> {
+                            type = AdvertType.MAGAZINE;
+                        }
+                        case 3 -> {
+                            type = AdvertType.SOCIALMEDIA;
+                        }
+                    }
+                    s.nextLine();
+                    System.out.println("Any Special Notes? You will be advertising a ball gown");
+                    String str = s.nextLine();
+                    DesignAdvertisement e = hod.createDesignAdvert(type, str);
+                    System.out.println(e.toString());
+                    fileManager.addDesignAdvert(e);
                 }
                 case 3 -> initiateAdmin();
             }

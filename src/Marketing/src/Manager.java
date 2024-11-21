@@ -5,7 +5,6 @@ import src.HR.src.Department;
 import src.HR.src.Employee;
 import src.Marketing.MarketingDepartment;
 import src.Marketing.src.interfaces.*;
-import src.Modeling.ModelingDepartment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ public class Manager implements IManager {
 
     public Manager(int id, Employee employeeInfo, Team team) {
         this.id = id;
-        if(id>nextid) nextid = id+1;
+        if(id>=nextid) nextid = id+1;
         this.employeeInfo = employeeInfo;
         teamMembers = MarketingDepartment.fileManager.getTeamMembers(team);
         this.team = team;

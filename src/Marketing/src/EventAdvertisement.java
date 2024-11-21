@@ -28,7 +28,7 @@ public class EventAdvertisement implements IAdvertisement {
 
     EventAdvertisement(int i, Event event, AdvertType advertType) {
         id = i;
-        if (id > nextid) nextid = id++;
+        if (id >= nextid) nextid = id + 1;
         assignTeams(advertType);
         this.advertType = advertType;
         this.event = event;
@@ -36,7 +36,7 @@ public class EventAdvertisement implements IAdvertisement {
 
     EventAdvertisement(int i, Event event, AdvertType advertType, Event modelEvent) {
         id = i;
-        if (id > nextid) nextid = id++;
+        if (id >= nextid) nextid = id + 1;
         assignTeams(advertType);
         this.advertType = advertType;
         this.event = event;

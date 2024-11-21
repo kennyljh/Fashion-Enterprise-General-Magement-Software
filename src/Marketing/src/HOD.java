@@ -19,11 +19,15 @@ public class HOD implements IHOD {
 
     public ArrayList<EventAdvertisement> eventAdverts;
 
+    public ArrayList<DesignAdvertisement> designAdverts;
+
+
     public HOD(Employee employeeInfo, ArrayList<Manager> managers) {
         this.employeeInfo = employeeInfo;
         this.managers = managers;
 
         eventAdverts = MarketingDepartment.fileManager.getEventAdverts();
+        designAdverts = MarketingDepartment.fileManager.getDesignAdverts();
     }
 
     public HOD() {
@@ -53,6 +57,11 @@ public class HOD implements IHOD {
     @Override
     public EventAdvertisement createEventAdvert(Event event, AdvertType type) {
         return new EventAdvertisement(event, type);
+    }
+
+    @Override
+    public DesignAdvertisement createDesignAdvert(AdvertType type, String notes) {
+        return new DesignAdvertisement(type, notes);
     }
 
     @Override

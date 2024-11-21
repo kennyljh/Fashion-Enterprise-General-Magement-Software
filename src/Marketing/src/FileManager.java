@@ -11,6 +11,7 @@ import java.util.Map;
 public class FileManager {
     private Map<String, Map<String, String>> teamMembers = new HashMap<>();
     private Map<String, Map<String, String>> eventAdverts = new HashMap<>();
+    private Map<String, Map<String, String>> designAdverts = new HashMap<>();
 
     private final PoorTextEditor editor = new PoorTextEditor();
 
@@ -26,6 +27,18 @@ public class FileManager {
             editor.processTextFile(repo + "department.txt");
             teamMembers = editor.getRepositoryStringMap();
         }
+
+        f = new File(repo + "eventAdvert.txt");
+        if(f.exists()) {
+            editor.processTextFile(repo + "eventAdvert.txt");
+            eventAdverts = editor.getRepositoryStringMap();
+        }
+
+        f = new File(repo + "designAdvert.txt");
+        if(f.exists()) {
+            editor.processTextFile(repo + "designAdvert.txt");
+            designAdverts = editor.getRepositoryStringMap();
+        }
     }
 
     //    EventsAdverts:
@@ -33,13 +46,31 @@ public class FileManager {
         eventAdverts.put("Advert " + advert.getId(), advert.toMap());
 
         editor.setRepositoryStrings(eventAdverts);
-        editor.writeToTextFile(repo + "eventAdvertisement.txt");
+        editor.writeToTextFile(repo + "eventAdvert.txt");
     }
 
     public ArrayList<EventAdvertisement> getEventAdverts() {
         ArrayList<EventAdvertisement> tmp = new ArrayList<>();
         for(Map<String, String> advert: eventAdverts.values()) {
             tmp.add(EventAdvertisement.parse(advert));
+        }
+        return tmp;
+    }
+
+
+
+    //    EventsAdverts:
+    public void addDesignAdvert(DesignAdvertisement advert) {
+        designAdverts.put("Advert " + advert.getId(), advert.toMap());
+
+        editor.setRepositoryStrings(designAdverts);
+        editor.writeToTextFile(repo + "designAdvert.txt");
+    }
+
+    public ArrayList<DesignAdvertisement> getDesignAdverts() {
+        ArrayList<DesignAdvertisement> tmp = new ArrayList<>();
+        for(Map<String, String> advert: designAdverts.values()) {
+            tmp.add(DesignAdvertisement.parse(advert));
         }
         return tmp;
     }
