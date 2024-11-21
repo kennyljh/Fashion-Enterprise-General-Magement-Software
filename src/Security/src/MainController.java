@@ -31,11 +31,12 @@ public class MainController {
             switch (choice) {
 
                 case 1:
-                    SecuritySchedulerController controller = new SecuritySchedulerController();
-                    controller.run();
+                    SecuritySchedulerController securitySchedulerController = new SecuritySchedulerController();
+                    securitySchedulerController.run();
                     break;
                 case 2:
-                    //todo
+                    AuditSchedulerController auditSchedulerController = new AuditSchedulerController();
+                    auditSchedulerController.run();
                     break;
                 case 0:
                     System.out.println("Closing program...");
@@ -45,7 +46,5 @@ public class MainController {
                     System.out.println("Incorrect choice. Try again");
             }
         }
-        scan.close();
     }
-
 }
