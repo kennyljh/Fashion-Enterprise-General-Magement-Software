@@ -1,10 +1,12 @@
 package src.HR.src.interfaces;
 
+import src.HR.src.candidateStatus;
+
 public interface ICandidate {
     String getName();
     String getCandidateId();
     String getPositionApplied();
-    String getStatus();
+    candidateStatus getStatus();
     void setStatus(String status);
 
     @Override
