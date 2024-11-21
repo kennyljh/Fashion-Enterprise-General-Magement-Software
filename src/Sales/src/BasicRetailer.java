@@ -1,6 +1,6 @@
-package src.Inventory.src;
+package src.Sales.src;
 
-import src.Inventory.src.interfaces.Retailer;
+import src.Sales.src.interfaces.Retailer;
 
 import java.util.HashMap;
 import java.util.Map;

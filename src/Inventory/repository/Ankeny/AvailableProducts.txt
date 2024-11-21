@@ -1,4 +1,0 @@
-Shirt:
-count/3
-id/1
-

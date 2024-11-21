@@ -39,8 +39,6 @@ public class BasicInventoryController implements InventoryController {
         validateStoreLoc(StorageLocation);
 
 
-
-
         boolean exit = false;
         while (!exit) {
             System.out.println("1. Register New Product");
@@ -65,14 +63,7 @@ public class BasicInventoryController implements InventoryController {
 
                     registerProduct(productName,productDesc);
                     break;
-                case 2:
 
-                    System.out.println("Enter Retailer Name:");
-                    String retailerName = scan.nextLine();
-                    System.out.println("Enter Retailer Location:");
-                    String retailerLocation = scan.nextLine();
-                    registerRetailer(retailerName, retailerLocation);
-                    break;
 
                 case 3:
                     System.out.println("Enter Storage Location:");
@@ -143,17 +134,6 @@ public class BasicInventoryController implements InventoryController {
         getStorageInstance().registerProduct(name,desc);
     }
 
-    // Method to register a new retailer
-    public void registerRetailer(String name, String location) {
-        getStorageInstance().registerRetailer(name, location);
-    }
-
-
-    public void addOrder(int rid) {
-
-        getStorageInstance().addOrder(rid);
-
-    }
 
     public void addProductQuantity(String pname, int quantity) {
         getStorageInstance().addProductCount(pname, quantity);

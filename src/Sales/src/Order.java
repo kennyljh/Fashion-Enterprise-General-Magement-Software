@@ -1,4 +1,4 @@
-package src.Inventory.src;
+package src.Sales.src;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,6 @@ public class Order {
 		this.id = id;
 		this.retailerName=retailerName;
 		this.productList = new HashMap<>();
-
 	}
 
 	public void setOrderDetails()

@@ -5,6 +5,7 @@ import src.HR.HRDepartment;
 import src.Inventory.InventoryDepartment;
 import src.Manufacturing.ManufacturingDepartment;
 import src.Modeling.ModelingDepartment;
+import src.Sales.SalesDepartment;
 import src.Treasury.TreasuryDepartment;
 
 import java.util.Scanner;
@@ -39,7 +40,9 @@ public class App {
                 
                 5: Inventory\
                 
-                6: Design""");
+                6: Design
+                
+                7: Sales""");
         int choice = s.nextInt();
 
         switch (choice){
@@ -60,7 +63,9 @@ public class App {
                 break;
             case 6:
                 designDepartment.start();
-
+                break;
+            case 7:
+                SalesDepartment.start();
                 break;
         }
     }
