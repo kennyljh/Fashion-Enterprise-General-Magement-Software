@@ -22,7 +22,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
      */
     Map<String, SecurityRequests> securityRequestsRepository = new LinkedHashMap<>();
 
-    // sorts security employees first by position, then by rating in descending order
+    // sorts security employees first by division, then position, then by rating in descending order
     PriorityQueue<SecurityEmployee> availableSecurityEmployeePriorityQueue = new PriorityQueue<>(
             Comparator.comparing(SecurityEmployee::getDivision)
                     .thenComparing(SecurityEmployee::getPosition)
@@ -72,6 +72,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
     @Override
     public boolean showPendingEvents() {
+
         if (!retrievePendingRequests()) {
             return false;
         }
@@ -85,6 +86,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
     @Override
     public boolean showAllEvents() {
+
         if (!retrieveAllRequests()){
             return false;
         }
@@ -98,6 +100,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
     @Override
     public boolean showFreeSecurityEmployees() {
+
         if (!retrieveEmployees()){
             return false;
         }
@@ -111,6 +114,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
     @Override
     public boolean showAllSecurityEmployees() {
+
         if (!retrieveEmployees()){
             return false;
         }
@@ -255,6 +259,66 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         return true;
     }
 
+    @Override
+    public boolean editScheduleAssignments(String scheduleID) {
+
+        if (!retrieveSchedules()){
+            return false;
+        }
+
+        if (!securitySchedulesRepository.containsKey(scheduleID)){
+
+            System.out.println("Security schedule with ID: " + scheduleID + " does not exists");
+            return false;
+        }
+
+        SecuritySchedules schedule = securitySchedulesRepository.get(scheduleID);
+        if (!addPersonnelToSchedule(schedule)){
+            System.out.println("Updating cancelled");
+            return false;
+        }
+
+        // writing schedule to repository
+        editor.setRepository(securityScheduleToHashmap(schedule));
+        editor.writeToTextFile(securitySchedulesDir + schedule.getScheduleID() + ".txt");
+
+        // writing printed schedules to repository
+        printSecuritySchedule(schedule);
+
+        System.out.println("Successfully updated");
+        return true;
+    }
+
+    @Override
+    public boolean showAllSchedules() {
+
+        if (!retrieveSchedules()){
+            return false;
+        }
+
+        for (SecuritySchedules schedule : securitySchedulesPriorityQueue){
+
+            securityScheduleToText(schedule);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean showScheduleByID(String ScheduleID) {
+
+        if (!retrieveSchedules()){
+            return false;
+        }
+
+        if (!securitySchedulesRepository.containsKey(ScheduleID)){
+            System.out.println("Security schedule with ID: " + ScheduleID + "not found");
+            return false;
+        }
+
+        securityScheduleToText(securitySchedulesRepository.get(ScheduleID));
+        return true;
+    }
+
     /**
      * To add security personnel to a schedule
      * @param schedule given schedule
@@ -339,9 +403,9 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
                     }
                     else {
 
+                        availableSecurityEmployeePriorityQueue.remove(employee);
                         employee.setCurrentAssignment(schedule.getScheduleID());
                         selectedEmployeeIDs.add(employee.getEmployeeID());
-                        availableSecurityEmployeePriorityQueue.remove(employee);
 
                         // updating employee assignments
                         editor.processTextFile(securityEmployeeDir + "securityEmployeeList.txt");
@@ -427,66 +491,6 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
             }
         }
         return returnValue;
-    }
-
-    @Override
-    public boolean editScheduleAssignments(String scheduleID) {
-
-        if (!retrieveSchedules()){
-            return false;
-        }
-
-        if (!securitySchedulesRepository.containsKey(scheduleID)){
-
-            System.out.println("Security schedule with ID: " + scheduleID + " does not exists");
-            return false;
-        }
-
-        SecuritySchedules schedule = securitySchedulesRepository.get(scheduleID);
-        if (!addPersonnelToSchedule(schedule)){
-            System.out.println("Updating cancelled");
-            return false;
-        }
-
-        // writing schedule to repository
-        editor.setRepository(securityScheduleToHashmap(schedule));
-        editor.writeToTextFile(securitySchedulesDir + schedule.getScheduleID() + ".txt");
-
-        // writing printed schedules to repository
-        printSecuritySchedule(schedule);
-
-        System.out.println("Successfully updated");
-        return true;
-    }
-
-    @Override
-    public boolean showAllSchedules() {
-
-        if (!retrieveSchedules()){
-            return false;
-        }
-
-        for (SecuritySchedules schedule : securitySchedulesPriorityQueue){
-
-            securityScheduleToText(schedule);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean showScheduleByID(String ScheduleID) {
-
-        if (!retrieveSchedules()){
-            return false;
-        }
-
-        if (!securitySchedulesRepository.containsKey(ScheduleID)){
-            System.out.println("Security schedule with ID: " + ScheduleID + "not found");
-            return false;
-        }
-
-        securityScheduleToText(securitySchedulesRepository.get(ScheduleID));
-        return true;
     }
 
     /**
@@ -578,7 +582,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
      * Retrieve all security requests
      * @return true if successful retrieval, otherwise false
      */
-    public boolean retrieveAllRequests() {
+    private boolean retrieveAllRequests() {
 
         if (!retrieveRequestFiles()) {
             return false;
@@ -662,9 +666,9 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         for (File f : textFiles) {
 
             editor.processTextFile(securityEmployeeDir + f.getName());
-            String[] requests = editor.getArrayNames();
+            String[] employees = editor.getArrayNames();
 
-            for (String s : requests) {
+            for (String s : employees) {
 
                 SecurityEmployee employee = new SecurityEmployee(s,
                         editor.retrieveValue(s, "name"),
@@ -864,9 +868,8 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
         LocalDateTime timeNow = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy-HH-mm-ss");
-        String formattedDateTime = timeNow.format(formatter);
 
-        return formattedDateTime;
+        return timeNow.format(formatter);
     }
 
     /**
@@ -877,9 +880,8 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
         LocalDateTime timeNow = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyyHHmmss");
-        String formattedDateTime = timeNow.format(formatter);
 
-        return formattedDateTime;
+        return timeNow.format(formatter);
     }
 
     /**
@@ -915,25 +917,32 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         return outerMap;
     }
 
+    /**
+     * To created printable security schedules
+     * @param schedule specific security schedule
+     */
     private void printSecuritySchedule(SecuritySchedules schedule){
 
         BufferedWriter writer = null;
         try{
             writer = new BufferedWriter(new FileWriter(printedSecuritySchedulesDir + schedule.getScheduleID() + ".txt"));
+            writer.write("======================================================================\n");
             writer.write("SECURITY SCHEDULE\n");
             writer.write("Schedule ID: " + schedule.getScheduleID() + " is associated with Request ID: " + schedule.getRequestID() + "\n");
-            writer.write("Priority Level: " + schedule.getPriorityLevel() + " (3 = Emergency, 2 = High, 1 = Medium, 0 = Low)\n\n");
+            writer.write("Priority Level: " + schedule.getPriorityLevel() + " (3 = Emergency, 2 = High, 1 = Medium, 0 = Low)\n");
             writer.write("Department: " + schedule.getDepartment() + "\n");
+            writer.write("----------------------------------------------------------------------\n");
             writer.write("Location: " + schedule.getLocation() + "\n");
             writer.write("Description: " + schedule.getDescription() + "\n");
             writer.write("Duration :" + schedule.getDuration() + "\n");
             writer.write("Tasks: " + schedule.getTasks() + "\n");
-            writer.write("Date Scheduled: " + schedule.getDateScheduled() + "\n\n");
+            writer.write("Date Scheduled: " + schedule.getDateScheduled() + "\n");
+            writer.write("----------------------------------------------------------------------\n");
             writer.write("Assigned Personnel by IDs:\n");
             for (String s : schedule.getAssignedEmployeeIDs()){
                 writer.write(s + "\n");
             }
-
+            writer.write("======================================================================\n");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

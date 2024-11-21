@@ -14,7 +14,7 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
         this.controller = controller;
     }
 
-    public SecuritySchedulerController(){};
+    public SecuritySchedulerController(){}
 
     /**
      * Run the security program
@@ -22,7 +22,6 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
     public void run() throws Exception {
 
         System.out.println("Welcome to the On-site Security Scheduler System");
-
 
         boolean exit = false;
 

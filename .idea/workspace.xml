@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoD_Security_Requests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoD_Security_Requests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoT_Security_Requests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoT_Security_Requests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/securityEmployees/securityEmployeeList.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/securityEmployees/securityEmployeeList.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoT_Security_Requests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoT_Security_Requests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/resources/clonedRequests/requestsClone.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/requestsClone.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/SecurityScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecurityScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/SecuritySchedulerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecuritySchedulerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/interfaces/SecurityScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/interfaces/SecurityScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/interfaces/SecuritySchedulerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/interfaces/SecuritySchedulerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +15,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -44,10 +36,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.App.executor": "Debug",
+    "Application.App.executor": "Run",
     "Application.SecurityEmployeeGenerator.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "17-security-use-cases",
+    "git-widget-placeholder": "17-security-use-cases-2",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/kenny/coms362/fashionempire_3620_fall2024"
@@ -84,9 +76,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Security/src/SecurityScheduler.java</url>
-          <line>233</line>
-          <option name="timeStamp" value="6" />
+          <url>file://$PROJECT_DIR$/src/Security/src/AuditScheduler.java</url>
+          <line>333</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
