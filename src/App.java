@@ -58,7 +58,7 @@ public class App {
                 designDepartment.start();
                 break;
             case 7:
-//                marketingDepartment.start();
+                marketingDepartment.start();
                 break;
         }
     }

@@ -9,6 +9,4 @@ public interface IHOD extends ITeamMember{
     Map<String, String> toMap();
     void addManager(Manager manager);
     Manager getManager(Team team);
-
-
 }

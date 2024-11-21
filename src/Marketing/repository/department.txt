@@ -1,0 +1,28 @@
+Distribution Manager:
+employeeInfo/ID: manager, Name: Distribution Manager, Department: Modeling, Position: Manager, Status: Employeed, Salary: 100000
+id/3
+team/Distribution
+teamMembers/[12, 13, 14, 15]
+
+Social-Media Manager:
+employeeInfo/ID: manager, Name: Social-Media Manager, Department: Modeling, Position: Manager, Status: Employeed, Salary: 100000
+id/1
+team/Social-Media
+teamMembers/[4, 5, 6, 7]
+
+Editing Manager:
+employeeInfo/ID: manager, Name: Editing Manager, Department: Modeling, Position: Manager, Status: Employeed, Salary: 100000
+id/0
+team/Editing
+teamMembers/[0, 1, 2, 3]
+
+Video Manager:
+employeeInfo/ID: manager, Name: Video Manager, Department: Modeling, Position: Manager, Status: Employeed, Salary: 100000
+id/2
+team/Video
+teamMembers/[8, 9, 10, 11]
+
+HOD:
+employeeInfo/ID: hod, Name: Head of Marketing, Department: Marketing, Position: HOD, Status: Employeed, Salary: 100000
+managers/[0, 1, 2, 3]
+
