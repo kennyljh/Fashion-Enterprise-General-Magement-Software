@@ -6,6 +6,8 @@ import src.Inventory.InventoryDepartment;
 import src.Manufacturing.ManufacturingDepartment;
 import src.Marketing.MarketingDepartment;
 import src.Modeling.ModelingDepartment;
+import src.Sales.SalesDepartment;
+import src.Security.SecurityDepartment;
 import src.Treasury.TreasuryDepartment;
 
 import java.util.Scanner;
@@ -18,6 +20,7 @@ public class App {
     public static DesignDepartment designDepartment = new DesignDepartment();
     public static InventoryDepartment inventoryDepartment = new InventoryDepartment();
     public static TreasuryDepartment treasuryDepartment = new TreasuryDepartment();
+    public static SecurityDepartment securityDepartment = new SecurityDepartment();
 
     public static void main(String[] args) throws Exception {
         prompt();
@@ -25,17 +28,28 @@ public class App {
 
     public static void prompt() throws Exception {
         Scanner s = new Scanner(System.in);
+        System.out.println("""
+                --WELCOME TO FASHION EMPIRE--
+                 You are logged in:\s
+                 Which Department would you like to go to?\
+                
+                1: HR Department\
+                
+                2: Treasury\
+                
+                3: Manufacturing\
+                
+                4: Modeling\
+                
+                5: Inventory\
+                
+                6: Design\
 
-        System.out.println("--WELCOME TO FASHION EMPIRE--\n" +
-                " You are logged in:\n" +
-                " Which Department would you like to go to?"
-                + "\n 1: HR Department"
-                + "\n 2: Treasury"
-                + "\n 3: Manufacturing"
-                + "\n 4: Modeling"
-                + "\n 5: Inventory"
-                + "\n 6: Design"
-                + "\n 7: Marketing");
+                7: Marketing\
+                
+                8: Security\
+                
+                9: Sales""");
         int choice = s.nextInt();
 
         switch (choice){
@@ -59,6 +73,12 @@ public class App {
                 break;
             case 7:
                 marketingDepartment.start();
+                break;
+            case 8:
+                securityDepartment.start();
+                break;
+            case 9:
+                SalesDepartment.start();
                 break;
         }
     }
