@@ -1,3 +1,7 @@
+/**
+ * @author Kenny
+ */
+
 package src.Security.src.interfaces;
 
 import java.util.Scanner;
