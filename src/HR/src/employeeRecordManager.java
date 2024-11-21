@@ -1,6 +1,6 @@
 package src.HR.src;
 
-import javax.swing.text.Position;
+
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,6 +13,12 @@ public class employeeRecordManager {
     Map<String, Map<String, String>> data = new LinkedHashMap<>();
     private final fileStorageHR storageHR;
 
+    /*
+        TODO:
+            - make methods to transfer employees to new folders
+            - implement this in updateEmployee
+     */
+
     public employeeRecordManager(fileStorageHR storageHR) {
         this.storageHR = storageHR;
     }
@@ -24,6 +30,7 @@ public class employeeRecordManager {
      */
     // Add a new employee
     public void addEmployee(Employee employee) {
+        //TODO: have counter that increments for employeeID
         Map<String, String> employeeObject = new LinkedHashMap<>();
         employeeObject.put("name", employee.getName());
         employeeObject.put("employeeID", employee.getEmployeeID());
@@ -33,6 +40,7 @@ public class employeeRecordManager {
         employeeObject.put("employeeSalary", employee.getSalary());
         data.put(employee.getEmployeeID(), employeeObject);
         storageHR.poorJarser.setRepositoryStrings(data);
+        //TODO: add path to employeeStorage and specific department
         storageHR.poorJarser.writeToTextFile(storageHR.getFilepath() + "\\" + employee.getEmployeeID() + ".txt");
     }
 
@@ -43,26 +51,30 @@ public class employeeRecordManager {
      * @param employeeID the EmployeeID to be removed
      *
      */
-    public void removeEmployee(String employeeID) {
-        if(!data.containsKey(employeeID)) {
-            System.out.println("Employee is not in record");
-        }
-        else {
+    public void removeEmployee(String employeeID) throws Exception {
+        //remove employee from data LinkedHashMap if it contains the id
+        if(data.containsKey(employeeID)) {
             try {
                 data.remove(employeeID);
                 storageHR.poorJarser.setRepositoryStrings(data);
             } catch (Exception e) {
-                System.out.println("Error in removeEmployee when removing from LinkedHashMap<>()");
-                e.printStackTrace();
+                throw new Exception("Error in removeEmployee when removing found ID from LinkedHashMap<>(): \n" + e.getMessage());
             }
         }
 
         try {
-            storageHR.deleteFile(storageHR.default_filepath + "\\" + employeeID + ".txt");
+            //TODO: create path to employeeStorage
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter in Department of Employee");
+            String department = scanner.next();
+            //TODO: set filepath here with department
+            storageHR.deleteFile(employeeID + ".txt");
+            scanner.close();
         } catch (Exception e) {
-            System.out.println("Error in removeEmployee when deleting file from repository");
-            e.printStackTrace();
+            throw new Exception("Error in removeEmployee when deleting file from repository with file path: "
+                    + storageHR.filepath + "\n" + e.getMessage());
         }
+
     }
 
     /**
@@ -72,8 +84,15 @@ public class employeeRecordManager {
      *
      * @param employeeID the associated ID of the Employee
      */
-    public void updateEmployee(String employeeID) {
-        String filepath = storageHR.getFilepath() + "\\" + employeeID + ".txt";
+    public void updateEmployee(String employeeID) throws Exception {
+        String filepath;
+        /*
+        TODO:
+            - Add direct path to employeeStorage
+            - use soon to be defined method to move employee to new department if necessary
+
+         */
+        filepath = storageHR.getFilepath() + "\\" + employeeID + ".txt";
 
         //read from employee file
         storageHR.poorJarser.processTextFile(filepath);
@@ -81,9 +100,9 @@ public class employeeRecordManager {
         //initialize data from current repo
         Map<String, Map<String, String>> data = storageHR.poorJarser.getRepositoryStringMap();
 
-        //make sure it is not null
+        //make sure data is not null
         if(data == null) {
-            data = new LinkedHashMap<>();
+            throw new Exception("data was not initialized properly: \n");
         }
 
         //initialize employeeObject to modify
@@ -92,6 +111,7 @@ public class employeeRecordManager {
             employeeObject = new LinkedHashMap<>();
         }
         Scanner scanner = new Scanner(System.in);
+        //TODO: moving employee happens here
         System.out.println("Enter employee department: ");
         for(int i = 0; i < Department.values().length; i++) {
             System.out.println(Department.values()[i].name());
@@ -99,10 +119,12 @@ public class employeeRecordManager {
         Department department = Department.valueOf(scanner.next().toUpperCase());
         System.out.println("Enter employee position: ");
         String position = scanner.next();
+        //TODO: Print out all valid statuses and have error handling
         System.out.println("Enter employee employment status (i.e. onboarding): ");
         String employmentStatus = scanner.next();
         System.out.println("Enter employee salary: ");
         int salary = scanner.nextInt();
+        scanner.close();
 
 
         employeeObject.put("employeeDepartment", department.toString());
@@ -120,14 +142,14 @@ public class employeeRecordManager {
     /**
      * Display all records currently in the LinkedHashMap "data"
      */
-    public void displayRecords() {
+    public void displayCurrentEmployeeRecords() {
         data.values().forEach(System.out::println);
     }
 
-    public void displayFileRecords() throws FileNotFoundException {
-        String folderPath = storageHR.getFilepath();
+    //TODO: move this to fileStorageHR
+    public void displayFileRecords(String folderPath) throws Exception {
         File folder = new File(folderPath);
-
+        //TODO: add direct path to employeeStorage
         if(folder.isDirectory()) {
             File[] files = folder.listFiles();
             int i = 0;
@@ -148,26 +170,26 @@ public class employeeRecordManager {
             } while (i < files.length);
         }
         else {
-            System.out.println("File is not a directory");
+            throw new Exception("File is not a directory");
         }
     }
+
+
 
     /**
      * @param departmentName the Department to iterate through.
      */
-    public void displayEmployeesByDepartment(Department departmentName) {
-        data.values().stream()
-                .filter(emp -> departmentName.toString().equals(emp.get("employeeDepartment")))
-                .forEach(System.out::println);
+    public void displayEmployeesByDepartment(Department departmentName) throws Exception {
+        //TODO
     }
 
-    public void displayEmployeesByPosition(Position position) {
-        data.values().stream()
-                .filter(emp -> position.toString().equals(emp.get("employeePosition")))
-                .forEach(System.out::println);
-    }
 
     public void retrieveEmployeeByEmployeeID(String employeeID) {
-        storageHR.loadFileAndPrint(storageHR.default_filepath + "\\" + employeeID + ".txt");
+        try {
+            //TODO: implement file storage into the loadFileAndPrint path
+            storageHR.loadFileAndPrint(storageHR.getFilepath() + "\\" + employeeID + ".txt");
+        } catch (Exception e) {
+            throw new RuntimeException("Error in retrieveEmployeeByEmployeeID: \n" + e);
+        }
     }
 }

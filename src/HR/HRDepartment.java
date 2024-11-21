@@ -9,19 +9,26 @@ public class HRDepartment {
 
     public void start() throws Exception {
         fileStorageHR storage = new fileStorageHR();
-        if(storage.getFilepath().equals(storage.getDefaultFilepath())) {
+        //TODO: Get rid of, replace with straight print of current filepath
+        if(storage.getFilepath().equals(storage.getDefault_filepath_employeeStorage())) {
             System.out.println("Using default filepath...");
         }
         else {
             System.out.println("Using alternative filepath: " + storage.getFilepath());
         }
         employeeRecordManager empHandler = new employeeRecordManager(storage);
-        candidateRecordManager canHandler = new candidateRecordManager();
+        candidateRecordManager canHandler = new candidateRecordManager(storage);
 
         boolean loop = true;
 
         //start of user interaction
         while(loop) {
+            /*
+            TODO:
+                - Add in new logic capabilities
+                - Replace with container system so i dont have to deal with the switch cases
+                - Replace old logic with new updated methods
+             */
             System.out.println("Welcome to the HR Department!");
             System.out.println("Please choose from these options:");
             System.out.println("1. Add Employee");
@@ -91,7 +98,7 @@ public class HRDepartment {
                     System.out.println("Enter position candidate applied for: ");
                     String positionApplied = input.next();
                     System.out.println("Enter candidate status (i.e. accepted, failed...): ");
-                    String candidateStatus = input.next();
+                    candidateStatus candidateStatus = src.HR.src.candidateStatus.valueOf(input.next());
                     Candidate newCandidate = new Candidate(candidateId, candidateName, positionApplied, candidateStatus);
                     canHandler.addCandidate(newCandidate);
                     System.out.println("Candidate added successfully! Returning to menu...\n\n\n\n");
@@ -106,7 +113,8 @@ public class HRDepartment {
 
                 case 7: //list all employees
                     System.out.println("List of all Employees: ");
-                    empHandler.displayFileRecords();
+                    //TODO
+                    //empHandler.displayFileRecords();
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
                     break;
 
@@ -119,7 +127,8 @@ public class HRDepartment {
 
                 case 9: //list all candidates
                     System.out.println("List of All Candidates: ");
-                    canHandler.displayRecords();
+                    //TODO
+                    //canHandler.displayDataRecords();
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
                     break;
 
@@ -134,24 +143,10 @@ public class HRDepartment {
                 case 0:
                     loop = false;
                     System.out.println("EXITING...");
-                    App.prompt();
+                    App.prompt(); //<---- Kicks you back to the main homepage
                     break;
             }
+            input.close();
         }
-    }
-
-    public Employee getEmployee(String id) {
-        //TODO: Insert get employee by id from file stuff here
-        return null;
-    }
-
-    public Employee getEmployee(Department department) {
-        //TODO: Insert get employee by department from file stuff here
-        return null;
-    }
-
-    public Employee getEmployee(Department department, String name) {
-        //TODO: Insert get employee by department and name from file stuff here
-        return null;
     }
 }

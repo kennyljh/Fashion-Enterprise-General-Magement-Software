@@ -14,15 +14,14 @@ public enum Department {
 
     @Override
     public String toString() {
-        switch (this) {
-            case ENGINEERING: return "Engineering";
-            case MARKETING: return "Marketing";
-            case HUMAN_RESOURCES: return "Human Resources";
-            case FINANCE: return "Finance";
-            case DESIGN: return "Design";
-            case MODELING: return "Modeling";
-            case MANUFACTURING: return "Manufacturing";
-            default: throw new IllegalArgumentException();
-        }
+        return switch (this) {
+            case ENGINEERING -> "Engineering";
+            case MARKETING -> "Marketing";
+            case HUMAN_RESOURCES -> "Human Resources";
+            case FINANCE -> "Finance";
+            case DESIGN -> "Design";
+            case MODELING -> "Modeling";
+            case MANUFACTURING -> "Manufacturing";
+        };
     }
 }
