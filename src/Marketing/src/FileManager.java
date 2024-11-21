@@ -1,5 +1,6 @@
-package src.Modeling.src;
+package src.Marketing.src;
 
+import src.Modeling.src.Event;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.File;
@@ -8,74 +9,73 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileManager {
-    private Map<String, Map<String, String>> events = new HashMap<>();
     private Map<String, Map<String, String>> teamMembers = new HashMap<>();
-    private Map<String, Map<String, String>> fittings = new HashMap<>();
+    private Map<String, Map<String, String>> eventAdverts = new HashMap<>();
+    private Map<String, Map<String, String>> designAdverts = new HashMap<>();
 
     private final PoorTextEditor editor = new PoorTextEditor();
 
-    private final String repo = "src/Modeling/repository/";
+    private final String repo = "src/Marketing/repository/";
 
     public FileManager() {
         fillRepos();
     }
 
     public void fillRepos() {
-        File f = new File(repo + "events.txt");
-        if(f.exists()) {
-            editor.processTextFile(repo + "events.txt");
-            events = editor.getRepositoryStringMap();
-        }
-
-        f = new File(repo + "fittings.txt");
-        if(f.exists()) {
-            editor.processTextFile(repo + "fittings.txt");
-            fittings = editor.getRepositoryStringMap();
-        }
-
-        f = new File(repo + "department.txt");
+        File f = new File(repo + "department.txt");
         if(f.exists()) {
             editor.processTextFile(repo + "department.txt");
             teamMembers = editor.getRepositoryStringMap();
         }
+
+        f = new File(repo + "eventAdvert.txt");
+        if(f.exists()) {
+            editor.processTextFile(repo + "eventAdvert.txt");
+            eventAdverts = editor.getRepositoryStringMap();
+        }
+
+        f = new File(repo + "designAdvert.txt");
+        if(f.exists()) {
+            editor.processTextFile(repo + "designAdvert.txt");
+            designAdverts = editor.getRepositoryStringMap();
+        }
     }
 
-//    Events:
-    public void addEvent(Event event) {
-        events.put("Event " + event.getId(), event.toMap());
+    //    EventsAdverts:
+    public void addEventAdvert(EventAdvertisement advert) {
+        eventAdverts.put("Advert " + advert.getId(), advert.toMap());
 
-        editor.setRepositoryStrings(events);
-        editor.writeToTextFile(repo + "events.txt");
+        editor.setRepositoryStrings(eventAdverts);
+        editor.writeToTextFile(repo + "eventAdvert.txt");
     }
 
-    public ArrayList<Event> getEvents() {
-        ArrayList<Event> tmp = new ArrayList<>();
-        for(Map<String, String> event: events.values()) {
-            tmp.add(Event.parse(event));
+    public ArrayList<EventAdvertisement> getEventAdverts() {
+        ArrayList<EventAdvertisement> tmp = new ArrayList<>();
+        for(Map<String, String> advert: eventAdverts.values()) {
+            tmp.add(EventAdvertisement.parse(advert));
         }
         return tmp;
     }
 
-    public Event getEvent(int id) {
-        Event tmp = null;
-        for(Map<String, String> event: events.values()) {
-            if(event.get("id").equals(Integer.toString(id))){
-                tmp = Event.parse(event);
-                break;
-            }
+
+
+    //    EventsAdverts:
+    public void addDesignAdvert(DesignAdvertisement advert) {
+        designAdverts.put("Advert " + advert.getId(), advert.toMap());
+
+        editor.setRepositoryStrings(designAdverts);
+        editor.writeToTextFile(repo + "designAdvert.txt");
+    }
+
+    public ArrayList<DesignAdvertisement> getDesignAdverts() {
+        ArrayList<DesignAdvertisement> tmp = new ArrayList<>();
+        for(Map<String, String> advert: designAdverts.values()) {
+            tmp.add(DesignAdvertisement.parse(advert));
         }
         return tmp;
     }
 
-    public ArrayList<Fitting> getFittings() {
-        ArrayList<Fitting> tmp = new ArrayList<>();
-        for(Map<String, String> event: fittings.values()) {
-            tmp.add(Fitting.parse(event));
-        }
-        return tmp;
-    }
-
-//    TeamMembers:
+    //    TeamMembers:
     public void addTeamMember(TeamMember teamMember) {
         teamMembers.put("Team Member "+ teamMember.getId(), teamMember.toMap());
 
@@ -129,16 +129,5 @@ public class FileManager {
 
     public HOD getHOD() {
         return HOD.parse(teamMembers.get("HOD"));
-    }
-
-    public void addFitting(Fitting fitting) {
-        fittings.put("Fitting " + fitting.getId(), fitting.toMap());
-
-        editor.setRepositoryStrings(fittings);
-        editor.writeToTextFile(repo + "fittings.txt");
-    }
-
-    public TeamMember getModel(int model) {
-        return TeamMember.parse(teamMembers.get("Team Member "+ model));
     }
 }
