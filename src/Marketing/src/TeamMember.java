@@ -1,9 +1,9 @@
-package src.Modeling.src;
+package src.Marketing.src;
 
 import src.HR.src.Department;
 import src.HR.src.Employee;
-import src.Modeling.ModelingDepartment;
-import src.Modeling.src.interfaces.ITeamMember;
+import src.Marketing.MarketingDepartment;
+import src.Marketing.src.interfaces.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class TeamMember implements ITeamMember {
         employeeInfo = new Employee("teamMember", team.toString() + " Member", Department.MODELING, "teamMember", "Employeed", 80000);
         this.team = team;
 
-        ModelingDepartment.fileManager.addTeamMember(this);
+        MarketingDepartment.fileManager.addTeamMember(this);
     }
 
     @Override
@@ -37,12 +37,16 @@ public class TeamMember implements ITeamMember {
 
     @Override
     public String toString() {
-        return this.team.toString() + " " + this.id + ": " + employeeInfo.toString();
+        return this.team.toString() + this.id + ": " + employeeInfo.toString();
     }
 
     @Override
     public Employee getEmployeeInfo() {
         return employeeInfo;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     @Override

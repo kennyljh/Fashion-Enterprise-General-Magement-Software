@@ -1,13 +1,15 @@
-package src.Modeling.src;
+package src.Marketing.src;
 
 import src.App;
 import src.HR.src.Department;
 import src.HR.src.Employee;
-import src.Modeling.ModelingDepartment;
-import src.Modeling.src.interfaces.IManager;
+import src.Marketing.MarketingDepartment;
+import src.Marketing.src.interfaces.*;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Manager implements IManager {
     static int nextid = 0;
@@ -21,7 +23,7 @@ public class Manager implements IManager {
         id = nextid;
         nextid++;
         employeeInfo = App.hrDepartment.getEmployee(Department.MODELING, name);
-        teamMembers = ModelingDepartment.fileManager.getTeamMembers(team);
+        teamMembers = MarketingDepartment.fileManager.getTeamMembers(team);
         this.team = team;
     }
 
@@ -29,7 +31,7 @@ public class Manager implements IManager {
         this.id = id;
         if(id>=nextid) nextid = id+1;
         this.employeeInfo = employeeInfo;
-        teamMembers = ModelingDepartment.fileManager.getTeamMembers(team);
+        teamMembers = MarketingDepartment.fileManager.getTeamMembers(team);
         this.team = team;
     }
 
@@ -43,7 +45,7 @@ public class Manager implements IManager {
         }
         this.team = team;
 
-        ModelingDepartment.fileManager.addManager(this);
+        MarketingDepartment.fileManager.addManager(this);
     }
 
     @Override
@@ -69,12 +71,7 @@ public class Manager implements IManager {
     @Override
     public void addTeamMember(TeamMember member) {
         teamMembers.add(member);
-        ModelingDepartment.fileManager.addTeamMember(member);
-    }
-
-    @Override
-    public Fitting scheduleFitting(TeamMember model, String garment, LocalDateTime date) {
-        return new Fitting(model, garment, date);
+        MarketingDepartment.fileManager.addTeamMember(member);
     }
 
     @Override
@@ -104,9 +101,9 @@ public class Manager implements IManager {
 
     public static Manager parse(Map<String, String> manager) {
         return new Manager(
-            Integer.parseInt(manager.get("id")),
-            Employee.parseEmployee(manager.get("employeeInfo")),
-            Team.parseTeam(manager.get("team"))
+                Integer.parseInt(manager.get("id")),
+                Employee.parseEmployee(manager.get("employeeInfo")),
+                Team.parseTeam(manager.get("team"))
         );
     }
 }
