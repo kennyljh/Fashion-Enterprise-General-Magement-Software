@@ -9,6 +9,8 @@ import java.util.Map;
 public interface IHOD extends ITeamMember{
     ArrayList<EventAdvertisement> getEventAdverts();
 
+    ArrayList<DesignAdvertisement> getDesignAdverts();
+
     EventAdvertisement createEventAdvert(Event event, AdvertType type);
 
     DesignAdvertisement createDesignAdvert(AdvertType type, String notes);

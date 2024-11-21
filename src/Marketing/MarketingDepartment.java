@@ -6,7 +6,6 @@ import src.Marketing.src.*;
 import src.Modeling.src.Event;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class MarketingDepartment {
@@ -22,12 +21,14 @@ public class MarketingDepartment {
         Scanner s = new Scanner(System.in);
         int c = 0;
 
-        while (c != 4) {
+        while (c != 6) {
             System.out.println("\nPlease choose an action you want to take: \n" +
                     " 1: advertiseEvent \n" +
                     " 2: advertiseDesign\n" +
-                    " 3: Admin Activities\n" +
-                    " 4: Back");
+                    " 3: getAllEventAdvertisements\n" +
+                    " 4: getAllDesignAdvertisements\n" +
+                    " 5: Admin Activities\n" +
+                    " 6: Back");
             c = s.nextInt();
             switch (c) {
                 case 1 -> {
@@ -46,15 +47,9 @@ public class MarketingDepartment {
                             " 4: Commercial");
                     int x = s.nextInt();
                     switch (x) {
-                        case 1 -> {
-                            type = AdvertType.BILLBOARD;
-                        }
-                        case 2 -> {
-                            type = AdvertType.MAGAZINE;
-                        }
-                        case 3 -> {
-                            type = AdvertType.SOCIALMEDIA;
-                        }
+                        case 1 -> type = AdvertType.BILLBOARD;
+                        case 2 -> type = AdvertType.MAGAZINE;
+                        case 3 -> type = AdvertType.SOCIALMEDIA;
                     }
                     EventAdvertisement e = hod.createEventAdvert(App.modelingDepartment.getEvent(event), type);
                     System.out.println(e.toString());
@@ -69,15 +64,9 @@ public class MarketingDepartment {
                             " 4: Commercial");
                     int x = s.nextInt();
                     switch (x) {
-                        case 1 -> {
-                            type = AdvertType.BILLBOARD;
-                        }
-                        case 2 -> {
-                            type = AdvertType.MAGAZINE;
-                        }
-                        case 3 -> {
-                            type = AdvertType.SOCIALMEDIA;
-                        }
+                        case 1 -> type = AdvertType.BILLBOARD;
+                        case 2 -> type = AdvertType.MAGAZINE;
+                        case 3 -> type = AdvertType.SOCIALMEDIA;
                     }
                     s.nextLine();
                     System.out.println("Any Special Notes? You will be advertising a ball gown");
@@ -86,7 +75,19 @@ public class MarketingDepartment {
                     System.out.println(e.toString());
                     fileManager.addDesignAdvert(e);
                 }
-                case 3 -> initiateAdmin();
+                case 3 -> {
+                    for(EventAdvertisement ad: hod.getEventAdverts()) {
+                        System.out.println(ad.toString());
+                    }
+                    System.out.println();
+                }
+                case 4 -> {
+                    for(DesignAdvertisement ad: hod.getDesignAdverts()) {
+                        System.out.println(ad.toString());
+                    }
+                    System.out.println();
+                }
+                case 5 -> initiateAdmin();
             }
         }
         App.prompt();

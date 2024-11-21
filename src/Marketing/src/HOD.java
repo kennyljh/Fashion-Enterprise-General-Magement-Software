@@ -55,13 +55,20 @@ public class HOD implements IHOD {
     public ArrayList<EventAdvertisement> getEventAdverts() {return eventAdverts;}
 
     @Override
+    public ArrayList<DesignAdvertisement> getDesignAdverts() {return designAdverts;}
+
+    @Override
     public EventAdvertisement createEventAdvert(Event event, AdvertType type) {
-        return new EventAdvertisement(event, type);
+        EventAdvertisement ad = new EventAdvertisement(event, type);
+        eventAdverts.add(ad);
+        return ad;
     }
 
     @Override
     public DesignAdvertisement createDesignAdvert(AdvertType type, String notes) {
-        return new DesignAdvertisement(type, notes);
+        DesignAdvertisement ad = new DesignAdvertisement(type, notes);
+        designAdverts.add(ad);
+        return ad;
     }
 
     @Override
