@@ -12,8 +12,8 @@ public class BasicProductDescription implements ProductDescription {
 	//product details list
 	private Map<String,String> pDesc=new HashMap<>();
 
-	public BasicProductDescription(String pname,String description) {
-		pDesc.put("name",pname);
+	public BasicProductDescription(String description) {
+
 		pDesc.put("Description",description);
 	}
 	public Map<String,String> productDetails()

@@ -50,12 +50,11 @@ public class Employee implements IEmployee {
     }
 
     /**
-     *
      * @return department
      */
     @Override
-    public Department getDepartment() {
-        return department;
+    public String getDepartment() {
+        return String.valueOf(department);
     }
 
     /**
@@ -77,12 +76,11 @@ public class Employee implements IEmployee {
     }
 
     /**
-     *
      * @return salary
      */
     @Override
-    public int getSalary() {
-        return salary;
+    public String getSalary() {
+        return String.valueOf(salary);
     }
 
     /**
