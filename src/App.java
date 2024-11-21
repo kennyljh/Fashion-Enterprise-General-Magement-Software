@@ -4,6 +4,7 @@ import src.Design.DesignDepartment;
 import src.HR.HRDepartment;
 import src.Inventory.InventoryDepartment;
 import src.Manufacturing.ManufacturingDepartment;
+import src.Marketing.MarketingDepartment;
 import src.Modeling.ModelingDepartment;
 import src.Treasury.TreasuryDepartment;
 
@@ -11,6 +12,7 @@ import java.util.Scanner;
 
 public class App {
     public static ModelingDepartment modelingDepartment = new ModelingDepartment();
+    public static MarketingDepartment marketingDepartment = new MarketingDepartment();
     public static ManufacturingDepartment manufacturingDepartment = new ManufacturingDepartment();
     public static HRDepartment hrDepartment = new HRDepartment();
     public static DesignDepartment designDepartment = new DesignDepartment();
@@ -24,22 +26,16 @@ public class App {
     public static void prompt() throws Exception {
         Scanner s = new Scanner(System.in);
 
-        System.out.println("""
-                --WELCOME TO FASHION EMPIRE--
-                 You are logged in:\s
-                 Which Department would you like to go to?\
-                
-                1: HR Department\
-                
-                2: Treasury\
-                
-                3: Manufacturing\
-                
-                4: Modeling\
-                
-                5: Inventory\
-                
-                6: Design""");
+        System.out.println("--WELCOME TO FASHION EMPIRE--\n" +
+                " You are logged in:\n" +
+                " Which Department would you like to go to?"
+                + "\n 1: HR Department"
+                + "\n 2: Treasury"
+                + "\n 3: Manufacturing"
+                + "\n 4: Modeling"
+                + "\n 5: Inventory"
+                + "\n 6: Design"
+                + "\n 7: Marketing");
         int choice = s.nextInt();
 
         switch (choice){
@@ -60,7 +56,9 @@ public class App {
                 break;
             case 6:
                 designDepartment.start();
-
+                break;
+            case 7:
+//                marketingDepartment.start();
                 break;
         }
     }

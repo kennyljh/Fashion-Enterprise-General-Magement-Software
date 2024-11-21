@@ -44,6 +44,10 @@ public class TeamMember implements ITeamMember {
         return employeeInfo;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     @Override
     public Map<String, String> toMap() {
         Map<String, String> memberDetails = new HashMap<>();

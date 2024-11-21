@@ -22,7 +22,11 @@ public class ModelingDepartment {
         int c = 0;
 
         while (c != 4) {
-            System.out.println("\nPlease choose an action you want to take: \n 1: haveEvent \n 2: scheduleFitting\n 3: Admin Activities\n 4: Back");
+            System.out.println("\nPlease choose an action you want to take: \n" +
+                    " 1: haveEvent \n" +
+                    " 2: scheduleFitting\n" +
+                    " 3: Admin Activities\n" +
+                    " 4: Back");
             c = s.nextInt();
             switch (c) {
                 case 1 -> {
@@ -66,24 +70,16 @@ public class ModelingDepartment {
         int c = 0;
 
         while (c != 2) {
-            System.out.println("""
-                    
-                    Please choose an action you want to take: \
-                    
-                     1: manage HOD\
-                    
-                     2: Back""");
+            System.out.println("Please choose an action you want to take: \n" +
+                    " 1: manage HOD\n" +
+                    " 2: Back");
             c = s.nextInt();
             if (c == 1) {
                 int response = 0;
                 while (response != 2) {
-                    System.out.println("""
-                            
-                            Managing HOD: \
-                            
-                             1: add\
-                            
-                             2: Back""");
+                    System.out.println("Managing HOD: \n" +
+                            " 1: add\n" +
+                            " 2: Back");
                     response = s.nextInt();
                     if (response == 1) {
                         HOD hod = new HOD();
