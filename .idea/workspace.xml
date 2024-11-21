@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Security/src/AuditSchedulesDescription.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/departmenrRequests/DoM_Security_Requests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoM_Security_Requests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/AuditDescription.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/AuditPersonnel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/AuditEmployee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/SecurityPersonnel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecurityEmployee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Security/repository/securityEmployees/securityEmployeeList.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/securityEmployees/securityEmployeeList.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Security/src/SecurityScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecurityScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/SecuritySchedules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecuritySchedules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/interfaces/SecurityScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/interfaces/SecurityScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TextEditor/PoorTextEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TextEditor/PoorTextEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +33,7 @@
     "Application.App.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "17-security-use-cases",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/kenny/coms362/fashionempire_3620_fall2024"
   }

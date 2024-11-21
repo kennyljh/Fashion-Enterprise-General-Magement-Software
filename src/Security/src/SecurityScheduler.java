@@ -22,11 +22,13 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
     // sorts security employees first by position, then by rating in descending order
     PriorityQueue<SecurityEmployee> availableSecurityEmployeePriorityQueue = new PriorityQueue<>(
-            Comparator.comparing(SecurityEmployee::getPosition)
+            Comparator.comparing(SecurityEmployee::getDivision)
+                    .thenComparing(SecurityEmployee::getPosition)
                     .thenComparing((e1, e2) -> e2.getRating().compareTo(e1.getRating()))
     );
     PriorityQueue<SecurityEmployee> allSecurityEmployeePriorityQueue = new PriorityQueue<>(
-            Comparator.comparing(SecurityEmployee::getPosition)
+            Comparator.comparing(SecurityEmployee::getDivision)
+                    .thenComparing(SecurityEmployee::getPosition)
                     .thenComparing((e1, e2) -> e2.getRating().compareTo(e1.getRating()))
     );
     /**
@@ -252,7 +254,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         Scanner scan = new Scanner(System.in);
         int employeeCount = schedule.getAssignedEmployeeIDs().size();
 
-        while (employeeCount < minimumEmployeeRequirement(schedule.getPriorityLevel())){
+        while (employeeCount <= minimumEmployeeRequirement(schedule.getPriorityLevel())){
 
             System.out.println(minimumEmployeeRequirement(schedule.getPriorityLevel()) - employeeCount + " employees left to add\n");
             System.out.println("1. Add Security Employee by ID");
