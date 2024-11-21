@@ -8,8 +8,14 @@ import java.util.Scanner;
 public class HRDepartment {
 
     public void start() throws Exception {
-        //initializing dummy data holders for local storage
-        employeeRecordManager empHandler = new employeeRecordManager();
+        fileStorageHR storage = new fileStorageHR();
+        if(storage.getFilepath().equals(storage.getDefaultFilepath())) {
+            System.out.println("Using default filepath...");
+        }
+        else {
+            System.out.println("Using alternative filepath: " + storage.getFilepath());
+        }
+        employeeRecordManager empHandler = new employeeRecordManager(storage);
         candidateRecordManager canHandler = new candidateRecordManager();
 
         boolean loop = true;
@@ -20,17 +26,22 @@ public class HRDepartment {
             System.out.println("Please choose from these options:");
             System.out.println("1. Add Employee");
             System.out.println("2. Remove Employee");
-            System.out.println("3. Add Candidate");
-            System.out.println("4. Remove Candidate");
-            System.out.println("5. Display All Employees");
-            System.out.println("6. Display All Employees By Department");
-            System.out.println("7. Display All Candidates");
-            System.out.println("8. Collate Departmental Salaries");
+            System.out.println("3. Retrieve Employee");
+            System.out.println("4. Update Employee");
+
+
+            System.out.println("5. Add Candidate");
+            System.out.println("6. Remove Candidate");
+            System.out.println("7. Display All Employees");
+            System.out.println("8. Display All Employees By Department");
+            System.out.println("9. Display All Candidates");
+            System.out.println("10. Edit Used File Path");
+
             System.out.println("0. Exit");
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             switch (choice) {
-                case 1:
+                case 1: //add employee
                     System.out.println("Enter employee name: ");
                     String name = input.next();
                     System.out.println("Enter employeeID: ");
@@ -51,14 +62,28 @@ public class HRDepartment {
                     System.out.println("Employee added successfully! Returning to menu...\n\n\n\n");
                     break;
 
-                case 2:
-                    System.out.println("Enter employee name: ");
+                case 2: //remove employee
+                    System.out.println("Enter employee ID: ");
                     String markedEmployee = input.next();
                     empHandler.removeEmployee(markedEmployee);
                     System.out.println("Employee removed successfully! Returning to menu...\n\n\n\n");
                     break;
 
-                case 3:
+                case 3: //retrieve employee
+                    System.out.println("Enter employee ID: ");
+                    String markedEmployeeID = input.next();
+                    empHandler.retrieveEmployeeByEmployeeID(markedEmployeeID);
+                    System.out.println("Employee retrieved successfully! Returning to menu...\n\n\n\n");
+                    break;
+
+                case 4: //update employee
+                    System.out.println("Enter employee ID: ");
+                    String updateEmployeeID = input.next();
+                    empHandler.updateEmployee(updateEmployeeID);
+                    System.out.println("Employee updated successfully! Returning to menu...\n\n\n\n");
+                    break;
+
+                case 5: //add candidate
                     System.out.println("Enter candidate name: ");
                     String candidateName = input.next();
                     System.out.println("Enter candidateId");
@@ -72,60 +97,61 @@ public class HRDepartment {
                     System.out.println("Candidate added successfully! Returning to menu...\n\n\n\n");
                     break;
 
-                case 4:
+                case 6: //remove candidate
                     System.out.println("Enter candidate ID to be removed: ");
                     String candidateID = input.next();
                     canHandler.removeCandidate(candidateID);
                     System.out.println("Candidate removed successfully! Returning to menu...\n\n\n\n");
                     break;
 
-                case 5:
+                case 7: //list all employees
                     System.out.println("List of all Employees: ");
-                    empHandler.displayRecords();
+                    empHandler.displayFileRecords();
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
                     break;
 
-                case 6:
+                case 8: //list employees by department
                     System.out.println("Enter Department Name: ");
                     String departmentName = input.next();
                     empHandler.displayEmployeesByDepartment(Department.valueOf(departmentName));
                     System.out.println("\nReturning to menu...\n\n\n\n");
                     break;
 
-                case 7:
+                case 9: //list all candidates
                     System.out.println("List of All Candidates: ");
                     canHandler.displayRecords();
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
                     break;
 
-                case 8:
-                    System.out.println("Enter Department Name: ");
-                    String salariedDepartmentName = input.next();
-                    System.out.println("Total Cost of Employees for " + salariedDepartmentName + ": " + empHandler.collateSalariesByDepartment(Department.valueOf(salariedDepartmentName)));
-                    System.out.println("\nReturning to menu...\n\n\n\n");
+                case 10:
+                    System.out.println("Current filepath: " + storage.getFilepath());
+                    System.out.print("Enter new ABSOLUTE filepath to save (EMPLOYEES ONLY RN) to: ");
+                    String filepath = input.next();
+                    storage.setFilepath(filepath);
+                    System.out.println("\n\nReturning to menu...\n\n\n\n");
                     break;
 
                 case 0:
                     loop = false;
                     System.out.println("EXITING...");
                     App.prompt();
-//                    break;
+                    break;
             }
         }
     }
 
     public Employee getEmployee(String id) {
-//        TODO: Insert get employee by id from file stuff here
+        //TODO: Insert get employee by id from file stuff here
         return null;
     }
 
     public Employee getEmployee(Department department) {
-//        TODO: Insert get employee by department from file stuff here
+        //TODO: Insert get employee by department from file stuff here
         return null;
     }
 
     public Employee getEmployee(Department department, String name) {
-//        TODO: Insert get employee by department and name from file stuff here
+        //TODO: Insert get employee by department and name from file stuff here
         return null;
     }
 }
