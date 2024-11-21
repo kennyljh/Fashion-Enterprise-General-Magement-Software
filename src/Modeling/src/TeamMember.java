@@ -41,6 +41,11 @@ public class TeamMember implements ITeamMember {
     }
 
     @Override
+    public Employee getEmployeeInfo() {
+        return employeeInfo;
+    }
+
+    @Override
     public Map<String, String> toMap() {
         Map<String, String> memberDetails = new HashMap<>();
         memberDetails.put("id", Integer.toString(this.id));
