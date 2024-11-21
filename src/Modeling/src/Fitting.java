@@ -17,7 +17,7 @@ public class Fitting implements IFitting {
 
     Fitting (int id, TeamMember model, String garment, LocalDateTime date, Boolean completionStatus) {
         this.id = id;
-        if (id > nextid) nextid = id+1;
+        if (id >= nextid) nextid = id+1;
         this.model = model;
         this.garment = garment;
         this.date = date;
@@ -63,7 +63,7 @@ public class Fitting implements IFitting {
 
     @Override
     public String toString() {
-        String str = "\nFitting: ";
+        String str = "\nFitting " + id + ":";
         str += "\nModel: " + this.model.toString();
         str += "\nGarment: " + this.garment +
                 "\nDate: " + this.date +

@@ -113,9 +113,13 @@ public class PoorTextEditor {
 		return repository;
 	}
 
-	public void setRepository(Map<String, Object> repo) {
+	/**
+	 * Sets the current repository with given HashMap repository
+	 * @param repository given HashMap repository
+	 */
+	public void setRepository(Map<String, Object> repository) {
 
-		repository=repo;
+		this.repository = repository;
 	}
 
 	//sets the HashMap<String, Map<String,String>> repo after converting it to
@@ -601,7 +605,6 @@ public class PoorTextEditor {
 					e.printStackTrace();
 				}
 			}
-
 		}
 	}
 
@@ -667,14 +670,15 @@ public class PoorTextEditor {
 			String arrayName = entry.getKey();
 			Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
 
-			// writing the array name followed by ":"
-			System.out.println(arrayName + ":");
+			// writing the array name followed by "{"
+			System.out.println(arrayName + "{");
 
 			// write all key-value pairs under array item
 			for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
 				System.out.println(keyValueEntry.getKey() + " = " + keyValueEntry.getValue());
 			}
-			System.out.print("\n");
+			// end array item with "}"
+			System.out.print("}\n");
 		}
 	}
 }

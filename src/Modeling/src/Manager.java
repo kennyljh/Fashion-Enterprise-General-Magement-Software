@@ -27,7 +27,7 @@ public class Manager implements IManager {
 
     public Manager(int id, Employee employeeInfo, Team team) {
         this.id = id;
-        if(id>nextid) nextid = id+1;
+        if(id>=nextid) nextid = id+1;
         this.employeeInfo = employeeInfo;
         teamMembers = ModelingDepartment.fileManager.getTeamMembers(team);
         this.team = team;
@@ -49,6 +49,11 @@ public class Manager implements IManager {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public Employee getEmployeeInfo() {
+        return employeeInfo;
     }
 
     @Override

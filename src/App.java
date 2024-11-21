@@ -4,18 +4,23 @@ import src.Design.DesignDepartment;
 import src.HR.HRDepartment;
 import src.Inventory.InventoryDepartment;
 import src.Manufacturing.ManufacturingDepartment;
+import src.Marketing.MarketingDepartment;
 import src.Modeling.ModelingDepartment;
+import src.Sales.SalesDepartment;
+import src.Security.SecurityDepartment;
 import src.Treasury.TreasuryDepartment;
 
 import java.util.Scanner;
 
 public class App {
     public static ModelingDepartment modelingDepartment = new ModelingDepartment();
+    public static MarketingDepartment marketingDepartment = new MarketingDepartment();
     public static ManufacturingDepartment manufacturingDepartment = new ManufacturingDepartment();
     public static HRDepartment hrDepartment = new HRDepartment();
     public static DesignDepartment designDepartment = new DesignDepartment();
     public static InventoryDepartment inventoryDepartment = new InventoryDepartment();
     public static TreasuryDepartment treasuryDepartment = new TreasuryDepartment();
+    public static SecurityDepartment securityDepartment = new SecurityDepartment();
 
     public static void main(String[] args) throws Exception {
         prompt();
@@ -23,7 +28,6 @@ public class App {
 
     public static void prompt() throws Exception {
         Scanner s = new Scanner(System.in);
-
         System.out.println("""
                 --WELCOME TO FASHION EMPIRE--
                  You are logged in:\s
@@ -39,7 +43,13 @@ public class App {
                 
                 5: Inventory\
                 
-                6: Design""");
+                6: Design\
+
+                7: Marketing\
+                
+                8: Security\
+                
+                9: Sales""");
         int choice = s.nextInt();
 
         switch (choice){
@@ -60,7 +70,15 @@ public class App {
                 break;
             case 6:
                 designDepartment.start();
-
+                break;
+            case 7:
+                marketingDepartment.start();
+                break;
+            case 8:
+                securityDepartment.start();
+                break;
+            case 9:
+                SalesDepartment.start();
                 break;
         }
     }

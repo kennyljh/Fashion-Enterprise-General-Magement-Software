@@ -26,12 +26,23 @@ public class Event implements IEvent {
 
     Event(int id, ArrayList<TeamMember> teamMembers, Boolean type, String celebrity, String collab, Boolean completionStatus) {
         this.id = id;
-        if (id > nextid) nextid = id+1;
+        if (id >= nextid) nextid = id+1;
         this.teamMembers = teamMembers;
         this.type = type;
         this.celebrity = celebrity;
         this.collab = collab;
         this.completionStatus = completionStatus;
+    }
+
+    Event(TeamMember teamMember, Boolean type, String collab) {
+        id = nextid;
+        nextid++;
+        this.teamMembers = new ArrayList<>();
+        this.teamMembers.add(teamMember);
+        this.type = type;
+        this.celebrity = "";
+        this.collab = collab;
+        this.completionStatus = false;
     }
 
     @Override
@@ -71,16 +82,16 @@ public class Event implements IEvent {
     public String toString() {
         StringBuilder str = new StringBuilder("\nEvent: " + id);
         if(this.type) {
-            str.append("\nPhotoshoot");
+            str.append("\n Photoshoot");
         } else {
-            str.append("\nFashion show");
+            str.append("\n Fashion show");
         }
-        str.append("\nTeam Members: ");
+        str.append("\n Team Members: ");
 
         for (TeamMember teamMember : teamMembers) {
-            str.append("\n").append(teamMember.toString());
+            str.append("\n ").append(teamMember.toString());
         }
-        str.append("\nCelebrity: ").append(this.celebrity).append("\nCollab: ").append(this.collab).append("\nCompletion Status: ").append(this.completionStatus);
+        str.append("\n Celebrity: ").append(this.celebrity).append("\n Collab: ").append(this.collab).append("\n Completion Status: ").append(this.completionStatus);
         return str.toString();
     }
 

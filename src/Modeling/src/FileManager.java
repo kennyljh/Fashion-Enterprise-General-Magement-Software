@@ -56,6 +56,17 @@ public class FileManager {
         return tmp;
     }
 
+    public Event getEvent(int id) {
+        Event tmp = null;
+        for(Map<String, String> event: events.values()) {
+            if(event.get("id").equals(Integer.toString(id))){
+                tmp = Event.parse(event);
+                break;
+            }
+        }
+        return tmp;
+    }
+
     public ArrayList<Fitting> getFittings() {
         ArrayList<Fitting> tmp = new ArrayList<>();
         for(Map<String, String> event: fittings.values()) {
