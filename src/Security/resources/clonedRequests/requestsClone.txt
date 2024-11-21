@@ -1,4 +1,4 @@
-DoFas_Sec_Req_0001:
+DoF_Sec_Req_0001:
 priorityLevel/2
 department/Department of Fashion
 location/Singapore - Look Pretty Fashion show

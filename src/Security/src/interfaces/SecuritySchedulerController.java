@@ -28,11 +28,11 @@ public interface SecuritySchedulerController {
      * @param requestID specified requestID
      * @return true if successfully created, false otherwise
      */
-    boolean createSchedule(String requestID, Scanner scan);
+    boolean createSchedule(String requestID);
 
     boolean deleteSchedule(String scheduleID);
 
-    boolean editScheduleAssignments(String scheduleID, Scanner scan);
+    boolean editScheduleAssignments(String scheduleID);
 
     boolean showAllSchedules();
 

@@ -17,16 +17,18 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
     public SecuritySchedulerController(){};
 
     /**
-     * Run the payroll program
+     * Run the security program
      */
     public void run() throws Exception {
 
         System.out.println("Welcome to the On-site Security Scheduler System");
 
-        Scanner scan = new Scanner(System.in);
+
         boolean exit = false;
 
         while (!exit) {
+
+            Scanner scan = new Scanner(System.in);
 
             System.out.println("1. Add New Security Personnel");
             System.out.println("2. Delete Security Personnel by ID");
@@ -75,7 +77,7 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
                 case 7:
                     System.out.println("Enter Security Request/Event ID to create a schedule for : ");
                     String requestID = scan.next();
-                    createSchedule(requestID, scan);
+                    createSchedule(requestID);
                     System.out.println();
                     break;
                 case 8:
@@ -87,7 +89,7 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
                 case 9:
                     System.out.println("Enter Security Schedule ID to edit : ");
                     String editScheduleID = scan.next();
-                    editScheduleAssignments(editScheduleID, scan);
+                    editScheduleAssignments(editScheduleID);
                     System.out.println();
                     break;
                 case 10:
@@ -108,7 +110,6 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
                     System.out.println("Incorrect choice. Try again");
             }
         }
-        scan.close();
     }
 
     @Override
@@ -142,8 +143,8 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
     }
 
     @Override
-    public boolean createSchedule(String requestID, Scanner scan) {
-        return this.getSchedulerInstance().createSchedule(requestID, scan);
+    public boolean createSchedule(String requestID) {
+        return this.getSchedulerInstance().createSchedule(requestID);
     }
 
     @Override
@@ -152,8 +153,8 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
     }
 
     @Override
-    public boolean editScheduleAssignments(String scheduleID, Scanner scan) {
-        return this.getSchedulerInstance().editScheduleAssignments(scheduleID, scan);
+    public boolean editScheduleAssignments(String scheduleID) {
+        return this.getSchedulerInstance().editScheduleAssignments(scheduleID);
     }
 
     @Override

@@ -8,4 +8,3 @@ tasks/secure venue and monitor high-profile guests
 specialReqs/assign a team lead experienced with VIP events
 dateIssued/11-19-2024
 resolved/false
-
