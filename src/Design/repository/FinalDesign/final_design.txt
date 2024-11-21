@@ -1,6 +1,0 @@
-Design Name: ef
-Design Image: sd
-Design Colors: [cs]
-Design Raw Materials: [we]
-Design Sizes: [we]
-Design Quantities: 3

@@ -3,7 +3,9 @@ package src.Design.src;
 import src.Design.src.interfaces.DesignSpecifications;
 import src.Design.src.interfaces.HeadOfDesignInterface;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CustomDesign implements DesignSpecifications {
 
@@ -89,5 +91,18 @@ public class CustomDesign implements DesignSpecifications {
                         "Design Sizes: " + sizes + "\n" +
                         "Design Quantities: " + quantity;
 
+    }
+
+    @Override
+    public Map<String, Object> mapObjects() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("DesignName", designName);
+        map.put("DesignImage", designImage);
+        map.put("DesignColors", String.join(",", colors));
+        map.put("DesignRawMaterials", String.join(",", rawMaterials));
+        map.put("DesignSizes", String.join(",", sizes));
+        map.put("DesignQuantities", quantity);
+
+        return map;
     }
 }

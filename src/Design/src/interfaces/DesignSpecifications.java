@@ -1,6 +1,7 @@
 package src.Design.src.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DesignSpecifications {
 
@@ -17,6 +18,7 @@ public interface DesignSpecifications {
     String getDesignName();
     String getDesignImage();
     String displayAllSpecifications();
+    Map<String, Object> mapObjects();
 
 
 }

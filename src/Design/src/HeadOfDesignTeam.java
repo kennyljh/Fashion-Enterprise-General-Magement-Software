@@ -10,6 +10,8 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
     private List<DesignSketch> allSketches;
     private DesignSketch selectedSketch;
     private CustomDesign customDesign;
+    private MarketingDesign marketingDesign;
+    private FinalDesign finalDesign;
 
 
     public HeadOfDesignTeam(List<DesignSketch> sketches) {
@@ -40,21 +42,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
             System.out.println("Incorrect Sketch selected, Try Again");
         }
     }
-
-    @Override
-    public void receiveCustomDesign(CustomDesign customDesign) {
-
-        if (customDesign == null) {
-            System.out.println("Custom design was not received");
-            return;
-        }
-        this.customDesign = customDesign;
-        System.out.println("Custom design received: " + customDesign.getDesignName());
-        customDesign.displayAllSpecifications();
-
-    }
-
-
+    
     @Override
     public FinalDesign confirmFinalDesign() {
 
@@ -73,6 +61,25 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
         finalDesign.displayAllSpecifications();
 
         return finalDesign;
+    }
+
+    @Override
+    public MarketingDesign confirmMarketingDesign() {
+
+        if (marketingDesign == null) {
+            System.out.println("No marketing design selected");
+            return null;
+        }
+        MarketingDesign market = new MarketingDesign(finalDesign);
+
+        market.setDesignSketchName(finalDesign.getDesignName());
+        market.setPrice(marketingDesign.getPrice());
+        market.setProductDescription(marketingDesign.getProductDescription());
+        market.setSeasonType(marketingDesign.getSeasonType());
+        market.setTargetAudience(marketingDesign.getTargetAudience());
+        market.displayAllSpecifications();
+
+        return market;
     }
 
     @Override

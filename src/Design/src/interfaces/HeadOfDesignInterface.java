@@ -4,18 +4,20 @@ import src.Design.DesignDepartment;
 import src.Design.src.CustomDesign;
 import src.Design.src.DesignSketch;
 import src.Design.src.FinalDesign;
+import src.Design.src.MarketingDesign;
 
 import java.util.List;
 
 public interface HeadOfDesignInterface {
 
-  void viewSketches(List<DesignSketch> sketches);
+    void viewSketches(List<DesignSketch> sketches);
 
-  void selectSketch(int sketchIndex, List<DesignSketch> sketchList);
+    void selectSketch(int sketchIndex, List<DesignSketch> sketchList);
 
-  void receiveCustomDesign(CustomDesign customDesign);
+    CustomDesign confirmCustomDesign();
 
-  FinalDesign confirmFinalDesign();
+    FinalDesign confirmFinalDesign();
 
-  CustomDesign confirmCustomDesign();
+    MarketingDesign confirmMarketingDesign();
+
 }
