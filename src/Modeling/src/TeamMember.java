@@ -37,7 +37,7 @@ public class TeamMember implements ITeamMember {
 
     @Override
     public String toString() {
-        return this.team.toString() + this.id + ": " + employeeInfo.toString();
+        return this.team.toString() + " " + this.id + ": " + employeeInfo.toString();
     }
 
     @Override

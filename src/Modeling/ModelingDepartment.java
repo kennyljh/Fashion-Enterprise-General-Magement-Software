@@ -2,6 +2,8 @@ package src.Modeling;
 
 import src.App;
 
+import src.Marketing.src.DesignAdvertisement;
+import src.Marketing.src.EventAdvertisement;
 import src.Modeling.src.*;
 
 import java.time.LocalDateTime;
@@ -21,12 +23,14 @@ public class ModelingDepartment {
         Scanner s = new Scanner(System.in);
         int c = 0;
 
-        while (c != 4) {
+        while (c != 6) {
             System.out.println("\nPlease choose an action you want to take: \n" +
                     " 1: haveEvent \n" +
                     " 2: scheduleFitting\n" +
-                    " 3: Admin Activities\n" +
-                    " 4: Back");
+                    " 3: getAllEvents\n" +
+                    " 4: getAllFittings\n" +
+                    " 5: Admin Activities\n" +
+                    " 6: Back");
             c = s.nextInt();
             switch (c) {
                 case 1 -> {
@@ -60,7 +64,19 @@ public class ModelingDepartment {
                     hod.requestFitting(Team.MODELING, ModelingDepartment.fileManager.getModel(model), garment, date);
                     this.start();
                 }
-                case 3 -> initiateAdmin();
+                case 3 -> {
+                    for(Event e: hod.getEvents()) {
+                        System.out.println(e.toString());
+                    }
+                    System.out.println();
+                }
+                case 4 -> {
+                    for(Fitting f: hod.getFittings()) {
+                        System.out.println(f.toString());
+                    }
+                    System.out.println();
+                }
+                case 5 -> initiateAdmin();
             }
         }
         App.prompt();

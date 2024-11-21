@@ -63,7 +63,7 @@ public class Fitting implements IFitting {
 
     @Override
     public String toString() {
-        String str = "\nFitting: ";
+        String str = "\nFitting " + id + ":";
         str += "\nModel: " + this.model.toString();
         str += "\nGarment: " + this.garment +
                 "\nDate: " + this.date +
