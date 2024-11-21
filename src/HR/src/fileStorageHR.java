@@ -11,11 +11,10 @@ import java.util.Scanner;
 
 public class fileStorageHR {
 
-    //TODO: change this to use system specific default path, have it initialized to null
-    String default_filepath_employeeStorage = "C:\\Users\\samue\\coms362\\src\\HR\\repository\\employeeStorage";
-    String default_filepath_candidateStorage = "C:\\Users\\samue\\coms362\\src\\HR\\repository\\candidateStorage";
-    String filepath = default_filepath_employeeStorage;
-    PoorTextEditor poorJarser = new PoorTextEditor(); //haha haha
+    private final Path default_filepath_employeeStorage = Paths.get("src", "HR", "repository", "employeeStorage");
+    private final Path default_filepath_candidateStorage = Paths.get("src", "HR", "repository", "candidateStorage");
+    String filepath = "";
+    public PoorTextEditor poorJarser = new PoorTextEditor(); //haha haha
 
     public fileStorageHR() {}
 
@@ -23,11 +22,11 @@ public class fileStorageHR {
         return filepath;
     }
 
-    public String getDefault_filepath_employeeStorage() {
+    public Path getDefault_filepath_employeeStorage() {
         return default_filepath_employeeStorage;
     }
 
-    public String getDefault_filepath_candidateStorage() { return default_filepath_candidateStorage; }
+    public Path getDefault_filepath_candidateStorage() { return default_filepath_candidateStorage; }
 
     public void setFilepath(String filepath) {
         this.filepath = filepath;
@@ -39,7 +38,6 @@ public class fileStorageHR {
      */
     public void deleteFile(String filename) throws Exception {
         try {
-            //TODO: needs to take only filename, universal method
             Path filePath = Paths.get(getFilepath(), filename);
             File file = filePath.toFile();
             System.out.println("Attempting to delete: " + file.getAbsolutePath());
@@ -90,36 +88,30 @@ public class fileStorageHR {
 
     /**
      *
-     * @param filename the name of the file to be printed out to console, uses fileStorageHR filepath for parent directory
+     * @param filePath the path to the file to be printed out to console
      * @throws Exception error checking
      */
-    public void loadFileAndPrint(String filename) throws Exception {
+    public void loadFileAndPrint(String filePath) throws Exception {
         try {
-            System.out.println("Attempting to load: " + filename);
-            File file = new File(getFilepath(), filename);
+            System.out.println("Attempting to load: " + filePath);
+            File file = new File(filePath);
             System.out.println("Loading file: " + file.getAbsolutePath());
-            Scanner scanner = new Scanner(file);
-            while(scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                System.out.println(line);
+
+            // Check if the file exists
+            if (!file.exists()) {
+                throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
             }
-            scanner.close();
+
+            try (Scanner scanner = new Scanner(file)) {
+                while(scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    System.out.println(line);
+                }
+            }
         } catch (Exception e) {
-            throw new Exception("Error encountered in loadFileAndPrint with filename: "
-                    + filename + " and filepath: " + filepath + "\n" + e.getMessage());
+            throw new Exception("Error encountered in loadFileAndPrint with file: "
+                    + filePath + "\n" + e.getMessage(), e);
         }
     }
 
-    public static void main(String[] args) throws Exception {
-
-        //TODO: insert more testing here
-        fileStorageHR hr = new fileStorageHR();
-        String filepathEmployee = hr.getEmployeeStoragePath("engineering").toString();
-        String filepathCandidate = hr.getCandidateStoragePath("applied").toString();
-        hr.setFilepath(filepathCandidate);
-        System.out.println(hr.getFilepath());
-        hr.setFilepath(filepathEmployee);
-        System.out.println(hr.getFilepath());
-        hr.loadFileAndPrint("0.txt");
-    }
 }

@@ -17,7 +17,7 @@ public enum Department {
         return switch (this) {
             case ENGINEERING -> "Engineering";
             case MARKETING -> "Marketing";
-            case HUMAN_RESOURCES -> "Human Resources";
+            case HUMAN_RESOURCES -> "Human_Resources";
             case FINANCE -> "Finance";
             case DESIGN -> "Design";
             case MODELING -> "Modeling";

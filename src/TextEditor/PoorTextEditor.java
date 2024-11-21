@@ -8,6 +8,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -55,6 +58,10 @@ public class PoorTextEditor {
 		parseTextToRepo(filePath);
 	}
 
+	public Map<String, Object> getRepositoryStrings() {
+		return repository;
+	}
+
 	/**
 	 * Writes the data from the repository (HashMap) to a text file.
 	 * The output format will look like:
@@ -75,6 +82,7 @@ public class PoorTextEditor {
 
 		writeDataToFile(filePath);
 	}
+
 
 	/**
 	 * Writes the data from the repository (HashMap) to a text file.
