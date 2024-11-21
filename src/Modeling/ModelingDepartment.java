@@ -42,6 +42,7 @@ public class ModelingDepartment {
                     System.out.println("What brand will you collab with? (enter for none)");
                     String ch = s.nextLine();
                     hod.createEvent(type, celebrity, ch);
+                    this.start();
                 }
                 case 2 -> {
                     System.out.println("What model? (0-3)");
@@ -57,12 +58,12 @@ public class ModelingDepartment {
                     int hour = s.nextInt();
                     LocalDateTime date = LocalDateTime.of(2024, month, day, hour, 0);
                     hod.requestFitting(Team.MODELING, ModelingDepartment.fileManager.getModel(model), garment, date);
-                    start();
+                    this.start();
                 }
                 case 3 -> initiateAdmin();
             }
-            App.prompt();
         }
+        App.prompt();
     }
 
     private void initiateAdmin() {
@@ -90,7 +91,31 @@ public class ModelingDepartment {
         }
     }
 
+    public void logEvent(Event event) {
+
+    }
+
     public ArrayList<TeamMember> getModels() {
         return fileManager.getTeamMembers(Team.MODELING);
+    }
+
+    public Event getEvent(int id) {
+        return fileManager.getEvent(id);
+    }
+
+    public Event requestPhotoshoot(String model, String brand) {
+        Event event;
+        try {
+            int id = Integer.parseInt(model);
+            fileManager.getModel(id);
+            event = hod.createEvent(true, id, brand);
+        } catch (NumberFormatException e) {
+            event = hod.createEvent(true, model, brand);
+        }
+        return event;
+    }
+
+    public ArrayList<Event> getEvents() {
+        return hod.getEvents();
     }
 }

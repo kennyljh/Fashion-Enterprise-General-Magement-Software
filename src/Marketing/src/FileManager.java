@@ -1,5 +1,6 @@
 package src.Marketing.src;
 
+import src.Modeling.src.Event;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.File;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 public class FileManager {
     private Map<String, Map<String, String>> teamMembers = new HashMap<>();
+    private Map<String, Map<String, String>> eventAdverts = new HashMap<>();
 
     private final PoorTextEditor editor = new PoorTextEditor();
 
@@ -24,6 +26,22 @@ public class FileManager {
             editor.processTextFile(repo + "department.txt");
             teamMembers = editor.getRepositoryStringMap();
         }
+    }
+
+    //    EventsAdverts:
+    public void addEventAdvert(EventAdvertisement advert) {
+        eventAdverts.put("Advert " + advert.getId(), advert.toMap());
+
+        editor.setRepositoryStrings(eventAdverts);
+        editor.writeToTextFile(repo + "eventAdvertisement.txt");
+    }
+
+    public ArrayList<EventAdvertisement> getEventAdverts() {
+        ArrayList<EventAdvertisement> tmp = new ArrayList<>();
+        for(Map<String, String> advert: eventAdverts.values()) {
+            tmp.add(EventAdvertisement.parse(advert));
+        }
+        return tmp;
     }
 
     //    TeamMembers:

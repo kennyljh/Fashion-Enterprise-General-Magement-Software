@@ -5,9 +5,7 @@ import src.HR.src.Employee;
 import java.util.Map;
 
 public interface ITeamMember {
-    public int getId();
-
+    int getId();
     Employee getEmployeeInfo();
-
-    public Map<String, String> toMap();
+    Map<String, String> toMap();
 }

@@ -11,9 +11,7 @@ import java.util.ArrayList;
 
 public interface IManager extends ITeamMember {
     Team getTeam();
-
     ArrayList<TeamMember> getTeamMembers();
     void addTeamMember(TeamMember member);
-
     Fitting scheduleFitting(TeamMember model, String garment, LocalDateTime date);
 }

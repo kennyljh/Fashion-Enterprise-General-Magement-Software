@@ -3,11 +3,14 @@ package src.Marketing;
 import src.App;
 
 import src.Marketing.src.*;
+import src.Modeling.src.Event;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class MarketingDepartment {
-    static HOD hod;
+    public static HOD hod;
     public static FileManager fileManager;
 
     public MarketingDepartment() {
@@ -28,15 +31,43 @@ public class MarketingDepartment {
             c = s.nextInt();
             switch (c) {
                 case 1 -> {
+                    ArrayList<Integer> eventIds = new ArrayList<>();
+                    for(Event event: App.modelingDepartment.getEvents()) {
+                        eventIds.add(event.getId());
+                    }
+                    System.out.println("Which Event: " + eventIds);
+                    int event = s.nextInt();
 
+                    AdvertType type = AdvertType.COMMERCIAL;
+                    System.out.println("What type of Advertisement?\n" +
+                            " 1: Billboard\n" +
+                            " 2: Magazine\n" +
+                            " 3: Social Media\n" +
+                            " 4: Commercial\n");
+                    int x = s.nextInt();
+                    s.nextLine();
+                    switch (x) {
+                        case 1 -> {
+                            type = AdvertType.BILLBOARD;
+                        }
+                        case 2 -> {
+                            type = AdvertType.MAGAZINE;
+                        }
+                        case 3 -> {
+                            type = AdvertType.SOCIALMEDIA;
+                        }
+                    }
+                    EventAdvertisement e = hod.createEventAdvert(App.modelingDepartment.getEvent(event), type);
+                    System.out.println(e.toString());
+                    fileManager.addEventAdvert(e);
                 }
                 case 2 -> {
 
                 }
                 case 3 -> initiateAdmin();
             }
-            App.prompt();
         }
+        App.prompt();
     }
 
     private void initiateAdmin() {
@@ -49,8 +80,17 @@ public class MarketingDepartment {
                     " 2: Back");
             c = s.nextInt();
             if (c == 1) {
-                HOD hod = new HOD();
-                System.out.println(hod);
+                int response = 0;
+                while (response != 2) {
+                    System.out.println("Managing HOD: \n" +
+                            " 1: add\n" +
+                            " 2: Back");
+                    response = s.nextInt();
+                    if (response == 1) {
+                        src.Modeling.src.HOD hod = new src.Modeling.src.HOD();
+                        System.out.println(hod);
+                    }
+                }
             }
         }
     }

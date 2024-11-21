@@ -2,6 +2,7 @@ package src.Marketing.src;
 
 import src.HR.src.Department;
 import src.HR.src.Employee;
+import src.Marketing.MarketingDepartment;
 import src.Marketing.src.interfaces.*;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class TeamMember implements ITeamMember {
         employeeInfo = new Employee("teamMember", team.toString() + " Member", Department.MODELING, "teamMember", "Employeed", 80000);
         this.team = team;
 
-//        ModelingDepartment.fileManager.addTeamMember(this);
+        MarketingDepartment.fileManager.addTeamMember(this);
     }
 
     @Override

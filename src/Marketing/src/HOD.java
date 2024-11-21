@@ -1,11 +1,12 @@
 package src.Marketing.src;
 
+import src.App;
 import src.HR.src.Department;
 import src.HR.src.Employee;
 import src.Marketing.*;
 import src.Marketing.src.interfaces.*;
+import src.Modeling.src.Event;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,10 +17,13 @@ public class HOD implements IHOD {
     private final Employee employeeInfo;
     private final ArrayList<Manager> managers;
 
+    public ArrayList<EventAdvertisement> eventAdverts;
+
     public HOD(Employee employeeInfo, ArrayList<Manager> managers) {
         this.employeeInfo = employeeInfo;
         this.managers = managers;
 
+        eventAdverts = MarketingDepartment.fileManager.getEventAdverts();
     }
 
     public HOD() {
@@ -41,6 +45,14 @@ public class HOD implements IHOD {
     @Override
     public Employee getEmployeeInfo() {
         return employeeInfo;
+    }
+
+    @Override
+    public ArrayList<EventAdvertisement> getEventAdverts() {return eventAdverts;}
+
+    @Override
+    public EventAdvertisement createEventAdvert(Event event, AdvertType type) {
+        return new EventAdvertisement(event, type);
     }
 
     @Override
@@ -80,6 +92,11 @@ public class HOD implements IHOD {
             str.append("\n  ").append(manager.toString());
         }
         return str.toString();
+    }
+
+    @Override
+    public Event requestPhotoshoot(int modelId) {
+        return App.modelingDepartment.requestPhotoshoot(Integer.toString(modelId), "");
     }
 
     public static HOD parse(Map<String, String> hod) {

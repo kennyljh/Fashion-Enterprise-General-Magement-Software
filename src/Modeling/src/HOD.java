@@ -35,7 +35,7 @@ public class HOD implements IHOD {
     }
 
     @Override
-    public void createEvent(Boolean type, String celebrity, String collab) {
+    public Event createEvent(Boolean type, String celebrity, String collab) {
         ArrayList<TeamMember> teamMembers = new ArrayList<>();
 
         for(Manager manager: managers) {
@@ -48,17 +48,35 @@ public class HOD implements IHOD {
         events.add(event);
         System.out.println(event);
         ModelingDepartment.fileManager.addEvent(event);
+
+        return event;
     }
 
     @Override
-    public int getId() {
-        return 0;
+    public Event createEvent(Boolean type, int modelID, String collab) {
+        TeamMember model = ModelingDepartment.fileManager.getModel(modelID);
+        Event event = new Event(model, type, collab);
+
+        events.add(event);
+        System.out.println(event);
+        ModelingDepartment.fileManager.addEvent(event);
+
+        return event;
     }
+
+    @Override
+    public int getId() {return 0;}
 
     @Override
     public Employee getEmployeeInfo() {
         return employeeInfo;
     }
+
+    @Override
+    public ArrayList<Event> getEvents() {return events;}
+
+    @Override
+    public ArrayList<Fitting> getFittings() {return fittings;}
 
     @Override
     public Map<String, String> toMap() {
