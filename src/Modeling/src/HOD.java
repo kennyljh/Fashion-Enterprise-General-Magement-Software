@@ -56,6 +56,11 @@ public class HOD implements IHOD {
     }
 
     @Override
+    public Employee getEmployeeInfo() {
+        return employeeInfo;
+    }
+
+    @Override
     public Map<String, String> toMap() {
         Map<String, String> memberDetails = new HashMap<>();
         memberDetails.put("employeeInfo", this.employeeInfo.toString());

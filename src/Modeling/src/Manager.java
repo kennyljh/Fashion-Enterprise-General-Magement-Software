@@ -52,6 +52,11 @@ public class Manager implements IManager {
     }
 
     @Override
+    public Employee getEmployeeInfo() {
+        return employeeInfo;
+    }
+
+    @Override
     public Team getTeam() {
         return team;
     }
