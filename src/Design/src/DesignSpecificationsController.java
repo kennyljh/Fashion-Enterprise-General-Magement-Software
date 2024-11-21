@@ -44,7 +44,8 @@ public class DesignSpecificationsController {
             System.out.println("5. Set a custom Final Design for Modelling");
             System.out.println("6. Send Final Design to Manufacturing");
             System.out.println("7. Send Final Design to Marketing");
-            System.out.println("8. Exit Program");
+            System.out.println("8. Send Custom Design to Modelling");
+            System.out.println("9. Exit Program");
 
             int option = scan.nextInt();
             scan.nextLine();
@@ -124,7 +125,6 @@ public class DesignSpecificationsController {
                         System.out.println("Enter image of the design: ");
                         String finalImageOfDesign = scan.nextLine();
                         setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
-                        sendToFinalDesign();
                     } else if (modifyDesign.equals("N")) {
                         System.out.println("No changes are needed in the Final Design");
                         break;
@@ -158,7 +158,6 @@ public class DesignSpecificationsController {
                         System.out.println("Enter image of the design: ");
                         String finalImageOfDesign = scan.nextLine();
                         setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
-                        sendToFinalDesign();
                     } else if (modifyDesign2.equals("N")) {
                         System.out.println("No changes are needed in the Final Design");
                         break;
@@ -193,7 +192,6 @@ public class DesignSpecificationsController {
                         String finalImageOfDesign = scan.nextLine();
                         //have to change to set custom design
                         setFinalDesign(finalDesignName, finalRawMaterialsNeeded, finalColorsNeeded, finalSizesNeeded, finalDesignQuantity, finalImageOfDesign);
-                        sendToCustomDesign();
                     } else if (response.equals("N")) {
                         System.out.println("No changes are needed in the Final Design");
                         break;
@@ -203,24 +201,16 @@ public class DesignSpecificationsController {
 
                 case 6:
                     //sending to manufacturing
+                    sendToFinalDesign();
 
 
                 case 7:
                     //sending to marketing
-                    if (finalDesign == null) {
-                        System.out.println("No Final Design has been set to export. Verify a design first");
-                        return;
-                    }
-                    try (PrintWriter writer = new PrintWriter("marketing_design.txt")) {
-                        writer.write(finalDesign.toString());
-                        System.out.println(finalDesign.toString() + "has been exported");
-                    } catch (IOException e) {
-                        System.out.println("Error exporting file" + e.getMessage());
-                        e.printStackTrace();
-
-                    }
-
+                    sendToFinalDesign();
                 case 8:
+                    sendToCustomDesign();
+
+                case 9:
                     System.out.println("Exit Program");
                     exit = true;
 //                    App.prompt();
@@ -274,28 +264,25 @@ public class DesignSpecificationsController {
 
 
     public void sendToDesignSketch() {
-        String localPath = "src/Design/repository/DesignSketch/";
+        String localPath = "repository/DesignSketch/";
 
         //use PoorFileReader
         File dir = new File(localPath);
         if (!dir.exists()) {
-            if (dir.mkdirs()) {
-                System.out.println("Directory created at: " + localPath);
-            } else {
-                System.out.println("Directory could not be created at " + localPath);
-                return;
-            }
+
+            System.out.println("Directory could not be created at " + localPath);
+            return;
         }
-        if (sketches == null) {
+        if (sketches == null || sketches.isEmpty()) {
             System.out.println("No Final Design has been set to export. Verify a design first");
             return;
         }
         //use Poor File Reader
-        try (PrintWriter writer = new PrintWriter("sketch_design.txt")) {
+        try (PrintWriter writer = new PrintWriter(localPath + "sketches_design.txt")) {
             for (DesignSketch designSketch : sketches) {
                 writer.write(designSketch.displayAllSpecifications());
-                System.out.println(designSketch.displayAllSpecifications() + "has been exported to " + localPath + "manufacturing_design.txt");
             }
+            System.out.println("Design sketch has been exported to " + localPath + "sketch_design.txt");
         } catch (IOException e) {
             System.out.println("Error exporting file" + e.getMessage());
             e.printStackTrace();
@@ -303,25 +290,22 @@ public class DesignSpecificationsController {
     }
 
     public void sendToFinalDesign() {
-        String localPath = "src/Design/repository/FinalDesign/";
+        String localPath = "repository/FinalDesign/";
         //use PoorFileReader
         File dir = new File(localPath);
         if (!dir.exists()) {
-            if (dir.mkdirs()) {
-                System.out.println("Directory created at: " + localPath);
-            } else {
-                System.out.println("Directory could not be created at " + localPath);
-                return;
-            }
+
+            System.out.println("Directory could not be created at " + localPath);
+            return;
         }
 
         if (finalDesign == null) {
             System.out.println("No Final Design has been set to export. Verify a design first");
             return;
         }
-        try (PrintWriter writer = new PrintWriter("final_design.txt")) {
+        try (PrintWriter writer = new PrintWriter(localPath + "final_design.txt")) {
             writer.write(finalDesign.displayAllSpecifications());
-            System.out.println(finalDesign.displayAllSpecifications() + "has been exported to " + localPath + "final_design.txt");
+            System.out.println("Final Design has been exported to " + localPath + "final_design.txt");
 
         } catch (IOException e) {
             System.out.println("Error exporting file" + e.getMessage());
@@ -331,25 +315,23 @@ public class DesignSpecificationsController {
     }
 
     public void sendToCustomDesign() {
-        String localPath = "Design/repository/CustomDesign/";
+        String localPath = "repository/CustomDesign/";
         //use PoorFileReader
         File dir = new File(localPath);
         if (!dir.exists()) {
-            if (dir.mkdirs()) {
-                System.out.println("Directory created at: " + localPath);
-            } else {
-                System.out.println("Directory could not be created at " + localPath);
-                return;
-            }
+
+            System.out.println("Directory could not be created at " + localPath);
+            return;
+
         }
 
         if (customDesign == null) {
             System.out.println("No Final Design has been set to export. Verify a design first");
             return;
         }
-        try (PrintWriter writer = new PrintWriter("custom_design.txt")) {
+        try (PrintWriter writer = new PrintWriter(localPath + "custom_design.txt")) {
             writer.write(customDesign.displayAllSpecifications());
-            System.out.println(customDesign.displayAllSpecifications() + "has been exported to " + localPath + "custom_design.txt");
+            System.out.println("Custom Design has been exported to " + localPath + "custom_design.txt");
 
         } catch (IOException e) {
             System.out.println("Error exporting file" + e.getMessage());

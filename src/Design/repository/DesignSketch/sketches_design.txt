@@ -1,0 +1,7 @@
+Display all design specifications
+Design Name: gdwe
+Design Image: vs
+Design Colors: [ewf]
+Design Raw Materials: [grb]
+Design Sizes: [cse3c]
+Design Quantities: 2
