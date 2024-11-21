@@ -237,7 +237,7 @@ department/Security
 expertise/Incident_Reporting Area_Monitoring
 rating/4.2
 yearsOfExperience/9
-previousAssignment/11202024212316-DoMod_Sec_Req_0001
+previousAssignment/free
 currentAssignment/free
 
 DoS_Employee_0023:
@@ -260,7 +260,7 @@ expertise/Incident_Reporting Area_Monitoring
 rating/4.3
 yearsOfExperience/11
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0025:
 name/Chris Williams
@@ -337,7 +337,7 @@ expertise/Anti-Theft Parking_Surveillance
 rating/4.1
 yearsOfExperience/3
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0032:
 name/Pat Williams
@@ -381,7 +381,7 @@ expertise/Anti-Theft Vehicle_Monitoring
 rating/4.3
 yearsOfExperience/7
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0036:
 name/Ryan Miller
@@ -414,7 +414,7 @@ expertise/Area_Surveillance Rapid_Mobility_Patrol
 rating/4.5
 yearsOfExperience/10
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0039:
 name/Chris Brown
@@ -601,7 +601,7 @@ expertise/Network_Surveillance Equipment_Troubleshooting
 rating/4.3
 yearsOfExperience/12
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0056:
 name/Ryan Brown
@@ -623,7 +623,7 @@ expertise/Data_Processing Trend_Analysis
 rating/4.4
 yearsOfExperience/14
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0058:
 name/Casey Jones
@@ -634,7 +634,7 @@ expertise/Data_Processing Trend_Analysis
 rating/4.5
 yearsOfExperience/15
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0059:
 name/Pat Smith
@@ -656,7 +656,7 @@ expertise/Data_Processing Trend_Analysis
 rating/4.1
 yearsOfExperience/2
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0061:
 name/Pat Martinez
@@ -678,7 +678,7 @@ expertise/Fire_Prevention Safety_Inspections
 rating/4.2
 yearsOfExperience/4
 previousAssignment/free
-currentAssignment/11202024211109-DoMod_Sec_Req_0001
+currentAssignment/free
 
 DoS_Employee_0063:
 name/Ryan Johnson
@@ -1097,4 +1097,3 @@ rating/4.1
 yearsOfExperience/12
 previousAssignment/free
 currentAssignment/free
-

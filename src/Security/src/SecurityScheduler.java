@@ -59,7 +59,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
     private PoorTextEditor editor = new PoorTextEditor();
 
     @Override
-    public boolean addSecurityPersonnel(String filePath) {
+    public boolean addSecurityPersonnel() {
         return false;
     }
 
@@ -121,7 +121,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
     }
 
     @Override
-    public boolean createSchedule(String requestID) {
+    public boolean createSchedule(String requestID, Scanner scan) {
 
         if (securityRequestsRepository.isEmpty()){
 
@@ -145,6 +145,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         }
 
         SecurityRequests request = securityRequestsRepository.get(requestID);
+        securityRequestToText(request);
 
         // creating new security schedule filled with security request details
         SecuritySchedules schedule = new SecuritySchedules(
@@ -158,8 +159,10 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
                 request.getTasks(),
                 dateIssuer());
 
+        addPersonnelToSchedule(schedule, scan);
+
         // assigning security personnel to schedule
-        if (!addPersonnelToSchedule(schedule)){
+        if (!addPersonnelToSchedule(schedule, scan)){
             System.out.println("Schedule creation for Request ID: " + requestID + " was cancelled");
             return false;
         }
@@ -181,9 +184,9 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         allSecurityRequestPriorityQueue.add(request);
 
         // editing security resolved status in text file repository
-        editor.processTextFile(departmentRequestsDir + request.getFileName());
-        editor.setValue(request.getRequestID(), "resolved", "true");
-        editor.writeToTextFile(departmentRequestsDir + request.getFileName());
+//        editor.processTextFile(departmentRequestsDir + request.getFileName());
+//        editor.setValue(request.getRequestID(), "resolved", "true");
+//        editor.writeToTextFile(departmentRequestsDir + request.getFileName());
 
         return true;
     }
@@ -240,7 +243,9 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
      * To add security personnel to a schedule
      * @param schedule given schedule
      */
-    private boolean addPersonnelToSchedule(SecuritySchedules schedule){
+    private boolean addPersonnelToSchedule(SecuritySchedules schedule, Scanner scan){
+
+        boolean returnValue = false;
 
         if (securityEmployeeRepository.isEmpty()){
 
@@ -250,16 +255,20 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         }
 
         List<String> selectedEmployeeIDs = new ArrayList<>();
-
-        Scanner scan = new Scanner(System.in);
         int employeeCount = schedule.getAssignedEmployeeIDs().size();
 
         while (employeeCount <= minimumEmployeeRequirement(schedule.getPriorityLevel())){
 
-            System.out.println(minimumEmployeeRequirement(schedule.getPriorityLevel()) - employeeCount + " employees left to add\n");
+            if (Integer.parseInt(schedule.getPriorityLevel()) < 3){
+                System.out.println(minimumEmployeeRequirement(schedule.getPriorityLevel()) - employeeCount + " employees left to add\n");
+            }
+            else {
+                System.out.println("<<Overridden>> employees left to add");
+            }
             System.out.println("1. Add Security Employee by ID");
             System.out.println("2. Remove Security Employee by ID");
             System.out.println("3. Show Scheduled Employees");
+            System.out.println("4. Complete Schedule");
             System.out.println("0. Cancel Schedule");
 
             int choice = scan.nextInt();
@@ -355,20 +364,42 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
                     }
                     System.out.println();
                     break;
+                case 4:
+                    if (employeeCount != 0){
+                        System.out.println("Schedule created");
+                        returnValue = true;
+                    }
+                    else {
+                        System.out.println("Have at least one assigned employee");
+                        returnValue = false;
+                    }
+                    break;
                 case 0:
-                    return false;
+                    for (String s : selectedEmployeeIDs){
+
+                        SecurityEmployee resetEmployee = securityEmployeeRepository.get(s);
+                        resetEmployee.setCurrentAssignment("free");
+                        availableSecurityEmployeePriorityQueue.add(resetEmployee);
+
+                        // updating employee assignments
+                        editor.processTextFile(securityEmployeeDir + "securityEmployeeList.txt");
+                        editor.setValue(resetEmployee.getEmployeeID(), "currentAssignment", resetEmployee.getCurrentAssignment());
+                        editor.writeToTextFile(securityEmployeeDir + "securityEmployeeList.txt");
+                    }
+
+                    employeeCount = minimumEmployeeRequirement(schedule.getPriorityLevel()) + 5;
+                    returnValue = false;
+                    break;
                 default:
                     System.out.println("Invalid choice. Try again");
             }
         }
-        System.out.println("Schedule created");
         schedule.setAssignedEmployeeIDs(selectedEmployeeIDs);
-        scan.close();
-        return true;
+        return returnValue;
     }
 
     @Override
-    public boolean editScheduleAssignments(String scheduleID) {
+    public boolean editScheduleAssignments(String scheduleID, Scanner scan) {
 
         if (!retrieveSchedules()){
             return false;
@@ -381,7 +412,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
         }
 
         SecuritySchedules schedule = securitySchedulesRepository.get(scheduleID);
-        if (!addPersonnelToSchedule(schedule)){
+        if (!addPersonnelToSchedule(schedule, scan)){
             System.out.println("Updating cancelled");
             return false;
         }
@@ -390,7 +421,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
     }
 
     @Override
-    public boolean showSchedule(String scheduleID) {
+    public boolean showAllSchedules() {
 
         if (!retrieveSchedules()){
             return false;
@@ -400,6 +431,22 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
             securityScheduleToText(schedule);
         }
+        return true;
+    }
+
+    @Override
+    public boolean showScheduleByID(String ScheduleID) {
+
+        if (!retrieveSchedules()){
+            return false;
+        }
+
+        if (!securitySchedulesRepository.containsKey(ScheduleID)){
+            System.out.println("Security schedule with ID: " + ScheduleID + "not found");
+            return false;
+        }
+
+        securityScheduleToText(securitySchedulesRepository.get(ScheduleID));
         return true;
     }
 
@@ -466,7 +513,8 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
                             editor.retrieveValue(s, "duration"),
                             editor.retrieveValue(s, "tasks"),
                             editor.retrieveValue(s, "specialReqs"),
-                            editor.retrieveValue(s, "dateIssued"));
+                            editor.retrieveValue(s, "dateIssued"),
+                            editor.retrieveValue(s, "resolved"));
 
                     request.setFileName(f.getName());
 
@@ -513,7 +561,8 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
                         editor.retrieveValue(s, "duration"),
                         editor.retrieveValue(s, "tasks"),
                         editor.retrieveValue(s, "specialReqs"),
-                        editor.retrieveValue(s, "dateIssued"));
+                        editor.retrieveValue(s, "dateIssued"),
+                        editor.retrieveValue(s, "resolved"));
 
                 request.setFileName(f.getName());
 
@@ -854,6 +903,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
     private int minimumEmployeeRequirement(String priorityLevel){
 
         return switch (priorityLevel) {
+            case "3" -> Integer.MAX_VALUE;
             case "2" -> 10;
             case "1" -> 7;
             case "0" -> 3;

@@ -5,6 +5,7 @@ import src.HR.HRDepartment;
 import src.Inventory.InventoryDepartment;
 import src.Manufacturing.ManufacturingDepartment;
 import src.Modeling.ModelingDepartment;
+import src.Security.SecurityDepartment;
 import src.Treasury.TreasuryDepartment;
 
 import java.util.Scanner;
@@ -16,6 +17,7 @@ public class App {
     public static DesignDepartment designDepartment = new DesignDepartment();
     public static InventoryDepartment inventoryDepartment = new InventoryDepartment();
     public static TreasuryDepartment treasuryDepartment = new TreasuryDepartment();
+    public static SecurityDepartment securityDepartment = new SecurityDepartment();
 
     public static void main(String[] args) throws Exception {
         prompt();
@@ -39,7 +41,9 @@ public class App {
                 
                 5: Inventory\
                 
-                6: Design""");
+                6: Design\
+                
+                7: Security""");
         int choice = s.nextInt();
 
         switch (choice){
@@ -60,6 +64,9 @@ public class App {
                 break;
             case 6:
                 designDepartment.start();
+                break;
+            case 7:
+                securityDepartment.start();
                 break;
         }
     }

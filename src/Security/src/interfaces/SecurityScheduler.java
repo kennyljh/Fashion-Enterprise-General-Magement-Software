@@ -1,8 +1,10 @@
 package src.Security.src.interfaces;
 
+import java.util.Scanner;
+
 public interface SecurityScheduler {
 
-    boolean addSecurityPersonnel(String filePath);
+    boolean addSecurityPersonnel();
 
     boolean deleteSecurityPersonnel(String employeeID);
     /**
@@ -26,11 +28,13 @@ public interface SecurityScheduler {
      * @param requestID specified requestID
      * @return true if successfully created, false otherwise
      */
-    boolean createSchedule(String requestID);
+    boolean createSchedule(String requestID, Scanner scan);
 
     boolean deleteSchedule(String scheduleID);
 
-    boolean editScheduleAssignments(String scheduleID);
+    boolean editScheduleAssignments(String scheduleID, Scanner scan);
 
-    boolean showSchedule(String scheduleID);
+    boolean showAllSchedules();
+
+    boolean showScheduleByID(String ScheduleID);
 }

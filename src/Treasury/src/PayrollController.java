@@ -164,7 +164,7 @@ public class PayrollController implements PayrollControllerInterface {
 	/**
 	 * To define one instance of the class Payroll to 
 	 * call Payroll methods
-	 * @return
+	 * @return Payroll instance
 	 */
 	private Payroll getPayrollInstance() {
 		

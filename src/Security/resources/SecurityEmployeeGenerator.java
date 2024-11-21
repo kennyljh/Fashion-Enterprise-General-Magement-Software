@@ -1,3 +1,5 @@
+package src.Security.resources;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,23 +40,54 @@ public class SecurityEmployeeGenerator {
         expertise.put("Forensics Specialist", Arrays.asList("Digital Forensics", "Crime Scene Analysis", "Evidence Recovery"));
 
         // File path
-        String filePath = "100_security_employees.txt";
+        String filePath = "src/security/resources/demo_100_security_employees.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             int employeeCount = 1;
+
+            // Define first and last names
+            String[] firstNames = {"John", "Jane", "Alex", "Taylor", "Jordan", "Chris", "Morgan", "Casey", "Ryan", "Pat"};
+            String[] lastNames = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Martinez", "Lopez"};
+
+            // Create a balanced distribution of employees
+            int employeesPerPosition = 100 / divisions.size() / 4; // This ensures that the employees are distributed evenly across divisions and positions
 
             for (Map.Entry<String, List<String>> division : divisions.entrySet()) {
                 String divisionName = division.getKey();
                 List<String> positions = division.getValue();
 
+                // Balance employees for each position within the division
                 for (String position : positions) {
-                    for (int i = 0; i < 5; i++) { // 5 employees per position
+                    for (int i = 0; i < employeesPerPosition; i++) { // Balanced employee count per position
                         String employeeID = String.format("DoS_Employee_%04d", employeeCount++);
-                        String expertiseList = String.join(" ", expertise.get(position));
+
+                        // Generate random name
+                        String firstName = firstNames[(int) (Math.random() * firstNames.length)];
+                        String lastName = lastNames[(int) (Math.random() * lastNames.length)];
+                        String fullName = firstName + " " + lastName;
+
+                        // Get expertise for the current position and replace spaces with underscores
+                        List<String> positionExpertise = expertise.get(position);
+
+                        // Select two random expertise
+                        Set<String> selectedExpertise = new HashSet<>();
+                        Random rand = new Random();
+                        while (selectedExpertise.size() < 2) {
+                            selectedExpertise.add(positionExpertise.get(rand.nextInt(positionExpertise.size())));
+                        }
+
+                        // Replace spaces with underscores in selected expertise
+                        List<String> modifiedExpertise = new ArrayList<>();
+                        for (String exp : selectedExpertise) {
+                            modifiedExpertise.add(exp.replace(" ", "_"));
+                        }
+                        String expertiseList = String.join(" ", modifiedExpertise);
+
+                        // Generate the employee data
                         String output = String.format(
-                                "%s:\nname/Employee_%d\ndivision/%s\nposition/%s\ndepartment/Security\nexpertise/%s\nrating/%.1f\nyearsOfExperience/%d\npreviousAssignment/free\ncurrentAssignment/free\n\n",
+                                "%s:\nname/%s\ndivision/%s\nposition/%s\ndepartment/Security\nexpertise/%s\nrating/%.1f\nyearsOfExperience/%d\npreviousAssignment/free\ncurrentAssignment/free\n\n",
                                 employeeID,
-                                employeeCount - 1,
+                                fullName,
                                 divisionName,
                                 position,
                                 expertiseList,

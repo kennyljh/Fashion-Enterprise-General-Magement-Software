@@ -10,7 +10,8 @@ public class SecurityRequests {
 
     public SecurityRequests (String requestID, String priorityLevel, String department,
                              String location, String description, String duration,
-                             String tasks, String specialReqs, String dateIssued){
+                             String tasks, String specialReqs, String dateIssued,
+                             String resolved){
         this.requestID = requestID;
         this.priorityLevel = priorityLevel;
         this.department = department;
@@ -20,6 +21,7 @@ public class SecurityRequests {
         this.tasks = tasks;
         this.specialReqs = specialReqs;
         this.dateIssued = dateIssued;
+        this.resolved = resolved;
     }
 
     public String getRequestID() {
