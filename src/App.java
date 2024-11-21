@@ -64,7 +64,6 @@ public class App {
                 break;
             case 6:
                 designDepartment.start();
-
                 break;
             case 7:
                 securityDepartment.start();
