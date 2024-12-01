@@ -1,10 +1,8 @@
 package src.Manufacturing.src;
 
-import src.Manufacturing.src.interfaces.HeadOfManufacturingInterface;
 import src.Manufacturing.src.interfaces.ManagerInterface;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /*
@@ -13,7 +11,7 @@ import java.util.Map;
 public class ManufacturingManager implements ManagerInterface {
 
     private Map<String, Integer> collectedMaterials = new HashMap<>();
-    private SimpleProduct product;
+    private Product product;
 
 
     @Override
@@ -21,12 +19,12 @@ public class ManufacturingManager implements ManagerInterface {
 
         System.out.println("Creating product with the following materials: ");
         verifiedMaterials.forEach((material, value) -> System.out.println(value + "items of " + material));
-        this.product = new SimpleProduct(verifiedMaterials.toString());
+        this.product = new Product(verifiedMaterials.toString());
         return true;
     }
 
     @Override
-    public void deliverProduct(SimpleProduct product) {
+    public void deliverProduct(Product product) {
 
         if (product == null) {
             System.out.println("Product has not been created");

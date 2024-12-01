@@ -3,11 +3,8 @@ package src.Manufacturing.src;
 import src.App;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-import static src.App.prompt;
 
 public class ManufacturingController {
 
@@ -16,6 +13,7 @@ public class ManufacturingController {
     private Machines machine;
     private boolean isReady = false;
     private boolean productCreated = false;
+    private final ManufacturingFileManager fileManager = new ManufacturingFileManager();
 
 
     public ManufacturingController() {
@@ -37,7 +35,8 @@ public class ManufacturingController {
             System.out.println("1. Collect Raw Materials");
             System.out.println("2. Verify Raw Materials");
             System.out.println("3. Create Product");
-            System.out.println("4. Exit");
+            System.out.println("4. Send Products to Repository");
+            System.out.println("5. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -117,30 +116,17 @@ public class ManufacturingController {
                     if (productCreated) {
                         System.out.println("Product created. Deliver to head of manufacturing...");
                         String productName = manager.getProductName();
-                        SimpleProduct product = new SimpleProduct(productName);
+                        Product product = new Product(productName);
                         manager.deliverProduct(product);
                     } else {
                         System.out.println("Product creation failed, Try again");
                     }
                     break;
 
-//                case 4:
-//
-//                    if (manager.getProduct() == null) {
-//                        System.out.println("You have no items collected yet.");
-//                        break;
-//                    }
-//                    //if product is not created break
-//                    if (!productCreated) {
-//                        System.out.println("Product is not created");
-//                        break;
-//                    }
-//                    if (!isReady) {
-//                        System.out.println("The machine is not ready to start, it needs to be verified first.");
-//                        break;
-//                    }
-//
                 case 4:
+                    fileManager.sendDataToRepo();
+
+                case 5:
                     System.out.println("Exit Program");
                     exit = true;
                     App.prompt();
