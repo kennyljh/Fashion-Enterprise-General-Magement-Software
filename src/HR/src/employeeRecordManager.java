@@ -172,10 +172,9 @@ public class employeeRecordManager {
         data.values().forEach(System.out::println);
     }
 
-    //TODO: move this to fileStorageHR
+    //TODO: move this to fileStorageHR and replace with method call
     public void displayFileRecords(String folderPath) throws Exception {
         File folder = new File(folderPath);
-        //TODO: add direct path to employeeStorage
         if(folder.isDirectory()) {
             File[] files = folder.listFiles();
             int i = 0;
@@ -251,14 +250,4 @@ public class employeeRecordManager {
         }
         return null; // Return null if the candidate file is not found
     }
-
-
-//    public void retrieveEmployeeByEmployeeID(String employeeID) {
-//        try {
-//            //TODO: implement file storage into the loadFileAndPrint path
-//            storageHR.loadFileAndPrint(storageHR.getFilepath() + "\\" + employeeID + ".txt");
-//        } catch (Exception e) {
-//            throw new RuntimeException("Error in retrieveEmployeeByEmployeeID: \n" + e);
-//        }
-//    }
 }
