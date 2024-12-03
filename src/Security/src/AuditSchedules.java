@@ -98,7 +98,7 @@ public class AuditSchedules {
     }
 
     public void setStatus(String status){
-        this.tasks = status;
+        this.status = status;
     }
 
     public void setDateScheduled(String dateScheduled){

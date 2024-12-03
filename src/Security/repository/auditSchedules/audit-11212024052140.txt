@@ -4,8 +4,8 @@ department/Department of Treasury
 location/Germany - Some remote location
 description/need to do something
 duration/11-22-3333 11:11 a.m. - 11:11 p.m.
-tasks/need to do a bunch of something
-status/ongoing
+tasks/need to do something
+status/pass
 dateScheduled/11-21-2024-05-22-22
 employee0/DoS_Employee_Audit_0001
 

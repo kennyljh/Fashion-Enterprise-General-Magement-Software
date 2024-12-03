@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import src.Security.src.SecuritySchedulerController;
-
 public class SecurityScheduler implements src.Security.src.interfaces.SecurityScheduler {
 
     PriorityQueue<SecurityRequests> securityRequestsPriorityQueue = new PriorityQueue<>(

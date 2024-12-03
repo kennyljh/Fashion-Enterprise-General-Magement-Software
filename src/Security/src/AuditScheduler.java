@@ -56,8 +56,6 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
     PoorTextEditor editor = new PoorTextEditor();
     private File[] auditSchedulesFiles = null;
 
-
-
     @Override
     public boolean addAuditPersonnel() {
         return false;
@@ -70,7 +68,14 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showOngoingAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (ongoingAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No ongoing audits found");
             return false;
         }
 
@@ -83,7 +88,14 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showPassedAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (passedAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No passed audits found");
             return false;
         }
 
@@ -96,7 +108,14 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showFailedAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (failedAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No failed audits found");
             return false;
         }
 
@@ -109,7 +128,14 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showAllAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (allAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No audits found");
             return false;
         }
 
@@ -122,6 +148,7 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showAuditByID(String auditID) {
+
         if (!retrieveAllAudits()){
             return false;
         }
@@ -287,26 +314,57 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
         AuditSchedules schedule = auditSchedulesRepository.get(auditID);
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Enter priority level: (0 = Low,  1 = Medium, 2 = High, 3 = Emergency)");
-        schedule.setPriorityLevel(scan.nextLine());
+        boolean finish = false;
 
-        System.out.println("Enter department to audit: ");
-        schedule.setDepartment(scan.nextLine());
+        while (!finish){
 
-        System.out.println("Enter audit location: (Country - Specific Location)");
-        schedule.setLocation(scan.nextLine());
+            System.out.println("Select field to edit (audit ID: " + auditID + "):");
+            System.out.println("1. Audit Priority Level. Current: " + schedule.getPriorityLevel());
+            System.out.println("2. Audited Department. Current: " + schedule.getDepartment());
+            System.out.println("3. Audit Location. Current: " + schedule.getLocation());
+            System.out.println("4. Audit Description. Current: " + schedule.getDescription());
+            System.out.println("5. Audit Duration. Current: " + schedule.getDuration());
+            System.out.println("6. Audit Tasks. Current: " + schedule.getTasks());
+            System.out.println("7. Audit Status. Current: " + schedule.getStatus());
+            System.out.println("0. Complete Editing");
 
-        System.out.println("Enter description of audit: ");
-        schedule.setDescription(scan.nextLine());
+            String choice = scan.nextLine();
 
-        System.out.println("Enter duration of audit: (MM-DD-YYYY TT:MM a.m. - TT:MM p.m.)");
-        schedule.setDuration(scan.nextLine());
+            switch (choice){
 
-        System.out.println("Enter tasks of audit: ");
-        schedule.setTasks(scan.nextLine());
+                case "1" -> {
+                    System.out.println("Enter priority level: (0 = Low,  1 = Medium, 2 = High, 3 = Emergency)");
+                    schedule.setPriorityLevel(scan.nextLine());
+                }
+                case "2" -> {
+                    System.out.println("Enter department to audit: ");
+                    schedule.setDepartment(scan.nextLine());
+                }
+                case "3" -> {
+                    System.out.println("Enter audit location: (Country - City - Specific Location)");
+                    schedule.setLocation(scan.nextLine());
+                }
+                case "4" -> {
+                    System.out.println("Enter description of audit: ");
+                    schedule.setDescription(scan.nextLine());
+                }
+                case "5" -> {
+                    System.out.println("Enter duration of audit: (MM-DD-YYYY TT:MM a.m. - TT:MM p.m.)");
+                    schedule.setDuration(scan.nextLine());
+                }
+                case "6" -> {
+                    System.out.println("Enter tasks of audit: ");
+                    schedule.setTasks(scan.nextLine());
+                }
+                case "7" -> {
+                    System.out.println("Enter audit status: (ongoing, pass, fail)");
+                    schedule.setStatus(scan.nextLine());
+                }
+                case "0" -> finish =  true;
 
-        System.out.println("Enter audit status: (ongoing, pass, fail)");
-        schedule.setStatus(scan.nextLine());
+                default -> System.out.println("No such field to edit. Try again.");
+            }
+        }
 
         if (!addPersonnelToSchedule(schedule)){
             System.out.println("Updating cancelled");
