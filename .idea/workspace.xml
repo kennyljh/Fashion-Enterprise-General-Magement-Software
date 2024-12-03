@@ -5,61 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/HR/src/fileStorageHR.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/SecurityDepartment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/auditEmployees/auditEmployeeList.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/auditSchedules/audit-11212024052140.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoD_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoF_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoHR_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoI_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoMfg_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoMod_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoT_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/printedAuditSchedules/audit-11212024052140.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/printedSecuritySchedules/11212024005752-DoT_Sec_Req_0001.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/printedSecuritySchedules/11212024015237-DoT_Sec_Req_0001.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/printedSecuritySchedules/11212024015647-DoT_Sec_Req_0001.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/printedSecuritySchedules/11212024015906-DoT_Sec_Req_0001.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/securityEmployees/securityEmployeeList.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/SecurityEmployeeGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoD_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoF_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoHR_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoI_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoMfg_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoMod_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/DoT_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/clonedRequests/requestsClone.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/divisionsAndPositions.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/securityEmployee100Clone.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/AuditEmployee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/AuditScheduler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/AuditSchedulerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/AuditSchedules.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/AuditSchedulesDescription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/PersonnelDescription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecurityEmployee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecurityRequests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecurityRequestsDescription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecurityScheduler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecuritySchedulerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecuritySchedules.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecuritySchedulesDescription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/interfaces/AuditScheduler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/interfaces/AuditSchedulerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/interfaces/SecurityScheduler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/interfaces/SecuritySchedulerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Design/src/DesignSpecificationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/DesignSpecificationsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HR/HRDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/HRDepartment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/employeeRecordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/employeeRecordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/interfaces/IEmployee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/interfaces/IEmployee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TextEditor/PoorTextEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TextEditor/PoorTextEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory/src/BasicInventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/src/BasicInventoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Security/src/SecurityRequestScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecurityRequestScheduler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,23 +51,17 @@
     "Application.SecurityEmployeeGenerator.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "18-iteration-2-demo-adjusments",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/kenny/coms362/fashionempire_3620_fall2024"
+    "last_opened_file_path": "C:/Users/Kenny/coms362/fashionempire_3620_fall2024"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="src.Security.src" />
       <recent name="src.Security" />
     </key>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-19.0.2-corretto-19.0.2-4caba194b151-48ba4555" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -137,16 +84,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Security/src/AuditScheduler.java</url>
-          <line>337</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
