@@ -4,8 +4,6 @@
 
 package src.Security.src;
 
-import jdk.jshell.Snippet;
-import src.Security.src.interfaces.AuditSchedulerController;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.*;
@@ -53,24 +51,104 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     private final String printedAuditSchedulesDir = "src/Security/repository/printedAuditSchedules/";
 
+    private final String securitySchedulesDir = "src/Security/repository/departmentRequests/";
+
     PoorTextEditor editor = new PoorTextEditor();
     private File[] auditSchedulesFiles = null;
 
-
-
     @Override
     public boolean addAuditPersonnel() {
-        return false;
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap();
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        String latestEmployeeID = null;
+        for (String ID : employeeHashMap.keySet()){
+            latestEmployeeID = ID;
+        }
+
+        String newEmployeeID = "-1";
+        if (latestEmployeeID != null){
+            newEmployeeID = latestEmployeeID.substring(latestEmployeeID.length() - 4);
+        }
+
+        String ID = String.format("%04d", Integer.parseInt(newEmployeeID) + 1);
+        newEmployeeID = "DoS_Employee_Audit_" + ID;
+
+        Scanner scan = new Scanner(System.in);
+        Map<String, Object> newEmployeeData = new LinkedHashMap<>();
+
+        System.out.println("Adding employee under ID: " + newEmployeeID);
+        System.out.println("Enter employee name: ");
+        newEmployeeData.put("name", scan.nextLine());
+
+        System.out.println("Enter employee division: ");
+        newEmployeeData.put("division", scan.nextLine());
+
+        System.out.println("Enter employee position: ");
+        newEmployeeData.put("position", scan.nextLine());
+
+        newEmployeeData.put("department", "Audit");
+
+        System.out.println("Enter employee expertise: (Example_Expertise Another_Example_Expertise)");
+        newEmployeeData.put("expertise", scan.nextLine());
+
+        System.out.println("Enter employee rating: (0.0 - 5.0)");
+        newEmployeeData.put("rating", scan.nextLine());
+
+        System.out.println("Enter employee years of experience: ");
+        newEmployeeData.put("yearsOfExperience", scan.nextLine());
+
+        newEmployeeData.put("previousAssignment", "free");
+        newEmployeeData.put("currentAssignment", "free");
+
+        employeeHashMap.put(newEmployeeID, newEmployeeData);
+        editor.setRepository(employeeHashMap);
+        editor.writeToTextFile(auditEmployeeDir + "auditEmployeeList.txt");
+        return true;
     }
 
     @Override
     public boolean deleteAuditPersonnel(String employeeID) {
-        return false;
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap();
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        if (!employeeHashMap.containsKey(employeeID)){
+
+            System.out.println("Employee with ID: " + employeeID + " not found");
+            return false;
+        }
+
+        editor.setRepository(employeeHashMap);
+        if (!editor.retrieveValue(employeeID, "currentAssignment").equals("free")){
+
+            System.out.println("Employee is already assigned to a task. Unassign first.");
+            return false;
+        }
+
+        editor.removeArrayItem(employeeID);
+        editor.writeToTextFile(auditEmployeeDir + "auditEmployeeList.txt");
+        System.out.println("Employee with ID: " + employeeID + " successfully deleted");
+        return true;
     }
 
     @Override
     public boolean showOngoingAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (ongoingAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No ongoing audits found");
             return false;
         }
 
@@ -83,7 +161,14 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showPassedAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (passedAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No passed audits found");
             return false;
         }
 
@@ -96,7 +181,14 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showFailedAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (failedAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No failed audits found");
             return false;
         }
 
@@ -109,7 +201,14 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showAllAudits() {
+
         if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (allAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No audits found");
             return false;
         }
 
@@ -122,6 +221,7 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean showAuditByID(String auditID) {
+
         if (!retrieveAllAudits()){
             return false;
         }
@@ -287,26 +387,57 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
         AuditSchedules schedule = auditSchedulesRepository.get(auditID);
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Enter priority level: (0 = Low,  1 = Medium, 2 = High, 3 = Emergency)");
-        schedule.setPriorityLevel(scan.nextLine());
+        boolean finish = false;
 
-        System.out.println("Enter department to audit: ");
-        schedule.setDepartment(scan.nextLine());
+        while (!finish){
 
-        System.out.println("Enter audit location: (Country - Specific Location)");
-        schedule.setLocation(scan.nextLine());
+            System.out.println("Select field to edit (audit ID: " + auditID + "):");
+            System.out.println("1. Audit Priority Level. Current: " + schedule.getPriorityLevel());
+            System.out.println("2. Audited Department. Current: " + schedule.getDepartment());
+            System.out.println("3. Audit Location. Current: " + schedule.getLocation());
+            System.out.println("4. Audit Description. Current: " + schedule.getDescription());
+            System.out.println("5. Audit Duration. Current: " + schedule.getDuration());
+            System.out.println("6. Audit Tasks. Current: " + schedule.getTasks());
+            System.out.println("7. Audit Status. Current: " + schedule.getStatus());
+            System.out.println("0. Complete Editing");
 
-        System.out.println("Enter description of audit: ");
-        schedule.setDescription(scan.nextLine());
+            String choice = scan.nextLine();
 
-        System.out.println("Enter duration of audit: (MM-DD-YYYY TT:MM a.m. - TT:MM p.m.)");
-        schedule.setDuration(scan.nextLine());
+            switch (choice){
 
-        System.out.println("Enter tasks of audit: ");
-        schedule.setTasks(scan.nextLine());
+                case "1" -> {
+                    System.out.println("Enter priority level: (0 = Low,  1 = Medium, 2 = High, 3 = Emergency)");
+                    schedule.setPriorityLevel(scan.nextLine());
+                }
+                case "2" -> {
+                    System.out.println("Enter department to audit: ");
+                    schedule.setDepartment(scan.nextLine());
+                }
+                case "3" -> {
+                    System.out.println("Enter audit location: (Country - City - Specific Location)");
+                    schedule.setLocation(scan.nextLine());
+                }
+                case "4" -> {
+                    System.out.println("Enter description of audit: ");
+                    schedule.setDescription(scan.nextLine());
+                }
+                case "5" -> {
+                    System.out.println("Enter duration of audit: (MM-DD-YYYY TT:MM a.m. - TT:MM p.m.)");
+                    schedule.setDuration(scan.nextLine());
+                }
+                case "6" -> {
+                    System.out.println("Enter tasks of audit: ");
+                    schedule.setTasks(scan.nextLine());
+                }
+                case "7" -> {
+                    System.out.println("Enter audit status: (ongoing, pass, fail)");
+                    schedule.setStatus(scan.nextLine());
+                }
+                case "0" -> finish =  true;
 
-        System.out.println("Enter audit status: (ongoing, pass, fail)");
-        schedule.setStatus(scan.nextLine());
+                default -> System.out.println("No such field to edit. Try again.");
+            }
+        }
 
         if (!addPersonnelToSchedule(schedule)){
             System.out.println("Updating cancelled");
@@ -326,7 +457,60 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean sendFailedAudit(String auditID) {
-        return false;
+
+        if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (failedAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No failed audits found");
+            return false;
+        }
+
+        if (!auditSchedulesRepository.containsKey(auditID)){
+
+            System.out.println("Security audit with ID: " + auditID + " not found");
+            return false;
+        }
+
+        AuditSchedules audit = auditSchedulesRepository.get(auditID);
+
+        if (!audit.getStatus().equals("fail")){
+
+            System.out.println("Security audit with ID: " + auditID + " is not a failed audit");
+            return false;
+        }
+
+        List<String> employeeList = audit.getAssignedEmployeeIDs();
+        String authors = "Audit authors: ";
+        for (String s : employeeList){
+            authors = authors + s + "|";
+        }
+
+        Map<String, Object> requestData = new LinkedHashMap<>();
+        requestData.put("priorityLevel", audit.getPriorityLevel());
+        requestData.put("department", audit.getDepartment());
+        requestData.put("location", audit.getLocation());
+        requestData.put("description", audit.getDescription());
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Specify security request duration: (MM-DD-YYYY HH:MM a.m. - HH:MM p.m.)");
+        requestData.put("duration", scan.nextLine());
+
+        requestData.put("tasks", "Audit tasks (" + audit.getTasks() + ")");
+        requestData.put("specialReqs", authors);
+        requestData.put("dateIssued", dateIssuer());
+        requestData.put("resolved", "false");
+
+        editor.processTextFile(securitySchedulesDir + "Audit_Security_Requests.txt");
+        Map<String, Object> repository = editor.getRepository();
+        repository.put("DoS_Failed_Audit_" + audit.getScheduleID(), requestData);
+        editor.setRepository(repository);
+        editor.writeToTextFile(securitySchedulesDir + "Audit_Security_Requests.txt");
+
+        System.out.println("Failed audit with ID: " + auditID + " successfully sent to Security");
+        return true;
     }
 
     /**
@@ -711,6 +895,42 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
             }
         }
         return true;
+    }
+
+    /**
+     * Return all audit employees hashmap repo
+     * @return all audit employees hashmap repo
+     */
+    private Map<String, Object> retrieveEmployeeHashmap(){
+
+        File directory = new File(auditEmployeeDir);
+        File[] textFiles = null;
+
+        if (directory.exists() && directory.isDirectory()){
+
+            //grab list of text files
+            FilenameFilter textFileFilter = ((dir, name) -> name.toLowerCase().endsWith(".txt"));
+            textFiles = directory.listFiles(textFileFilter);
+        }
+        else {
+            System.out.println("Repository not found");
+            return null;
+        }
+
+        if (textFiles != null){
+
+            if (textFiles.length == 0){
+                System.out.println("No security employees found");
+                return null;
+            }
+        }
+        else {
+            System.out.println("No security employees found");
+            return null;
+        }
+
+        editor.processTextFile(auditEmployeeDir + textFiles[0].getName());
+        return editor.getRepository();
     }
 
     /**
