@@ -1,24 +1,30 @@
 package src.Manufacturing.src;
 
-import src.Design.src.CustomDesign;
 import src.Design.src.FinalDesign;
 import src.Manufacturing.src.interfaces.ProductInterface;
 
 public class Product implements ProductInterface {
 
     FinalDesign design;
+    String name;
     String description;
     String quantity;
     String category;
 
-    public Product(FinalDesign design) {
-        this.design = design;
+    public Product(String name) {
+        this.name = name;
+
     }
 
     @Override
     public void setName(String name) {
 
-        this.design = new FinalDesign(design.getDesignName());
+        if (this.design == null) {
+            this.design = new FinalDesign(name);
+        } else {
+            this.design.setDesignName(name);
+        }
+        this.name = name;
     }
 
     @Override
@@ -55,5 +61,13 @@ public class Product implements ProductInterface {
     @Override
     public String getCategory() {
         return category;
+    }
+
+    @Override
+    public String displayProducts() {
+        return "Design Name: " + name + "\n"
+                + "Description: " + description + "\n"
+                + "Quantity: " + quantity + "\n"
+                + "Category: " + category;
     }
 }

@@ -1,5 +1,7 @@
 package src.Manufacturing.src.interfaces;
 
+import src.Manufacturing.src.Product;
+
 public interface ProductInterface {
 
     void setName(String name);
@@ -13,5 +15,7 @@ public interface ProductInterface {
 
     void setCategory(String category);
     String getCategory();
+
+    String displayProducts();
 
 }

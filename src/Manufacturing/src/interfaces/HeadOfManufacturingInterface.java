@@ -7,8 +7,8 @@ import java.util.Map;
 
 public interface HeadOfManufacturingInterface {
 
-    void viewRawMaterials(Map<String, Integer> rawMaterials);
-    void selectRawMaterial(int index, String rawMaterials);
+    void viewRawMaterials(Map<String, String> rawMaterials);
+    void selectRawMaterial(String index, String rawMaterials);
     void receiveFinalDesign(Map<String, String> finalDesign);
     void receiveCustomDesign(Map<String, String> customDesign);
     void verifyProduct(Product product);

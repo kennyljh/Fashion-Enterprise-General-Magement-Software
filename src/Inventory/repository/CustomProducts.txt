@@ -1,0 +1,12 @@
+Quantity:
+Details/
+
+Description:
+Details/gr
+
+Category:
+Details/rw
+
+Name:
+Details/gfr
+

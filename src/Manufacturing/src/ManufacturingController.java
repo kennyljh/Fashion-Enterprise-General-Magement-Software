@@ -1,10 +1,9 @@
 package src.Manufacturing.src;
 
 import src.App;
+import src.Design.src.FinalDesign;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class ManufacturingController {
 
@@ -14,6 +13,9 @@ public class ManufacturingController {
     private boolean isReady = false;
     private boolean productCreated = false;
     private final ManufacturingFileManager fileManager = new ManufacturingFileManager();
+    private Map<String, Object> selectedDesign = null;
+    private Map<String, Object> selectedCSTMDesign = null;
+    private String designType = null;
 
 
     public ManufacturingController() {
@@ -32,55 +34,229 @@ public class ManufacturingController {
 
         while (!exit) {
             System.out.println("Please enter your choice");
-            System.out.println("1. Collect Raw Materials");
-            System.out.println("2. Verify Raw Materials");
-            System.out.println("3. Create Product");
-            System.out.println("4. Send Products to Repository");
-            System.out.println("5. Exit");
+            System.out.println("1. Receive and send specifications for Final Design");
+            System.out.println("2. Receive and send specifications for Custom Design");
+            System.out.println("3. Collect Raw Materials for Designs");
+            System.out.println("4. Verify Raw Materials for Designs");
+            System.out.println("5. Create Product and store in Inventory");
+            System.out.println("6. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
-            Map<String, Integer> collectedMaterials = new HashMap<>();
+            Map<String, Object> collectedMaterials = new HashMap<>();
 
             switch (choice) {
                 case 1:
-                    System.out.println("Collect the Raw Materials from Storage");
-
-
-                    while (true) {
-                        System.out.println("Enter 'done' to exit prompt at any time");
-                        System.out.println("Select Type of Raw Material: ");
-                        String rawMaterial = sc.nextLine();
-                        if (rawMaterial.equals("done")) {
-                            break;
-                        }
-
-                        System.out.println("Select Quantity of Raw Material: " + rawMaterial);
-                        int quantity = sc.nextInt();
-                        sc.nextLine();
-                        collectedMaterials.put(rawMaterial, quantity);
-                        System.out.println("You have " + quantity + " items collected of " + rawMaterial);
+                    System.out.println("Accessing Final Designs from repository...");
+                    System.out.println(".   .   .");
+                    Map<String, Object> storedDesigns = fileManager.getFinalDesign();
+                    if (storedDesigns == null || storedDesigns.isEmpty()) {
+                        System.out.println("No final design are found");
+                        return;
                     }
+                    System.out.println("Available Final Designs: ");
+                    List<String> finalDesignNames = new ArrayList<>(storedDesigns.keySet());
+                    for (int i = 0; i < finalDesignNames.size(); i++) {
+                        System.out.println((i + 1) + ". " + finalDesignNames.get(i));
+                    }
+                    System.out.println("Select a Final Design: ");
+                    int finalDesignChoice = sc.nextInt() - 1;
+                    sc.nextLine();
+                    if (finalDesignChoice < 0 || finalDesignChoice > finalDesignNames.size()) {
+                        System.out.println("Invalid choice");
+                        return;
+                    }
+
+                    String selectedDesignName = finalDesignNames.get(finalDesignChoice);
+                    Map<String, Object> selectedFinalDesign = (Map<String, Object>) storedDesigns.get(selectedDesignName);
+                    System.out.println("Selected Final Design: " + selectedDesignName);
+                    selectedFinalDesign.forEach((key, value) -> {
+                        System.out.println(key + ": " + value);
+                    });
+                    //give information to the manager to then collect the raw materials properly.
+                    manager.setSelectedDesign(selectedDesignName, selectedFinalDesign);
+                    System.out.println("Final Design has been passed to the manager...");
+                    System.out.println(".   .   .");
+                    break;
+
+                case 2:
+                    System.out.println("Accessing Custom Designs from repository...");
+                    System.out.println(".   .   .");
+                    Map<String, Object> storedCustomDesigns = fileManager.getCustomDesign();
+                    if (storedCustomDesigns == null || storedCustomDesigns.isEmpty()) {
+                        System.out.println("No final design are found");
+                        return;
+                    }
+                    System.out.println("Available Custom Designs: ");
+                    List<String> customDesignNames = new ArrayList<>(storedCustomDesigns.keySet());
+                    for (int i = 0; i < customDesignNames.size(); i++) {
+                        System.out.println((i + 1) + ". " + customDesignNames.get(i));
+                    }
+                    System.out.println("Select a Custom Design: ");
+                    int customDesignChoice = sc.nextInt() - 1;
+                    sc.nextLine();
+                    if (customDesignChoice < 0 || customDesignChoice > customDesignNames.size()) {
+                        System.out.println("Invalid choice");
+                        return;
+                    }
+                    String selectedCustomDesignName = customDesignNames.get(customDesignChoice);
+                    Map<String, Object> selectedCustomDesign = (Map<String, Object>) storedCustomDesigns.get(selectedCustomDesignName);
+                    System.out.println("Selected Custom Design: " + selectedCustomDesignName);
+                    selectedCustomDesign.forEach((key, value) -> {
+                        System.out.println(key + ": " + value);
+                    });
+
+                    manager.setSelectedDesign(selectedCustomDesignName, selectedCustomDesign);
+                    System.out.println("Custom Design has been passed to the manager...");
+                    System.out.println(".   .   .");
+                    break;
+
+
+                case 3:
+                    System.out.println("Collecting the Raw Materials from Storage...");
+                    System.out.println("Select the design type to collect raw materials");
+                    System.out.println("1. Final Design");
+                    System.out.println("2. Custom Design");
+                    int designChoice = sc.nextInt();
+                    sc.nextLine();
+                    Map<String, Object> activeDesign = null;
+
+
+                    if (designChoice == 1) {
+                        System.out.println("Accessing Final Designs from repository...");
+                        Map<String, Object> finalDesigns = fileManager.getFinalDesign();
+                        if (finalDesigns == null || finalDesigns.isEmpty()) {
+                            System.out.println("No final design are found");
+                            return;
+                        }
+                        System.out.println("Available Final Designs: ");
+                        List<String> selectedFinalDesignName = new ArrayList<>(finalDesigns.keySet());
+                        for (int i = 0; i < selectedFinalDesignName.size(); i++) {
+                            System.out.println((i + 1) + ". " + selectedFinalDesignName.get(i));
+                        }
+                        System.out.println("Select a Final Design: ");
+                        int option = sc.nextInt() - 1;
+                        sc.nextLine();
+                        if (option < 0 || option >= selectedFinalDesignName.size()) {
+                            System.out.println("Invalid choice");
+                            return;
+                        }
+                        String selectedName = selectedFinalDesignName.get(option);
+                        selectedDesign = (Map<String, Object>) finalDesigns.get(selectedName);
+                        designType = "Final Design";
+                        activeDesign = selectedDesign;
+
+                    } else if (designChoice == 2) {
+                        System.out.println("Accessing Custom Designs from repository...");
+                        Map<String, Object> customDesigns = fileManager.getCustomDesign();
+                        if (customDesigns == null || customDesigns.isEmpty()) {
+                            System.out.println("No final design are found");
+                            return;
+                        }
+                        System.out.println("Available Custom Designs: ");
+                        List<String> selectedCustomDesignNames = new ArrayList<>(customDesigns.keySet());
+                        for (int i = 0; i < selectedCustomDesignNames.size(); i++) {
+                            System.out.println((i + 1) + ". " + selectedCustomDesignNames.get(i));
+                        }
+                        System.out.println("Select a Custom Design: ");
+                        int customOption = sc.nextInt() - 1;
+                        sc.nextLine();
+                        if (customOption < 0 || customOption >= selectedCustomDesignNames.size()) {
+                            System.out.println("Invalid choice");
+                            return;
+                        }
+                        String selectedName = selectedCustomDesignNames.get(customOption);
+                        selectedCSTMDesign = (Map<String, Object>) customDesigns.get(selectedName);
+                        designType = "Custom Design";
+                        activeDesign = selectedCSTMDesign;
+                    } else {
+                        System.out.println("Invalid choice");
+                        return;
+                    }
+                    if (activeDesign != null) {
+                        System.out.println("Selected Design: " + designType + ": ");
+                        activeDesign.forEach((key, value) -> {
+                            System.out.println(key + ": " + value);
+                        });
+                        Object rawMaterialsObj = activeDesign.get("RawMaterials");
+                        List<String> rawMaterials;
+                        if (rawMaterialsObj instanceof String) {
+                            rawMaterials = List.of(((String) rawMaterialsObj).split(","));
+                        } else if (rawMaterialsObj instanceof List) {
+                            rawMaterials = (List<String>) rawMaterialsObj;
+                        } else {
+                            rawMaterials = new ArrayList<>();
+                        }
+                        System.out.println("Raw Materials Required: " + rawMaterials);
+                        while (true) {
+                            System.out.println("Enter 'done' to exit prompt at any time");
+                            System.out.println("Collect the type of Raw Material based on the Design: ");
+                            String rawMaterial = sc.nextLine();
+                            if (rawMaterial.equals("done")) {
+                                break;
+                            }
+
+                            System.out.println("Select Quantity of Raw Materials based on the Design: " + rawMaterial);
+                            String quantity = sc.nextLine();
+                            collectedMaterials.put(rawMaterial, quantity);
+                            System.out.println("You have " + quantity + " items collected of " + rawMaterial);
+                        }
+                    } else {
+                        System.out.println("Invalid choice");
+                        return;
+                    }
+
                     manager.collectRawMaterials(collectedMaterials);
                     System.out.println("Raw Materials Collected:");
                     collectedMaterials.forEach((rawMaterial, quantity) -> {
                         System.out.println(quantity + " items of " + rawMaterial);
                     });
+                    Map<String, Map<String, String>> formattedMaterials = new HashMap<>();
+                    Map<String, Object> finalData = fileManager.getFinalDesign();
+                    Map<String, Object> customData = fileManager.getCustomDesign();
+                    if (finalData != null || customData != null || finalData.isEmpty() || customData.isEmpty()) {
+                        finalData.forEach((key, value) -> {
+                            if (value instanceof Map) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, String> details = (Map<String, String>) value;
+                                formattedMaterials.put(key, details);
+                            }
+                        });
+                        customData.forEach((key, value) -> {
+                            if (value instanceof Map) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, String> details = (Map<String, String>) value;
+                                formattedMaterials.put(key, details);
+                            }
+                        });
+                    }
+                    collectedMaterials.forEach((rawMaterial, quantity) -> {
+                        Map<String, String> details = new HashMap<>();
+                        formattedMaterials.computeIfAbsent(rawMaterial, k -> new HashMap<>()).put("Quantity", String.valueOf(quantity));
+//                        formattedMaterials.put(rawMaterial, details);
+                    });
+
+                    fileManager.saveToFile("RawMaterials.txt", new HashMap<>(formattedMaterials));
+                    System.out.println("Raw Materials Saved to repository");
                     break;
-                case 2:
+                case 4:
                     System.out.println("Verify the Raw Materials from Storage");
 
-                    if (manager.getCollectedMaterials() == null || manager.getCollectedMaterials().isEmpty()) {
-//                        System.out.println(manager.getCollectedMaterials()); //displays all materials collected from 1
-//                        headOfManufacturing.viewRawMaterials(manager.getCollectedMaterials());
+                    Map<String, Object> storedRawMaterials = fileManager.getRawMaterials();
+                    if (storedRawMaterials == null || storedRawMaterials.isEmpty()) {
                         System.out.println("You have no items collected yet.");
-                        break;
+                        return;
                     }
-//                    boolean selectedMaterial = false;
-                    headOfManufacturing.viewRawMaterials(manager.getCollectedMaterials());
-                    for (Map.Entry<String, Integer> entry : manager.getCollectedMaterials().entrySet()) {
+
+                    System.out.println("Stored Raw Materials: ");
+                    storedRawMaterials.forEach((key, value) -> {
+                        System.out.println("Material: " + key + ", Quantity: " + value);
+                    });
+
+//                    headOfManufacturing.viewRawMaterials(manager.getCollectedMaterials());
+                    for (Map.Entry<String, Object> entry : storedRawMaterials.entrySet()) {
                         String rawMaterial = entry.getKey();
-                        int quantity = entry.getValue();
+                        String quantity = entry.getValue().toString();
 
                         System.out.println("Do you want to verify " + quantity + " items of " + rawMaterial + "? (Y/N)");
                         String verifyRawMaterial = sc.nextLine();
@@ -98,38 +274,99 @@ public class ManufacturingController {
                             System.out.println("Invalid input, select Y or N");
                         }
                     }
+//                    fileManager.saveToFile("RawMaterials.txt", collectedMaterials);
                     break;
-                case 3:
+                case 5:
 
-                    if (isReady) {
+                    System.out.println("Start to create a product");
+                    System.out.println("Select the type of product to create.");
+                    System.out.println("1. Product");
+                    System.out.println("2. Custom Product");
+                    int productChoice = sc.nextInt();
+                    sc.nextLine();
+                    if (!isReady) {
+                        System.out.println("the raw materials have not been verified yet");
+                        break;
+                    }
+                    if (!machine.isRunning()) {
+                        System.out.println("Machines are not currently running.");
+                        System.out.println("Starting the machines....");
                         machine.startMachine();
                     }
                     if (!machine.isRunning()) {
-                        System.out.println("Make sure to properly verify all the raw materials before beginning to create a product");
-                        break;
+                        System.out.println("Machines are not currently running.");
+                        return;
                     }
+//                    FinalDesign design = createFinalDesign(selectedDesign);
                     System.out.println("Machine is running");
                     System.out.println("....................................................");
-                    System.out.println("Manager is creating Product...");
+                    System.out.println("Product is being created...");
                     System.out.println("....................................................");
-                    productCreated = manager.createProduct(collectedMaterials);
-                    if (productCreated) {
-                        System.out.println("Product created. Deliver to head of manufacturing...");
-//                        String productName = manager.getProductName();
-//                        Product product = new Product(productName);
-//                        manager.deliverProduct(product);
-                    } else {
-                        System.out.println("Product creation failed, Try again");
+                    if (productChoice == 1) {
+                        System.out.println("Log Product Details for Inventory: ");
+                        selectedDesign.forEach((key, value) -> {
+                            System.out.println(key + ": " + value);
+                        });
+                        System.out.println("Enter Product Name: ");
+                        String productName = sc.nextLine();
+                        System.out.println("Enter Product Description: ");
+                        String productDescription = sc.nextLine();
+                        System.out.println("Enter Product Quantity: ");
+                        String productQuantity = sc.nextLine();
+                        System.out.println("Enter Product Category: ");
+                        String productCategory = sc.nextLine();
+
+                        Product product = new Product(productName);
+                        product.setName(productName);
+                        product.setDescription(productDescription);
+                        product.setQuantity(productQuantity);
+                        product.setCategory(productCategory);
+                        product.displayProducts();
+                        manager.setProducts(product);
+
+                        Map<String, Object> productDetails = new HashMap<>();
+                        productDetails.put("Name", product.getName());
+                        productDetails.put("Description", product.getDescription());
+                        productDetails.put("Quantity", product.getQuantity());
+                        productDetails.put("Category", product.getCategory());
+
+                        fileManager.saveToFile("Products.txt", productDetails);
+                        productCreated = manager.createProduct(collectedMaterials);
+                        System.out.println("Product created");
+                    } else if (productChoice == 2) {
+                        System.out.println("Log Custom Product Details for Inventory: ");
+                        selectedCSTMDesign.forEach((key, value) -> {
+                            System.out.println(key + ": " + value);
+                        });
+                        System.out.println("Enter Product Name: ");
+                        String productName = sc.nextLine();
+                        System.out.println("Enter Product Description: ");
+                        String productDescription = sc.nextLine();
+                        System.out.println("Enter Product Quantity: ");
+                        String productQuantity = sc.nextLine();
+                        System.out.println("Enter Product Category: ");
+                        String productCategory = sc.nextLine();
+                        CustomProduct customProduct = new CustomProduct(productName);
+                        customProduct.setName(productName);
+                        customProduct.setDescription(productDescription);
+                        customProduct.setQuantity(productQuantity);
+                        customProduct.setCategory(productCategory);
+                        customProduct.displayProducts();
+                        manager.setCustomProducts(customProduct);
+                        Map<String, Object> customProductDetails = new HashMap<>();
+                        customProductDetails.put("Name", customProduct.getName());
+                        customProductDetails.put("Description", customProduct.getDescription());
+                        customProductDetails.put("Quantity", customProduct.getQuantity());
+                        customProductDetails.put("Category", customProduct.getCategory());
+                        fileManager.saveToFile("CustomProducts.txt", customProductDetails);
+                        productCreated = manager.createProduct(collectedMaterials);
+                        System.out.println("Custom Product created");
                     }
                     break;
-
-                case 4:
-                    fileManager.sendDataToRepo();
-
-                case 5:
+                case 7:
                     System.out.println("Exit Program");
                     exit = true;
-                    App.prompt();
+//                    App.prompt();
 //                    break;
 
                 default:

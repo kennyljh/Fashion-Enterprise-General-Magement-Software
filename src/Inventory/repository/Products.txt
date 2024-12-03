@@ -1,0 +1,12 @@
+Quantity:
+Details/ewf
+
+Description:
+Details/rg
+
+Category:
+Details/efw
+
+Name:
+Details/newHello
+
