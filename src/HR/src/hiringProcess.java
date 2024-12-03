@@ -392,16 +392,13 @@ public class hiringProcess {
     }
 
     public void printInterview(String interviewID) throws IOException {
-        Path base = folderPathSchedules;
         System.out.println("Interview ID: " + interviewID);
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderPathSchedules)) {
             for (Path file : directoryStream) {
                 String fileName = file.getFileName().toString();
                 if (fileName.matches(".*_" + interviewID + ".txt")) {
                     Files.lines(file).forEach(System.out::println);
-                }
-                else {
-                    System.out.println("Was not able to find file: " + fileName);
+                    break;
                 }
             }
 //            for (Path statusDir : directoryStream) {
