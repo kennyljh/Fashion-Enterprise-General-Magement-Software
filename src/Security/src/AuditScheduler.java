@@ -58,12 +58,85 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean addAuditPersonnel() {
-        return false;
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap();
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        String latestEmployeeID = null;
+        for (String ID : employeeHashMap.keySet()){
+            latestEmployeeID = ID;
+        }
+
+        String newEmployeeID = "-1";
+        if (latestEmployeeID != null){
+            newEmployeeID = latestEmployeeID.substring(latestEmployeeID.length() - 4);
+        }
+
+        String ID = String.format("%04d", Integer.parseInt(newEmployeeID) + 1);
+        newEmployeeID = "DoS_Employee_Audit_" + ID;
+
+        Scanner scan = new Scanner(System.in);
+        Map<String, Object> newEmployeeData = new LinkedHashMap<>();
+
+        System.out.println("Adding employee under ID: " + newEmployeeID);
+        System.out.println("Enter employee name: ");
+        newEmployeeData.put("name", scan.nextLine());
+
+        System.out.println("Enter employee division: ");
+        newEmployeeData.put("division", scan.nextLine());
+
+        System.out.println("Enter employee position: ");
+        newEmployeeData.put("position", scan.nextLine());
+
+        newEmployeeData.put("department", "Audit");
+
+        System.out.println("Enter employee expertise: (Example_Expertise Another_Example_Expertise)");
+        newEmployeeData.put("expertise", scan.nextLine());
+
+        System.out.println("Enter employee rating: (0.0 - 5.0)");
+        newEmployeeData.put("rating", scan.nextLine());
+
+        System.out.println("Enter employee years of experience: ");
+        newEmployeeData.put("yearsOfExperience", scan.nextLine());
+
+        newEmployeeData.put("previousAssignment", "free");
+        newEmployeeData.put("currentAssignment", "free");
+
+        employeeHashMap.put(newEmployeeID, newEmployeeData);
+        editor.setRepository(employeeHashMap);
+        editor.writeToTextFile(auditEmployeeDir + "auditEmployeeList.txt");
+        return true;
     }
 
     @Override
     public boolean deleteAuditPersonnel(String employeeID) {
-        return false;
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap();
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        if (!employeeHashMap.containsKey(employeeID)){
+
+            System.out.println("Employee with ID: " + employeeID + " not found");
+            return false;
+        }
+
+        editor.setRepository(employeeHashMap);
+        if (!editor.retrieveValue(employeeID, "currentAssignment").equals("free")){
+
+            System.out.println("Employee is already assigned to a task. Unassign first.");
+            return false;
+        }
+
+        editor.removeArrayItem(employeeID);
+        editor.writeToTextFile(auditEmployeeDir + "auditEmployeeList.txt");
+        System.out.println("Employee with ID: " + employeeID + " successfully deleted");
+        return true;
     }
 
     @Override
@@ -769,6 +842,42 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
             }
         }
         return true;
+    }
+
+    /**
+     * Return all audit employees hashmap repo
+     * @return all audit employees hashmap repo
+     */
+    private Map<String, Object> retrieveEmployeeHashmap(){
+
+        File directory = new File(auditEmployeeDir);
+        File[] textFiles = null;
+
+        if (directory.exists() && directory.isDirectory()){
+
+            //grab list of text files
+            FilenameFilter textFileFilter = ((dir, name) -> name.toLowerCase().endsWith(".txt"));
+            textFiles = directory.listFiles(textFileFilter);
+        }
+        else {
+            System.out.println("Repository not found");
+            return null;
+        }
+
+        if (textFiles != null){
+
+            if (textFiles.length == 0){
+                System.out.println("No security employees found");
+                return null;
+            }
+        }
+        else {
+            System.out.println("No security employees found");
+            return null;
+        }
+
+        editor.processTextFile(auditEmployeeDir + textFiles[0].getName());
+        return editor.getRepository();
     }
 
     /**

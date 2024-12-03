@@ -33,6 +33,8 @@ public class SecuritySchedulerController implements src.Security.src.interfaces.
 
             Scanner scan = new Scanner(System.in);
 
+            this.getSchedulerInstance().announceHighPriorityRequests();
+
             System.out.println("1. Add New Security Personnel");
             System.out.println("2. Delete Security Personnel by ID");
             System.out.println("3. Show Pending Security Events");
