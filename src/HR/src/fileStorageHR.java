@@ -72,7 +72,9 @@ public class fileStorageHR {
     }
 
     /**
-     *
+     * Works by using the working directory saved at runtime to create the folderPath
+     *  it then tries to find the absolute path of the folder, in order to work across
+     *  different machines.
      * @param folderName the specific Status folder to set the path to
      * @return returns a Path object that contains the absolute path of the defined folder
      * @throws IOException error checking

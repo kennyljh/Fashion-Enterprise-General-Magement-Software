@@ -26,9 +26,12 @@ public class HRDepartment {
                 - Replace with container system so i dont have to deal with the switch cases
                 - Replace old logic with new updated methods
                 - decide whether altering the file path can be done by user
+                - Add in method to transfer Candidate to Employee
              */
             System.out.println("Welcome to the HR Department!");
             System.out.println("Please choose from these options:");
+
+            //employee
             System.out.println("1. Add Employee");
             System.out.println("2. Remove Employee");
             System.out.println("3. Retrieve Employee");
@@ -36,6 +39,7 @@ public class HRDepartment {
             System.out.println("5. Display All Employees");
             System.out.println("6. Display All Employees By Department");
 
+            //candidate
             System.out.println("7. Add Candidate");
             System.out.println("8. Remove Candidate");
             System.out.println("9. Retrieve Candidate");
@@ -46,7 +50,11 @@ public class HRDepartment {
             SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
             scheduler.optionsPrint();
 
+            //hiring
+
             System.out.println("0. Exit");
+
+
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             switch (choice) {
