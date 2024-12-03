@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import src.Security.src.SecuritySchedulerController;
-
 public class SecurityScheduler implements src.Security.src.interfaces.SecurityScheduler {
 
     PriorityQueue<SecurityRequests> securityRequestsPriorityQueue = new PriorityQueue<>(
@@ -66,12 +64,85 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
 
     @Override
     public boolean addSecurityPersonnel() {
-        return false;
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap();
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        String latestEmployeeID = null;
+        for (String ID : employeeHashMap.keySet()){
+            latestEmployeeID = ID;
+        }
+
+        String newEmployeeID = "-1";
+        if (latestEmployeeID != null){
+            newEmployeeID = latestEmployeeID.substring(latestEmployeeID.length() - 4);
+        }
+
+        String ID = String.format("%04d", Integer.parseInt(newEmployeeID) + 1);
+        newEmployeeID = "DoS_Employee_" + ID;
+
+        Scanner scan = new Scanner(System.in);
+        Map<String, Object> newEmployeeData = new LinkedHashMap<>();
+
+        System.out.println("Adding employee under ID: " + newEmployeeID);
+        System.out.println("Enter employee name: ");
+        newEmployeeData.put("name", scan.nextLine());
+
+        System.out.println("Enter employee division: ");
+        newEmployeeData.put("division", scan.nextLine());
+
+        System.out.println("Enter employee position: ");
+        newEmployeeData.put("position", scan.nextLine());
+
+        newEmployeeData.put("department", "Security");
+
+        System.out.println("Enter employee expertise: (Example_Expertise Another_Example_Expertise)");
+        newEmployeeData.put("expertise", scan.nextLine());
+
+        System.out.println("Enter employee rating: (0.0 - 5.0)");
+        newEmployeeData.put("rating", scan.nextLine());
+
+        System.out.println("Enter employee years of experience: ");
+        newEmployeeData.put("yearsOfExperience", scan.nextLine());
+
+        newEmployeeData.put("previousAssignment", "free");
+        newEmployeeData.put("currentAssignment", "free");
+
+        employeeHashMap.put(newEmployeeID, newEmployeeData);
+        editor.setRepository(employeeHashMap);
+        editor.writeToTextFile(securityEmployeeDir + "securityEmployeeList.txt");
+        return true;
     }
 
     @Override
     public boolean deleteSecurityPersonnel(String employeeID) {
-        return false;
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap();
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        if (!employeeHashMap.containsKey(employeeID)){
+
+            System.out.println("Employee with ID: " + employeeID + " not found");
+            return false;
+        }
+
+        editor.setRepository(employeeHashMap);
+        if (!editor.retrieveValue(employeeID, "currentAssignment").equals("free")){
+
+            System.out.println("Employee is already assigned to a task. Unassign first.");
+            return false;
+        }
+
+        editor.removeArrayItem(employeeID);
+        editor.writeToTextFile(securityEmployeeDir + "securityEmployeeList.txt");
+        System.out.println("Employee with ID: " + employeeID + " successfully deleted");
+        return true;
     }
 
     @Override
@@ -538,6 +609,8 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
      */
     public boolean retrievePendingRequests() {
 
+        securityRequestsPriorityQueue.clear();
+
         if (!retrieveRequestFiles()){
             return false;
         }
@@ -587,6 +660,9 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
      * @return true if successful retrieval, otherwise false
      */
     private boolean retrieveAllRequests() {
+
+        securitySchedulesRepository.clear();
+        allSecurityEmployeePriorityQueue.clear();
 
         if (!retrieveRequestFiles()) {
             return false;
@@ -705,6 +781,42 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
             }
         }
         return true;
+    }
+
+    /**
+     * Return all security employees hashmap repo
+     * @return all security employees hashmap repo
+     */
+    private Map<String, Object> retrieveEmployeeHashmap(){
+
+        File directory = new File(securityEmployeeDir);
+        File[] textFiles = null;
+
+        if (directory.exists() && directory.isDirectory()){
+
+            //grab list of text files
+            FilenameFilter textFileFilter = ((dir, name) -> name.toLowerCase().endsWith(".txt"));
+            textFiles = directory.listFiles(textFileFilter);
+        }
+        else {
+            System.out.println("Repository not found");
+            return null;
+        }
+
+        if (textFiles != null){
+
+            if (textFiles.length == 0){
+                System.out.println("No security employees found");
+                return null;
+            }
+        }
+        else {
+            System.out.println("No security employees found");
+            return null;
+        }
+
+        editor.processTextFile(securityEmployeeDir + textFiles[0].getName());
+        return editor.getRepository();
     }
 
     /**
@@ -975,5 +1087,27 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
             case "0" -> 3;
             default -> -1;
         };
+    }
+
+    /**
+     * To announce the amount of high priority requests pending resolution
+     */
+    public void announceHighPriorityRequests(){
+
+        if (!retrievePendingRequests()) {
+            return;
+        }
+
+        int highPriorityCount = 0;
+        for (SecurityRequests request : securityRequestsPriorityQueue){
+
+            if (request.getPriorityLevel().equals("3")){
+                highPriorityCount++;
+            }
+        }
+
+        if (highPriorityCount > 0) {
+            System.out.println("There are currently " + highPriorityCount + " high priority security request(s) waiting to be resolved\n");
+        }
     }
 }
