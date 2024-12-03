@@ -1,4 +1,4 @@
 Shirt:
-price/10.0
+price/12
 count/10
 

@@ -11,6 +11,11 @@ import java.util.Scanner;
 public class SalesCommand {
     Map<String, Runnable> commands = new HashMap<>();
     SalesController sc = new BasicSalesController();
+
+    public SalesCommand()
+    {
+        setCommands();
+    }
     private void setCommands() {
         Scanner scan = new Scanner(System.in);
 
