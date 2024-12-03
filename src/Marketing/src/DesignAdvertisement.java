@@ -35,7 +35,7 @@ public class DesignAdvertisement implements IAdvertisement {
         tmp.add("Small");
         tmp.add("Medium");
         design.setSizes(tmp);
-        design.setQuantities(5);
+        design.setQuantities("5");
         this.notes = notes;
     }
 
@@ -53,7 +53,7 @@ public class DesignAdvertisement implements IAdvertisement {
         tmp.add("Small");
         tmp.add("Medium");
         design.setSizes(tmp);
-        design.setQuantities(5);
+        design.setQuantities("5");
         this.notes = notes;
     }
 
@@ -147,7 +147,7 @@ public class DesignAdvertisement implements IAdvertisement {
         tmp.add("Small");
         tmp.add("Medium");
         d.setSizes(tmp);
-        d.setQuantities(5);
+        d.setQuantities("5");
         return d;
     }
 

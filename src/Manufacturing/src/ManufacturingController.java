@@ -366,8 +366,8 @@ public class ManufacturingController {
                 case 7:
                     System.out.println("Exit Program");
                     exit = true;
-//                    App.prompt();
-//                    break;
+                    App.prompt();
+                    break;
 
                 default:
                     System.out.println("Please enter a valid choice");

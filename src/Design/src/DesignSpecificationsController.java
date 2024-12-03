@@ -3,6 +3,7 @@ package src.Design.src;
 
 //import src.App;
 
+import src.App;
 import src.Design.src.interfaces.DesignSpecifications;
 
 import java.io.File;
@@ -289,7 +290,7 @@ public class DesignSpecificationsController {
                 case 6:
                     System.out.println("Exit Program");
                     exit = true;
-//                    App.prompt();
+                    App.prompt();
                     break;
 
                 default:
