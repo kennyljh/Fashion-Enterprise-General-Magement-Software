@@ -1,6 +1,5 @@
 package src.Manufacturing.src;
 
-import src.Manufacturing.src.interfaces.HeadOfManufacturingInterface;
 import src.Manufacturing.src.interfaces.ManagerInterface;
 
 import java.util.HashMap;
@@ -12,21 +11,33 @@ import java.util.Map;
  */
 public class ManufacturingManager implements ManagerInterface {
 
-    private Map<String, Integer> collectedMaterials = new HashMap<>();
-    private SimpleProduct product;
+    private Map<String, String> collectedMaterials = new HashMap<>();
+    private Product product;
+    private String selectedDesignName;
+    private Map<String, Object> selectedDesignDetails = new HashMap<>();
+    private CustomProduct customProduct;
 
+
+    public void setSelectedDesign(String designName, Map<String, Object> designDetails) {
+        this.selectedDesignName = designName;
+        this.selectedDesignDetails = designDetails;
+    }
+
+    public Map<String, Object> getSelectedDesignDetails() {
+        return selectedDesignDetails;
+    }
 
     @Override
-    public boolean createProduct(Map<String, Integer> verifiedMaterials) {
+    public boolean createProduct(Map<String, Object> verifiedMaterials) {
 
         System.out.println("Creating product with the following materials: ");
         verifiedMaterials.forEach((material, value) -> System.out.println(value + "items of " + material));
-        this.product = new SimpleProduct(verifiedMaterials.toString());
+//        this.product = new Product(verifiedMaterials.toString());
         return true;
     }
 
     @Override
-    public void deliverProduct(SimpleProduct product) {
+    public void deliverProduct(Product product) {
 
         if (product == null) {
             System.out.println("Product has not been created");
@@ -38,12 +49,37 @@ public class ManufacturingManager implements ManagerInterface {
     }
 
     @Override
-    public void collectRawMaterials(Map<String, Integer> materials) {
-        collectedMaterials.putAll(materials);
-        System.out.println("Collected Raw Materials: " + collectedMaterials);
+    public void setProducts(Product product) {
+        this.product = product;
     }
 
-    public Map<String, Integer> getCollectedMaterials() {
+    @Override
+    public void setCustomProducts(CustomProduct customProduct) {
+        this.customProduct = customProduct;
+    }
+
+
+    @Override
+    public void collectRawMaterials(Map<String, Object> materials) {
+        if (selectedDesignDetails == null || selectedDesignDetails.isEmpty()) {
+            System.out.println("No materials were collected");
+            return;
+        }
+        System.out.println("Collecting raw materials for: " + selectedDesignName);
+        List<String> requiredMaterials = (List<String>) selectedDesignDetails.get("RawMaterials"); // check key
+
+        for (String material : requiredMaterials) {
+            if (materials.containsKey(material)) {
+                collectedMaterials.put(material, (String) materials.get(material));
+            } else {
+                System.out.println("Material " + material + " does not exist");
+            }
+        }
+        System.out.println("Collected materials: " + collectedMaterials);
+    }
+
+    @Override
+    public Map<String, String> getCollectedMaterials() {
         return collectedMaterials;
     }
 

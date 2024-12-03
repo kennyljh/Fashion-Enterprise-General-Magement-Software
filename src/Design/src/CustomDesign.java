@@ -1,12 +1,13 @@
 package src.Design.src;
 
 import src.Design.src.interfaces.DesignSpecifications;
+import src.Design.src.interfaces.HeadOfDesignInterface;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FinalDesign implements DesignSpecifications {
+public class CustomDesign implements DesignSpecifications {
 
     private String designName;
     private String designImage;
@@ -15,14 +16,8 @@ public class FinalDesign implements DesignSpecifications {
     private List<String> sizes;
     private String quantity;
 
-
-    public FinalDesign(String designName) {
+    public CustomDesign(String designName) {
         this.designName = designName;
-    }
-
-
-    public static FinalDesign fromDesignSketch(DesignSketch sketch) {
-        return new FinalDesign(sketch.getDesignName());
     }
 
     @Override
@@ -87,14 +82,15 @@ public class FinalDesign implements DesignSpecifications {
 
     @Override
     public String displayAllSpecifications() {
-
         return
-                "Design Name: " + designName + "\n" +
+                "Display all design specifications\n" +
+                        "Design Name: " + designName + "\n" +
                         "Design Image: " + designImage + "\n" +
                         "Design Colors: " + colors + "\n" +
                         "Design Raw Materials: " + rawMaterials + "\n" +
                         "Design Sizes: " + sizes + "\n" +
                         "Design Quantities: " + quantity;
+
     }
 
     @Override
@@ -103,9 +99,10 @@ public class FinalDesign implements DesignSpecifications {
         map.put("DesignName", designName);
         map.put("DesignImage", designImage);
         map.put("DesignColors", String.join(",", colors));
-        map.put("DesignRawMaterials", String.join(", ", rawMaterials));
-        map.put("DesignSizes", String.join(", ", sizes));
+        map.put("DesignRawMaterials", String.join(",", rawMaterials));
+        map.put("DesignSizes", String.join(",", sizes));
         map.put("DesignQuantities", quantity);
+
         return map;
     }
 }

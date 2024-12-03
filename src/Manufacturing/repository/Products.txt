@@ -1,0 +1,12 @@
+Quantity:
+Details/wegf
+
+Description:
+Details/erg
+
+Category:
+Details/ewf
+
+Name:
+Details/gr
+

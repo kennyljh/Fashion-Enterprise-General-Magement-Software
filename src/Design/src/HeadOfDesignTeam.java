@@ -9,6 +9,9 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
 
     private List<DesignSketch> allSketches;
     private DesignSketch selectedSketch;
+    private CustomDesign customDesign;
+    private MarketingDesign marketingDesign;
+    private FinalDesign finalDesign;
 
 
     public HeadOfDesignTeam(List<DesignSketch> sketches) {
@@ -25,7 +28,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
         }
         System.out.println("Select a sketch");
         for (int i = 0; i < sketches.size(); i++) {
-            System.out.println((i+1) + ". " + sketches.get(i).getDesignName());
+            System.out.println((i + 1) + ". " + sketches.get(i).getDesignName());
         }
     }
 
@@ -47,7 +50,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
             System.out.println("No sketch selected");
             return null;
         }
-        FinalDesign finalDesign = new FinalDesign(selectedSketch.getDesignName());
+        FinalDesign finalDesign = FinalDesign.fromDesignSketch(selectedSketch);
 
         finalDesign.setDesignName(selectedSketch.getDesignName());
         finalDesign.setColor(selectedSketch.getColors());
@@ -58,6 +61,45 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
         finalDesign.displayAllSpecifications();
 
         return finalDesign;
+    }
+
+    @Override
+    public MarketingDesign confirmMarketingDesign() {
+
+        if (marketingDesign == null) {
+            System.out.println("No marketing design selected");
+            return null;
+        }
+        MarketingDesign market = new MarketingDesign(finalDesign);
+
+        market.setDesignSketchName(finalDesign.getDesignName());
+        market.setPrice(marketingDesign.getPrice());
+        market.setProductDescription(marketingDesign.getProductDescription());
+        market.setSeasonType(marketingDesign.getSeasonType());
+        market.setTargetAudience(marketingDesign.getTargetAudience());
+        market.displayAllSpecifications();
+
+        return market;
+    }
+
+    @Override
+    public CustomDesign confirmCustomDesign() {
+
+        if (customDesign == null) {
+            System.out.println("No custom design selected");
+            return null;
+        }
+        CustomDesign custom = new CustomDesign(customDesign.getDesignName());
+
+        custom.setDesignName(customDesign.getDesignName());
+        custom.setColor(customDesign.getColors());
+        custom.setDesignImage(customDesign.getDesignImage());
+        custom.setSizes(customDesign.getSizes());
+        custom.setQuantities(customDesign.getQuantities());
+        custom.setRawMaterials(customDesign.getRawMaterials());
+        custom.displayAllSpecifications();
+
+        return custom;
     }
 
 }
