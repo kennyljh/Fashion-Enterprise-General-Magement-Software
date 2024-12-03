@@ -29,9 +29,9 @@ public class MarketingDepartment {
                     " 3: getAllEventAdvertisements\n" +
                     " 4: getAllDesignAdvertisements\n" +
                     " 5: Admin Activities\n" +
-                    " 111: Create Security Schedule\n" +
-                    " 112: Show All Security Requests\n" +
-                    " 113: Delete Security Request By ID\n" +
+//                    " 111: Create Security Schedule\n" +
+//                    " 112: Show All Security Requests\n" +
+//                    " 113: Delete Security Request By ID\n" +
                     " 6: Back");
             c = s.nextInt();
             switch (c) {

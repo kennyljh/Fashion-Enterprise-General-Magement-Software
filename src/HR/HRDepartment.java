@@ -195,4 +195,9 @@ public class HRDepartment {
         return null;
     }
 
+    public Employee getEmployee(Department department, String name) {
+//        TODO: FILL OUT
+        return null;
+    }
+
 }
