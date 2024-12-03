@@ -40,7 +40,7 @@ public class Product {
 		return pdetails;
 	}
 
-
-
-
+	public int getId() {
+		return id;
+	}
 }

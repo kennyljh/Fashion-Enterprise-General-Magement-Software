@@ -4,84 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="final push">
-      <change afterPath="$PROJECT_DIR$/src/Design/src/CustomDesign.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Design/src/DesignFileManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Design/src/MarketingDesign.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Design/src/interfaces/MarketingDesignSpecifications.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/HR/repository/scheduleStorage/idStorage/idFile.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/HR/src/candidateStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/HR/src/hiringProcess.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Manufacturing/src/CustomProduct.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingFileManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Manufacturing/src/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Manufacturing/src/interfaces/ProductInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Sales/repository/Retailers.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/Audit_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoSal_Security_Requests.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/AuditEmployeeGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/resources/demo_100_audit_employees.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/src/SecurityRequestScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Design/DesignDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/DesignDepartment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Design/src/DesignSketch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/DesignSketch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Design/src/DesignSpecificationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/DesignSpecificationsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Design/src/FinalDesign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/FinalDesign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Design/src/HeadOfDesignTeam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/HeadOfDesignTeam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Design/src/interfaces/DesignSpecifications.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/interfaces/DesignSpecifications.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Design/src/interfaces/HeadOfDesignInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/interfaces/HeadOfDesignInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/HRDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/HRDepartment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoMkt_Security_Requests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payrollReports/Payroll11132024024939.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payrollReports/Payroll11132024025305.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoD_Employee_0001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoD_Employee_0002.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoD_Employee_0003.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoF_Employee_0001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoF_Employee_0002.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoF_Employee_0003.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoM_Employee_0001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslips/PaySlip_DoM_Employee_0002.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslipsPaySlip_DoD_Employee_0001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslipsPaySlip_DoD_Employee_0002.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslipsPaySlip_DoM_Employee_0001.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslipsPaySlip_DoM_Employee_0002.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/repository/payslipsPaySlip_DoM_Employee_0003.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/Candidate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/Candidate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/candidateRecordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/candidateRecordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/employeeRecordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/employeeRecordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/fileStorageHR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/fileStorageHR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/src/interfaces/ICandidate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/src/interfaces/ICandidate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inventory/repository/Main/AvailableProducts.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/repository/Main/AvailableProducts.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inventory/src/BasicInventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/src/BasicInventoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inventory/src/BasicStorageManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/src/BasicStorageManage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manufacturing/ManufacturingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/ManufacturingDepartment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/HeadOfManufacturing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/src/HeadOfManufacturing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/SimpleProduct.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/interfaces/HeadOfManufacturingInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/src/interfaces/HeadOfManufacturingInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/interfaces/ManagerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/src/interfaces/ManagerInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Marketing/src/DesignAdvertisement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Marketing/src/DesignAdvertisement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sales/SalesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sales/SalesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sales/src/BasicSalesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sales/src/BasicSalesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sales/src/BasicSalesManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sales/src/BasicSalesManage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sales/src/SalesInventoryRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sales/src/SalesInventoryRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/auditEmployees/auditEmployeeList.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/auditEmployees/auditEmployeeList.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/auditSchedules/audit-11212024052140.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/auditSchedules/audit-11212024052140.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoF_Security_Requests.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoI_Security_Requests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoI_Security_Requests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/printedAuditSchedules/audit-11212024052140.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/printedAuditSchedules/audit-11212024052140.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/AuditScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/AuditScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/AuditSchedules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/AuditSchedules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/SecurityScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecurityScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/src/SecuritySchedulerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecuritySchedulerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TextEditor/PoorTextEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TextEditor/PoorTextEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" afterDir="false" />
+    <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="finish merge">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory/src/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/src/Product.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +44,7 @@
     "Application.SecurityEmployeeGenerator.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/kenny/coms362/fashionempire_3620_fall2024"
@@ -147,7 +72,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733259044075</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="finish merge">
+      <option name="closed" value="true" />
+      <created>1733259306160</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733259306160</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,7 +96,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="final push" />
-    <option name="LAST_COMMIT_MESSAGE" value="final push" />
+    <MESSAGE value="finish merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish merge" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
