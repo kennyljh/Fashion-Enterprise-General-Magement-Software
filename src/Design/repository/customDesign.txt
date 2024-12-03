@@ -1,8 +1,0 @@
-Custom Design model:
-DesignRawMaterials/coott
-DesignName/model
-DesignQuantities/2
-DesignSizes/dfs
-DesignImage/dvs
-DesignColors/eqw
-

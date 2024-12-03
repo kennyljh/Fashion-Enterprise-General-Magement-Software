@@ -1,6 +1,0 @@
-poly:
-Quantity/4
-
-coott:
-Quantity/2
-
