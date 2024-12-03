@@ -4,8 +4,6 @@
 
 package src.Security.src;
 
-import jdk.jshell.Snippet;
-import src.Security.src.interfaces.AuditSchedulerController;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.*;
@@ -52,6 +50,8 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
     private final String auditEmployeeDir = "src/Security/repository/auditEmployees/";
 
     private final String printedAuditSchedulesDir = "src/Security/repository/printedAuditSchedules/";
+
+    private final String securitySchedulesDir = "src/Security/repository/departmentRequests/";
 
     PoorTextEditor editor = new PoorTextEditor();
     private File[] auditSchedulesFiles = null;
@@ -457,7 +457,60 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
 
     @Override
     public boolean sendFailedAudit(String auditID) {
-        return false;
+
+        if (!retrieveAllAudits()){
+            return false;
+        }
+
+        if (failedAuditSchedulesPriorityQueue.isEmpty()){
+
+            System.out.println("No failed audits found");
+            return false;
+        }
+
+        if (!auditSchedulesRepository.containsKey(auditID)){
+
+            System.out.println("Security audit with ID: " + auditID + " not found");
+            return false;
+        }
+
+        AuditSchedules audit = auditSchedulesRepository.get(auditID);
+
+        if (!audit.getStatus().equals("fail")){
+
+            System.out.println("Security audit with ID: " + auditID + " is not a failed audit");
+            return false;
+        }
+
+        List<String> employeeList = audit.getAssignedEmployeeIDs();
+        String authors = "Audit authors: ";
+        for (String s : employeeList){
+            authors = authors + s + "|";
+        }
+
+        Map<String, Object> requestData = new LinkedHashMap<>();
+        requestData.put("priorityLevel", audit.getPriorityLevel());
+        requestData.put("department", audit.getDepartment());
+        requestData.put("location", audit.getLocation());
+        requestData.put("description", audit.getDescription());
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Specify security request duration: (MM-DD-YYYY HH:MM a.m. - HH:MM p.m.)");
+        requestData.put("duration", scan.nextLine());
+
+        requestData.put("tasks", "Audit tasks (" + audit.getTasks() + ")");
+        requestData.put("specialReqs", authors);
+        requestData.put("dateIssued", dateIssuer());
+        requestData.put("resolved", "false");
+
+        editor.processTextFile(securitySchedulesDir + "Audit_Security_Requests.txt");
+        Map<String, Object> repository = editor.getRepository();
+        repository.put("DoS_Failed_Audit_" + audit.getScheduleID(), requestData);
+        editor.setRepository(repository);
+        editor.writeToTextFile(securitySchedulesDir + "Audit_Security_Requests.txt");
+
+        System.out.println("Failed audit with ID: " + auditID + " successfully sent to Security");
+        return true;
     }
 
     /**
