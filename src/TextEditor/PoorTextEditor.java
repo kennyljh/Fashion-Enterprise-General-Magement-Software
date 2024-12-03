@@ -260,7 +260,7 @@ public class PoorTextEditor {
 
 		if (repository.containsKey(arrayItemName)) {
 
-			for (Map.Entry<String, Object> entry : repository.entrySet()) {
+			for (Map.Entry<String, Object> entry : ((Map<String, Object>) repository.get(arrayItemName)).entrySet()) {
 				// Convert each value to a String and put it into the new map
 				String key = entry.getKey();
 				String value = entry.getValue() != null ? entry.getValue().toString() : null;

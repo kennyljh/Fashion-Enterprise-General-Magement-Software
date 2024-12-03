@@ -10,8 +10,16 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class BasicSalesController implements SalesController {
-    SalesManagement sale;
+    SalesManagement sale=new BasicSalesManage();
     SalesInventoryRequest sir=new SalesInventoryRequest();
+
+    public BasicSalesController()
+    {
+//        sale =new BasicSalesManage();
+//        sir=new SalesInventoryRequest();
+    }
+
+
 
     public void run()
     {
@@ -23,11 +31,12 @@ public class BasicSalesController implements SalesController {
         System.out.println("Enter 'exit' to leave the sales Management System");
         System.out.println("Enter the command for your task");
 
-        Scanner sc =new Scanner(System.in);
-        System.out.println("Enter command: ");
-        String command=sc.nextLine();
-        scd.perform(command);
-
+        while(true) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter command: ");
+            String command = sc.nextLine();
+            scd.perform(command);
+        }
     }
 
     public void changePrice(int price, String pname)
@@ -36,21 +45,21 @@ public class BasicSalesController implements SalesController {
     }
 
     public void registerRetailer(String name, String location) {
-        getSalesInstance().registerRetailer(name, location);
+        sale.registerRetailer(name, location);
     }
 
 
     public void addOrder(int rid, Map<String, Integer> products) {
-        getSalesInstance().addOrder(rid, products);
+        sale.addOrder(rid, products);
     }
 
     public void printReceipt(int orderId)
     {
-        getSalesInstance().printReceipt(orderId);
+       sale.printReceipt(orderId);
     }
     public void returnOrder(int rid, int oid, Map<String, Integer> rproducts, int days)
     {
-        getSalesInstance().returnOrder(rid,oid,rproducts,days);
+       sale.returnOrder(rid,oid,rproducts,days);
     }
 
     public void viewRetailers()
@@ -69,11 +78,11 @@ public class BasicSalesController implements SalesController {
     }
 
 
-    private SalesManagement getSalesInstance() {
-        if (sale == null) {
-            sale = new BasicSalesManage();
-        }
-        return sale;
-    }
+//    private SalesManagement getSalesInstance() {
+//        if (sale == null) {
+//            sale = new BasicSalesManage();
+//        }
+//        return sale;
+//    }
 
 }
