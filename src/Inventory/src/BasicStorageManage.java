@@ -206,7 +206,7 @@ public class BasicStorageManage implements StorageManagement {
      *    value: actual quantity number
      *
      * 2) key: "description" (exact string)
-     *    value: describe the product in one or two words (like clothing or footwear) 
+     *    value: describe the product in one or two words (like clothing or footwear)
      *
      * @param productShipped
      */
