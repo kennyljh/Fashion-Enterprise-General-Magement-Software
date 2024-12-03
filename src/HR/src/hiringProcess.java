@@ -5,6 +5,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class hiringProcess {
@@ -26,11 +29,12 @@ public class hiringProcess {
             it gets saved as, for example a 12:15 slot, (maybe have it be appended to the InterviewID 000_1215
 
             1215_1.txt
+            //TODO: INITIALIZE THE CARDS EXACTLY LIKE THIS
             //
                 Time: 1215
                 Candidate: Someone else
                 Interviewer: Someone
-                Notes: blah blh blag
+                Notes: blank
                                           //
 
         the operator can choose to see all timeslots currently created in a print out fashion, with days as headers
@@ -118,6 +122,17 @@ public class hiringProcess {
         }
         data += "Interviewer: " + interviewer + "\n";
 
+        //add notes
+        System.out.println("PLease enter notes: ");
+        String notes = input.nextLine();
+        System.out.println("Please ensure this is correct (y/n): " + notes);
+        answer = input.nextLine();
+        if (answer.equals("n") || answer.equals("N")) {
+            System.out.println("Please choose Interviewer to assign:");
+            notes = input.nextLine();
+        }
+        data += "Notes: " + notes + "\n";
+
         System.out.println("generating ID...");
 
         //checking to make sure folder is there
@@ -184,25 +199,161 @@ public class hiringProcess {
 
 
         //search for file and read to string
+        //TODO: extract into a method that returns data()[]
         File folder = folderPathIDs.toFile();
         if (!folder.exists()) {
             System.out.println("Folder does not exist");
         }
-        Path interviewPath;
-        String[] data;
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderPathIDs)) {
+        Path filePath = null;
+        List<String[]> data = new ArrayList<>();
+        String[] payload = null;
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderPathSchedules)) {
             for (Path path : directoryStream) {
-                if (path.getFileName().toString().contains("_" + interviewID)) {
-                    interviewPath = path.resolve(interviewID);
-                    /*
-                        TODO:
-                            - read from file
-                            - insert into string array
-                            - alter with user input
-                            - write to file
-                     */
+                //TODO prolly need to rework to iterate through the file name until after the _ for ID
+                if (path.getFileName().toString().contains(interviewID)) {
+                    filePath = path;
+                    System.out.println("Found file: " + path.getFileName().toString());
+                    System.out.println("interviewPath: " + path);
+                    //System.out.println(Files.exists(path) ? "Yes" : "No");
+                    Scanner fileScanner = new Scanner(path);
+                    while (fileScanner.hasNextLine()) {
+                        //TODO replace with HashMap prolly
+                        assert false;
+                        payload = fileScanner.nextLine().split(": ");
+                        System.out.println(Arrays.toString(payload));
+                        data.add(payload);
+                    }
+                    break;
                 }
             }
+        }
+
+        //TODO: this will eventually call the above method and use the data()[] it returns
+        while(true) {
+            System.out.println("Please choose operation: [E]dit, [Q]uit:");
+            String operation = scanner.nextLine();
+
+            if (operation.equals("E")) {
+                System.out.println("Choose what information to edit: \n[I]nterviewer Assigned\n[C]andidate Name\n[N]otes");
+                String userInput = scanner.nextLine();
+                switch (userInput) {
+                    case "I" -> {
+                        System.out.println("Please enter new Interviewer to assign: ");
+                        String newInterviewer = scanner.nextLine();
+                        System.out.println("Is " + newInterviewer + " correct? (y/n): " );
+                        answer = scanner.nextLine();
+                        if(answer.equals("n") || newInterviewer.equals("N")) {
+                            System.out.println("Please enter new Interviewer to assign: ");
+                            newInterviewer = scanner.nextLine();
+                        }
+                        for (String[] datum : data) {
+                            for (int j = 0; j < datum.length; j++) {
+                                if (datum[j].equals("Interviewer")) {
+                                    System.out.println("Found Interviewer section at: " + j);
+                                    int temp = j;
+                                    datum[++temp] = newInterviewer;
+                                    System.out.println(datum[j + 1]);
+                                    break;
+                                }
+                            }
+                        }
+                        assert filePath != null;
+                        System.out.println("Started the writing process");
+                        StringBuilder newPayload = new StringBuilder();
+                        for (String[] datum : data) {
+                            for (String s : datum) {
+                                newPayload.append(s).append(" ");
+                                System.out.println(s);
+                            }
+                            newPayload.append("\n");
+                        }
+                        System.out.println("Finished writing process: " + newPayload);
+                        Files.writeString(filePath, newPayload.toString());
+                    }
+
+                    case "C" -> {
+                        System.out.println("Please enter new Candidate name: ");
+                        String newCandidate = scanner.nextLine();
+                        System.out.println("Is " + newCandidate + " correct? (y/n): " );
+                        answer = scanner.nextLine();
+                        if(answer.equals("n") || newCandidate.equals("N")) {
+                            System.out.println("Please enter new Candidate name: ");
+                            newCandidate = scanner.nextLine();
+                        }
+                        for (String[] datum : data) {
+                            for (int j = 0; j < datum.length; j++) {
+                                if (datum[j].equals("Candidate")) {
+                                    System.out.println("Found Candidate section at: " + j);
+                                    int temp = j;
+                                    datum[++temp] = newCandidate;
+                                    System.out.println(datum[j + 1]);
+                                    break;
+                                }
+                                else {
+                                    System.out.println("Was not able to find Candidate section...");
+                                }
+                            }
+                        }
+                        assert filePath != null;
+                        System.out.println("Started the writing process");
+                        String newPayload = "";
+                        for (String[] datum : data) {
+                            for (int j = 0; j < datum.length; j++) {
+                                newPayload += datum[j] + " ";
+                                System.out.println(datum[j].toString());
+                            }
+                            newPayload += "\n";
+                        }
+                        System.out.println("Finished writing process: " + newPayload);
+                        Files.writeString(filePath, newPayload);
+                    }
+                    case "N" -> {
+                        System.out.println("Please enter new notes: ");
+                        String newNotes = scanner.nextLine();
+                        System.out.println("Is '" + newNotes + "' correct? (y/n): " );
+                        answer = scanner.nextLine();
+                        if(answer.equals("n") || newNotes.equals("N")) {
+                            System.out.println("Please enter new notes: ");
+                            newNotes = scanner.nextLine();
+                        }
+                        for (String[] datum : data) {
+                            for (int j = 0; j < datum.length; j++) {
+                                if (datum[j].equals("Notes")) {
+                                    System.out.println("Found notes section at: " + j);
+                                    int temp = j;
+                                    datum[++temp] = newNotes;
+                                    System.out.println(datum[j + 1]);
+                                    break;
+                                }
+                            }
+                        }
+                        assert filePath != null;
+                        System.out.println("Started the writing process");
+                        String newPayload = "";
+                        for (String[] datum : data) {
+                            for (int j = 0; j < datum.length; j++) {
+                                newPayload += datum[j] + " ";
+                                System.out.println(datum[j].toString());
+                            }
+                            newPayload += "\n";
+                        }
+                        System.out.println("Finished writing process: " + newPayload);
+                        Files.writeString(filePath, newPayload);
+                    }
+                    default -> {
+                        break;
+                    }
+                }
+            }
+
+            else if (operation.equals("Q")) {
+                break;
+            }
+
+            else {
+                System.out.println("Incorrect input...");
+            }
+
         }
 
         //take more user input
@@ -236,9 +387,47 @@ public class hiringProcess {
          */
     }
 
-    public void printInterviewNotes() {}
+    public void printInterviewNotes() {
 
-    public void printInterview() {}
+    }
+
+    public void printInterview(String interviewID) throws IOException {
+        Path base = folderPathSchedules;
+        System.out.println("Interview ID: " + interviewID);
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderPathSchedules)) {
+            for (Path file : directoryStream) {
+                String fileName = file.getFileName().toString();
+                if (fileName.matches(".*_" + interviewID + ".txt")) {
+                    Files.lines(file).forEach(System.out::println);
+                }
+                else {
+                    System.out.println("Was not able to find file: " + fileName);
+                }
+            }
+//            for (Path statusDir : directoryStream) {
+//                if (Files.isDirectory(statusDir)) { // Ensure it's a directory
+//                    System.out.println("Executing first if statement from statusDir: " + statusDir);
+//                    try (DirectoryStream<Path> filesStream = Files.newDirectoryStream(statusDir)) {
+//                        for (Path file : filesStream) {
+//                            System.out.println(file.toString());
+//                            if (Files.isRegularFile(file)) { // Ensure it's a file
+//                                String fileName = file.getFileName().toString();
+//                                System.out.println(fileName);
+//                                if (fileName.matches(".*_" + interviewID + ".txt")) { // Match <timeslot>_<interviewID>.txt
+//                                    // Print file content
+//                                    System.out.println("Found file: " + fileName);
+//                                    System.out.println("Content:");
+//                                    Files.lines(file).forEach(System.out::println);
+//                                    return;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+        }
+        // If the file is not found
+    }
 
     public void printAllInterviews() {}
 
