@@ -15,6 +15,7 @@ public class HRDepartment {
         System.out.println("Current file path is: " + storage.getFilepath());
         employeeRecordManager empHandler = new employeeRecordManager(storage);
         candidateRecordManager canHandler = new candidateRecordManager(storage);
+        hiringProcess hireHandler = new hiringProcess();
 
         boolean loop = true;
 
@@ -46,6 +47,8 @@ public class HRDepartment {
             System.out.println("10. Update Candidate");
             System.out.println("11. Display All Candidates");
             System.out.println("12. Display All Candidates By Status");
+            System.out.println("13. Create Interview Time Slot");
+            System.out.println("14. Display Interview Time Slot");
 
             SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
             scheduler.optionsPrint();
@@ -166,6 +169,16 @@ public class HRDepartment {
                     System.out.println();
                     canHandler.displayCandidatesByStatus(statusFolder);
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
+                    break;
+
+                case 13:
+                    hireHandler.createInterview();
+                    break;
+
+                case 14:
+                    System.out.println("Enter Interview ID: ");
+                    String interviewID = input.next();
+                    hireHandler.printInterview(interviewID);
                     break;
 
                 case 111:
