@@ -26,16 +26,7 @@ public class DesignAdvertisement implements IAdvertisement {
         nextid++;
         assignTeams(advertType);
         this.advertType = advertType;
-        this.design = new FinalDesign("Ball Gown");
-        ArrayList<String> tmp = new ArrayList<>();
-        tmp.add("Red");
-        tmp.add("Green");
-        design.setColor(tmp);
-        tmp.clear();
-        tmp.add("Small");
-        tmp.add("Medium");
-        design.setSizes(tmp);
-        design.setQuantities(5);
+        this.design = getDesign();
         this.notes = notes;
     }
 
@@ -44,16 +35,7 @@ public class DesignAdvertisement implements IAdvertisement {
         if (id >= nextid) nextid = id + 1;
         assignTeams(advertType);
         this.advertType = advertType;
-        this.design = new FinalDesign("Ball Gown");
-        ArrayList<String> tmp = new ArrayList<>();
-        tmp.add("Red");
-        tmp.add("Green");
-        design.setColor(tmp);
-        tmp.clear();
-        tmp.add("Small");
-        tmp.add("Medium");
-        design.setSizes(tmp);
-        design.setQuantities(5);
+        this.design = getDesign();
         this.notes = notes;
     }
 
