@@ -50,9 +50,8 @@ public class BasicInventoryController implements InventoryController {
             System.out.println("4. Add Product Quantity");
             System.out.println("5. Remove Product Quantity");
             System.out.println("6. Re-Enter Storage Location");
-            System.out.println("111. Create Security Schedule");
-            System.out.println("112. Show All Security Requests");
-            System.out.println("113. Delete Security Request By ID");
+            SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+            scheduler.optionsPrint();
             System.out.println("7. Exit Program");
 
             int choice = scan.nextInt();
@@ -106,18 +105,15 @@ public class BasicInventoryController implements InventoryController {
                     break;
 
                 case 111:
-                    SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
                     scheduler.addSecurityRequest();
                     break;
 
                 case 112:
-                    SecurityRequestScheduler scheduler1 = new SecurityRequestScheduler();
-                    scheduler1.showAllSecurityRequests();
+                    scheduler.showAllSecurityRequests();
                     break;
 
                 case 113:
-                    SecurityRequestScheduler scheduler2 = new SecurityRequestScheduler();
-                    scheduler2.deleteScheduleByID();
+                    scheduler.deleteScheduleByID();
                     break;
 
                 case 7:

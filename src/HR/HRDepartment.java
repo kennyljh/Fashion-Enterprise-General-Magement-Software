@@ -2,6 +2,8 @@ package src.HR;
 
 import src.App;
 import src.HR.src.*;
+import src.Security.src.SecurityRequestScheduler;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -40,6 +42,9 @@ public class HRDepartment {
             System.out.println("10. Update Candidate");
             System.out.println("11. Display All Candidates");
             System.out.println("12. Display All Candidates By Status");
+
+            SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+            scheduler.optionsPrint();
 
             System.out.println("0. Exit");
             Scanner input = new Scanner(System.in);
@@ -153,6 +158,18 @@ public class HRDepartment {
                     System.out.println();
                     canHandler.displayCandidatesByStatus(statusFolder);
                     System.out.println("END OF LIST, returning to menu...\n\n\n\n");
+                    break;
+
+                case 111:
+                    scheduler.addSecurityRequest();
+                    break;
+
+                case 112:
+                    scheduler.showAllSecurityRequests();
+                    break;
+
+                case 113:
+                    scheduler.deleteScheduleByID();
                     break;
 
                 case 0:

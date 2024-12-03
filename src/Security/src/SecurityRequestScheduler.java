@@ -37,7 +37,7 @@ public class SecurityRequestScheduler {
             latestRequest = requestID;
         }
 
-        String requestIDNum = "0000";
+        String requestIDNum = "-1";
 
         if (latestRequest != null){
             requestIDNum = latestRequest.substring(latestRequest.length() - 4);
@@ -209,11 +209,12 @@ public class SecurityRequestScheduler {
 
         System.out.println("Specify your department by signature:");
         System.out.println("DoD (Department of Design)");
-        System.out.println("DoF (Department of Finance)");
         System.out.println("DoHR (Department of Human Resources)");
         System.out.println("DoI (Department of Inventory)");
         System.out.println("DoMfg (Department of Manufacturing)");
+        System.out.println("DoMkt (Department of Marketing)");
         System.out.println("DoMod (Department of Modelling)");
+        System.out.println("DoSal (Department of Sales)");
         System.out.println("DoT (Department of Treasury)");
     }
 
@@ -227,5 +228,15 @@ public class SecurityRequestScheduler {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
         return timeNow.format(formatter);
+    }
+
+    /**
+     * Print available security request options
+     */
+    public void optionsPrint(){
+
+        System.out.println("111. Create Security Request");
+        System.out.println("112. Show All Security Requests");
+        System.out.println("113. Delete Security Request By ID");
     }
 }

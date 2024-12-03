@@ -6,11 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Design/src/DesignSpecificationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Design/src/DesignSpecificationsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HR/HRDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/HRDepartment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Inventory/src/BasicInventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/src/BasicInventoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Marketing/src/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Marketing/src/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Modeling/src/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Modeling/src/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoF_Security_Requests.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoI_Security_Requests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/repository/departmentRequests/DoI_Security_Requests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manufacturing/src/ManufacturingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Security/src/SecurityRequestScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/src/SecurityRequestScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Treasury/src/PayrollController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
