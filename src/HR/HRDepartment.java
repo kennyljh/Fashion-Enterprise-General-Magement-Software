@@ -148,7 +148,7 @@ public class HRDepartment {
                     storage.loadFileAndPrint(currentCandidateFile.toString());
                     break;
 
-                case 10: //update candidate //TODO CHECK IT
+                case 10: //update candidate
                     System.out.println("Enter Candidate ID: ");
                     String candidateID2 = input.next();
                     canHandler.updateCandidate(candidateID2);

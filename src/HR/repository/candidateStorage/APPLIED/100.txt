@@ -1,0 +1,8 @@
+100:
+candidateID/100
+name/test
+positionApplied/sometyhingelse
+status/Applied
+candidateName/new
+candidateStatus/Pending
+

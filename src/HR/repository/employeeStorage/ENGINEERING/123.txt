@@ -1,0 +1,8 @@
+123:
+name/something
+employeeID/123
+employeeDepartment/Engineering
+employeePosition/sales
+employeeStatus/onboarding
+employeeSalary/10
+
