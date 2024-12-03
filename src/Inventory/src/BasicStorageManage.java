@@ -198,7 +198,15 @@ public class BasicStorageManage implements StorageManagement {
 
 
     /**
-     * Map<String, String> productShipped  Key: Product Name, value: Quantity
+     * Map<String, Map<String, String>> productShipped,    key: product name  value: productDetails (Map<String, String>)
+     *
+     * where the productDetails Map has two 2 elements as follow:
+     *
+     * 1) key: "quantity" (exact string)
+     *    value: actual quantity number
+     *
+     * 2) key: "description" (exact string)
+     *    value: describe the product in one or two words (like clothing or footwear) 
      *
      * @param productShipped
      */
