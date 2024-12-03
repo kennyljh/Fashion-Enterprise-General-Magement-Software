@@ -5,6 +5,7 @@
 package src.Treasury.src;
 
 import src.App;
+import src.Security.src.SecurityRequestScheduler;
 import src.Treasury.src.interfaces.PayrollControllerInterface;
 
 import java.util.Scanner;
@@ -45,6 +46,8 @@ public class PayrollController implements PayrollControllerInterface {
 			System.out.println("6. Process Payroll & Payslips");
 			System.out.println("7. View Created Payroll Reports");
 			System.out.println("8. View Created Payslips");
+			SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+			scheduler.optionsPrint();
 			System.out.println("0. Exit program");
 			
 			int choice = scan.nextInt();
@@ -101,6 +104,15 @@ public class PayrollController implements PayrollControllerInterface {
 					System.out.println();
 					break;
 				case 8:
+					break;
+				case 111:
+					scheduler.addSecurityRequest();
+					break;
+				case 112:
+					scheduler.showAllSecurityRequests();
+					break;
+				case 113:
+					scheduler.deleteScheduleByID();
 					break;
 				case 0:
 					System.out.println("Closing program...");

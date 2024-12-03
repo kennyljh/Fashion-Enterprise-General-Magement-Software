@@ -8,6 +8,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -55,6 +58,10 @@ public class PoorTextEditor {
 		parseTextToRepo(filePath);
 	}
 
+	public Map<String, Object> getRepositoryStrings() {
+		return repository;
+	}
+
 	/**
 	 * Writes the data from the repository (HashMap) to a text file.
 	 * The output format will look like:
@@ -75,6 +82,7 @@ public class PoorTextEditor {
 
 		writeDataToFile(filePath);
 	}
+
 
 	/**
 	 * Writes the data from the repository (HashMap) to a text file.
@@ -260,7 +268,7 @@ public class PoorTextEditor {
 
 		if (repository.containsKey(arrayItemName)) {
 
-			for (Map.Entry<String, Object> entry : repository.entrySet()) {
+			for (Map.Entry<String, Object> entry : ((Map<String, Object>) repository.get(arrayItemName)).entrySet()) {
 				// Convert each value to a String and put it into the new map
 				String key = entry.getKey();
 				String value = entry.getValue() != null ? entry.getValue().toString() : null;
@@ -512,6 +520,8 @@ public class PoorTextEditor {
 
 					// write all key-value pairs under array item
 					for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
+						//converting to string
+
 						writer.write(keyValueEntry.getKey() + "/" + keyValueEntry.getValue() + "\n");
 					}
 
@@ -663,11 +673,11 @@ public class PoorTextEditor {
 			Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
 
 			// writing the array name followed by "{"
-			System.out.println(arrayName + "{");
+			System.out.println(arrayName + " {");
 
 			// write all key-value pairs under array item
 			for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
-				System.out.println(keyValueEntry.getKey() + " = " + keyValueEntry.getValue());
+				System.out.println("    " + keyValueEntry.getKey() + " = " + keyValueEntry.getValue());
 			}
 			// end array item with "}"
 			System.out.print("}\n");

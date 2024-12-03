@@ -10,10 +10,10 @@ public class SalesInventoryRequest {
 
     Map<String, Map<String, String>> products;
     private Map<String, Map<String, String>> availableProducts;
-    BasicStorageManage sm = new BasicStorageManage();
+    BasicStorageManage sm;
 
     public SalesInventoryRequest() {
-
+        sm = new BasicStorageManage();
         products = sm.getProducts();
         availableProducts = sm.getAvailableProducts();
     }
@@ -74,6 +74,7 @@ public class SalesInventoryRequest {
             pname = p.getKey();
             quan = p.getValue();
             addPQ(pname, quan);
+
         }
     }
 
@@ -105,6 +106,7 @@ public class SalesInventoryRequest {
 
 
     public void viewAvaProducts() {
+
         print(availableProducts, "Available products at Storage");
     }
 

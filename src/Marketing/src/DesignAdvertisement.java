@@ -129,7 +129,7 @@ public class DesignAdvertisement implements IAdvertisement {
         tmp.add("Small");
         tmp.add("Medium");
         d.setSizes(tmp);
-        d.setQuantities(5);
+        d.setQuantities("5");
         return d;
     }
 

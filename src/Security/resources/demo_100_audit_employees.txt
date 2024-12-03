@@ -7,7 +7,7 @@ expertise/Financial_Statement_Analysis Fraud_Detection
 rating/4.1
 yearsOfExperience/3
 previousAssignment/free
-currentAssignment/audit-11212024052140
+currentAssignment/free
 
 DoS_Employee_Audit_0002:
 name/Michael Walker
@@ -18,7 +18,7 @@ expertise/Financial_Statement_Analysis Fraud_Detection
 rating/4.2
 yearsOfExperience/4
 previousAssignment/free
-currentAssignment/audit-11212024052140
+currentAssignment/free
 
 DoS_Employee_Audit_0003:
 name/Ella Clark
@@ -40,7 +40,7 @@ expertise/Financial_Statement_Analysis Balance_Sheet_Review
 rating/4.3
 yearsOfExperience/6
 previousAssignment/free
-currentAssignment/audit-11212024052140
+currentAssignment/free
 
 DoS_Employee_Audit_0005:
 name/Emma Hill

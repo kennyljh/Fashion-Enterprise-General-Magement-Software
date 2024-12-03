@@ -29,42 +29,46 @@ public class BasicStorageManage implements StorageManagement {
 
     private String repoPath = "src/inventory/repository/";
 
-    String pPath = repoPath + "Products.txt";
-    String aPPath = repoPath + "AvailableProducts.txt";
-    public BasicStorageManage(String storageLoc) {
-
-        repoPath = repoPath + storageLoc + "/";
 
 
-        this.products = new HashMap<String, Map<String, String>>();
-
-        this.location = storageLoc;
-        this.availableProducts = new HashMap<>();
-
-
-        set();
-    }
 
     public BasicStorageManage() {
 
         repoPath = repoPath + "Main" + "/";
 
-        this.products = new HashMap<String, Map<String, String>>();
+        this.products = new HashMap<>();
 
         this.location = "Main";
         this.availableProducts = new HashMap<>();
         set();
+
     }
 
+    public BasicStorageManage(String storageLoc) {
+
+        repoPath = repoPath + storageLoc + "/";
+
+
+        this.products = new HashMap<>();
+
+        this.location = storageLoc;
+        this.availableProducts = new HashMap<>();
+
+        set();
+    }
 
     private void set() {
-
+        String pPath = repoPath + "Products.txt";
+        String aPPath = repoPath + "AvailableProducts.txt";
         try {
             File pFile = new File(pPath);
             if (pFile.exists()) {
+
                 textEditor = new PoorTextEditor();
                 textEditor.processTextFile(pPath);
                 products = textEditor.getRepositoryString();
+
+
             }
         } catch (Exception e) {
             System.out.println("Error processing Products.txt ");
@@ -76,14 +80,12 @@ public class BasicStorageManage implements StorageManagement {
                 textEditor = new PoorTextEditor();
                 textEditor.processTextFile(aPPath);
                 availableProducts = textEditor.getRepositoryString();
+
             }
         } catch (Exception e) {
             System.out.println("Error processing AvailableProducts.txt ");
         }
     }
-
-
-
 
 
     //update product count in storage
@@ -92,6 +94,7 @@ public class BasicStorageManage implements StorageManagement {
 
         textEditor = new PoorTextEditor();
 
+        System.out.println(pname);
         if (products.containsKey(pname)) {
             if (availableProducts.containsKey(pname)) {
                 int ncount = Integer.parseInt(availableProducts.get(pname).get("count"));
@@ -123,7 +126,7 @@ public class BasicStorageManage implements StorageManagement {
             textEditor = new PoorTextEditor();
             availableProducts.get(pname).put("price", String.valueOf(price));
             textEditor.setRepositoryStrings(availableProducts);
-            textEditor.writeToTextFile(aPPath);
+            textEditor.writeToTextFile(repoPath + "AvailableProducts.txt");
         }
         else{
             System.out.println(pname+" is not registered in the inventory");
@@ -195,7 +198,15 @@ public class BasicStorageManage implements StorageManagement {
 
 
     /**
-     * Map<String, String> productShipped  Key: Product Name, value: Quantity
+     * Map<String, Map<String, String>> productShipped,    key: product name  value: productDetails (Map<String, String>)
+     *
+     * where the productDetails Map has two 2 elements as follow:
+     *
+     * 1) key: "quantity" (exact string)
+     *    value: actual quantity number
+     *
+     * 2) key: "description" (exact string)
+     *    value: describe the product in one or two words (like clothing or footwear) 
      *
      * @param productShipped
      */

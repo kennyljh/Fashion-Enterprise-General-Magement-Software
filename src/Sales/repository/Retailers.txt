@@ -1,0 +1,4 @@
+1:
+name/Mani
+retailerLocation/Ames
+

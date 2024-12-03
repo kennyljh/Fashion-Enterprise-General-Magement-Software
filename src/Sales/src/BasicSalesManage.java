@@ -46,7 +46,7 @@ public class BasicSalesManage implements SalesManagement {
 
         }
         try {
-            File oFile = new File(rPath);
+            File oFile = new File(oPath);
             if (oFile.exists()) {
                 textEditor = new PoorTextEditor();
                 textEditor.processTextFile(oPath);
