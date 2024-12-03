@@ -31,10 +31,10 @@ public class ModelingDepartment {
                     " 3: getAllEvents\n" +
                     " 4: getAllFittings\n" +
                     " 5: Admin Activities\n" +
+                    " 6: Back" +
                     " 111: Create Security Schedule\n" +
                     " 112: Show All Security Requests\n" +
-                    " 113: Delete Security Request By ID\n" +
-                    " 6: Back");
+                    " 113: Delete Security Request By ID\n");
             c = s.nextInt();
             switch (c) {
                 case 1 -> {

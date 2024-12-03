@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="small edits">
+    <list default="true" id="fd123723-13d7-4a01-9dd7-a6acbb83ae33" name="Changes" comment="quick marketing fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HR/HRDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HR/HRDepartment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Marketing/MarketingDepartment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Modeling/ModelingDepartment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +89,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733259525158</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="quick marketing fix">
+      <option name="closed" value="true" />
+      <created>1733259942081</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733259942081</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -106,7 +115,8 @@
     <MESSAGE value="final push" />
     <MESSAGE value="finish merge" />
     <MESSAGE value="small edits" />
-    <option name="LAST_COMMIT_MESSAGE" value="small edits" />
+    <MESSAGE value="quick marketing fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="quick marketing fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

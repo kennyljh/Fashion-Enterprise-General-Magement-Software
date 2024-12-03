@@ -29,10 +29,10 @@ public class MarketingDepartment {
                     " 3: getAllEventAdvertisements\n" +
                     " 4: getAllDesignAdvertisements\n" +
                     " 5: Admin Activities\n" +
-//                    " 111: Create Security Schedule\n" +
-//                    " 112: Show All Security Requests\n" +
-//                    " 113: Delete Security Request By ID\n" +
-                    " 6: Back");
+                    " 6: Back" +
+                    " 111: Create Security Schedule\n" +
+                    " 112: Show All Security Requests\n" +
+                    " 113: Delete Security Request By ID\n");
             c = s.nextInt();
             switch (c) {
                 case 1 -> {
