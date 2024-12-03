@@ -345,7 +345,6 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
         List<String> selectedEmployeeIDs = new ArrayList<>();
         if (!schedule.getAssignedEmployeeIDs().isEmpty()){
             selectedEmployeeIDs = schedule.getAssignedEmployeeIDs();
-            System.out.println(selectedEmployeeIDs + "heloooooooooooooooooo");
         }
         int employeeCount = schedule.getAssignedEmployeeIDs().size();
         Scanner scan = new Scanner(System.in);

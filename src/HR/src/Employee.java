@@ -15,12 +15,15 @@ public class Employee implements IEmployee {
 
     /**
      *
-     * @param employeeId
-     * @param name
-     * @param department
-     * @param position
-     * @param employmentStatus
-     * @param salary
+     * @param employeeId String, the Employee's identifying number
+     * @param name String the Employee's name
+     * @param department Department, the Employee's assigned department
+     * @param position String, the Employee's assigned position
+     * @param employmentStatus String, the Employee's current employment status:
+     *                                      Onboarding --> Just hired from Candidate
+     *                                      Active --> Finished Onboarding tasks, full employee
+     *                                      Offboarding --> Pending being deleted from system (Employee has been fired)
+     * @param salary int, the Employee's recorded salary
      */
     public Employee(String employeeId, String name, Department department, String position, String employmentStatus, int salary) {
         this.employeeId = employeeId;

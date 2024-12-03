@@ -1,13 +1,19 @@
 package src.Modeling.src.interfaces;
 
-import src.Modeling.src.Manager;
-import src.Modeling.src.Team;
-import src.Modeling.src.TeamMember;
+import src.Modeling.src.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public interface IHOD extends ITeamMember {
-    void createEvent(Boolean type, String celebrity, String collab);
+    Event createEvent(Boolean type, String celebrity, String collab);
+
+    Event createEvent(Boolean type, int modelID, String collab);
+
+    ArrayList<Event> getEvents();
+
+    ArrayList<Fitting> getFittings();
+
     void addManager(Manager manager);
     Manager getManager(Team team);
 
