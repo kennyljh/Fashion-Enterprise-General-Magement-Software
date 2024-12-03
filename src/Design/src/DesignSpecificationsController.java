@@ -3,6 +3,7 @@ package src.Design.src;
 
 import src.App;
 import src.Design.src.interfaces.DesignSpecifications;
+import src.Security.src.SecurityRequestScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,8 @@ public class DesignSpecificationsController {
             System.out.println("1. Add a Design Sketch");
             System.out.println("2. View and Select a Design Sketch");
             System.out.println("3. Set a Final Design");
+            SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+            scheduler.optionsPrint();
             System.out.println("4. Exit Program");
 
             int option = scan.nextInt();
@@ -120,6 +123,19 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
+
+                case 111:
+                    scheduler.addSecurityRequest();
+                    break;
+
+                case 112:
+                    scheduler.showAllSecurityRequests();
+                    break;
+
+                case 113:
+                    scheduler.deleteScheduleByID();
+                    break;
+
                 case 4:
                     System.out.println("Exit Program");
                     exit = true;

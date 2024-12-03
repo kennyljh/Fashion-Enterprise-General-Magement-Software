@@ -1,6 +1,7 @@
 package src.Manufacturing.src;
 
 import src.App;
+import src.Security.src.SecurityRequestScheduler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,8 @@ public class ManufacturingController {
             System.out.println("1. Collect Raw Materials");
             System.out.println("2. Verify Raw Materials");
             System.out.println("3. Create Product");
+            SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+            scheduler.optionsPrint();
             System.out.println("4. Exit");
 
             int choice = sc.nextInt();
@@ -140,6 +143,18 @@ public class ManufacturingController {
 //                        break;
 //                    }
 //
+                case 111:
+                    scheduler.addSecurityRequest();
+                    break;
+
+                case 112:
+                    scheduler.showAllSecurityRequests();
+                    break;
+
+                case 113:
+                    scheduler.deleteScheduleByID();
+                    break;
+
                 case 4:
                     System.out.println("Exit Program");
                     exit = true;

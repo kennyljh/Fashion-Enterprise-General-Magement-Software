@@ -5,6 +5,7 @@ import src.App;
 import src.Marketing.src.DesignAdvertisement;
 import src.Marketing.src.EventAdvertisement;
 import src.Modeling.src.*;
+import src.Security.src.SecurityRequestScheduler;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class ModelingDepartment {
                     " 3: getAllEvents\n" +
                     " 4: getAllFittings\n" +
                     " 5: Admin Activities\n" +
+                    " 111: Create Security Schedule\n" +
+                    " 112: Show All Security Requests\n" +
+                    " 113: Delete Security Request By ID\n" +
                     " 6: Back");
             c = s.nextInt();
             switch (c) {
@@ -77,6 +81,19 @@ public class ModelingDepartment {
                     System.out.println();
                 }
                 case 5 -> initiateAdmin();
+
+                case 111 -> {
+                    SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+                    scheduler.addSecurityRequest();
+                }
+                case 112 -> {
+                    SecurityRequestScheduler scheduler1 = new SecurityRequestScheduler();
+                    scheduler1.showAllSecurityRequests();
+                }
+                case 113 -> {
+                    SecurityRequestScheduler scheduler2 = new SecurityRequestScheduler();
+                    scheduler2.deleteScheduleByID();
+                }
             }
         }
         App.prompt();

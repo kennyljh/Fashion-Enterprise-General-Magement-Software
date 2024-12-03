@@ -4,6 +4,7 @@ import src.App;
 
 import src.Marketing.src.*;
 import src.Modeling.src.Event;
+import src.Security.src.SecurityRequestScheduler;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -28,6 +29,9 @@ public class MarketingDepartment {
                     " 3: getAllEventAdvertisements\n" +
                     " 4: getAllDesignAdvertisements\n" +
                     " 5: Admin Activities\n" +
+                    " 111: Create Security Schedule\n" +
+                    " 112: Show All Security Requests\n" +
+                    " 113: Delete Security Request By ID\n" +
                     " 6: Back");
             c = s.nextInt();
             switch (c) {
@@ -88,6 +92,19 @@ public class MarketingDepartment {
                     System.out.println();
                 }
                 case 5 -> initiateAdmin();
+
+                case 111 -> {
+                    SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+                    scheduler.addSecurityRequest();
+                }
+                case 112 -> {
+                    SecurityRequestScheduler scheduler1 = new SecurityRequestScheduler();
+                    scheduler1.showAllSecurityRequests();
+                }
+                case 113 -> {
+                    SecurityRequestScheduler scheduler2 = new SecurityRequestScheduler();
+                    scheduler2.deleteScheduleByID();
+                }
             }
         }
         App.prompt();
