@@ -671,11 +671,11 @@ public class PoorTextEditor {
 			Map<String, String> arrayItem = (Map<String, String>) entry.getValue();
 
 			// writing the array name followed by "{"
-			System.out.println(arrayName + "{");
+			System.out.println(arrayName + " {");
 
 			// write all key-value pairs under array item
 			for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
-				System.out.println(keyValueEntry.getKey() + " = " + keyValueEntry.getValue());
+				System.out.println("    " + keyValueEntry.getKey() + " = " + keyValueEntry.getValue());
 			}
 			// end array item with "}"
 			System.out.print("}\n");

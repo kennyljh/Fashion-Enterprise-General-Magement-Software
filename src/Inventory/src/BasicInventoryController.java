@@ -5,6 +5,9 @@ import src.Inventory.src.interfaces.StorageManagement;
 
 import src.App;
 import src.Inventory.src.interfaces.*;
+import src.Security.src.SecurityRequestScheduler;
+import src.Security.src.SecurityRequests;
+import src.Security.src.SecuritySchedulerController;
 
 import java.io.File;
 import java.util.Scanner;
@@ -47,6 +50,9 @@ public class BasicInventoryController implements InventoryController {
             System.out.println("4. Add Product Quantity");
             System.out.println("5. Remove Product Quantity");
             System.out.println("6. Re-Enter Storage Location");
+            System.out.println("111. Create Security Schedule");
+            System.out.println("112. Show All Security Requests");
+            System.out.println("113. Delete Security Request By ID");
             System.out.println("7. Exit Program");
 
             int choice = scan.nextInt();
@@ -98,6 +104,22 @@ public class BasicInventoryController implements InventoryController {
                     StorageLocation = scan.nextLine();
                     validateStoreLoc(StorageLocation);
                     break;
+
+                case 111:
+                    SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
+                    scheduler.addSecurityRequest();
+                    break;
+
+                case 112:
+                    SecurityRequestScheduler scheduler1 = new SecurityRequestScheduler();
+                    scheduler1.showAllSecurityRequests();
+                    break;
+
+                case 113:
+                    SecurityRequestScheduler scheduler2 = new SecurityRequestScheduler();
+                    scheduler2.deleteScheduleByID();
+                    break;
+
                 case 7:
                     System.out.println("Exiting program...");
                     exit = true;
