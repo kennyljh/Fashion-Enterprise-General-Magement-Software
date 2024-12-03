@@ -69,11 +69,11 @@ public class HeadOfManufacturing implements HeadOfManufacturingInterface {
 
 
         System.out.println("Verifying Product: " + product.getId());
-        if (product.isQualityApproved()) {
-            System.out.println("Product " + product.getId() + " passed quality verification.");
-        } else {
-            System.out.println("Product " + product.getId() + " failed quality verification. It needs to be remade.");
-        }
+//        if (product.isQualityApproved()) {
+//            System.out.println("Product " + product.getId() + " passed quality verification.");
+//        } else {
+//            System.out.println("Product " + product.getId() + " failed quality verification. It needs to be remade.");
+//        }
 
 
     }
@@ -83,34 +83,35 @@ public class HeadOfManufacturing implements HeadOfManufacturingInterface {
 
 
         System.out.println("Verifying Custom Product: " + customProduct.getName());
-        if (customProduct.isQualityApproved() && customProduct.getCategory()) {
-            System.out.println("Custom Product " + customProduct.getName() + " passed verification.");
-        } else {
-            System.out.println("Custom Product " + customProduct.getName() + " failed verification. Please review specifications.");
-        }
+//        if (customProduct.isQualityApproved() && customProduct.getCategory()) {
+//            System.out.println("Custom Product " + customProduct.getName() + " passed verification.");
+//        } else {
+//            System.out.println("Custom Product " + customProduct.getName() + " failed verification. Please review specifications.");
+//        }
 
 
     }
 
-    @Override
-    public void sendToModelling(CustomProduct product) {
-
-        if (!product.isQualityApproved()) {
-            System.out.println("Cannot send " + product.getName() + " to Modelling. Quality verification required.");
-            return;
-        }
-        System.out.println("Sending " + product.getName() + " to the Modelling Department.");
-    }
-
-    @Override
-    public void sendToInventory(Product product, String quantity) {
-
-
-        if (!product.isQualityApproved()) {
-            System.out.println("Cannot store " + product.getId() + " in Inventory. Quality verification required.");
-            return;
-        }
-        System.out.println("Storing " + product.getId() + " in Inventory with quantity: " + quantity);
-
-
-    }
+//    @Override
+//    public void sendToModelling(CustomProduct product) {
+//
+//        if (!product.isQualityApproved()) {
+//            System.out.println("Cannot send " + product.getName() + " to Modelling. Quality verification required.");
+//            return;
+//        }
+//        System.out.println("Sending " + product.getName() + " to the Modelling Department.");
+//    }
+//
+//    @Override
+//    public void sendToInventory(Product product, String quantity) {
+//
+//
+//        if (!product.isQualityApproved()) {
+//            System.out.println("Cannot store " + product.getId() + " in Inventory. Quality verification required.");
+//            return;
+//        }
+//        System.out.println("Storing " + product.getId() + " in Inventory with quantity: " + quantity);
+//
+//
+//    }
+}

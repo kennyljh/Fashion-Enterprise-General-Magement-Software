@@ -13,13 +13,17 @@ public class FinalDesign implements DesignSpecifications {
     private List<String> colors;
     private List<String> rawMaterials;
     private List<String> sizes;
-    private int quantity;
+    private String quantity;
 
 
     public FinalDesign(String designName) {
         this.designName = designName;
     }
 
+
+    public static FinalDesign fromDesignSketch(DesignSketch sketch) {
+        return new FinalDesign(sketch.getDesignName());
+    }
 
     @Override
     public void setColor(List<String> colors) {
@@ -37,7 +41,7 @@ public class FinalDesign implements DesignSpecifications {
     }
 
     @Override
-    public void setQuantities(int quantities) {
+    public void setQuantities(String quantities) {
         this.quantity = quantities;
     }
 
@@ -67,7 +71,7 @@ public class FinalDesign implements DesignSpecifications {
     }
 
     @Override
-    public int getQuantities() {
+    public String getQuantities() {
         return quantity;
     }
 
@@ -94,8 +98,8 @@ public class FinalDesign implements DesignSpecifications {
     }
 
     @Override
-    public Map<String, Object> mapObjects() {
-        Map<String, Object> map = new HashMap<>();
+    public Map<String, String> mapObjects() {
+        Map<String, String> map = new HashMap<>();
         map.put("DesignName", designName);
         map.put("DesignImage", designImage);
         map.put("DesignColors", String.join(",", colors));

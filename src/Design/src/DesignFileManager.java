@@ -15,8 +15,89 @@ public class DesignFileManager {
 
 
     private final PoorTextEditor editor = new PoorTextEditor();
+    private final String repo = "Design/repository/";
 
-    private final String repo = "src/Design/repository/";
+    /*
+    Initialize all files based on design type
+     */
+    public void initialize() {
+        loadFromFile("sketches.txt", sketches);
+        loadFromFile("finalDesign.txt", finalDesign);
+        loadFromFile("customDesign.txt", customDesign);
+        loadFromFile("marketingDesign.txt", marketingDesign);
+    }
+
+    /*
+    load From files and map to the editor
+     */
+    private void loadFromFile(String fileName, Map<String, Object> maps) {
+        File file = new File(repo + fileName);
+        if (file.exists()) {
+            editor.processTextFile(file.getAbsolutePath()); //check path type
+            maps.putAll(editor.getRepository());
+        }
+    }
+
+    /*
+    save text type to file
+     */
+    public void saveToFile(String fileName, Map<String, Object> maps) {
+
+        String newFilePath = repo + fileName;
+        File file = new File(newFilePath);
+
+        File parent = file.getParentFile();
+        if (!parent.exists() && !parent.mkdirs()) {
+            System.err.println("Couldn't create directory: " + parent.getAbsolutePath());
+            return;
+        }
+        editor.setRepository(maps);
+        editor.writeToTextFile(file.getAbsolutePath());
+    }
+
+    /*
+    save a Design Sketch
+     */
+    public void saveSketch(DesignSketch sketch) {
+        Map<String, String> mappedSketch = sketch.mapObjects();
+        System.out.println("Mapped Data: " + mappedSketch);
+        sketches.put("Sketch " + sketch.getDesignName(), mappedSketch);
+        saveToFile("sketches.txt", sketches);
+    }
+
+    /*
+    Return the sketch
+     */
+    public Map<String, Object> getSketch() {
+        return new HashMap<>(sketches);
+    }
+
+    public void saveFinalDesign(FinalDesign design) {
+        finalDesign.put("Final Design " + design.getDesignName(), design.mapObjects());
+        saveToFile("finalDesign.txt", finalDesign);
+    }
+
+    public Map<String, Object> getFinalDesign() {
+        return new HashMap<>(finalDesign);
+    }
+
+    public void saveCustomDesign(CustomDesign design) {
+        customDesign.put("Custom Design " + design.getDesignName(), design.mapObjects());
+        saveToFile("customDesign.txt", customDesign);
+    }
+
+    public Map<String, Object> getCustomDesign() {
+        return new HashMap<>(customDesign);
+    }
+
+    public void saveMarketingDesign(MarketingDesign design) {
+        marketingDesign.put("Marketing Design " + design.getDesignSketchName(), design.mapObjects());
+        saveToFile("marketingDesign.txt", marketingDesign);
+    }
+
+    public Map<String, Object> getMarketingDesign() {
+        return new HashMap<>(marketingDesign);
+    }
 
     public void sendDataToRepo() {
         File f = new File(repo + "sketches.txt");
@@ -42,72 +123,5 @@ public class DesignFileManager {
         }
     }
 
-    public void addSketch(DesignSketch sketch) {
-        sketches.put("Sketches " + sketch.getDesignName(), sketch.mapObjects());
-
-        editor.setRepository(sketches);
-        editor.writeToTextFile(repo + "sketches.txt");
-    }
-
-    /*
-    public Map<String, Map<String, String>> getSketches() {
-        // Return the sketches map directly
-        return new HashMap<>(sketches);
-    }
-     */
-    public Map<String, Object> getSketches() {
-
-        Map<String, Object> newSketch = new HashMap<>();
-        for (Map.Entry<String, Object> entry : sketches.entrySet()) {
-            newSketch.put(entry.getKey(), entry.getValue());
-        }
-        return newSketch;
-
-    }
-
-    public void addFinalDesign(FinalDesign design) {
-        finalDesign.put("Final Design " + design.getDesignName(), design.mapObjects());
-
-        editor.setRepository(finalDesign);
-        editor.writeToTextFile(repo + "finalDesign.txt");
-    }
-
-    public Map<String, Object> getFinalDesign() {
-
-        Map<String, Object> newDesign = new HashMap<>();
-        for (Map.Entry<String, Object> entry : finalDesign.entrySet()) {
-            newDesign.put(entry.getKey(), entry.getValue());
-        }
-        return newDesign;
-    }
-
-    public void addCustomDesign(CustomDesign design) {
-        customDesign.put("Custom Design " + design.getDesignName(), design.mapObjects());
-
-        editor.setRepository(customDesign);
-        editor.writeToTextFile(repo + "customDesign.txt");
-    }
-
-    public Map<String, Object> getCustomDesign() {
-        Map<String, Object> newDesign = new HashMap<>();
-        for (Map.Entry<String, Object> entry : customDesign.entrySet()) {
-            newDesign.put(entry.getKey(), entry.getValue());
-        }
-        return newDesign;
-    }
-
-    public void addMarketingDesign(MarketingDesign design) {
-        customDesign.put("Marketing Design " + design.getDesignSketchName(), design.mapObjects());
-        editor.setRepository(customDesign);
-        editor.writeToTextFile(repo + "marketingDesign.txt");
-    }
-
-    public Map<String, Object> getMarketingDesign() {
-        Map<String, Object> newDesign = new HashMap<>();
-        for (Map.Entry<String, Object> entry : customDesign.entrySet()) {
-            newDesign.put(entry.getKey(), entry.getValue());
-        }
-        return newDesign;
-    }
 
 }

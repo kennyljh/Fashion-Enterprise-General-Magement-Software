@@ -1,0 +1,12 @@
+Marketing Design hello:
+seasonType/fall
+targetAudience/kids
+price/30.00
+sketch/hello
+
+Marketing Design newHello:
+seasonType/summer
+targetAudience/kids
+price/$30.00
+sketch/newHello
+

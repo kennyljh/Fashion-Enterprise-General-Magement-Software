@@ -12,6 +12,7 @@ public class MarketingDesign implements MarketingDesignSpecifications {
     private String price;
     private String description;
     private String seasonType;
+    private String marketingDesign;
 
     public MarketingDesign(FinalDesign finalDesign) {
         this.finalDesign = finalDesign;
@@ -73,19 +74,16 @@ public class MarketingDesign implements MarketingDesignSpecifications {
 
     @Override
     public String displayAllSpecifications() {
-        return
-                "Display all specifications \n" +
-                        "Design sketch " + finalDesign + "\n" +
-                        "Target Audience " + targetAudience + "\n"
-                        + "Price " + price + "\n"
-                        + "Season type " + seasonType + "\n"
-                        + "Product description " + description + "\n";
+        return "Display all specifications \n" + "Design sketch: " + finalDesign.getDesignName() +
+                "\n" + "Target Audience: " + targetAudience + "\n"
+                + "Price: " + price + "\n" + "Season type: " + seasonType +
+                "\n" + "Product description: " + description + "\n";
     }
 
     @Override
     public Map<String, Object> mapObjects() {
         Map<String, Object> map = new HashMap<>();
-        map.put("sketch", finalDesign);
+        map.put("sketch", finalDesign != null ? finalDesign.getDesignName() : "");
         map.put("targetAudience", targetAudience);
         map.put("price", price);
         map.put("seasonType", seasonType);

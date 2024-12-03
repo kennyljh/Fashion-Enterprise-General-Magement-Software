@@ -19,7 +19,7 @@ public class ManufacturingManager implements ManagerInterface {
 
         System.out.println("Creating product with the following materials: ");
         verifiedMaterials.forEach((material, value) -> System.out.println(value + "items of " + material));
-        this.product = new Product(verifiedMaterials.toString());
+//        this.product = new Product(verifiedMaterials.toString());
         return true;
     }
 

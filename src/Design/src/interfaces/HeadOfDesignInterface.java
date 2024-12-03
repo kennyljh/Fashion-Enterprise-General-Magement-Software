@@ -12,7 +12,7 @@ public interface HeadOfDesignInterface {
 
     void viewSketches(List<DesignSketch> sketches);
 
-    void selectSketch(int sketchIndex, List<DesignSketch> sketchList);
+    void selectSketch(int sketchNumber, List<DesignSketch> sketchList);
 
     CustomDesign confirmCustomDesign();
 

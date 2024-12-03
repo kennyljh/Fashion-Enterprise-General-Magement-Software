@@ -115,9 +115,9 @@ public class ManufacturingController {
                     productCreated = manager.createProduct(collectedMaterials);
                     if (productCreated) {
                         System.out.println("Product created. Deliver to head of manufacturing...");
-                        String productName = manager.getProductName();
-                        Product product = new Product(productName);
-                        manager.deliverProduct(product);
+//                        String productName = manager.getProductName();
+//                        Product product = new Product(productName);
+//                        manager.deliverProduct(product);
                     } else {
                         System.out.println("Product creation failed, Try again");
                     }

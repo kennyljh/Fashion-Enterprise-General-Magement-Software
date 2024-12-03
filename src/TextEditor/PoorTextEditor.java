@@ -508,6 +508,8 @@ public class PoorTextEditor {
 
 					// write all key-value pairs under array item
 					for (Map.Entry<String, String> keyValueEntry : arrayItem.entrySet()) {
+						//converting to string
+
 						writer.write(keyValueEntry.getKey() + "/" + keyValueEntry.getValue() + "\n");
 					}
 

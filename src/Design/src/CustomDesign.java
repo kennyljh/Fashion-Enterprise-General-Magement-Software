@@ -14,7 +14,7 @@ public class CustomDesign implements DesignSpecifications {
     private List<String> colors;
     private List<String> rawMaterials;
     private List<String> sizes;
-    private int quantity;
+    private String quantity;
 
     public CustomDesign(String designName) {
         this.designName = designName;
@@ -36,7 +36,7 @@ public class CustomDesign implements DesignSpecifications {
     }
 
     @Override
-    public void setQuantities(int quantities) {
+    public void setQuantities(String quantities) {
         this.quantity = quantities;
     }
 
@@ -66,7 +66,7 @@ public class CustomDesign implements DesignSpecifications {
     }
 
     @Override
-    public int getQuantities() {
+    public String getQuantities() {
         return quantity;
     }
 
@@ -94,8 +94,8 @@ public class CustomDesign implements DesignSpecifications {
     }
 
     @Override
-    public Map<String, Object> mapObjects() {
-        Map<String, Object> map = new HashMap<>();
+    public Map<String, String> mapObjects() {
+        Map<String, String> map = new HashMap<>();
         map.put("DesignName", designName);
         map.put("DesignImage", designImage);
         map.put("DesignColors", String.join(",", colors));

@@ -5,6 +5,7 @@ import src.Design.src.interfaces.DesignSpecifications;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class DesignSketch implements DesignSpecifications {
 
@@ -13,7 +14,7 @@ public class DesignSketch implements DesignSpecifications {
     private List<String> colors;
     private List<String> rawMaterials;
     private List<String> sizes;
-    private int quantity;
+    private String quantity;
 
     public DesignSketch(String designName) {
         this.designName = designName;
@@ -36,7 +37,7 @@ public class DesignSketch implements DesignSpecifications {
     }
 
     @Override
-    public void setQuantities(int quantities) {
+    public void setQuantities(String quantities) {
         this.quantity = quantities;
     }
 
@@ -66,7 +67,7 @@ public class DesignSketch implements DesignSpecifications {
     }
 
     @Override
-    public int getQuantities() {
+    public String getQuantities() {
         return quantity;
     }
 
@@ -93,14 +94,22 @@ public class DesignSketch implements DesignSpecifications {
     }
 
     @Override
-    public Map<String, Object> mapObjects() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("DesignName", designName);
-        map.put("DesignImage", designImage);
-        map.put("DesignColors", String.join(",", colors));
-        map.put("DesignRawMaterials", String.join(",", rawMaterials));
-        map.put("DesignSizes", String.join(",", sizes));
-        map.put("DesignQuantities", quantity);
+    public Map<String, String> mapObjects() {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Design Name", Objects.toString(this.designName, "null"));
+        map.put("Design Raw Materials", this.rawMaterials != null ? String.join(",", this.rawMaterials) : "null");
+        map.put("Design Size", this.sizes != null ? String.join(",", this.sizes) : "null");
+        map.put("Design Quantities", Objects.toString(this.quantity, "null"));
+        map.put("Design Colors", this.colors != null ? String.join(",", this.colors) : "null");
+        map.put("Design Image", Objects.toString(this.designImage, "null"));
+
+//        map.put("DesignName", designName);
+//        map.put("DesignImage", designImage);
+//        map.put("DesignColors", String.join(",", colors));
+//        map.put("DesignRawMaterials", String.join(",", rawMaterials));
+//        map.put("DesignSizes", String.join(",", sizes));
+//        map.put("DesignQuantities", quantity);
 
         return map;
     }

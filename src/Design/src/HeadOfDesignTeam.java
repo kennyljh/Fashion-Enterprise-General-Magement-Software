@@ -42,7 +42,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
             System.out.println("Incorrect Sketch selected, Try Again");
         }
     }
-    
+
     @Override
     public FinalDesign confirmFinalDesign() {
 
@@ -50,7 +50,7 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
             System.out.println("No sketch selected");
             return null;
         }
-        FinalDesign finalDesign = new FinalDesign(selectedSketch.getDesignName());
+        FinalDesign finalDesign = FinalDesign.fromDesignSketch(selectedSketch);
 
         finalDesign.setDesignName(selectedSketch.getDesignName());
         finalDesign.setColor(selectedSketch.getColors());
