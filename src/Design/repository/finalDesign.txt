@@ -14,6 +14,14 @@ DesignSizes/S, L
 DesignImage/rr.txt
 DesignColors/green
 
+Final Design weeee:
+DesignRawMaterials/we
+DesignName/weeee
+DesignQuantities/1
+DesignSizes/we
+DesignImage/we
+DesignColors/we
+
 Final Design newHello:
 DesignRawMaterials/poly
 DesignName/newHello
