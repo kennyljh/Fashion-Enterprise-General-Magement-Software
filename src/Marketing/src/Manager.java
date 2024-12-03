@@ -19,13 +19,13 @@ public class Manager implements IManager {
     private final ArrayList<TeamMember> teamMembers;
     private final Team team;
 
-//    public Manager(String name, Team team) {
-//        id = nextid;
-//        nextid++;
-//        employeeInfo = App.hrDepartment.getEmployee(Department.MODELING, name);
-//        teamMembers = MarketingDepartment.fileManager.getTeamMembers(team);
-//        this.team = team;
-//    }
+    public Manager(String name, Team team) {
+        id = nextid;
+        nextid++;
+        employeeInfo = App.hrDepartment.getEmployee(Department.MODELING, name);
+        teamMembers = MarketingDepartment.fileManager.getTeamMembers(team);
+        this.team = team;
+    }
 
     public Manager(int id, Employee employeeInfo, Team team) {
         this.id = id;
