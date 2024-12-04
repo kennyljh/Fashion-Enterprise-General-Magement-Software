@@ -47,13 +47,15 @@ public class HRDepartment {
             System.out.println("10. Update Candidate");
             System.out.println("11. Display All Candidates");
             System.out.println("12. Display All Candidates By Status");
+
+            //hiring
             System.out.println("13. Create Interview Time Slot");
             System.out.println("14. Display Interview Time Slot");
 
             SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
             scheduler.optionsPrint();
 
-            //hiring
+
 
             System.out.println("0. Exit");
 
@@ -173,12 +175,14 @@ public class HRDepartment {
 
                 case 13:
                     hireHandler.createInterview();
+                    System.out.println("Interview created successfully! Returning to menu...\n\n\n\n");
                     break;
 
                 case 14:
                     System.out.println("Enter Interview ID: ");
                     String interviewID = input.next();
                     hireHandler.printInterview(interviewID);
+                    System.out.println("END OF LIST, returning to menu...\n\n\n\n");
                     break;
 
                 case 111:
