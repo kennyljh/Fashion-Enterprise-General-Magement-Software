@@ -112,7 +112,7 @@ public class hiringProcess {
 
         //assign interviewer
         System.out.println("Please choose Interviewer to assign:");
-        File folder = folderPathSchedules.toFile();
+        //File folder = folderPathSchedules.toFile();
         String interviewer = input.nextLine();
         System.out.println("Please ensure this is the correct Interviewer y/n: " + interviewer);
         answer = input.nextLine();
@@ -137,23 +137,23 @@ public class hiringProcess {
 
         //checking to make sure folder is there
         int idCounter = 0;
-        System.out.println("idCounter: " + idCounter);
+//        System.out.println("idCounter: " + idCounter);
         Path filePath;
         try {
             filePath = Paths.get(folderPathIDs.toString(), "idFile.txt");
         } catch (Exception e) {
             throw new FileNotFoundException("File not found");
         }
-        System.out.println(filePath);
+//        System.out.println(filePath);
 
         //read integer then increment and write to file
         try(BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {
             String line = br.readLine();
-            System.out.println(line);
+//            System.out.println(line);
             idCounter = Integer.parseInt(line);
-            System.out.println("idCounter" + idCounter);
+//            System.out.println("idCounter" + idCounter);
             CharSequence chars = ++idCounter + "";
-            System.out.println(chars);
+//            System.out.println(chars);
             Files.writeString(filePath, chars);
         }
 
@@ -163,12 +163,12 @@ public class hiringProcess {
         if (interview.createNewFile()) {
             System.out.println("File Created");
         }
-        String content = new String(Files.readAllBytes(interview.toPath()));
-        System.out.println("Total Space: " + content.length() + " Bytes");
-        System.out.println("folderPathSchedules: " + folderPathSchedules);
-        System.out.println("Interview Time: " + interviewTime);
-        System.out.println(interview.exists());
-        System.out.println(data);
+//        String content = new String(Files.readAllBytes(interview.toPath()));
+//        System.out.println("Total Space: " + content.length() + " Bytes");
+//        System.out.println("folderPathSchedules: " + folderPathSchedules);
+//        System.out.println("Interview Time: " + interviewTime);
+//        System.out.println(interview.exists());
+//        System.out.println(data);
     }
 
     public void editInterview() throws IOException {
@@ -213,7 +213,7 @@ public class hiringProcess {
                 if (path.getFileName().toString().contains(interviewID)) {
                     filePath = path;
                     System.out.println("Found file: " + path.getFileName().toString());
-                    System.out.println("interviewPath: " + path);
+//                    System.out.println("interviewPath: " + path);
                     //System.out.println(Files.exists(path) ? "Yes" : "No");
                     Scanner fileScanner = new Scanner(path);
                     while (fileScanner.hasNextLine()) {
@@ -249,7 +249,7 @@ public class hiringProcess {
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Interviewer")) {
-                                    System.out.println("Found Interviewer section at: " + j);
+//                                    System.out.println("Found Interviewer section at: " + j);
                                     int temp = j;
                                     datum[++temp] = newInterviewer;
                                     System.out.println(datum[j + 1]);
@@ -283,7 +283,7 @@ public class hiringProcess {
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Candidate")) {
-                                    System.out.println("Found Candidate section at: " + j);
+//                                    System.out.println("Found Candidate section at: " + j);
                                     int temp = j;
                                     datum[++temp] = newCandidate;
                                     System.out.println(datum[j + 1]);
@@ -319,7 +319,7 @@ public class hiringProcess {
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Notes")) {
-                                    System.out.println("Found notes section at: " + j);
+//                                    System.out.println("Found notes section at: " + j);
                                     int temp = j;
                                     datum[++temp] = newNotes;
                                     System.out.println(datum[j + 1]);
