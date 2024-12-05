@@ -67,7 +67,7 @@ public class HRDepartment {
                     //Name
                     System.out.println("Enter employee name: ");
                     String name = input.nextLine();
-                    if(name.equals(" ") || name == null) {
+                    if(name.equals(" ") || name.isEmpty() || name.equals("\n")) {
                         System.out.println("Incorrect input, please try again: ");
                         name = input.nextLine();
                     }
@@ -77,30 +77,90 @@ public class HRDepartment {
                         System.out.println("Please re-enter employee name: ");
                         name = input.nextLine();
                     }
+
                     //ID
                     System.out.println("Enter employeeID: ");
                     String employeeId = input.next();
+                    if(employeeId.equals(" ") || employeeId.isEmpty() || employeeId.equals("\n")) {
+                        System.out.println("Incorrect input, please try again: ");
+                        employeeId = input.nextLine();
+                    }
                     System.out.println("Is " + employeeId + " correct? (y/n): ");
                     answer = input.next();
                     if(answer.equals("n") || answer.equals("N")) {
                         System.out.println("Please re-enter employeeID: ");
                         employeeId = input.nextLine();
                     }
+
                     //Department
+                    Department department = null;
                     System.out.println("Enter employee department: ");
                     for(int i = 0; i < Department.values().length; i++) {
                         System.out.println(Department.values()[i].name());
                     }
-                    Department department = Department.valueOf(input.next().toUpperCase());
+                    String initialDep = input.nextLine();
+                    if(initialDep.equals(" ") || initialDep.isEmpty() || initialDep.equals("\n")) {
+                        System.out.println("Incorrect input, please try again: ");
+                        initialDep = input.nextLine();
+                        //TODO
+                        if (initialDep.contains("Human Resources")
+                                || initialDep.contains("human resources")) {
+                            department = Department.HUMAN_RESOURCES;
+                        } else {
+                            department = Department.valueOf(initialDep.toUpperCase());
+                        }
+                    }
+                    else if (initialDep.equals("Human Resources")
+                            || initialDep.equals("human resources")
+                            || initialDep.contains("Human Resources")
+                            || initialDep.contains("human resources")) {
+                        department = Department.HUMAN_RESOURCES;
+                    }
+
+                    else {
+                        department = Department.valueOf(initialDep.toUpperCase());
+                    }
+
                     System.out.println("Is " + department + " correct? (y/n): ");
                     answer = input.next();
                     if(answer.equals("n") || answer.equals("N")) {
-                        System.out.println("Please re-enter employee name: ");
-                        department = Department.valueOf(input.next().toUpperCase());
+                        System.out.println("Please re-enter Department: ");
+                        initialDep = input.next();
+                        if(initialDep.equals(" ") || initialDep.isEmpty() || initialDep.equals("\n")) {
+                            System.out.println("Incorrect input, please try again: ");
+                            initialDep = input.nextLine();
+                        }
+                        else if (initialDep.equals("Human Resources")
+                                || initialDep.equals("human resources")) {
+                            department = Department.HUMAN_RESOURCES;
+                        }
+                        else {
+                            department = Department.valueOf(initialDep.toUpperCase());
+                        }
+                    //Department department = Department.valueOf(initialDep.toUpperCase());
+//                    System.out.println("Is " + department + " correct? (y/n): ");
+//                    answer = input.next();
+//                    if(answer.equals("n") || answer.equals("N")) {
+//                        System.out.println("Please re-enter Department: ");
+//                        initialDep = input.next();
+//                        if(initialDep.equals(" ") || initialDep.isEmpty() || initialDep.equals("\n")) {
+//                            System.out.println("Incorrect input, please try again: ");
+//                            initialDep = input.nextLine();
+//                        }
+//                        else if (initialDep.equals("Human Resources")
+//                                || initialDep.equals("human resources")) {
+//                            initialDep = "Human_Resources";
+//                        }
+//                        department = Department.valueOf(initialDep.toUpperCase());
                     }
+
                     //Position
                     System.out.println("Enter employee position: ");
                     String position = input.nextLine();
+                    if(position.equals(" ") || position.isEmpty() || position.equals("\n")) {
+                        System.out.println("Incorrect input, please try again: ");
+                        position = input.nextLine();
+                    }
                     System.out.println("Is " + position + " correct? (y/n): ");
                     answer = input.next();
                     if(answer.equals("n") || answer.equals("N")) {
@@ -109,7 +169,11 @@ public class HRDepartment {
                     }
                     //Status
                     System.out.println("Enter employee employment status (i.e. onboarding): ");
-                    String employmentStatus = input.next();
+                    String employmentStatus = input.next().toUpperCase();
+                    if(employmentStatus.equals(" ") || employmentStatus.isEmpty() || employmentStatus.equals("\n")) {
+                        System.out.println("Incorrect input, please try again: ");
+                        employmentStatus = input.next().toUpperCase();
+                    }
                     System.out.println("Is " + employmentStatus + " correct? (y/n): ");
                     answer = input.next();
                     if(answer.equals("n") || answer.equals("N")) {
