@@ -226,6 +226,7 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
+                    break;
                 case 4:
 
                     Map<String, Object> storedMarketingDesigns = designFileManager.getFinalDesign();
@@ -315,7 +316,7 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
-                break;
+                    break;
                 case 6:
                     System.out.println("Exit Program");
                     exit = true;

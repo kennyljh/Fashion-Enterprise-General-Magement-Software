@@ -7,12 +7,12 @@ DesignImage/flf.xt
 DesignColors/red
 
 Final Design newDesign:
-DesignRawMaterials/cotton, poly
+DesignRawMaterials/cotton
 DesignName/newDesign
-DesignQuantities/5
-DesignSizes/S, M, L
-DesignImage/heelo.txt
-DesignColors/red,blue
+DesignQuantities/1
+DesignSizes/S
+DesignImage/gffd.txt
+DesignColors/blue
 
 Final Design null:
 DesignRawMaterials/

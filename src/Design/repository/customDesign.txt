@@ -22,3 +22,11 @@ DesignSizes/S,M,L
 DesignImage/we.txt
 DesignColors/red,blue
 
+Custom Design all:
+DesignRawMaterials/we
+DesignName/all
+DesignQuantities/2
+DesignSizes/cd
+DesignImage/fd.txt
+DesignColors/we
+

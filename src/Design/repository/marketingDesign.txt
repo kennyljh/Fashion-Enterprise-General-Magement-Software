@@ -1,6 +1,6 @@
 Marketing Design newDesign:
-seasonType/fall
+seasonType/winter
 targetAudience/kids
-price/$30.00
+price/24
 sketch/newDesign
 
