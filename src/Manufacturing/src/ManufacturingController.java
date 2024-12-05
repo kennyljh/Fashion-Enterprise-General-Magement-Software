@@ -16,6 +16,7 @@ public class ManufacturingController {
     private Map<String, Object> selectedDesign = null;
     private Map<String, Object> selectedCSTMDesign = null;
     private String designType = null;
+    private Map<String, Object> newFinalDesign = null;
 
 
     public ManufacturingController() {
@@ -68,13 +69,13 @@ public class ManufacturingController {
                     }
 
                     String selectedDesignName = finalDesignNames.get(finalDesignChoice);
-                    Map<String, Object> selectedFinalDesign = (Map<String, Object>) storedDesigns.get(selectedDesignName);
+                    selectedDesign = (Map<String, Object>) storedDesigns.get(selectedDesignName);
                     System.out.println("Selected Final Design: " + selectedDesignName);
-                    selectedFinalDesign.forEach((key, value) -> {
+                    selectedDesign.forEach((key, value) -> {
                         System.out.println(key + ": " + value);
                     });
                     //give information to the manager to then collect the raw materials properly.
-                    manager.setSelectedDesign(selectedDesignName, selectedFinalDesign);
+                    manager.setSelectedDesign(selectedDesignName, selectedDesign);
                     System.out.println("Final Design has been passed to the manager...");
                     System.out.println(".   .   .");
                     break;
@@ -100,13 +101,13 @@ public class ManufacturingController {
                         return;
                     }
                     String selectedCustomDesignName = customDesignNames.get(customDesignChoice);
-                    Map<String, Object> selectedCustomDesign = (Map<String, Object>) storedCustomDesigns.get(selectedCustomDesignName);
+                    selectedCSTMDesign = (Map<String, Object>) storedCustomDesigns.get(selectedCustomDesignName);
                     System.out.println("Selected Custom Design: " + selectedCustomDesignName);
-                    selectedCustomDesign.forEach((key, value) -> {
+                    selectedCSTMDesign.forEach((key, value) -> {
                         System.out.println(key + ": " + value);
                     });
 
-                    manager.setSelectedDesign(selectedCustomDesignName, selectedCustomDesign);
+                    manager.setSelectedDesign(selectedCustomDesignName, selectedCSTMDesign);
                     System.out.println("Custom Design has been passed to the manager...");
                     System.out.println(".   .   .");
                     break;
@@ -119,9 +120,13 @@ public class ManufacturingController {
                     System.out.println("2. Custom Design");
                     int designChoice = sc.nextInt();
                     sc.nextLine();
-                    Map<String, Object> activeDesign = null;
+                    Map<String, Object> activeDesign = manager.getSelectedDesignDetails();
 
-
+                    if (activeDesign == null) {
+                        System.out.println("No active design was given to the manager to collect the materials");
+                        return;
+                    }
+                    //make sure it is the correct type
                     if (designChoice == 1) {
                         System.out.println("Accessing Final Designs from repository...");
                         Map<String, Object> finalDesigns = fileManager.getFinalDesign();
@@ -129,23 +134,13 @@ public class ManufacturingController {
                             System.out.println("No final design are found");
                             return;
                         }
-                        System.out.println("Available Final Designs: ");
-                        List<String> selectedFinalDesignName = new ArrayList<>(finalDesigns.keySet());
-                        for (int i = 0; i < selectedFinalDesignName.size(); i++) {
-                            System.out.println((i + 1) + ". " + selectedFinalDesignName.get(i));
-                        }
-                        System.out.println("Select a Final Design: ");
-                        int option = sc.nextInt() - 1;
-                        sc.nextLine();
-                        if (option < 0 || option >= selectedFinalDesignName.size()) {
-                            System.out.println("Invalid choice");
-                            return;
-                        }
-                        String selectedName = selectedFinalDesignName.get(option);
-                        selectedDesign = (Map<String, Object>) finalDesigns.get(selectedName);
-                        designType = "Final Design";
-                        activeDesign = selectedDesign;
-
+                        System.out.println("Selected Design: ");
+                        activeDesign.forEach((key, value) -> {
+                            System.out.println(key + ": " + value);
+                        });
+                        Object requiredRawMaterials = activeDesign.get("rawMaterials");
+                        List<String> rawMaterialsList = requiredRawMaterials instanceof String ?
+                                List.of(((String) requiredRawMaterials).split(",")) : new ArrayList<>();
                     } else if (designChoice == 2) {
                         System.out.println("Accessing Custom Designs from repository...");
                         Map<String, Object> customDesigns = fileManager.getCustomDesign();
@@ -153,58 +148,30 @@ public class ManufacturingController {
                             System.out.println("No final design are found");
                             return;
                         }
-                        System.out.println("Available Custom Designs: ");
-                        List<String> selectedCustomDesignNames = new ArrayList<>(customDesigns.keySet());
-                        for (int i = 0; i < selectedCustomDesignNames.size(); i++) {
-                            System.out.println((i + 1) + ". " + selectedCustomDesignNames.get(i));
-                        }
-                        System.out.println("Select a Custom Design: ");
-                        int customOption = sc.nextInt() - 1;
-                        sc.nextLine();
-                        if (customOption < 0 || customOption >= selectedCustomDesignNames.size()) {
-                            System.out.println("Invalid choice");
-                            return;
-                        }
-                        String selectedName = selectedCustomDesignNames.get(customOption);
-                        selectedCSTMDesign = (Map<String, Object>) customDesigns.get(selectedName);
-                        designType = "Custom Design";
-                        activeDesign = selectedCSTMDesign;
-                    } else {
-                        System.out.println("Invalid choice");
-                        return;
-                    }
-                    if (activeDesign != null) {
-                        System.out.println("Selected Design: " + designType + ": ");
+                        System.out.println("Selected Custom Design: ");
                         activeDesign.forEach((key, value) -> {
                             System.out.println(key + ": " + value);
                         });
-                        Object rawMaterialsObj = activeDesign.get("RawMaterials");
-                        List<String> rawMaterials;
-                        if (rawMaterialsObj instanceof String) {
-                            rawMaterials = List.of(((String) rawMaterialsObj).split(","));
-                        } else if (rawMaterialsObj instanceof List) {
-                            rawMaterials = (List<String>) rawMaterialsObj;
-                        } else {
-                            rawMaterials = new ArrayList<>();
-                        }
-                        System.out.println("Raw Materials Required: " + rawMaterials);
-                        while (true) {
-                            System.out.println("Enter 'done' to exit prompt at any time");
-                            System.out.println("Collect the type of Raw Material based on the Design: ");
-                            String rawMaterial = sc.nextLine();
-                            if (rawMaterial.equals("done")) {
-                                break;
-                            }
-
-                            System.out.println("Select Quantity of Raw Materials based on the Design: " + rawMaterial);
-                            String quantity = sc.nextLine();
-                            collectedMaterials.put(rawMaterial, quantity);
-                            System.out.println("You have " + quantity + " items collected of " + rawMaterial);
-                        }
-                    } else {
-                        System.out.println("Invalid choice");
-                        return;
+                        Object requiredCustomMaterials = customDesigns.get("customDesign");
+                        List<String> customMaterialList = requiredCustomMaterials instanceof String
+                                ? List.of(((String) requiredCustomMaterials).split(",")) : new ArrayList<>();
                     }
+
+                    while (true) {
+                        System.out.println("Enter 'done' to exit prompt at any time");
+                        System.out.println("Collect the type of Raw Material based on the Design: ");
+                        String rawMaterial = sc.nextLine().trim();
+                        if (rawMaterial.equalsIgnoreCase("done")) {
+                            break;
+                        }
+
+                        System.out.println("Select Quantity of Raw Materials based on the Design: " + rawMaterial);
+                        String quantity = sc.nextLine();
+                        collectedMaterials.put(rawMaterial, quantity);
+                        System.out.println("You have " + quantity + " items collected of " + rawMaterial);
+
+                    }
+
 
                     manager.collectRawMaterials(collectedMaterials);
                     System.out.println("Raw Materials Collected:");
@@ -304,6 +271,10 @@ public class ManufacturingController {
                     System.out.println("....................................................");
                     if (productChoice == 1) {
                         System.out.println("Log Product Details for Inventory: ");
+                        if (selectedDesign == null) {
+                            System.out.println("No design was selected, select one first");
+                            break;
+                        }
                         selectedDesign.forEach((key, value) -> {
                             System.out.println(key + ": " + value);
                         });
@@ -335,6 +306,10 @@ public class ManufacturingController {
                         System.out.println("Product created");
                     } else if (productChoice == 2) {
                         System.out.println("Log Custom Product Details for Inventory: ");
+                        if (selectedCSTMDesign == null) {
+                            System.out.println("No design was selected, select one first");
+                            break;
+                        }
                         selectedCSTMDesign.forEach((key, value) -> {
                             System.out.println(key + ": " + value);
                         });
@@ -363,7 +338,7 @@ public class ManufacturingController {
                         System.out.println("Custom Product created");
                     }
                     break;
-                case 7:
+                case 6:
                     System.out.println("Exit Program");
                     exit = true;
                     App.prompt();
