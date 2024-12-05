@@ -320,7 +320,7 @@ public class DesignSpecificationsController {
                 case 6:
                     System.out.println("Exit Program");
                     exit = true;
-//                    App.prompt();
+                    App.prompt();
                     break;
 
                 default:
