@@ -584,7 +584,10 @@ public class AuditScheduler implements src.Security.src.interfaces.AuditSchedule
                         if (yesNo.equals("y")){
                             employee.setPreviousAssignment(employee.getCurrentAssignment());
                             employee.setCurrentAssignment(schedule.getScheduleID());
-                            selectedEmployeeIDs.add(employee.getEmployeeID());
+
+                            if (!selectedEmployeeIDs.contains(employee.getEmployeeID())){
+                                selectedEmployeeIDs.add(employee.getEmployeeID());
+                            }
 
                             // updating employee assignments
                             editor.processTextFile(auditEmployeeDir + "auditEmployeeList.txt");
