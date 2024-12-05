@@ -1,6 +1,0 @@
-Marketing Design newDesign:
-seasonType/winter
-targetAudience/kids
-price/24
-sketch/newDesign
-

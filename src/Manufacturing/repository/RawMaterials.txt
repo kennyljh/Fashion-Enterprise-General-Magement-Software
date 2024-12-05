@@ -1,9 +1,0 @@
-cptton:
-Quantity/2
-
-cotton:
-Quantity/5
-
-df:
-Quantity/1
-

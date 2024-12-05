@@ -70,7 +70,7 @@ public class ManufacturingController {
 
                     String selectedDesignName = finalDesignNames.get(finalDesignChoice);
                     selectedDesign = (Map<String, Object>) storedDesigns.get(selectedDesignName);
-                    System.out.println("Selected Final Design: " + selectedDesignName);
+                    System.out.println("Selected: " + selectedDesignName);
                     selectedDesign.forEach((key, value) -> {
                         System.out.println(key + ": " + value);
                     });
@@ -102,7 +102,7 @@ public class ManufacturingController {
                     }
                     String selectedCustomDesignName = customDesignNames.get(customDesignChoice);
                     selectedCSTMDesign = (Map<String, Object>) storedCustomDesigns.get(selectedCustomDesignName);
-                    System.out.println("Selected Custom Design: " + selectedCustomDesignName);
+                    System.out.println("Selected: " + selectedCustomDesignName);
                     selectedCSTMDesign.forEach((key, value) -> {
                         System.out.println(key + ": " + value);
                     });
@@ -278,6 +278,7 @@ public class ManufacturingController {
                         selectedDesign.forEach((key, value) -> {
                             System.out.println(key + ": " + value);
                         });
+                        System.out.println("Begin listing Product information: ");
                         System.out.println("Enter Product Name: ");
                         String productName = sc.nextLine();
                         System.out.println("Enter Product Description: ");
@@ -286,6 +287,8 @@ public class ManufacturingController {
                         String productQuantity = sc.nextLine();
                         System.out.println("Enter Product Category: ");
                         String productCategory = sc.nextLine();
+                        System.out.println("Enter Product Price: ");
+                        String productPrice = sc.nextLine();
 
                         Product product = new Product(productName);
                         product.setName(productName);
@@ -293,6 +296,7 @@ public class ManufacturingController {
                         product.setQuantity(productQuantity);
                         product.setCategory(productCategory);
                         product.displayProducts();
+                        product.setPrice(productPrice);
                         manager.setProducts(product);
 
                         Map<String, Object> productDetails = new HashMap<>();
@@ -300,6 +304,7 @@ public class ManufacturingController {
                         productDetails.put("Description", product.getDescription());
                         productDetails.put("Quantity", product.getQuantity());
                         productDetails.put("Category", product.getCategory());
+                        productDetails.put("Price", product.getPrice());
 
                         fileManager.saveToFile("Products.txt", productDetails);
                         productCreated = manager.createProduct(collectedMaterials);
@@ -321,18 +326,23 @@ public class ManufacturingController {
                         String productQuantity = sc.nextLine();
                         System.out.println("Enter Product Category: ");
                         String productCategory = sc.nextLine();
+                        System.out.println("Enter Product Price: ");
+                        String productPrice = sc.nextLine();
                         CustomProduct customProduct = new CustomProduct(productName);
                         customProduct.setName(productName);
                         customProduct.setDescription(productDescription);
                         customProduct.setQuantity(productQuantity);
                         customProduct.setCategory(productCategory);
+                        customProduct.setPrice(productPrice);
                         customProduct.displayProducts();
+
                         manager.setCustomProducts(customProduct);
                         Map<String, Object> customProductDetails = new HashMap<>();
                         customProductDetails.put("Name", customProduct.getName());
                         customProductDetails.put("Description", customProduct.getDescription());
                         customProductDetails.put("Quantity", customProduct.getQuantity());
                         customProductDetails.put("Category", customProduct.getCategory());
+                        customProductDetails.put("Price", customProduct.getPrice());
                         fileManager.saveToFile("CustomProducts.txt", customProductDetails);
                         productCreated = manager.createProduct(collectedMaterials);
                         System.out.println("Custom Product created");

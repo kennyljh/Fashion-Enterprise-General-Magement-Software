@@ -62,16 +62,15 @@ public class DesignSpecificationsController {
                     String colorsNeeded = scan.nextLine();
                     System.out.println("Enter sizes for design: ");
                     String sizesNeeded = scan.nextLine();
-                    System.out.println("Enter design  quantity: ");
+                    System.out.println("Enter design quantity: ");
                     String designQuantity = scan.nextLine();
-//                    scan.nextLine();
                     System.out.println("Enter image of the design: ");
                     String imageOfDesign = scan.nextLine();
                     //call to helper to set all specifications
                     createDesignSketch(designName, rawMaterialsNeeded, colorsNeeded, sizesNeeded, designQuantity, imageOfDesign);
                     break;
                 case 2:
-                    headOfDesignTeam.viewSketches(sketches);
+//                    headOfDesignTeam.viewSketches(sketches);
                     Map<String, Object> storedSketches = designFileManager.getSketch(); //check to see if it retrieves all the sketches
                     if (storedSketches == null || storedSketches.isEmpty()) {
                         System.out.println("No sketches found in repository.");
@@ -158,7 +157,8 @@ public class DesignSpecificationsController {
                         finalDesign = headOfDesignTeam.confirmFinalDesign();
                         if (finalDesign != null) {
                             designFileManager.saveFinalDesign(finalDesign);
-                            System.out.println("Sketch Verfied\nDisplay specifications:\n" + finalDesign.displayAllSpecifications());
+                            System.out.println("Display Verified Design\n" + finalDesign.displayAllSpecifications());
+                            System.out.println("Sketch has been selected for a final design.");
                         } else {
                             System.out.println("Failed to confirm final design");
                         }
@@ -279,7 +279,7 @@ public class DesignSpecificationsController {
                         String seasonType = scan.nextLine();
                         setMarketingDesign(marketingDesignName, audience, price, description, seasonType);
 //                        designFileManager.saveMarketingDesign(marketingDesign);
-                        System.out.println("Saved Marketing Design Specifications: \n" + marketingDesign.displayAllSpecifications());
+                        System.out.println("Selected Marketing Design Specifications: \n" + marketingDesign.displayAllSpecifications());
 
 
                     } else if (modifyDesign2.equals("N")) {
@@ -303,7 +303,7 @@ public class DesignSpecificationsController {
                         String finalColorsNeeded = scan.nextLine();
                         System.out.println("Enter sizes for design: ");
                         String finalSizesNeeded = scan.nextLine();
-                        System.out.println("Enter design  quantity: ");
+                        System.out.println("Enter design quantity: ");
                         String finalDesignQuantity = scan.nextLine();
                         System.out.println("Enter image of the design: ");
                         String finalImageOfDesign = scan.nextLine();
@@ -399,7 +399,7 @@ public class DesignSpecificationsController {
         marketingDesign.setSeasonType(seasonType);
         marketingDesign.setTargetAudience(targetAudience);
         designFileManager.saveMarketingDesign(marketingDesign);
-        System.out.println("MarketingDesign has been set with all specifications");
+        System.out.println("The Marketing Design has been set with all specifications");
         marketingDesign.displayAllSpecifications();
 
     }

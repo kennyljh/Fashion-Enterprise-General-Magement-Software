@@ -10,6 +10,7 @@ public class Product implements ProductInterface {
     String description;
     String quantity;
     String category;
+    String price;
 
     public Product(String name) {
         this.name = name;
@@ -69,5 +70,15 @@ public class Product implements ProductInterface {
                 + "Description: " + description + "\n"
                 + "Quantity: " + quantity + "\n"
                 + "Category: " + category;
+    }
+
+    @Override
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    @Override
+    public String getPrice() {
+        return price;
     }
 }
