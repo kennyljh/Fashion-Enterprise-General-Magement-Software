@@ -63,22 +63,70 @@ public class HRDepartment {
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             switch (choice) {
-                case 1: //add employee
+                case 1: //add employee TODO: extract into methods
+                    //Name
                     System.out.println("Enter employee name: ");
-                    String name = input.next();
+                    String name = input.nextLine();
+                    if(name.equals(" ") || name == null) {
+                        System.out.println("Incorrect input, please try again: ");
+                        name = input.nextLine();
+                    }
+                    System.out.println("Is " + name + " correct? (y/n): ");
+                    String answer = input.next();
+                    if(answer.equals("n") || answer.equals("N")) {
+                        System.out.println("Please re-enter employee name: ");
+                        name = input.nextLine();
+                    }
+                    //ID
                     System.out.println("Enter employeeID: ");
                     String employeeId = input.next();
+                    System.out.println("Is " + employeeId + " correct? (y/n): ");
+                    answer = input.next();
+                    if(answer.equals("n") || answer.equals("N")) {
+                        System.out.println("Please re-enter employeeID: ");
+                        employeeId = input.nextLine();
+                    }
+                    //Department
                     System.out.println("Enter employee department: ");
                     for(int i = 0; i < Department.values().length; i++) {
                         System.out.println(Department.values()[i].name());
                     }
                     Department department = Department.valueOf(input.next().toUpperCase());
+                    System.out.println("Is " + department + " correct? (y/n): ");
+                    answer = input.next();
+                    if(answer.equals("n") || answer.equals("N")) {
+                        System.out.println("Please re-enter employee name: ");
+                        department = Department.valueOf(input.next().toUpperCase());
+                    }
+                    //Position
                     System.out.println("Enter employee position: ");
-                    String position = input.next();
+                    String position = input.nextLine();
+                    System.out.println("Is " + position + " correct? (y/n): ");
+                    answer = input.next();
+                    if(answer.equals("n") || answer.equals("N")) {
+                        System.out.println("Please re-enter employee position: ");
+                        position = input.nextLine();
+                    }
+                    //Status
                     System.out.println("Enter employee employment status (i.e. onboarding): ");
                     String employmentStatus = input.next();
+                    System.out.println("Is " + employmentStatus + " correct? (y/n): ");
+                    answer = input.next();
+                    if(answer.equals("n") || answer.equals("N")) {
+                        System.out.println("Please re-enter employment status: ");
+                        employmentStatus = input.nextLine();
+                    }
+                    //Salary
                     System.out.println("Enter employee salary: ");
                     int salary = input.nextInt();
+                    System.out.println("Is " + salary + " correct? (y/n): ");
+                    answer = input.next();
+                    if(answer.equals("n") || answer.equals("N")) {
+                        System.out.println("Please re-enter employeeID: ");
+                        salary = input.nextInt();
+                    }
+
+                    //Adding employee
                     Employee employeeHolder = new Employee(employeeId, name, department, position, employmentStatus, salary);
                     empHandler.addEmployee(employeeHolder);
                     System.out.println("Employee added successfully! Returning to menu...\n\n\n\n");
