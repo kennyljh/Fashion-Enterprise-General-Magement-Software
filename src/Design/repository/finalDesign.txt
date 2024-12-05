@@ -1,0 +1,32 @@
+Final Design Hello:
+DesignRawMaterials/cotton.poly
+DesignName/Hello
+DesignQuantities/2
+DesignSizes/S, M
+DesignImage/flf.xt
+DesignColors/red
+
+Final Design newDesign:
+DesignRawMaterials/cotton, poly
+DesignName/newDesign
+DesignQuantities/5
+DesignSizes/S, M, L
+DesignImage/heelo.txt
+DesignColors/red,blue
+
+Final Design null:
+DesignRawMaterials/
+DesignName/null
+DesignQuantities/null
+DesignSizes/
+DesignImage/null
+DesignColors/
+
+Final Design Default Name:
+DesignRawMaterials/
+DesignName/Default Name
+DesignQuantities/0
+DesignSizes/
+DesignImage/NoImage.png
+DesignColors/
+

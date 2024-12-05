@@ -35,6 +35,10 @@ public class HeadOfDesignTeam implements HeadOfDesignInterface {
     @Override
     public void selectSketch(int sketchIndex, List<DesignSketch> sketches) {
 
+        if (sketches == null || sketches.isEmpty()) {
+            System.out.println("No sketch selected");
+            return;
+        }
         if (sketchIndex >= 0 && sketchIndex < sketches.size()) {
             selectedSketch = sketches.get(sketchIndex);
             System.out.println("Selcted sketch was: " + selectedSketch.getDesignName());

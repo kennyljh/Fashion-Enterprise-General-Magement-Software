@@ -1,0 +1,32 @@
+Sketch hee:
+Design Size/we
+Design Quantities/3
+Design Colors/ssc
+Design Raw Materials/we
+Design Image/dw
+Design Name/hee
+
+Sketch hello:
+Design Size/S,M,L
+Design Quantities/5
+Design Colors/Red
+Design Raw Materials/cotton
+Design Image/hello.txt
+Design Name/hello
+
+Sketch Hello:
+Design Size/S,M
+Design Quantities/2
+Design Colors/red
+Design Raw Materials/cotton.poly
+Design Image/flf.xt
+Design Name/Hello
+
+Sketch newDesign:
+Design Size/S,M,L
+Design Quantities/5
+Design Colors/red,blue
+Design Raw Materials/cotton,poly
+Design Image/heelo.txt
+Design Name/newDesign
+

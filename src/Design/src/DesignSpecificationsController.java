@@ -71,7 +71,7 @@ public class DesignSpecificationsController {
                     createDesignSketch(designName, rawMaterialsNeeded, colorsNeeded, sizesNeeded, designQuantity, imageOfDesign);
                     break;
                 case 2:
-//                    headOfDesignTeam.viewSketches(sketches);
+                    headOfDesignTeam.viewSketches(sketches);
                     Map<String, Object> storedSketches = designFileManager.getSketch(); //check to see if it retrieves all the sketches
                     if (storedSketches == null || storedSketches.isEmpty()) {
                         System.out.println("No sketches found in repository.");
@@ -101,21 +101,51 @@ public class DesignSpecificationsController {
                         System.out.println("No sketch found with name " + selectedSketchName);
                         return;
                     }
-                    DesignSketch newSketch = new DesignSketch(selectedSketchName);
-                    newSketch.setDesignName((String) selectedSketch.get("DesignName"));
-                    newSketch.setRawMaterials(List.of((String) selectedSketch.get("DesignRawMaterials")));
-                    newSketch.setColor(List.of((String) selectedSketch.get("DesignColors")));
-                    newSketch.setSizes(List.of((String) selectedSketch.get("DesignSizes")));
-                    newSketch.setQuantities((String) selectedSketch.get("DesignQuantities"));
-                    newSketch.setDesignImage((String) selectedSketch.get("DesignImage"));
-
-                    sketches.add(newSketch);
-
                     System.out.println("You selected the following sketch: " + selectedSketchName);
                     selectedSketch.forEach((key, value) -> {
                         System.out.println(key + ": " + value);
                     });
 
+                    String sketchName = (String) selectedSketch.get("Design Name");
+                    String sketchRawMaterials = (String) selectedSketch.get("Design Raw Materials");
+                    String sketchColors = (String) selectedSketch.get("Design Colors");
+                    String sketchSizes = (String) selectedSketch.get("Design Size");
+                    String sketchQuantities = (String) selectedSketch.get("Design Quantities");
+                    String sketchDesignImage = (String) selectedSketch.get("Design Image");
+
+                    List<String> rawMaterialsList = sketchRawMaterials != null && !sketchRawMaterials.isEmpty() ?
+                            List.of(sketchRawMaterials.split(",")) : new ArrayList<>();
+                    List<String> colorList = sketchColors != null && !sketchColors.isEmpty() ?
+                            List.of(sketchColors.split(",")) : new ArrayList<>();
+                    List<String> sizeList = sketchSizes != null && !sketchSizes.isEmpty() ?
+                            List.of(sketchSizes.split(",")) : new ArrayList<>();
+
+
+                    DesignSketch newSketch = new DesignSketch(selectedSketchName);
+                    newSketch.setDesignName(sketchName);
+                    newSketch.setRawMaterials(rawMaterialsList);
+                    newSketch.setColor(colorList);
+                    newSketch.setSizes(sizeList);
+                    newSketch.setQuantities(sketchQuantities);
+                    newSketch.setDesignImage(sketchDesignImage);
+//                    newSketch.setDesignName((String) selectedSketch.get("DesignName"));
+//                    newSketch.setRawMaterials(List.of((String) selectedSketch.get("DesignRawMaterials")));
+//                    newSketch.setColor(List.of((String) selectedSketch.get("DesignColors")));
+//                    newSketch.setSizes(List.of((String) selectedSketch.get("DesignSizes")));
+//                    newSketch.setQuantities((String) selectedSketch.get("DesignQuantities"));
+//                    newSketch.setDesignImage((String) selectedSketch.get("DesignImage"));
+
+                    sketches.add(newSketch);
+
+
+                    int sketchIndex = sketches.indexOf(newSketch);
+                    if (sketchIndex != -1) {
+                        headOfDesignTeam.selectSketch(sketchIndex, sketches);
+                    }
+//                    else {
+//                        System.out.println("Failed to find the newly added sketch.");
+//                        break;
+//                    }
 
 //                    headOfDesignTeam.selectSketch(sketchNumber, sketches);
                     System.out.println("(Y/N) Do you want to verify the design sketch?");
@@ -124,7 +154,7 @@ public class DesignSpecificationsController {
                         //call to begin Final Design case 3
 
 //                        finalDesign = new FinalDesign(selectedSketchName);
-                        headOfDesignTeam.selectSketch(sketches.indexOf(newSketch), sketches);
+//                        headOfDesignTeam.selectSketch(sketches.indexOf(newSketch), sketches);
                         finalDesign = headOfDesignTeam.confirmFinalDesign();
                         if (finalDesign != null) {
                             designFileManager.saveFinalDesign(finalDesign);
@@ -257,9 +287,8 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
+                    break;
                 case 5:
-
-
                     System.out.println("Do you want to create a custom Design for modelling?");
                     System.out.println("(Y/N)");
                     String response = scan.nextLine();
@@ -286,11 +315,11 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
-
+                break;
                 case 6:
                     System.out.println("Exit Program");
                     exit = true;
-                    App.prompt();
+//                    App.prompt();
                     break;
 
                 default:

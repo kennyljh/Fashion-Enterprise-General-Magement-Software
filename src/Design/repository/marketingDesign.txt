@@ -1,0 +1,6 @@
+Marketing Design newDesign:
+seasonType/fall
+targetAudience/kids
+price/$30.00
+sketch/newDesign
+

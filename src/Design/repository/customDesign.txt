@@ -1,0 +1,24 @@
+Custom Design df:
+DesignRawMaterials/df
+DesignName/df
+DesignQuantities/1
+DesignSizes/v
+DesignImage/ef.txt
+DesignColors/ewr
+
+Custom Design Model Outfit:
+DesignRawMaterials/cotton
+DesignName/Model Outfit
+DesignQuantities/2
+DesignSizes/S,L
+DesignImage/ef.txt
+DesignColors/red, blue
+
+Custom Design Model Design:
+DesignRawMaterials/cotton,poly
+DesignName/Model Design
+DesignQuantities/4
+DesignSizes/S,M,L
+DesignImage/we.txt
+DesignColors/red,blue
+
