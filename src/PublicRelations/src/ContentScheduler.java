@@ -1,11 +1,7 @@
 package src.PublicRelations.src;
 
-import src.Security.src.SecurityEmployee;
-import src.Security.src.SecurityRequests;
-import src.Security.src.SecuritySchedules;
 import src.TextEditor.PoorTextEditor;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.time.LocalDateTime;
@@ -43,7 +39,35 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
     Map<String, ContentRequests> contentRequestsRepository = new LinkedHashMap<>();
 
     // sorts content schedules by deadline first, then by priority
-    PriorityQueue<ContentSchedules> contentSchedulesPriorityQueue = new PriorityQueue<>(
+    PriorityQueue<ContentSchedules> planningContentSchedulesPriorityQueue = new PriorityQueue<>(
+            Comparator.comparing((ContentSchedules schedule) -> {
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                return LocalDateTime.parse(schedule.getDeadline(), formatter);
+            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+    );
+    PriorityQueue<ContentSchedules> reviewingContentSchedulesPriorityQueue = new PriorityQueue<>(
+            Comparator.comparing((ContentSchedules schedule) -> {
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                return LocalDateTime.parse(schedule.getDeadline(), formatter);
+            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+    );
+    PriorityQueue<ContentSchedules> revisingContentSchedulesPriorityQueue = new PriorityQueue<>(
+            Comparator.comparing((ContentSchedules schedule) -> {
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                return LocalDateTime.parse(schedule.getDeadline(), formatter);
+            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+    );
+    PriorityQueue<ContentSchedules> readyContentSchedulesPriorityQueue = new PriorityQueue<>(
+            Comparator.comparing((ContentSchedules schedule) -> {
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                return LocalDateTime.parse(schedule.getDeadline(), formatter);
+            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+    );
+    PriorityQueue<ContentSchedules> allContentSchedulesPriorityQueue = new PriorityQueue<>(
             Comparator.comparing((ContentSchedules schedule) -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -94,77 +118,248 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
     @Override
     public boolean showFreePlanningEmployees() {
-        return false;
+
+        if (!retrieveAllPREmployees()){
+            return false;
+        }
+
+        for (PRPlanningEmployee employee : availablePRPlanningEmployeePriorityQueue){
+            planningEmployeeToText(employee);
+        }
+        return true;
     }
 
     @Override
     public boolean showAllPlanningEmployees() {
-        return false;
+
+        if (!retrieveAllPREmployees()){
+            return false;
+        }
+
+        for (PRPlanningEmployee employee : allPRPlanningEmployeePriorityQueue){
+            planningEmployeeToText(employee);
+        }
+        return true;
     }
 
     @Override
     public boolean showFreeReviewEmployees() {
-        return false;
+
+        if (!retrieveAllPREmployees()){
+            return false;
+        }
+
+        for (PRReviewEmployee employee : availablePRReviewEmployeePriorityQueue){
+            reviewEmployeeToText(employee);
+        }
+        return true;
     }
 
     @Override
     public boolean showAllReviewEmployees() {
-        return false;
+        
+        if (!retrieveAllPREmployees()){
+            return false;
+        }
+
+        for (PRReviewEmployee employee : allPRReviewEmployeePriorityQueue){
+            reviewEmployeeToText(employee);
+        }
+        return true;
     }
 
     @Override
     public boolean showPendingRequests() {
-        return false;
+
+        if (!retrieveAllRequests()){
+            return false;
+        }
+
+        for (ContentRequests request : pendingContentRequestsPriorityQueue){
+            contentRequestToText(request);
+        }
+        return true;
     }
 
     @Override
     public boolean showAllRequests() {
+
+        if (!retrieveAllRequests()){
+            return false;
+        }
+
+        for (ContentRequests request : allContentRequestPriorityQueue){
+            contentRequestToText(request);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean createContentSchedule(String requestID) {
         return false;
     }
 
     @Override
-    public boolean createContent(String requestID) {
+    public boolean deleteContentSchedule(String contentID) {
+
+        if (!retrieveAllSchedules()) return false;
+
+        if (!retrieveAllPREmployees()) return false;
+
+        if (!retrieveAllRequests()) return false;
+
+        if (!contentSchedulesRepository.containsKey(contentID)){
+
+            System.out.println("Content schedule ID: " + contentID + " not found");
+            return false;
+        }
+
+        ContentSchedules schedule = contentSchedulesRepository.get(contentID);
+
+        if (schedule.getPlanningTeamAssign().isEmpty()|| schedule.getReviewTeamAssign().isEmpty()){
+
+            System.out.println("Incomplete employee assignment for content schedule ID: " + contentID);
+            return false;
+        }
+
+        /**
+         * Freeing planning employees current assignment
+         */
+        List<String> planningEmployees = schedule.getPlanningTeamAssign();
+        editor.processTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+        for (String s : planningEmployees){
+            editor.setValue(s, "currentAssignment", "free");
+        }
+        editor.writeToTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+
+        /**
+         * Freeing review employees current assignment
+         */
+        List<String> reviewEmployees = schedule.getReviewTeamAssign();
+        editor.processTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+        for (String s : reviewEmployees){
+            editor.setValue(s, "currentAssignment", "free");
+        }
+        editor.writeToTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+
+        /**
+         * Setting content request resolved status back to false
+         */
+        ContentRequests request = contentRequestsRepository.get(schedule.getRequestID());
+        editor.processTextFile(departmentRequestDir + request.getFileName());
+        editor.setValue(schedule.getRequestID(), "resolved", "false");
+        editor.writeToTextFile(departmentRequestDir + request.getFileName());
+
+        /**
+         * Deleting content schedule
+         */
+        File fileToDelete = new File(contentSchedulesDir, schedule.getFileName());
+
+        if (fileToDelete.exists()){
+
+            if (fileToDelete.delete()){
+
+                System.out.println("Content schedule of ID: " + contentID + " successfully deleted");
+            }
+            else {
+
+                System.out.println("Failed to delete content schedule ID: " + contentID);
+                return false;
+            }
+        }
+        else {
+
+            System.out.println("Content schedule with ID: " + contentID + " not found");
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean editContentSchedule(String contentID) {
         return false;
     }
 
     @Override
-    public boolean deleteContent(String contentID) {
-        return false;
+    public boolean showAllContentSchedules() {
+
+        if (!retrieveAllSchedules()){
+            return false;
+        }
+
+        for (ContentSchedules schedule : allContentSchedulesPriorityQueue){
+            contentScheduleToText(schedule);
+        }
+        return true;
     }
 
     @Override
-    public boolean editContent(String contentID) {
-        return false;
+    public boolean showPlanningContentSchedules() {
+
+        if (!retrieveAllSchedules()){
+            return false;
+        }
+
+        for (ContentSchedules schedule : planningContentSchedulesPriorityQueue){
+            contentScheduleToText(schedule);
+        }
+        return true;
     }
 
     @Override
-    public boolean showAllContents() {
-        return false;
+    public boolean showReviewingContentSchedules() {
+
+        if (!retrieveAllSchedules()){
+            return false;
+        }
+
+        for (ContentSchedules schedule : reviewingContentSchedulesPriorityQueue){
+            contentScheduleToText(schedule);
+        }
+        return true;
     }
 
     @Override
-    public boolean showPlanningContents() {
-        return false;
+    public boolean showRevisingContentSchedules() {
+
+        if (!retrieveAllSchedules()){
+            return false;
+        }
+
+        for (ContentSchedules schedule : revisingContentSchedulesPriorityQueue){
+            contentScheduleToText(schedule);
+        }
+        return true;
     }
 
     @Override
-    public boolean showReviewingContents() {
-        return false;
+    public boolean showReadyContentSchedules() {
+
+        if (!retrieveAllSchedules()){
+            return false;
+        }
+
+        for (ContentSchedules schedule : readyContentSchedulesPriorityQueue){
+            contentScheduleToText(schedule);
+        }
+        return true;
     }
 
     @Override
-    public boolean showRevisingContents() {
-        return false;
-    }
+    public boolean showContentScheduleByID(String contentID) {
 
-    @Override
-    public boolean showReadyContents() {
-        return false;
-    }
+        if (!retrieveAllSchedules()){
+            return false;
+        }
 
-    @Override
-    public boolean showContentByID(String contentID) {
-        return false;
+        if (!contentSchedulesRepository.containsKey(contentID)){
+
+            System.out.println("Content schedule with ID: " + contentID + " not found");
+            return false;
+        }
+
+        contentScheduleToText(contentSchedulesRepository.get(contentID));
+        return true;
     }
 
     /**
@@ -173,7 +368,11 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
      */
     private boolean retrieveAllSchedules() {
 
-        contentSchedulesPriorityQueue.clear();
+        planningContentSchedulesPriorityQueue.clear();
+        reviewingContentSchedulesPriorityQueue.clear();
+        revisingContentSchedulesPriorityQueue.clear();
+        readyContentSchedulesPriorityQueue.clear();
+        allContentSchedulesPriorityQueue.clear();
         contentSchedulesRepository.clear();
 
         File[] scheduleTextFiles = retrieveScheduleFiles(contentSchedulesDir);
@@ -190,6 +389,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             for (String s : schedules){
 
                 ContentSchedules schedule = new ContentSchedules(s,
+                        editor.retrieveValue(s, "requestID"),
                         editor.retrieveValue(s, "theme"),
                         editor.retrieveValue(s, "contentCategory"),
                         editor.retrieveValue(s, "platform"),
@@ -230,7 +430,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                     schedule.getDuration() == null || schedule.getDeadline() == null ||
                     schedule.getDescription() == null || schedule.getTasks() == null ||
                     schedule.getDepartment() == null || schedule.getPriority() == null ||
-                    schedule.getStatus() == null || schedule.getDateIssued() == null ||
+                    schedule.getStatus() == null || schedule.getDateScheduled() == null ||
                     schedule.getFileName() == null || schedule.getPlanningTeamAssign().isEmpty() ||
                     schedule.getReviewTeamAssign().isEmpty()){
 
@@ -238,7 +438,15 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                     return false;
                 }
 
-                contentSchedulesPriorityQueue.add(schedule);
+                String status = schedule.getStatus();
+                switch (status){
+                    case "planning" -> planningContentSchedulesPriorityQueue.add(schedule);
+                    case "reviewing" -> reviewingContentSchedulesPriorityQueue.add(schedule);
+                    case "revising" -> revisingContentSchedulesPriorityQueue.add(schedule);
+                    case "ready" -> readyContentSchedulesPriorityQueue.add(schedule);
+                }
+
+                allContentSchedulesPriorityQueue.add(schedule);
                 contentSchedulesRepository.put(s, schedule);
             }
         }
@@ -513,6 +721,108 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return null;
         }
         return textFiles;
+    }
+
+    /**
+     * Pretty print content requests
+     * @param request specific content request
+     */
+    private void contentRequestToText(ContentRequests request) {
+
+        System.out.println("======================================================");
+        System.out.println("Security Request ID: " + request.getRequestID());
+        System.out.println("Priority: " + request.getPriority());
+        System.out.println("Department: " + request.getDepartment());
+        System.out.println();
+        System.out.println("Content Category: " + request.getContentCategory());
+        System.out.println("Theme: " + request.getTheme());
+        System.out.println("Platform: " + request.getPlatform());
+        System.out.println("Description: " + request.getDescription());
+        System.out.println("Tasks: " + request.getTasks());
+        System.out.println();
+        System.out.println("Duration: " + request.getDuration());
+        System.out.println("Deadline: " + request.getDeadline());
+        System.out.println("Special Requests: " + request.getSpecialReqs());
+        System.out.println();
+        System.out.println("Date Issued: " + request.getDateIssued());
+        System.out.println("Resolve Status: " + request.getResolved());
+        System.out.println("======================================================\n");
+    }
+
+    /**
+     * Pretty print content schedules
+     * @param schedule specific content schedule
+     */
+    private void contentScheduleToText(ContentSchedules schedule){
+
+        System.out.println("=======================================================");
+        System.out.println("Schedule ID: " + schedule.getScheduleID());
+        System.out.println("is associated with");
+        System.out.println("Request ID: " + schedule.getRequestID());
+        System.out.println("------------------------------------------------------");
+        System.out.println("Status: " + schedule.getStatus());
+        System.out.println("Priority: " + schedule.getPriority());
+        System.out.println("Department: " + schedule.getDepartment());
+        System.out.println("------------------------------------------------------");
+        System.out.println("Content Category: " + schedule.getContentCategory());
+        System.out.println("Theme: " + schedule.getTheme());
+        System.out.println("Platform: " + schedule.getPlatform());
+        System.out.println("Description: " + schedule.getDescription());
+        System.out.println("Tasks: " + schedule.getTasks());
+        System.out.println("------------------------------------------------------");
+        System.out.println("Duration: " + schedule.getDuration());
+        System.out.println("Deadline: " + schedule.getDeadline());
+        System.out.println("Date Scheduled: " + schedule.getDateScheduled());
+        System.out.println("------------------------------------------------------");
+        System.out.println("Assigned Planning Employees:");
+        for (String s : schedule.getPlanningTeamAssign()){
+            System.out.println(s);
+        }
+        System.out.println("Assigned Review Employees:");
+        for (String s : schedule.getReviewTeamAssign()){
+            System.out.println(s);
+        }
+        System.out.println("=======================================================\n");
+    }
+
+    /**
+     * Pretty print planning employee
+     * @param employee specific planning employee
+     */
+    private void planningEmployeeToText(PRPlanningEmployee employee){
+
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("Employee ID: " + employee.getEmployeeID());
+        System.out.println("Name: " + employee.getName());
+        System.out.println("Division: " + employee.getDivision());
+        System.out.println("Position: " + employee.getPosition());
+        System.out.println("Department: " + employee.getDepartment());
+        System.out.println("------------------------------------------------------");
+        System.out.println("Rating: " + employee.getRating());
+        System.out.println("Years of Experience: " + employee.getYearsOfExperience());
+        System.out.println("Previous Assignment: " + employee.getPreviousAssignment());
+        System.out.println("Current Assignment: " + employee.getCurrentAssignment());
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+    }
+
+    /**
+     * Pretty print review employee
+     * @param employee specific review employee
+     */
+    private void reviewEmployeeToText(PRReviewEmployee employee){
+
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("Employee ID: " + employee.getEmployeeID());
+        System.out.println("Name: " + employee.getName());
+        System.out.println("Division: " + employee.getDivision());
+        System.out.println("Position: " + employee.getPosition());
+        System.out.println("Department: " + employee.getDepartment());
+        System.out.println("------------------------------------------------------");
+        System.out.println("Rating: " + employee.getRating());
+        System.out.println("Years of Experience: " + employee.getYearsOfExperience());
+        System.out.println("Previous Assignment: " + employee.getPreviousAssignment());
+        System.out.println("Current Assignment: " + employee.getCurrentAssignment());
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     }
 
 

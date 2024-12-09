@@ -8,19 +8,20 @@ import java.util.List;
 
 public class ContentSchedules {
 
-    String scheduleID, theme, contentCategory, platform, duration, deadline,
-            description, tasks, department, priority, status, dateIssued, fileName;
+    String scheduleID, requestID, theme, contentCategory, platform, duration, deadline,
+            description, tasks, department, priority, status, dateScheduled, fileName;
     private List<String> planningTeamAssign, reviewTeamAssign;
 
     public ContentSchedules(){}
 
-    public ContentSchedules(String scheduleID, String theme, String contentCategory,
-                            String platform, String duration, String deadline,
-                            String description, String tasks, String department,
-                            String priority, String status, String dateIssued,
-                            String fileName){
+    public ContentSchedules(String scheduleID, String requestID, String theme,
+                            String contentCategory, String platform, String duration,
+                            String deadline, String description, String tasks,
+                            String department, String priority, String status,
+                            String dateIssued, String fileName){
 
         this.scheduleID = scheduleID;
+        this.requestID = requestID;
         this.theme = theme;
         this.contentCategory = contentCategory;
         this.platform = platform;
@@ -31,12 +32,16 @@ public class ContentSchedules {
         this.department = department;
         this.priority = priority;
         this.status = status;
-        this.dateIssued = dateIssued;
+        this.dateScheduled = dateIssued;
         this.fileName = fileName;
     }
 
     public String getScheduleID() {
         return scheduleID;
+    }
+
+    public String getRequestID() {
+        return requestID;
     }
 
     public String getTheme() {
@@ -79,8 +84,8 @@ public class ContentSchedules {
         return status;
     }
 
-    public String getDateIssued() {
-        return dateIssued;
+    public String getDateScheduled() {
+        return dateScheduled;
     }
 
     public String getFileName() {
@@ -97,6 +102,10 @@ public class ContentSchedules {
 
     public void setScheduleID(String scheduleID) {
         this.scheduleID = scheduleID;
+    }
+
+    public void setRequestID(String requestID) {
+        this.requestID = requestID;
     }
 
     public void setTheme(String theme) {
@@ -139,8 +148,8 @@ public class ContentSchedules {
         this.status = status;
     }
 
-    public void setDateIssued(String dateIssued) {
-        this.dateIssued = dateIssued;
+    public void setDateScheduled(String dateScheduled) {
+        this.dateScheduled = dateScheduled;
     }
 
     public void setFileName(String fileName) {
