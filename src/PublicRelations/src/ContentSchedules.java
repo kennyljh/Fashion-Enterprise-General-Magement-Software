@@ -1,4 +1,138 @@
+/**
+ * @author Kenny
+ */
+
 package src.PublicRelations.src;
 
+import java.util.List;
+
 public class ContentSchedules {
+
+    String scheduleID, theme, contentCategory, platform, duration, deadline,
+            description, tasks, department, status, dateIssued;
+    private List<String> planningTeamAssign, reviewTeamAssign;
+
+    public ContentSchedules(){}
+
+    public ContentSchedules(String scheduleID, String theme, String contentCategory,
+                            String platform, String duration, String deadline,
+                            String description, String tasks, String department,
+                            String status, String dateIssued){
+
+        this.scheduleID = scheduleID;
+        this.theme = theme;
+        this.contentCategory = contentCategory;
+        this.platform = platform;
+        this.duration = duration;
+        this.deadline = deadline;
+        this.description = description;
+        this.tasks = tasks;
+        this.department = department;
+        this.status = status;
+        this.dateIssued = dateIssued;
+    }
+
+    public String getScheduleID() {
+        return scheduleID;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public String getContentCategory() {
+        return contentCategory;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTasks() {
+        return tasks;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDateIssued() {
+        return dateIssued;
+    }
+
+    public List<String> getPlanningTeamAssign() {
+        return planningTeamAssign;
+    }
+
+    public List<String> getReviewTeamAssign() {
+        return reviewTeamAssign;
+    }
+
+    public void setScheduleID(String scheduleID) {
+        this.scheduleID = scheduleID;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public void setContentCategory(String contentCategory) {
+        this.contentCategory = contentCategory;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTasks(String tasks) {
+        this.tasks = tasks;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDateIssued(String dateIssued) {
+        this.dateIssued = dateIssued;
+    }
+
+    public void setPlanningTeamAssign(List<String> planningTeamAssign) {
+        this.planningTeamAssign = planningTeamAssign;
+    }
+
+    public void setReviewTeamAssign(List<String> reviewTeamAssign) {
+        this.reviewTeamAssign = reviewTeamAssign;
+    }
 }
