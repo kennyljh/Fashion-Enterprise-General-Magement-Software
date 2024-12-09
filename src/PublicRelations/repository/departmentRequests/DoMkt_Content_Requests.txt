@@ -3,7 +3,7 @@ theme/something
 contentCategory/something
 platform/something
 duration/something
-deadline/something
+deadline/MM-dd-yyyy
 description/something
 tasks/something
 department/Department of Marketing
