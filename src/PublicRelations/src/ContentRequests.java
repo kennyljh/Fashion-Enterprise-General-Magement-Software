@@ -7,14 +7,16 @@ package src.PublicRelations.src;
 public class ContentRequests {
 
     String requestID, theme, contentCategory, platform, duration, deadline,
-            description, tasks, department, priority, specialReqs, dateIssued;
+            description, tasks, department, priority, specialReqs, dateIssued,
+            resolved, fileName;
 
     public ContentRequests(){}
 
     public ContentRequests(String requestID, String theme, String contentCategory,
                            String platform, String duration, String deadline,
                            String description, String tasks, String department,
-                           String priority, String specialReqs, String dateIssued){
+                           String priority, String specialReqs, String dateIssued,
+                           String resolved, String fileName){
 
         this.requestID = requestID;
         this.theme = theme;
@@ -28,6 +30,8 @@ public class ContentRequests {
         this.priority = priority;
         this.specialReqs = specialReqs;
         this.dateIssued = dateIssued;
+        this.resolved = resolved;
+        this.fileName = fileName;
     }
 
     public String getRequestID() {
@@ -78,6 +82,14 @@ public class ContentRequests {
         return dateIssued;
     }
 
+    public String getResolved() {
+        return resolved;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
     public void setRequestID(String requestID) {
         this.requestID = requestID;
     }
@@ -124,5 +136,13 @@ public class ContentRequests {
 
     public void setDateIssued(String dateIssued) {
         this.dateIssued = dateIssued;
+    }
+
+    public void setResolved(String resolved) {
+        this.resolved = resolved;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

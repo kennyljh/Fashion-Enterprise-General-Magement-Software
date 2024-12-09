@@ -9,7 +9,7 @@ import java.util.List;
 public class ContentSchedules {
 
     String scheduleID, theme, contentCategory, platform, duration, deadline,
-            description, tasks, department, status, dateIssued;
+            description, tasks, department, status, dateIssued, fileName;
     private List<String> planningTeamAssign, reviewTeamAssign;
 
     public ContentSchedules(){}
@@ -17,7 +17,7 @@ public class ContentSchedules {
     public ContentSchedules(String scheduleID, String theme, String contentCategory,
                             String platform, String duration, String deadline,
                             String description, String tasks, String department,
-                            String status, String dateIssued){
+                            String status, String dateIssued, String fileName){
 
         this.scheduleID = scheduleID;
         this.theme = theme;
@@ -30,6 +30,7 @@ public class ContentSchedules {
         this.department = department;
         this.status = status;
         this.dateIssued = dateIssued;
+        this.fileName = fileName;
     }
 
     public String getScheduleID() {
@@ -74,6 +75,10 @@ public class ContentSchedules {
 
     public String getDateIssued() {
         return dateIssued;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public List<String> getPlanningTeamAssign() {
@@ -126,6 +131,10 @@ public class ContentSchedules {
 
     public void setDateIssued(String dateIssued) {
         this.dateIssued = dateIssued;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void setPlanningTeamAssign(List<String> planningTeamAssign) {

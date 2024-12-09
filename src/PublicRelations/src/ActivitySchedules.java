@@ -9,14 +9,15 @@ import java.util.List;
 public class ActivitySchedules {
 
     private String scheduleID, activityName, activityType, duration, deadline, description,
-                    location, status, dateIssued;
+                    location, status, dateIssued, fileName;
     private List<String> planningTeamAssign, reviewTeamAssign;
 
     public ActivitySchedules(){}
 
     public ActivitySchedules(String scheduleID, String activityName, String activityType,
                              String duration, String deadline, String description,
-                             String location, String status, String dateIssued){
+                             String location, String status, String dateIssued,
+                             String fileName){
 
         this.scheduleID = scheduleID;
         this.activityName = activityName;
@@ -27,6 +28,7 @@ public class ActivitySchedules {
         this.location = location;
         this.status = status;
         this.dateIssued = dateIssued;
+        this.fileName = fileName;
     }
 
     public String getScheduleID() {
@@ -63,6 +65,10 @@ public class ActivitySchedules {
 
     public String getDateIssued() {
         return dateIssued;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public List<String> getPlanningTeamAssign() {
@@ -107,6 +113,10 @@ public class ActivitySchedules {
 
     public void setDateIssued(String dateIssued) {
         this.dateIssued = dateIssued;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void setPlanningTeamAssign(List<String> planningTeamAssign) {
