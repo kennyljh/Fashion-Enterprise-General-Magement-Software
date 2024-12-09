@@ -1,0 +1,9 @@
+DoPR_Employee_Review_0001:
+name/something
+division/something
+position/something
+department/Department of Public Relations
+rating/4.5
+yearsOfExperience/3
+previousAssignment/free
+currentAssignment/free

@@ -1,0 +1,14 @@
+DoMkt_Content_Req_0001:
+theme/something
+contentCategory/something
+platform/something
+duration/something
+deadline/something
+description/something
+tasks/something
+department/Department of Marketing
+priority/something
+specialReqs/something
+dateIssued/something
+resolved/false
+fileName/DoMkt_Content_Request.txt
