@@ -110,6 +110,7 @@ public class BasicStorageManage implements StorageManagement {
                 availableProducts.put(pname, p.getPdetails());
             }
 
+            set();
             textEditor.setRepositoryStrings(availableProducts);
             textEditor.writeToTextFile(repoPath + "AvailableProducts.txt");
         } else {
@@ -153,6 +154,8 @@ public class BasicStorageManage implements StorageManagement {
                     } else {
                         availableProducts.get(pname).put("count", String.valueOf(ncount));
                     }
+
+                    set();
                     textEditor.setRepositoryStrings(availableProducts);
                     textEditor.writeToTextFile(repoPath + "AvailableProducts.txt");
                 }

@@ -49,8 +49,8 @@ public class BasicSalesController implements SalesController {
     }
 
 
-    public void addOrder(int rid, Map<String, Integer> products) {
-        sale.addOrder(rid, products);
+    public void addOrder(int rid, String date, Map<String, Integer> products) {
+        sale.addOrder(rid, date, products);
     }
 
     public void printReceipt(int orderId)
@@ -67,6 +67,10 @@ public class BasicSalesController implements SalesController {
         sale.viewRetailers();
     }
 
+    public void viewOrders(){
+        sale.viewOrders();
+    }
+
     public void viewAvaProducts()
     {
         sir.viewAvaProducts();
@@ -77,12 +81,38 @@ public class BasicSalesController implements SalesController {
         sir.viewProducts();
     }
 
+    public void NumOfProductSold(String pname)
+    {
+        sale.NumOfProductSold(pname);
+    }
+    public void NumOfProductInDay(String pname, String date){
+        sale.NumOfProductInDay(pname,date);
+    }
+    public void NumOfProductInMonth(String pname, int month, int year){
+        sale.NumOfProductInMonth(pname,month,year);
+    }
+    public void NumOfProductInYear(String pname, int year){
+        sale.NumOfProductInYear(pname,year);
+    }
+    public void MonthSaleReport(int month, int year){
+        sale.MonthSaleReport(month,year);
+    }
+    public void DaySaleReport(String date){
+        sale.DaySaleReport(date);
+    }
+    public void YearSaleReport(int year){
+        sale.YearSaleReport(year);
+    }
+    public void priceManipulate(String pname){
+        sale.priceManipulate(pname);
+    }
+    public void trackRetailerReward(int rid){
+        sale.trackRetailerReward(rid);
+    }
 
-//    private SalesManagement getSalesInstance() {
-//        if (sale == null) {
-//            sale = new BasicSalesManage();
-//        }
-//        return sale;
-//    }
+    public void getRetailerPoints(int rid)
+    {
+        System.out.println("Available Reward Points "+sale.getRetailerPoints(rid));
+    }
 
 }

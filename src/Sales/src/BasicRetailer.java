@@ -12,6 +12,7 @@ public class BasicRetailer implements Retailer {
 	private String name;
 	private String location;
 
+
 	private Map<String,String> rDetails=new HashMap<>();
 
 	public BasicRetailer(String name, String location) {
@@ -19,6 +20,9 @@ public class BasicRetailer implements Retailer {
 		this.location = location;
 		rDetails.put("name",name);
 		rDetails.put("retailerLocation", location);
+
+		// initially zero reward points
+		rDetails.put("rewardPoints","0");
 	}
 
 	public Map<String,String> getRDetails()

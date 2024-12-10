@@ -1,3 +1,11 @@
 Shirt:
 Description/Clothing
 
+T-Shirt:
+Description/Clothing
+
+Pant:
+Description/Clothing
+
+Shoes:
+Description/Footwear

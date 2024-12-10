@@ -1,4 +1,16 @@
+Pant:
+price/16
+count/10
+
+Shoes:
+price/8
+count/10
+
 Shirt:
 price/12
+count/10
+
+T-Shirt:
+price/10
 count/10
 

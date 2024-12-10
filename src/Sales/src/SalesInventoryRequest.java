@@ -79,17 +79,21 @@ public class SalesInventoryRequest {
     }
 
     public void receiptPrint(Map<String, String> odetails) {
-        String rid = odetails.remove("retailer id");
+        String rid = odetails.remove("retailerId");
+        String date=odetails.remove("date");
+        String appliedRewardPoints= odetails.remove("appliedRewardPoints");
+
         int total = 0;
 
         String pname;
         String quan;
         int price;
         int ptotal;
-        System.out.println("-----------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------------------");
         System.out.printf("%60s %n", "Receipt");
-        System.out.println("-----------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------------------");
         System.out.println("Retailer id :" + rid);
+        System.out.println("Order date :" + date);
         System.out.printf("%-30s %-30s %-30s %s%n", "product name", "quantity", "per quantity", "total");
         for (Map.Entry<String, String> itms : odetails.entrySet()) {
             pname = itms.getKey();
@@ -100,10 +104,44 @@ public class SalesInventoryRequest {
             System.out.printf("%-30s %-30s %-30d %d%n", pname, quan, price, ptotal);
         }
 
-        System.out.println("Total Amount :" + total);
-        System.out.println("-----------------------------------------------------");
+        System.out.println("Actual Total Amount :" + total);
+        System.out.println("Applied Reward points :" + appliedRewardPoints);
+        System.out.println("Paid Amount :" + (total- Integer.parseInt(appliedRewardPoints)));
+
+        System.out.println("----------------------------------------------------------------------------------------------------------");
     }
 
+    public int[] orderTotal(Map<String, String> orderDetails)
+    {
+        Map<String, String> odetails = new HashMap<>(orderDetails);
+
+        String rid = odetails.remove("retailerId");
+        String date=odetails.remove("date");
+        String appliedRewardPoints= odetails.remove("appliedRewardPoints");
+
+        int total = 0;
+        String pname;
+        String quan;
+        int price;
+        int ptotal;
+        for (Map.Entry<String, String> itms : odetails.entrySet()) {
+            pname = itms.getKey();
+            quan = itms.getValue();
+            price = getPrice(pname);
+            ptotal = price * Integer.parseInt(quan);
+            total += ptotal;
+        }
+
+        int[] rewardDetail =new int[3];
+        // order total
+        rewardDetail[0] = total;
+        // reward point earned with the order
+        rewardDetail[1] = total%5;
+        // reward point applied for the order
+        rewardDetail[2] = Integer.parseInt(appliedRewardPoints);
+
+        return rewardDetail;
+    }
 
     public void viewAvaProducts() {
 
@@ -112,6 +150,11 @@ public class SalesInventoryRequest {
 
     public void viewProducts() {
         print(products, "registered products at Storage");
+    }
+
+    public Map<String, Map<String, String>> regProd()
+    {
+        return products;
     }
 
     public void print(Map<String, Map<String, String>> items, String whichItem) {
