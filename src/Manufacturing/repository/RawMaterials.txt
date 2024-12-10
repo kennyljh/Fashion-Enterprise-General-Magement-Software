@@ -1,5 +1,5 @@
 cotton:
-Quantity/New
+Quantity/3
 
 New:
 Quantity/4

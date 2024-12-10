@@ -1,11 +1,11 @@
 Quantity:
-Details/20
+Details/5
 
 Description:
-Details/hello
+Details/new clothes
 
 Category:
-Details/shirt
+Details/shirts
 
 Price:
 Details/30

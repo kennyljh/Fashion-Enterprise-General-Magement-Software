@@ -413,7 +413,7 @@ public class ManufacturingController {
                     System.out.println("Manufacturing Report List");
                     System.out.println("-------------------------------------------------------");
                     manufacturingReport.displayManufacturingReport();
-
+                    break;
 
                 case 7:
                     System.out.println("Exit Program");

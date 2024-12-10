@@ -466,7 +466,7 @@ public class DesignSpecificationsController {
                 case 8:
                     System.out.println("Exit Program");
                     exit = true;
-//                    App.prompt();
+                    App.prompt();
                     break;
 
                 default:
