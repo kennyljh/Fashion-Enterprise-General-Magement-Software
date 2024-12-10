@@ -53,6 +53,11 @@ public class ActivitySchedulerController implements src.PublicRelations.src.inte
     }
 
     @Override
+    public boolean showDamageControlActivities() {
+        return false;
+    }
+
+    @Override
     public boolean showPlanningActivities() {
         return false;
     }

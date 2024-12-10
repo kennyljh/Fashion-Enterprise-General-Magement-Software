@@ -78,7 +78,6 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                 return LocalDate.parse(schedule.getDeadline(), formatter);
             }).thenComparingInt(schedule -> -Integer.parseInt(schedule.getPriority()))
     );
-
     /**
      * Repository to store all content schedules
      */
@@ -558,6 +557,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
         while (!endProgram){
 
+            System.out.println("Planning Employee Assignment Manager: ");
             System.out.println("1. Add Planning Employee by ID");
             System.out.println("2. Remove Planning Employee by ID");
             System.out.println("3. Show Scheduled Planning Employees");
@@ -727,6 +727,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
         while (!endProgram){
 
+            System.out.println("Review Employee Assignment Manager: ");
             System.out.println("1. Add Review Employee by ID");
             System.out.println("2. Remove Review Employee by ID");
             System.out.println("3. Show Scheduled Review Employees");
@@ -1427,8 +1428,8 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
     }
 
     /**
-     * Generates IDs for security schedules
-     * @return generated security schedule ID
+     * Generates IDs for content schedules
+     * @return generated content schedule ID
      */
     private String IDGenerator(){
 

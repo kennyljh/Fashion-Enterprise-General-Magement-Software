@@ -22,6 +22,8 @@ public interface ActivityScheduler {
 
     boolean showAllActivities();
 
+    boolean showDamageControlActivities();
+
     boolean showPlanningActivities();
 
     boolean showReviewingActivities();
