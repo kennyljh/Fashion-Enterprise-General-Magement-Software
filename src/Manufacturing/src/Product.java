@@ -3,6 +3,9 @@ package src.Manufacturing.src;
 import src.Design.src.FinalDesign;
 import src.Manufacturing.src.interfaces.ProductInterface;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Product implements ProductInterface {
 
     FinalDesign design;
@@ -81,4 +84,6 @@ public class Product implements ProductInterface {
     public String getPrice() {
         return price;
     }
+
+
 }

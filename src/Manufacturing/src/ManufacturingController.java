@@ -2,6 +2,8 @@ package src.Manufacturing.src;
 
 import src.App;
 import src.Design.src.FinalDesign;
+import src.Inventory.src.BasicStorageManage;
+import src.Inventory.src.interfaces.InventoryController;
 
 import java.util.*;
 
@@ -17,12 +19,17 @@ public class ManufacturingController {
     private Map<String, Object> selectedCSTMDesign = null;
     private String designType = null;
     private Map<String, Object> newFinalDesign = null;
+    private BasicStorageManage storageManage;
+    private ManufacturingReport manufacturingReport;
+    private final String manRepo = "Manufacturing/repository/";
 
 
     public ManufacturingController() {
         this.headOfManufacturing = new HeadOfManufacturing();
         this.machine = new Machines();
         this.manager = new ManufacturingManager();
+        this.manufacturingReport = new ManufacturingReport();
+        this.storageManage = new BasicStorageManage();
 
 
     }
@@ -40,7 +47,8 @@ public class ManufacturingController {
             System.out.println("3. Collect Raw Materials for Designs");
             System.out.println("4. Verify Raw Materials for Designs");
             System.out.println("5. Create Product and store in Inventory");
-            System.out.println("6. Exit");
+            System.out.println("6. View Manufacturing Report");
+            System.out.println("7. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -169,9 +177,15 @@ public class ManufacturingController {
                         String quantity = sc.nextLine();
                         collectedMaterials.put(rawMaterial, quantity);
                         System.out.println("You have " + quantity + " items collected of " + rawMaterial);
-
+                        //Enter the time at which the raw materials were collected
+                        System.out.println("Enter the current time at which the Raw Materials were collected.");
+                        System.out.println("(yyyy-MM-dd HH:mm:ss): )");
+                        String collectingTime = sc.nextLine();
+                        manufacturingReport.setCollectingMaterialsTime(collectingTime);
+                        System.out.println("Time has been set.");
+                        String reportFilePathCollect = manRepo + "ManufacturingReport.txt";
+                        manufacturingReport.saveReportToFile(reportFilePathCollect, activeDesign.toString());
                     }
-
 
                     manager.collectRawMaterials(collectedMaterials);
                     System.out.println("Raw Materials Collected:");
@@ -205,6 +219,7 @@ public class ManufacturingController {
 
                     fileManager.saveToFile("RawMaterials.txt", new HashMap<>(formattedMaterials));
                     System.out.println("Raw Materials Saved to repository");
+
                     break;
                 case 4:
                     System.out.println("Verify the Raw Materials from Storage");
@@ -233,6 +248,15 @@ public class ManufacturingController {
                             System.out.println("You have " + quantity + " items of " + rawMaterial + " verified.");
                             collectedMaterials.put(rawMaterial, quantity);
                             isReady = true;
+                            //Enter the verified time for which the materials were verified.
+                            System.out.println("Enter the time at which the Raw Materials were verified.");
+                            System.out.println("(yyyy-MM-dd HH:mm:ss): )");
+                            String verifiedTime = sc.nextLine();
+                            manufacturingReport.setVerifiedMaterialsTime(verifiedTime);
+                            System.out.println("Time has been set.");
+                            String reportFilePathRaw = manRepo + "ManufacturingReport.txt";
+                            manufacturingReport.saveReportToFile(reportFilePathRaw, rawMaterial);
+
 
                         } else if (verifyRawMaterial.equals("N")) {
                             System.out.println("Material " + rawMaterial + " is not verified");
@@ -269,6 +293,14 @@ public class ManufacturingController {
                     System.out.println("....................................................");
                     System.out.println("Product is being created...");
                     System.out.println("....................................................");
+                    System.out.println("Enter the start time for production: ");
+                    System.out.println("(yyyy-MM-dd HH:mm:ss): )");
+                    String startTime = sc.nextLine();
+                    manufacturingReport.setStartTime(startTime);
+                    System.out.println("Time has been set.");
+                    String reportFilePathStart = manRepo + "ManufacturingReport.txt";
+                    manufacturingReport.saveReportToFile(reportFilePathStart, "designName");
+                    Map<String, Map<String, String>> productShipped = new HashMap<>();
                     if (productChoice == 1) {
                         System.out.println("Log Product Details for Inventory: ");
                         if (selectedDesign == null) {
@@ -306,9 +338,23 @@ public class ManufacturingController {
                         productDetails.put("Category", product.getCategory());
                         productDetails.put("Price", product.getPrice());
 
+                        //send to Inventory for productShipped map
+                        Map<String, String> productShippedDetails = new HashMap<>();
+                        productShippedDetails.put("Quantity", product.getQuantity());
+                        productShippedDetails.put("Description", product.getDescription());
+                        productShipped.put(product.getName(), productShippedDetails);
+                        storageManage.unLoadShipment(productShipped);//call to inventory
+
                         fileManager.saveToFile("Products.txt", productDetails);
                         productCreated = manager.createProduct(collectedMaterials);
                         System.out.println("Product created");
+                        System.out.println("Enter the end time of Production: ");
+                        System.out.println("(yyyy-MM-dd HH:mm:ss): )");
+                        String endTime = sc.nextLine();
+                        manufacturingReport.setEndTime(endTime);
+                        System.out.println("Time has been set.");
+                        String reportFilePath1 = manRepo + "ManufacturingReport.txt";
+                        manufacturingReport.saveReportToFile(reportFilePath1,product.getName());
                     } else if (productChoice == 2) {
                         System.out.println("Log Custom Product Details for Inventory: ");
                         if (selectedCSTMDesign == null) {
@@ -343,15 +389,36 @@ public class ManufacturingController {
                         customProductDetails.put("Quantity", customProduct.getQuantity());
                         customProductDetails.put("Category", customProduct.getCategory());
                         customProductDetails.put("Price", customProduct.getPrice());
+                        //sending to inventory
+                        Map<String, String> productShippedDetails = new HashMap<>();
+                        productShippedDetails.put("Quantity", customProduct.getQuantity());
+                        productShippedDetails.put("Description", customProduct.getDescription());
+                        productShipped.put(customProduct.getName(), productShippedDetails);
+                        storageManage.unLoadShipment(productShipped);//call to inventory
+
                         fileManager.saveToFile("CustomProducts.txt", customProductDetails);
                         productCreated = manager.createProduct(collectedMaterials);
                         System.out.println("Custom Product created");
+                        System.out.println("Enter the end time of production for a Custom Product: ");
+                        System.out.println("(yyyy-MM-dd HH:mm:ss): )");
+                        String endTime = sc.nextLine();
+                        manufacturingReport.setEndTime(endTime);
+                        System.out.println("Time has been set.");
+                        String reportFilePath2 = manRepo + "ManufacturingReport.txt";
+                        manufacturingReport.saveReportToFile(reportFilePath2,customProduct.getName());
+
                     }
                     break;
                 case 6:
+                    System.out.println("Manufacturing Report List");
+                    System.out.println("-------------------------------------------------------");
+                    manufacturingReport.displayManufacturingReport();
+
+
+                case 7:
                     System.out.println("Exit Program");
                     exit = true;
-                    App.prompt();
+//                    App.prompt();
                     break;
 
                 default:

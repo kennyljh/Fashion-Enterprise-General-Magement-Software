@@ -30,8 +30,6 @@ public class BasicStorageManage implements StorageManagement {
     private String repoPath = "src/inventory/repository/";
 
 
-
-
     public BasicStorageManage() {
 
         repoPath = repoPath + "Main" + "/";
@@ -119,21 +117,16 @@ public class BasicStorageManage implements StorageManagement {
     }
 
 
-    public void changePrice(int price, String pname)
-    {
-        if(availableProducts.containsKey(pname))
-        {
+    public void changePrice(int price, String pname) {
+        if (availableProducts.containsKey(pname)) {
             textEditor = new PoorTextEditor();
             availableProducts.get(pname).put("price", String.valueOf(price));
             textEditor.setRepositoryStrings(availableProducts);
             textEditor.writeToTextFile(repoPath + "AvailableProducts.txt");
-        }
-        else{
-            System.out.println(pname+" is not registered in the inventory");
+        } else {
+            System.out.println(pname + " is not registered in the inventory");
         }
     }
-
-
 
 
     public void removeProductCount(String pname, int quantityChange) {
@@ -191,7 +184,6 @@ public class BasicStorageManage implements StorageManagement {
     }
 
 
-
     public void print() {
 
     }
@@ -199,21 +191,22 @@ public class BasicStorageManage implements StorageManagement {
 
     /**
      * Map<String, Map<String, String>> productShipped,    key: product name  value: productDetails (Map<String, String>)
-     *
+     * <p>
      * where the productDetails Map has two 2 elements as follow:
-     *
+     * <p>
      * 1) key: "quantity" (exact string)
-     *    value: actual quantity number
-     *
+     * value: actual quantity number
+     * <p>
      * 2) key: "description" (exact string)
-     *    value: describe the product in one or two words (like clothing or footwear)
+     * value: describe the product in one or two words (like clothing or footwear)
      *
      * @param productShipped
      */
     public void unLoadShipment(Map<String, Map<String, String>> productShipped) {
         String pname;
         String Desc;
-        int quantity;
+//        int quantity;
+        String quantityStr;
 
         Map<String, String> pdetail;
 
@@ -223,14 +216,20 @@ public class BasicStorageManage implements StorageManagement {
 
             pname = entry.getKey();
             pdetail = entry.getValue();
-            quantity = Integer.parseInt(pdetail.get("quantity"));
+            quantityStr = pdetail.get("quantity");
+//            quantity = Integer.parseInt(pdetail.get("quantity"));
             Desc = pdetail.get("description");
 
+            if (quantityStr == null || quantityStr.isEmpty()) {
+                System.out.println("Missing or invalid quantity for product: " + pname);
+                continue;
+            }
+            int quantity = Integer.parseInt(quantityStr);
             if (!products.containsKey(pname)) {
                 registerProduct(pname, Desc);
             }
-
             if (availableProducts.containsKey(pname)) {
+                String countStr = availableProducts.get(pname).get("count");
                 int ncount = Integer.parseInt(availableProducts.get(pname).get("count"));
                 ncount = ncount + quantity;
                 availableProducts.get(pname).put("count", String.valueOf(ncount));
@@ -240,9 +239,7 @@ public class BasicStorageManage implements StorageManagement {
                 Product p = new Product(price, quantity);
                 availableProducts.put(pname, p.getPdetails());
             }
-
         }
-
         textEditor.setRepositoryStrings(availableProducts);
         textEditor.writeToTextFile(repoPath + "AvailableProducts.txt");
     }

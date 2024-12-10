@@ -45,6 +45,7 @@ public class DesignSpecificationsController {
             System.out.println("3. Set a Final Design for Manufacturing");
             System.out.println("4. Create and Set a Final Design for Marketing");
             System.out.println("5. Create and Set a custom Design for Modelling");
+            System.out.println("");
             System.out.println("6. Exit Program");
 
             int option = scan.nextInt();
@@ -127,13 +128,6 @@ public class DesignSpecificationsController {
                     newSketch.setSizes(sizeList);
                     newSketch.setQuantities(sketchQuantities);
                     newSketch.setDesignImage(sketchDesignImage);
-//                    newSketch.setDesignName((String) selectedSketch.get("DesignName"));
-//                    newSketch.setRawMaterials(List.of((String) selectedSketch.get("DesignRawMaterials")));
-//                    newSketch.setColor(List.of((String) selectedSketch.get("DesignColors")));
-//                    newSketch.setSizes(List.of((String) selectedSketch.get("DesignSizes")));
-//                    newSketch.setQuantities((String) selectedSketch.get("DesignQuantities"));
-//                    newSketch.setDesignImage((String) selectedSketch.get("DesignImage"));
-
                     sketches.add(newSketch);
 
 
@@ -141,10 +135,6 @@ public class DesignSpecificationsController {
                     if (sketchIndex != -1) {
                         headOfDesignTeam.selectSketch(sketchIndex, sketches);
                     }
-//                    else {
-//                        System.out.println("Failed to find the newly added sketch.");
-//                        break;
-//                    }
 
 //                    headOfDesignTeam.selectSketch(sketchNumber, sketches);
                     System.out.println("(Y/N) Do you want to verify the design sketch?");

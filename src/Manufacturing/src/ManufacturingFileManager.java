@@ -17,10 +17,12 @@ public class ManufacturingFileManager {
     private final String designRepo = "Design/repository/";
     private final String inventoryRepo = "Inventory/repository/";
 
+
     private Map<String, Object> sketches = new HashMap<>();
     private Map<String, Object> finalDesign = new HashMap<>();
     private Map<String, Object> customDesign = new HashMap<>();
     private Map<String, Object> marketingDesign = new HashMap<>();
+    private Map<String, Object> manufacturingReport = new HashMap<>();
 
 
     /*
@@ -39,20 +41,20 @@ public class ManufacturingFileManager {
     private void loadFromFile(String fileName, Map<String, Object> maps) {
         File file = new File(designRepo + fileName);
         if (file.exists()) {
-            editor.processTextFile(file.getAbsolutePath()); //check path type
+            editor.processTextFile(file.getPath()); //check path type
             maps.putAll(editor.getRepository());
         } else {
-            System.out.println("File not found: " + file.getAbsolutePath());
+            System.out.println("File not found: " + file.getPath());
         }
     }
 
     private void loadFromManufacturingFile(String fileName, Map<String, Object> maps) {
         File file = new File(manRepo + fileName);
         if (file.exists()) {
-            editor.processTextFile(file.getAbsolutePath());
+            editor.processTextFile(file.getPath());
             maps.putAll(editor.getRepository());
         } else {
-            System.out.println("File not found: " + file.getAbsolutePath());
+            System.out.println("File not found: " + file.getPath());
         }
     }
 
@@ -70,12 +72,12 @@ public class ManufacturingFileManager {
         File file = new File(newFilePath);
         File parent = file.getParentFile();
         if (!parent.exists() && !parent.mkdirs()) {
-            System.err.println("Couldn't create directory: " + parent.getAbsolutePath());
+            System.err.println("Couldn't create directory: " + parent.getPath());
             return;
         }
         Map<String, Object> existingData = new HashMap<>();
         if (file.exists()) {
-            editor.processTextFile(file.getAbsolutePath());
+            editor.processTextFile(file.getPath());
             existingData.putAll(editor.getRepository());
         }
         if (fileName.equals("RawMaterials.txt")) {
@@ -96,12 +98,23 @@ public class ManufacturingFileManager {
                     existingData.put(key, productData);
                 }
             });
+        } else if (fileName.equals("ManufacturingReport.txt")) {
+            maps.forEach((key, value) -> {
+                if (value instanceof Map) {
+                    existingData.put(key, value);
+                } else {
+                    Map<String, String> productData = new HashMap<>();
+                    productData.put("Details", value.toString());
+                    existingData.put(key, productData);
+                }
+            });
         } else {
             existingData.putAll(maps);
         }
         editor.setRepository(existingData);
-        editor.writeToTextFile(file.getAbsolutePath());
+        editor.writeToTextFile(file.getPath());
     }
+
 
     /*
     save a Design Sketch
@@ -153,33 +166,40 @@ public class ManufacturingFileManager {
         saveToFile("marketingDesign.txt", marketingDesign);
     }
 
-    public Map<String, Object> getMarketingDesign() {
-        return new HashMap<>(marketingDesign);
+    public Map<String, Object> getManufacturingReport(ManufacturingReport report) {
+        Map<String, Object> manufacturingReport = new HashMap<>();
+        loadFromFile("ManufacturingReport.txt", manufacturingReport);
+        return manufacturingReport;
     }
 
-    public void sendDataToRepo() {
-        File f = new File(designRepo + "sketches.txt");
-        if (f.exists()) {
-            editor.processTextFile(designRepo + "sketches.txt");
-            sketches = editor.getRepository();
-        }
-        f = new File(designRepo + "finalDesign.txt");
-        if (f.exists()) {
-            editor.processTextFile(designRepo + "finalDesign.txt");
-            finalDesign = editor.getRepository();
-        }
-        f = new File(designRepo + "customDesign.txt");
-        if (f.exists()) {
-            editor.processTextFile(designRepo + "customDesign.txt");
-            customDesign = editor.getRepository();
-        }
-        f = new File(designRepo + "marketingDesign.txt");
-        if (f.exists()) {
-            editor.processTextFile(designRepo + "marketingDesign.txt");
-            marketingDesign = editor.getRepository();
 
-        }
-    }
+//    public Map<String, Object> getMarketingDesign() {
+//        return new HashMap<>(marketingDesign);
+//    }
+//
+//    public void sendDataToRepo() {
+//        File f = new File(designRepo + "sketches.txt");
+//        if (f.exists()) {
+//            editor.processTextFile(designRepo + "sketches.txt");
+//            sketches = editor.getRepository();
+//        }
+//        f = new File(designRepo + "finalDesign.txt");
+//        if (f.exists()) {
+//            editor.processTextFile(designRepo + "finalDesign.txt");
+//            finalDesign = editor.getRepository();
+//        }
+//        f = new File(designRepo + "customDesign.txt");
+//        if (f.exists()) {
+//            editor.processTextFile(designRepo + "customDesign.txt");
+//            customDesign = editor.getRepository();
+//        }
+//        f = new File(designRepo + "marketingDesign.txt");
+//        if (f.exists()) {
+//            editor.processTextFile(designRepo + "marketingDesign.txt");
+//            marketingDesign = editor.getRepository();
+//
+//        }
+//    }
 
 
 }

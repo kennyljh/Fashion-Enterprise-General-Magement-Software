@@ -7,11 +7,11 @@ import src.Sales.src.interfaces.SalesController;
 
 public class SalesDepartment {
 
-//         public static void main(String args[])
-//     {
-//          SalesController c=new BasicSalesController();
-//         c.run();
-//     }
+         public static void main(String args[])
+     {
+          SalesController c=new BasicSalesController();
+         c.run();
+     }
 
 
     public static void start() {
