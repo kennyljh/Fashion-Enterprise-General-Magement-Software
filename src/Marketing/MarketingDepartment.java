@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class MarketingDepartment {
     public static HOD hod;
     public static FileManager fileManager;
+    Scanner s = new Scanner(System.in);
 
     public MarketingDepartment() {
         fileManager = new FileManager();
@@ -19,20 +20,41 @@ public class MarketingDepartment {
     }
 
     public void start() throws Exception {
-        Scanner s = new Scanner(System.in);
+        int login = 0;
+        while (login != 3) {
+            System.out.println("""
+                    
+                    Which User are you Logging in as?
+                     1: Head of Department
+                     2: Admin
+                     3: Exit Modeling Department
+                    """);
+            login = s.nextInt();
+            s.nextLine();
+            switch (login) {
+                case 1 -> initiateHOD();
+                case 2 -> initiateAdmin();
+            }
+        }
+        App.prompt();
+    }
+
+    private void initiateHOD() {
         int c = 0;
 
         while (c != 6) {
-            System.out.println("\nPlease choose an action you want to take: \n" +
-                    " 1: advertiseEvent \n" +
-                    " 2: advertiseDesign\n" +
-                    " 3: getAllEventAdvertisements\n" +
-                    " 4: getAllDesignAdvertisements\n" +
-                    " 5: Admin Activities\n" +
-                    " 6: Back" +
-                    " 111: Create Security Schedule\n" +
-                    " 112: Show All Security Requests\n" +
-                    " 113: Delete Security Request By ID\n");
+            System.out.println("""
+                    
+                    Please choose an action you want to take:\s
+                     1: advertiseEvent\s
+                     2: advertiseDesign
+                     3: getAllEventAdvertisements
+                     4: getAllDesignAdvertisements
+                     5: Back
+                     111: Create Security Schedule
+                     112: Show All Security Requests
+                     113: Delete Security Request By ID
+                    """);
             c = s.nextInt();
             switch (c) {
                 case 1 -> {
@@ -44,11 +66,12 @@ public class MarketingDepartment {
                     int event = s.nextInt();
 
                     AdvertType type = AdvertType.COMMERCIAL;
-                    System.out.println("What type of Advertisement?\n" +
-                            " 1: Billboard\n" +
-                            " 2: Magazine\n" +
-                            " 3: Social Media\n" +
-                            " 4: Commercial");
+                    System.out.println("""
+                            What type of Advertisement?
+                             1: Billboard
+                             2: Magazine
+                             3: Social Media
+                             4: Commercial""");
                     int x = s.nextInt();
                     switch (x) {
                         case 1 -> type = AdvertType.BILLBOARD;
@@ -61,11 +84,12 @@ public class MarketingDepartment {
                 }
                 case 2 -> {
                     AdvertType type = AdvertType.COMMERCIAL;
-                    System.out.println("What type of Advertisement?\n" +
-                            " 1: Billboard\n" +
-                            " 2: Magazine\n" +
-                            " 3: Social Media\n" +
-                            " 4: Commercial");
+                    System.out.println("""
+                            What type of Advertisement?
+                             1: Billboard
+                             2: Magazine
+                             3: Social Media
+                             4: Commercial""");
                     int x = s.nextInt();
                     switch (x) {
                         case 1 -> type = AdvertType.BILLBOARD;
@@ -91,7 +115,6 @@ public class MarketingDepartment {
                     }
                     System.out.println();
                 }
-                case 5 -> initiateAdmin();
 
                 case 111 -> {
                     SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
@@ -107,7 +130,6 @@ public class MarketingDepartment {
                 }
             }
         }
-        App.prompt();
     }
 
     private void initiateAdmin() {
@@ -115,16 +137,18 @@ public class MarketingDepartment {
         int c = 0;
 
         while (c != 2) {
-            System.out.println("Please choose an action you want to take: \n" +
-                    " 1: manage HOD\n" +
-                    " 2: Back");
+            System.out.println("""
+                    Please choose an action you want to take:\s
+                     1: manage HOD
+                     2: Back""");
             c = s.nextInt();
             if (c == 1) {
                 int response = 0;
                 while (response != 2) {
-                    System.out.println("Managing HOD: \n" +
-                            " 1: add\n" +
-                            " 2: Back");
+                    System.out.println("""
+                            Managing HOD:\s
+                             1: add
+                             2: Back""");
                     response = s.nextInt();
                     if (response == 1) {
                         src.Modeling.src.HOD hod = new src.Modeling.src.HOD();

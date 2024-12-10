@@ -13,6 +13,7 @@ public class FileManager {
     private Map<String, Map<String, String>> eventAdverts = new HashMap<>();
     private Map<String, Map<String, String>> designAdverts = new HashMap<>();
     private Map<String, Map<String, String>> approvedCollabs = new HashMap<>();
+    private Map<String, Map<String, String>> collaborations = new HashMap<>();
 
     private final PoorTextEditor editor = new PoorTextEditor();
 
