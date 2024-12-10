@@ -124,10 +124,6 @@ public class ModelingDepartment {
         }
     }
 
-    public void logEvent(Event event) {
-
-    }
-
     public ArrayList<TeamMember> getModels() {
         return fileManager.getTeamMembers(Team.MODELING);
     }
@@ -150,5 +146,9 @@ public class ModelingDepartment {
 
     public ArrayList<Event> getEvents() {
         return hod.getEvents();
+    }
+
+    public Item requestItem(int id) {
+        return null;
     }
 }

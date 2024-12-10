@@ -15,6 +15,15 @@ public enum Team {
         };
     }
 
+    public String toChar() {
+        return switch (this) {
+            case MODELING -> "Mo";
+            case MAKEUP -> "Ma";
+            case CLOTHING -> "C";
+            case STORAGE -> "S";
+        };
+    }
+
     public static Team parseTeam(String team) {
         return switch (team) {
             case "Modeling" -> MODELING;
