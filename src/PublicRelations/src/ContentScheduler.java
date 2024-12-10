@@ -2,8 +2,7 @@ package src.PublicRelations.src;
 
 import src.TextEditor.PoorTextEditor;
 
-import java.io.File;
-import java.io.FilenameFilter;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -232,14 +231,40 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                 dateIssuer(),
                 null);
 
-        // todo
+        // assigning planning employee to schedule
+        if (!addPlanningEmployeeToSchedule(schedule)){
 
+            System.out.println("Planning employee schedule for request ID: " + requestID + " was cancelled");
+            return false;
+        }
 
+        // assigning review employee to schedule
+        if (!addReviewEmployeeToSchedule(schedule)){
 
+            System.out.println("Review employee schedule for request ID: " + requestID + " was cancelled");
+            return false;
+        }
 
+        // writing schedule to repository
+        editor.setRepository(contentScheduleToHashmap(schedule));
+        editor.writeToTextFile(contentSchedulesDir + schedule.getScheduleID() + ".txt");
 
+        // writing printed schedule to repository
+        printContentSchedule(schedule);
 
+        // removing specific request from pending request queue
+        pendingContentRequestsPriorityQueue.remove(request);
+        // removing specific request in all queue
+        allContentRequestPriorityQueue.remove(request);
+        // setting resolve status of content request to true
+        request.setRequestID("true");
+        // adding back changed specific request
+        allContentRequestPriorityQueue.add(request);
 
+        // editing content request resolved status in files
+        editor.processTextFile(departmentRequestDir + request.getFileName());
+        editor.setValue(request.getRequestID(), "resolved", "true");
+        editor.writeToTextFile(departmentRequestDir + request.getFileName());
 
         return true;
     }
@@ -321,8 +346,37 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
     }
 
     @Override
-    public boolean editContentSchedule(String contentID) {
-        return false;
+    public boolean editContentScheduleAssignment(String contentID) {
+
+        if (!retrieveAllSchedules()){
+            return false;
+        }
+
+        if (!contentRequestsRepository.containsKey(contentID)){
+
+            System.out.println("Content schedule with ID: " + contentID + " does not exists");
+            return false;
+        }
+
+        ContentSchedules schedule = contentSchedulesRepository.get(contentID);
+        if (!addPlanningEmployeeToSchedule(schedule)){
+            System.out.println("Planning employee update cancelled");
+            return false;
+        }
+        if (!addReviewEmployeeToSchedule(schedule)){
+            System.out.println("Review employee update cancelled");
+            return false;
+        }
+
+        // writing schedule to repository
+        editor.setRepository(contentScheduleToHashmap(schedule));
+        editor.writeToTextFile(contentSchedulesDir + schedule.getFileName());
+
+        // writing printed schedule to repository
+        printContentSchedule(schedule);
+
+        System.out.println("Update successful for content schedule ID: " + contentID);
+        return true;
     }
 
     @Override
@@ -483,6 +537,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
                         availablePRPlanningEmployeePriorityQueue.remove(employee);
                         employee.setCurrentAssignment(schedule.getScheduleID());
+                        selectedPlanningEmployeeIDs.add(employee.getEmployeeID());
                         selectedPlanningEmployeeIDs.add(employee.getEmployeeID());
 
                         // updating employee assignments to file
@@ -1104,6 +1159,97 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return null;
         }
         return textFiles;
+    }
+
+    /**
+     * Converts ContentSchedules object into nested HashMap
+     * @param schedule specified ContentSchedule
+     * @return HashMap of ContentSchedule
+     */
+    private Map<String, Object> contentScheduleToHashmap(ContentSchedules schedule){
+
+        Map<String, Object> innerMap = new LinkedHashMap<>();
+        innerMap.put("requestID", schedule.getRequestID());
+        innerMap.put("theme", schedule.getTheme());
+        innerMap.put("contentCategory", schedule.getContentCategory());
+        innerMap.put("platform", schedule.getPlatform());
+        innerMap.put("duration", schedule.getDuration());
+        innerMap.put("deadline", schedule.getDeadline());
+        innerMap.put("description", schedule.getDescription());
+        innerMap.put("tasks", schedule.getTasks());
+        innerMap.put("department", schedule.getDepartment());
+        innerMap.put("priority", schedule.getPriority());
+        innerMap.put("status", schedule.getStatus());
+        innerMap.put("dateScheduled", schedule.getDateScheduled());
+
+        int num = 0;
+        for (String s : schedule.getPlanningTeamAssign()){
+            String employee = "employeePlanning" + num;
+            innerMap.put(employee, s);
+            num++;
+        }
+
+        int num1 = 0;
+        for (String s : schedule.getReviewTeamAssign()){
+            String employee = "employeeReview" + num1;
+            innerMap.put(employee, s);
+            num1++;
+        }
+
+        Map<String, Object> outerMap = new LinkedHashMap<>();
+        outerMap.put(schedule.getScheduleID(), innerMap);
+
+        return outerMap;
+    }
+
+    /**
+     * Creates printable content schedule
+     * @param schedule specific content schedule
+     */
+    private void printContentSchedule(ContentSchedules schedule){
+
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(printedContentSchedulesDir + schedule.getScheduleID() + ".txt"));
+            writer.write("======================================================================\n");
+            writer.write("CONTENT SCHEDULE\n");
+            writer.write("Schedule ID: " + schedule.getScheduleID() + " is associated with Request ID: " + schedule.getRequestID() + "\n");
+            writer.write("----------------------------------------------------------------------\n");
+            writer.write("Status: " + schedule.getStatus() + "\n");
+            writer.write("Priority: " + schedule.getPriority() + " (1 = Urgent, 0 = Normal)\n");
+            writer.write("Department: " + schedule.getDepartment() + "\n");
+            writer.write("----------------------------------------------------------------------\n");
+            writer.write("Content Category: " + schedule.getContentCategory() + "\n");
+            writer.write("Theme: " + schedule.getTheme() + "\n");
+            writer.write("Platform: " + schedule.getPlatform() + "\n");
+            writer.write("Description: " + schedule.getDescription() + "\n");
+            writer.write("Tasks: " + schedule.getTasks() + "\n");
+            writer.write("----------------------------------------------------------------------\n");
+            writer.write("Duration: " + schedule.getDuration() + "\n");
+            writer.write("Deadline: " + schedule.getDeadline() + "\n");
+            writer.write("Date Scheduled: " + schedule.getDateScheduled() + "\n");
+            writer.write("----------------------------------------------------------------------\n");
+            writer.write("Assigned Planning Employees:\n");
+            for (String s : schedule.getPlanningTeamAssign()){
+                writer.write(s + "\n");
+            }
+            writer.write("Assigned Review Employees:\n");
+            for (String s : schedule.getReviewTeamAssign()){
+                writer.write(s + "\n");
+            }
+            writer.write("======================================================================\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

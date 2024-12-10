@@ -22,7 +22,7 @@ public interface ContentScheduler {
 
     boolean deleteContentSchedule(String contentID);
 
-    boolean editContentSchedule(String contentID);
+    boolean editContentScheduleAssignment(String contentID);
 
     boolean showAllContentSchedules();
 
