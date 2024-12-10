@@ -18,21 +18,23 @@ public interface ContentSchedulerController {
 
     boolean showAllRequests();
 
-    boolean createContent(String requestID);
+    boolean createContentSchedule(String requestID);
 
-    boolean deleteContent(String contentID);
+    boolean deleteContentSchedule(String contentID);
 
-    boolean editContent(String contentID);
+    boolean editContentScheduleAssignment(String contentID);
 
-    boolean showAllContents();
+    boolean editContentScheduleStatus(String contentID);
 
-    boolean showPlanningContents();
+    boolean showAllContentSchedules();
 
-    boolean showReviewingContents();
+    boolean showPlanningContentSchedules();
 
-    boolean showRevisingContents();
+    boolean showReviewingContentSchedules();
 
-    boolean showReadyContents();
+    boolean showRevisingContentSchedules();
 
-    boolean showContentByID(String contentID);
+    boolean showReadyContentSchedules();
+
+    boolean showContentScheduleByID(String contentID);
 }

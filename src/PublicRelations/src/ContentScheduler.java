@@ -380,9 +380,32 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
     }
 
     @Override
-    public boolean editContentScheduleStatus() {
-        //todo
-        return false;
+    public boolean editContentScheduleStatus(String contentID) {
+
+        if (!retrieveAllSchedules()){
+            return false;
+        }
+
+        if (!contentRequestsRepository.containsKey(contentID)){
+
+            System.out.println("Content schedule with ID: " + contentID + " does not exists");
+            return false;
+        }
+
+        ContentSchedules schedule = contentSchedulesRepository.get(contentID);
+        System.out.println("Edit status for content schedule ID: " + contentID + "\n(Planning | Reviewing | Revising | Ready)");
+        Scanner scan = new Scanner(System.in);
+        schedule.setStatus(scan.nextLine());
+
+        // writing schedule to repository
+        editor.setRepository(contentScheduleToHashmap(schedule));
+        editor.writeToTextFile(contentSchedulesDir + schedule.getFileName());
+
+        // writing printed schedule to repository
+        printContentSchedule(schedule);
+
+        System.out.println("Update successful for content schedule ID: " + contentID);
+        return true;
     }
 
     @Override

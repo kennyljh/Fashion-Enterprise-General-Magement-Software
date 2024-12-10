@@ -24,7 +24,7 @@ public interface ContentScheduler {
 
     boolean editContentScheduleAssignment(String contentID);
 
-    boolean editContentScheduleStatus();
+    boolean editContentScheduleStatus(String contentID);
 
     boolean showAllContentSchedules();
 
