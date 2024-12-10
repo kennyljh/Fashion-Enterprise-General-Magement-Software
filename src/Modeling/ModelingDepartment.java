@@ -149,7 +149,7 @@ public class ModelingDepartment {
 
     private void initiateStorageManager() throws IOException {
         int userChoice = 0;
-        while (userChoice != 6) {
+        while (userChoice != 7) {
             System.out.println("""
                     
                     Please choose an action you want to take:
@@ -158,7 +158,8 @@ public class ModelingDepartment {
                      3: deleteItem
                      4: damageScan
                      5: returnItem
-                     6: Back
+                     6: printItems
+                     7: Back
                     """);
             userChoice = s.nextInt();
             s.nextLine();
@@ -262,14 +263,19 @@ public class ModelingDepartment {
                         }
                     }
 
-                    assert team != null;
                     Item newItem = new Item(team, type, name, recurrenceType);
 
                     storageManager.addItem(newItem);
                     System.out.println(newItem);
                 }
                 case 2 -> {
-
+                    System.out.println("""
+                                
+                                What item will you like to update
+                                 1: Modeling
+                                 2: Makeup
+                                 3: Clothing
+                                """);
                 }
                 case 3 -> {
 
@@ -279,6 +285,9 @@ public class ModelingDepartment {
                 }
                 case 5 -> {
 
+                }
+                case 6 -> {
+                    fileManager.printItems();
                 }
             }
         }

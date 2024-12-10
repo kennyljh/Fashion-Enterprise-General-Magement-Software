@@ -48,6 +48,7 @@ public class FileManager {
     public StorageManager getStorageManager() {
         return StorageManager.parse(teamMembers.get("Storage Manager"));
     }
+
     public void setItems() {
         File folder = new File(repo + "warehouse/Clothing");
         String[] files = folder.list();
@@ -84,9 +85,8 @@ public class FileManager {
         return items;
     }
 
-    public boolean addItem(Item item) throws IOException {
+    public void addItem(Item item) throws IOException {
         File f = new File(repo + "warehouse/" + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
-        System.out.println(f.getAbsolutePath());
         if(!f.exists()) {
             Scanner s = new Scanner(System.in);
             System.out.println("Type " + item.getItemType() + " is not found in the system.\n Would you like to create it?(y/n)");
@@ -96,9 +96,9 @@ public class FileManager {
                     System.out.println("File created successfully: " + f.getAbsolutePath());
                 } else {
                     System.out.println("Failed to create the file.");
-                    return false;
+                    return;
                 }
-            } else {return false;}
+            } else {return;}
         }
 
         items.computeIfAbsent(item.getAssociatedTeam(), k -> new HashMap<>())
@@ -109,21 +109,70 @@ public class FileManager {
         if (teamCategories != null) {
             editor.setRepositoryStrings(teamCategories.get(item.getItemType())); // Returns the innermost map
             editor.writeToTextFile(f.getPath());
-            return true;
         }
-        return false;
     }
 
     public ArrayList<Item> getItems(Team team) {
         return null;
     }
 
-    public Item getById(Team team, int id) {
+    public Item getItemById(Team team, String itemType, int itemId) {
+        Map<String, Map<String, Map<String, String>>> categoryMap = items.get(team);
+
+        if (categoryMap != null) {
+            Map<String, Map<String, String>> itemMap = categoryMap.get(itemType);
+
+            if (itemMap != null) {
+                for (Map.Entry<String, Map<String, String>> itemEntry : itemMap.entrySet()) {
+                    Map<String, String> itemDetails = itemEntry.getValue();
+                    if (itemDetails != null && Integer.parseInt(itemDetails.get("id")) == itemId) {
+                        return Item.parse(itemDetails);
+                    }
+                }
+            }
+        }
         return null;
     }
 
-    public Item updateItem(Team team, Item updatedItem) {
+    public Item getItemById(Team team, int itemId) {
+        Map<String, Map<String, Map<String, String>>> categoryMap = items.get(team);
+
+        if (categoryMap != null) {
+            for (Map.Entry<String, Map<String, Map<String, String>>> itemTypeEntry : categoryMap.entrySet()) {
+                Map<String, Map<String, String>> itemMap = itemTypeEntry.getValue();
+
+                for (Map.Entry<String, Map<String, String>> itemEntry : itemMap.entrySet()) {
+                    Map<String, String> itemDetails = itemEntry.getValue();
+                    if (itemDetails != null && Integer.parseInt(itemDetails.get("id")) == itemId) {
+                        return Item.parse(itemDetails);
+                    }
+                }
+            }
+        }
+
+        // Return null if no matching item was found
         return null;
+    }
+
+    public boolean updateItem(Item item) throws IOException {
+        File f = new File(repo + "warehouse/" + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
+        if (!f.exists()) {
+            System.out.println("File for " + item.getItemType() + " does not exist.");
+            return false;
+        }
+
+        Map<String, Map<String, Map<String, String>>> teamCategories = items.get(item.getAssociatedTeam());
+        if (teamCategories != null) {
+            Map<String, Map<String, String>> categoryMap = teamCategories.get(item.getItemType());
+            if (categoryMap != null) {
+                categoryMap.put("Item " + item.getId(), item.toMap());
+
+                editor.setRepositoryStrings(categoryMap);
+                editor.writeToTextFile(f.getPath());
+                return true;
+            }
+        }
+        return false;
     }
 
     public String[] getCategories(Team team) {
@@ -141,37 +190,56 @@ public class FileManager {
     }
 
     public boolean deleteItem(Item item) throws IOException {
-        File f = new File(repo + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
+        File f = new File(repo + "warehouse/" + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
         if (!f.exists()) {
-            System.out.println("Type " + item.getItemType() + " is not found in the system.");
+            System.out.println("File for " + item.getItemType() + " does not exist.");
             return false;
         }
 
         Map<String, Map<String, Map<String, String>>> teamCategories = items.get(item.getAssociatedTeam());
         if (teamCategories != null) {
-            Map<String, Map<String, String>> categoryItems = teamCategories.get(item.getItemType());
-            if (categoryItems != null) {
-                String itemKey = "Item " + item.getId();
-                if (categoryItems.remove(itemKey) != null) {
-                    System.out.println("Item removed successfully.");
-                    // Clean up empty maps
-                    if (categoryItems.isEmpty()) {
-                        teamCategories.remove(item.getItemType());
-                        if (teamCategories.isEmpty()) {
-                            items.remove(item.getAssociatedTeam());
-                        }
-                    }
-                    return true;
-                } else {
-                    System.out.println("Item not found in the system.");
-                }
+            Map<String, Map<String, String>> categoryMap = teamCategories.get(item.getItemType());
+            if (categoryMap != null) {
+                categoryMap.remove("Item " + item.getId());
+
+                editor.setRepositoryStrings(categoryMap);
+                editor.writeToTextFile(f.getPath());
+                return true;
             }
         }
         return false;
     }
 
+    public void printItems() {
+        // Iterate through each team in the items map
+        for (Map.Entry<Team, Map<String, Map<String, Map<String, String>>>> teamEntry : items.entrySet()) {
+            Team team = teamEntry.getKey();
+            Map<String, Map<String, Map<String, String>>> categoryMap = teamEntry.getValue();
 
+            System.out.println("Team: " + team);
 
+            // Iterate through each category (itemType) for the current team
+            for (Map.Entry<String, Map<String, Map<String, String>>> categoryEntry : categoryMap.entrySet()) {
+                String itemType = categoryEntry.getKey();
+                Map<String, Map<String, String>> itemMap = categoryEntry.getValue();
+
+                System.out.println("  ItemType: " + itemType);
+
+                // Iterate through each item for the current itemType
+                for (Map.Entry<String, Map<String, String>> itemEntry : itemMap.entrySet()) {
+                    String itemName = itemEntry.getKey();
+                    Map<String, String> itemDetails = itemEntry.getValue();
+
+                    System.out.println("    Item: " + itemName);
+
+                    // Print the details of each item
+                    for (Map.Entry<String, String> detailEntry : itemDetails.entrySet()) {
+                        System.out.println("      " + detailEntry.getKey() + ": " + detailEntry.getValue());
+                    }
+                }
+            }
+        }
+    }
 
     //    Events:
     public void addEvent(Event event) {
