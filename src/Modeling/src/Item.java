@@ -55,7 +55,10 @@ public class Item implements IItem {
     public String getItemName() {return itemName;}
 
     @Override
-    public void setAssociatedTeam(Team team) {associatedTeam = team;}
+    public void setAssociatedTeam(Team team) {
+        associatedTeam = team;
+        this.itemLocation = new String[]{Integer.toString(id), associatedTeam.toChar()};
+    }
 
     @Override
     public void setType(String itemType) {this.itemType = itemType;}
