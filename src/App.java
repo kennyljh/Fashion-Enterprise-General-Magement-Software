@@ -6,6 +6,7 @@ import src.Inventory.InventoryDepartment;
 import src.Manufacturing.ManufacturingDepartment;
 import src.Marketing.MarketingDepartment;
 import src.Modeling.ModelingDepartment;
+import src.PublicRelations.PublicRelationsDepartment;
 import src.Sales.SalesDepartment;
 import src.Security.SecurityDepartment;
 import src.Treasury.TreasuryDepartment;
@@ -21,6 +22,7 @@ public class App {
     public static InventoryDepartment inventoryDepartment = new InventoryDepartment();
     public static TreasuryDepartment treasuryDepartment = new TreasuryDepartment();
     public static SecurityDepartment securityDepartment = new SecurityDepartment();
+    public static PublicRelationsDepartment publicRelationsDepartment = new PublicRelationsDepartment();
 
     public static void main(String[] args) throws Exception {
         prompt();
@@ -49,7 +51,9 @@ public class App {
                 
                 8: Security\
                 
-                9: Sales""");
+                9: Sales\
+                
+                10: Public Relations""");
         int choice = s.nextInt();
 
         switch (choice){
@@ -79,6 +83,9 @@ public class App {
                 break;
             case 9:
                 SalesDepartment.start();
+                break;
+            case 10:
+                publicRelationsDepartment.start();
                 break;
         }
     }
