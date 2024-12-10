@@ -27,8 +27,8 @@ public class StorageManager extends Manager {
         fileManager.addItem(item);
     }
 
-    public Item updateItem(Team team, int itemID, Item updatedItem) {
-        return null;
+    public void updateItem(Item updatedItem, Team oldTeam) throws IOException {
+        fileManager.updateItem(updatedItem, oldTeam);
     }
 
     public Boolean deleteItem(Team team, int itemID) {

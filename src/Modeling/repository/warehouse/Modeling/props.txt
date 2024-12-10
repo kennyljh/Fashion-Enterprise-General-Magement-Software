@@ -1,8 +1,9 @@
 Item 0:
 itemType/props
-itemName/Feather Boa
+itemName/Sunglasses
 damaged/false
 associatedTeam/Modeling
 id/0
 itemLocation/[0, Mo]
+recurrenceType/YEARLY
 

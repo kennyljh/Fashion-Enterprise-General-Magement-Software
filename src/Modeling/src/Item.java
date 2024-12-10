@@ -55,6 +55,15 @@ public class Item implements IItem {
     public String getItemName() {return itemName;}
 
     @Override
+    public void setAssociatedTeam(Team team) {associatedTeam = team;}
+
+    @Override
+    public void setType(String itemType) {this.itemType = itemType;}
+
+    @Override
+    public void setItemName(String name) {this.itemName = name;}
+
+    @Override
     public String getItemLocation() {return itemLocation[0] + itemLocation[1];}
 
     @Override
@@ -75,6 +84,7 @@ public class Item implements IItem {
         itemDetails.put("itemType", this.itemType);
         itemDetails.put("itemLocation", Arrays.toString(this.itemLocation));
         itemDetails.put("itemName", this.itemName);
+        itemDetails.put("recurrenceType", this.recurrenceType.toString());
         itemDetails.put("damaged", Boolean.toString(this.damaged));
         return itemDetails;
     }

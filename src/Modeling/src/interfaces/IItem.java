@@ -11,7 +11,13 @@ public interface IItem {
 
     String getItemType();
 
+    void setAssociatedTeam(Team team);
+
     String getItemName();
+
+    void setType(String itemType);
+
+    void setItemName(String name);
 
     String getItemLocation();
 

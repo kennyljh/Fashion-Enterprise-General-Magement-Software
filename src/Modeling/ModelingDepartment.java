@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class ModelingDepartment {
@@ -269,13 +270,93 @@ public class ModelingDepartment {
                     System.out.println(newItem);
                 }
                 case 2 -> {
-                    System.out.println("""
+                    Team team = null;
+
+                    int teamNumber = 10;
+                    while (teamNumber > 3) {
+                        System.out.println("""
                                 
-                                What item will you like to update
+                                What team are you updating the item for
                                  1: Modeling
                                  2: Makeup
                                  3: Clothing
                                 """);
+                        teamNumber = s.nextInt();
+                        s.nextLine();
+                        switch (teamNumber) {
+                            case 1 -> {
+                                System.out.println("Is Modeling correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.MODELING;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                            case 2 -> {
+                                System.out.println("Is Makeup correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.MAKEUP;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                            case 3 -> {
+                                System.out.println("Is Clothing correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.CLOTHING;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                        }
+                    }
+
+                    List<Integer> ids = fileManager.getAllItemIdsForTeam(team);
+                    int id = 0;
+
+                    System.out.println("What item are you updating?\n "+ ids);
+                    id = s.nextInt();
+                    s.nextLine();
+
+                    Item item = fileManager.getItemById(team, id);
+                    Team oldTeam = item.getAssociatedTeam();
+                    System.out.println(item.toString());
+                    System.out.println("""
+                                
+                                What part of the item are you updating?
+                                 1: Name
+                                 2: Type
+                                 3: Team
+                                 4: Recurrence
+                                """);
+                    int choice = s.nextInt();
+                    s.nextLine();
+
+                    switch (choice) {
+                        case 1 -> {
+                            System.out.println("What is the new value of Name?");
+                            item.setItemName(s.nextLine());
+                        }
+                        case 2 -> {
+                            System.out.println("What is the new value of Type?");
+                            item.setType(s.nextLine());
+                        }
+                        case 3 -> {
+                            System.out.println("What is the new value of Team? [Modeling, Makeup, Clothing]");
+                            item.setAssociatedTeam(Team.parseTeam(s.nextLine()));
+                        }
+                        case 4 -> {
+                            System.out.println("What is the new value of Recurrence? [DAILY, WEEKLY, MONTHLY, YEARLY, NONE]");
+                            item.setAssociatedTeam(Team.parseTeam(s.nextLine()));
+                        }
+                    }
+
+                    storageManager.updateItem(item, oldTeam);
+                    System.out.println(item);
+
                 }
                 case 3 -> {
 

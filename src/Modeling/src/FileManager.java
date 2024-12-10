@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.List;
 
 public class FileManager {
     private Map<String, Map<String, String>> events = new HashMap<>();
@@ -116,6 +117,35 @@ public class FileManager {
         return null;
     }
 
+    public List<Integer> getAllItemIdsForTeam(Team team) {
+        List<Integer> itemIds = new ArrayList<>();
+
+        // Retrieve the category map for the team
+        Map<String, Map<String, Map<String, String>>> categoryMap = items.get(team);
+
+        if (categoryMap != null) {
+            // Iterate through each itemType (category) for the team
+            for (Map.Entry<String, Map<String, Map<String, String>>> categoryEntry : categoryMap.entrySet()) {
+                String itemType = categoryEntry.getKey();
+                Map<String, Map<String, String>> itemMap = categoryEntry.getValue();
+
+                // Iterate through each item for the current itemType
+                for (Map.Entry<String, Map<String, String>> itemEntry : itemMap.entrySet()) {
+                    Map<String, String> itemDetails = itemEntry.getValue();
+
+                    // Extract the item id from the details and add it to the list
+                    if (itemDetails != null && itemDetails.containsKey("id")) {
+                        int itemId = Integer.parseInt(itemDetails.get("id"));
+                        itemIds.add(itemId);
+                    }
+                }
+            }
+        }
+
+        return itemIds; // Return the list of item ids
+    }
+
+
     public Item getItemById(Team team, String itemType, int itemId) {
         Map<String, Map<String, Map<String, String>>> categoryMap = items.get(team);
 
@@ -154,26 +184,52 @@ public class FileManager {
         return null;
     }
 
-    public boolean updateItem(Item item) throws IOException {
-        File f = new File(repo + "warehouse/" + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
-        if (!f.exists()) {
-            System.out.println("File for " + item.getItemType() + " does not exist.");
+    public boolean updateItem(Item item, Team oldTeam) throws IOException {
+        // Get the new team from the item (this is already set in the item)
+        Team newTeam = item.getAssociatedTeam();
+
+        // Delete the item from the old team
+        boolean deleted = deleteById(oldTeam, item.getId());
+        if (!deleted) {
+            System.out.println("Failed to delete item from old team.");
             return false;
         }
 
-        Map<String, Map<String, Map<String, String>>> teamCategories = items.get(item.getAssociatedTeam());
-        if (teamCategories != null) {
-            Map<String, Map<String, String>> categoryMap = teamCategories.get(item.getItemType());
-            if (categoryMap != null) {
-                categoryMap.put("Item " + item.getId(), item.toMap());
+        // Define the old and new file paths
+        String oldFilePath = repo + "warehouse/" + oldTeam + "/" + item.getItemType() + ".txt";
+        String newFilePath = repo + "warehouse/" + newTeam + "/" + item.getItemType() + ".txt";
 
-                editor.setRepositoryStrings(categoryMap);
-                editor.writeToTextFile(f.getPath());
-                return true;
+        // Ensure the new team and file exist, if not, create them
+        File newFile = new File(newFilePath);
+        if (!newFile.exists()) {
+            File newDirectory = new File(repo + "warehouse/" + newTeam);
+            if (!newDirectory.exists()) {
+                newDirectory.mkdirs();  // Create the directory for the new team if it doesn't exist
             }
+
+            // Create the new file for the new team and item type
+            newFile.createNewFile();
+            System.out.println("File created: " + newFilePath);
         }
-        return false;
+
+        // Update the items map with the new team
+        Map<String, Map<String, Map<String, String>>> newTeamCategories = items.computeIfAbsent(newTeam, k -> new HashMap<>());
+        Map<String, Map<String, String>> itemTypeMap = newTeamCategories.computeIfAbsent(item.getItemType(), k -> new HashMap<>());
+
+        // Add the item to the new team
+        itemTypeMap.put("Item " + item.getId(), item.toMap());
+
+        // Update the item's associated team in the item object to the new team
+        item.associatedTeam = newTeam;
+
+        // Write the updated map to the new file
+        editor.setRepositoryStrings(newTeamCategories.get(item.getItemType())); // Return the innermost map
+        editor.writeToTextFile(newFile.getPath());
+
+        System.out.println("Item updated successfully.");
+        return true;
     }
+
 
     public String[] getCategories(Team team) {
         File f = new File(repo + "warehouse/" + team.toString());
@@ -209,6 +265,50 @@ public class FileManager {
         }
         return false;
     }
+
+    public boolean deleteById(Team team, int itemId) {
+        Map<String, Map<String, Map<String, String>>> teamCategories = items.get(team);
+
+        if (teamCategories == null) {
+            System.out.println("Team not found.");
+            return false;
+        }
+
+        for (Map.Entry<String, Map<String, Map<String, String>>> itemTypeEntry : teamCategories.entrySet()) {
+            Map<String, Map<String, String>> itemMap = itemTypeEntry.getValue();
+
+            for (Map.Entry<String, Map<String, String>> itemEntry : itemMap.entrySet()) {
+                Map<String, String> itemDetails = itemEntry.getValue();  // This is the Map<String, String> from the entry
+
+                if (itemDetails.containsKey("id") && itemDetails.get("id").equals(String.valueOf(itemId))) {
+                    itemMap.remove(itemEntry.getKey());
+                    if (itemMap.isEmpty()) {
+                        File f = new File(repo + "warehouse/" + team.toString() + "/" + itemDetails.get("itemType") + ".txt");
+                        if (f.exists() && f.isFile()) {
+                            if (f.delete()) {
+                                System.out.println("File deleted successfully: " + f.getAbsolutePath());
+                            } else {
+                                System.out.println("Failed to delete file: " + f.getAbsolutePath());
+                                break;
+                            }
+                        }
+                    } else {
+                        editor.setRepositoryStrings(itemMap);
+                        editor.writeToTextFile(repo + "warehouse/"+itemDetails.get("associatedTeam")+"/"+itemDetails.get("itemType")+".txt");
+                    }
+                    System.out.println("Item " + itemId + " deleted successfully.");
+                    return true;
+                }
+            }
+        }
+
+
+        System.out.println("Item with ID " + itemId + " not found.");
+        return false;
+    }
+
+
+
 
     public void printItems() {
         // Iterate through each team in the items map
