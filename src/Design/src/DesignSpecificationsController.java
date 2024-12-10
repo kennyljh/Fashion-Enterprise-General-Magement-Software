@@ -62,9 +62,8 @@ public class DesignSpecificationsController {
                     String colorsNeeded = scan.nextLine();
                     System.out.println("Enter sizes for design: ");
                     String sizesNeeded = scan.nextLine();
-                    System.out.println("Enter design  quantity: ");
+                    System.out.println("Enter design quantity: ");
                     String designQuantity = scan.nextLine();
-//                    scan.nextLine();
                     System.out.println("Enter image of the design: ");
                     String imageOfDesign = scan.nextLine();
                     //call to helper to set all specifications
@@ -101,21 +100,51 @@ public class DesignSpecificationsController {
                         System.out.println("No sketch found with name " + selectedSketchName);
                         return;
                     }
-                    DesignSketch newSketch = new DesignSketch(selectedSketchName);
-                    newSketch.setDesignName((String) selectedSketch.get("DesignName"));
-                    newSketch.setRawMaterials(List.of((String) selectedSketch.get("DesignRawMaterials")));
-                    newSketch.setColor(List.of((String) selectedSketch.get("DesignColors")));
-                    newSketch.setSizes(List.of((String) selectedSketch.get("DesignSizes")));
-                    newSketch.setQuantities((String) selectedSketch.get("DesignQuantities"));
-                    newSketch.setDesignImage((String) selectedSketch.get("DesignImage"));
-
-                    sketches.add(newSketch);
-
                     System.out.println("You selected the following sketch: " + selectedSketchName);
                     selectedSketch.forEach((key, value) -> {
                         System.out.println(key + ": " + value);
                     });
 
+                    String sketchName = (String) selectedSketch.get("Design Name");
+                    String sketchRawMaterials = (String) selectedSketch.get("Design Raw Materials");
+                    String sketchColors = (String) selectedSketch.get("Design Colors");
+                    String sketchSizes = (String) selectedSketch.get("Design Size");
+                    String sketchQuantities = (String) selectedSketch.get("Design Quantities");
+                    String sketchDesignImage = (String) selectedSketch.get("Design Image");
+
+                    List<String> rawMaterialsList = sketchRawMaterials != null && !sketchRawMaterials.isEmpty() ?
+                            List.of(sketchRawMaterials.split(",")) : new ArrayList<>();
+                    List<String> colorList = sketchColors != null && !sketchColors.isEmpty() ?
+                            List.of(sketchColors.split(",")) : new ArrayList<>();
+                    List<String> sizeList = sketchSizes != null && !sketchSizes.isEmpty() ?
+                            List.of(sketchSizes.split(",")) : new ArrayList<>();
+
+
+                    DesignSketch newSketch = new DesignSketch(selectedSketchName);
+                    newSketch.setDesignName(sketchName);
+                    newSketch.setRawMaterials(rawMaterialsList);
+                    newSketch.setColor(colorList);
+                    newSketch.setSizes(sizeList);
+                    newSketch.setQuantities(sketchQuantities);
+                    newSketch.setDesignImage(sketchDesignImage);
+//                    newSketch.setDesignName((String) selectedSketch.get("DesignName"));
+//                    newSketch.setRawMaterials(List.of((String) selectedSketch.get("DesignRawMaterials")));
+//                    newSketch.setColor(List.of((String) selectedSketch.get("DesignColors")));
+//                    newSketch.setSizes(List.of((String) selectedSketch.get("DesignSizes")));
+//                    newSketch.setQuantities((String) selectedSketch.get("DesignQuantities"));
+//                    newSketch.setDesignImage((String) selectedSketch.get("DesignImage"));
+
+                    sketches.add(newSketch);
+
+
+                    int sketchIndex = sketches.indexOf(newSketch);
+                    if (sketchIndex != -1) {
+                        headOfDesignTeam.selectSketch(sketchIndex, sketches);
+                    }
+//                    else {
+//                        System.out.println("Failed to find the newly added sketch.");
+//                        break;
+//                    }
 
 //                    headOfDesignTeam.selectSketch(sketchNumber, sketches);
                     System.out.println("(Y/N) Do you want to verify the design sketch?");
@@ -124,11 +153,12 @@ public class DesignSpecificationsController {
                         //call to begin Final Design case 3
 
 //                        finalDesign = new FinalDesign(selectedSketchName);
-                        headOfDesignTeam.selectSketch(sketches.indexOf(newSketch), sketches);
+//                        headOfDesignTeam.selectSketch(sketches.indexOf(newSketch), sketches);
                         finalDesign = headOfDesignTeam.confirmFinalDesign();
                         if (finalDesign != null) {
                             designFileManager.saveFinalDesign(finalDesign);
-                            System.out.println("Sketch Verfied\nDisplay specifications:\n" + finalDesign.displayAllSpecifications());
+                            System.out.println("Display Verified Design\n" + finalDesign.displayAllSpecifications());
+                            System.out.println("Sketch has been selected for a final design.");
                         } else {
                             System.out.println("Failed to confirm final design");
                         }
@@ -196,6 +226,7 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
+                    break;
                 case 4:
 
                     Map<String, Object> storedMarketingDesigns = designFileManager.getFinalDesign();
@@ -248,7 +279,7 @@ public class DesignSpecificationsController {
                         String seasonType = scan.nextLine();
                         setMarketingDesign(marketingDesignName, audience, price, description, seasonType);
 //                        designFileManager.saveMarketingDesign(marketingDesign);
-                        System.out.println("Saved Marketing Design Specifications: \n" + marketingDesign.displayAllSpecifications());
+                        System.out.println("Selected Marketing Design Specifications: \n" + marketingDesign.displayAllSpecifications());
 
 
                     } else if (modifyDesign2.equals("N")) {
@@ -257,9 +288,8 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
+                    break;
                 case 5:
-
-
                     System.out.println("Do you want to create a custom Design for modelling?");
                     System.out.println("(Y/N)");
                     String response = scan.nextLine();
@@ -273,7 +303,7 @@ public class DesignSpecificationsController {
                         String finalColorsNeeded = scan.nextLine();
                         System.out.println("Enter sizes for design: ");
                         String finalSizesNeeded = scan.nextLine();
-                        System.out.println("Enter design  quantity: ");
+                        System.out.println("Enter design quantity: ");
                         String finalDesignQuantity = scan.nextLine();
                         System.out.println("Enter image of the design: ");
                         String finalImageOfDesign = scan.nextLine();
@@ -286,7 +316,7 @@ public class DesignSpecificationsController {
                     } else {
                         System.out.println("Invalid Input. Select Y or N");
                     }
-
+                    break;
                 case 6:
                     System.out.println("Exit Program");
                     exit = true;
@@ -369,7 +399,7 @@ public class DesignSpecificationsController {
         marketingDesign.setSeasonType(seasonType);
         marketingDesign.setTargetAudience(targetAudience);
         designFileManager.saveMarketingDesign(marketingDesign);
-        System.out.println("MarketingDesign has been set with all specifications");
+        System.out.println("The Marketing Design has been set with all specifications");
         marketingDesign.displayAllSpecifications();
 
     }

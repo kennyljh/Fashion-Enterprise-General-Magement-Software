@@ -2,6 +2,7 @@ package src.Manufacturing.src;
 
 import src.Manufacturing.src.interfaces.ManagerInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,11 +67,23 @@ public class ManufacturingManager implements ManagerInterface {
             return;
         }
         System.out.println("Collecting raw materials for: " + selectedDesignName);
-        List<String> requiredMaterials = (List<String>) selectedDesignDetails.get("RawMaterials"); // check key
-
+        Object rawMaterials = selectedDesignDetails.get(selectedDesignName); //or RawMaterials
+        if (rawMaterials == null) {
+            System.out.println("No materials were collected");
+            return;
+        }
+        List<String> requiredMaterials = new ArrayList<>();
+        if (rawMaterials instanceof String) {
+            requiredMaterials = List.of(((String) rawMaterials).split(","));
+        } else if (rawMaterials instanceof List) {
+            requiredMaterials = (List<String>) rawMaterials;
+        } else {
+            System.out.println("Invalid raw materials were collected");
+            return;
+        }
         for (String material : requiredMaterials) {
             if (materials.containsKey(material)) {
-                collectedMaterials.put(material, (String) materials.get(material));
+                collectedMaterials.put(material, materials.get(material).toString());
             } else {
                 System.out.println("Material " + material + " does not exist");
             }

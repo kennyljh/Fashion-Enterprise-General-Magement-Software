@@ -17,5 +17,7 @@ public interface ProductInterface {
     String getCategory();
 
     String displayProducts();
+    void setPrice(String price);
+    String getPrice();
 
 }

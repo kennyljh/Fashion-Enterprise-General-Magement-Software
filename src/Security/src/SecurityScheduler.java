@@ -465,7 +465,10 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
                         if (yesNo.equals("y")){
                             employee.setPreviousAssignment(employee.getCurrentAssignment());
                             employee.setCurrentAssignment(schedule.getScheduleID());
-                            selectedEmployeeIDs.add(employee.getEmployeeID());
+
+                            if (!selectedEmployeeIDs.contains(employee.getEmployeeID())){
+                                selectedEmployeeIDs.add(employee.getEmployeeID());
+                            }
 
                             // updating employee assignments
                             editor.processTextFile(securityEmployeeDir + "securityEmployeeList.txt");
@@ -661,7 +664,7 @@ public class SecurityScheduler implements src.Security.src.interfaces.SecuritySc
      */
     private boolean retrieveAllRequests() {
 
-        securitySchedulesRepository.clear();
+        securityRequestsRepository.clear();
         allSecurityEmployeePriorityQueue.clear();
 
         if (!retrieveRequestFiles()) {

@@ -118,7 +118,7 @@ public class candidateRecordManager {
 
         //As findCandidateFolder may return null, we need to make sure that doesn't happen
         filepath = Objects.requireNonNull(findCandidateFile(candidateId)).toString();
-        System.out.println("updateCandidate filepath from finding: " + filepath);
+        //System.out.println("updateCandidate filepath from finding: " + filepath);
 
         //read from Candidate file
         storageHR.poorJarser.processTextFile(filepath);
