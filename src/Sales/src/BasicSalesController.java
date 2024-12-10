@@ -19,8 +19,6 @@ public class BasicSalesController implements SalesController {
 //        sir=new SalesInventoryRequest();
     }
 
-
-
     public void run()
     {
         SalesCommand scd=new SalesCommand();

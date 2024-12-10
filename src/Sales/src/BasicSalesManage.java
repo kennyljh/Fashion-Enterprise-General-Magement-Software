@@ -19,7 +19,6 @@ public class BasicSalesManage implements SalesManagement {
     private SalesInventoryRequest sir = new SalesInventoryRequest();
     private SaleAnalyzer sa = new SaleAnalyzer();
 
-    private RewardRetailer rewardRetailer = new RewardRetailer();
     private String location;
     private String repoPath = "src/Sales/repository/";
 
@@ -158,6 +157,7 @@ public class BasicSalesManage implements SalesManagement {
 
     public void trackRetailerReward(int rid)
     {
+        RewardRetailer rewardRetailer = new RewardRetailer();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Specify how you want to track rewards (By 'order' or 'month' or 'year'): ");

@@ -110,9 +110,9 @@ public class BasicStorageManage implements StorageManagement {
                 availableProducts.put(pname, p.getPdetails());
             }
 
-            set();
             textEditor.setRepositoryStrings(availableProducts);
             textEditor.writeToTextFile(repoPath + "AvailableProducts.txt");
+            set();
         } else {
             System.out.println("Product does not exists. Register Product to add!");
         }
