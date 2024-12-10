@@ -1,0 +1,8 @@
+Final Design New:
+DesignRawMaterials/cotton
+DesignName/New
+DesignQuantities/4
+DesignSizes/S, M, L
+DesignImage/fhs.txt
+DesignColors/red
+

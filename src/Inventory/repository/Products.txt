@@ -1,0 +1,15 @@
+Quantity:
+Details/20
+
+Description:
+Details/hello
+
+Category:
+Details/shirt
+
+Price:
+Details/30
+
+Name:
+Details/New
+

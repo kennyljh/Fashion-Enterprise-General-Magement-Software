@@ -4,6 +4,9 @@ import src.Design.src.CustomDesign;
 import src.Design.src.FinalDesign;
 import src.Manufacturing.src.interfaces.ProductInterface;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CustomProduct implements ProductInterface {
 
     CustomDesign design;
@@ -83,4 +86,6 @@ public class CustomProduct implements ProductInterface {
     public String getPrice() {
         return price;
     }
+
+
 }
