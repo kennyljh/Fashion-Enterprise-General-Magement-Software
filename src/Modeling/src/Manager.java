@@ -72,7 +72,6 @@ public class Manager implements IManager {
         ModelingDepartment.fileManager.addTeamMember(member);
     }
 
-    @Override
     public Fitting scheduleFitting(TeamMember model, String garment, LocalDateTime date) {
         return new Fitting(model, garment, date);
     }
