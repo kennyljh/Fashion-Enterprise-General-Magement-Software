@@ -1,3 +1,7 @@
+/**
+ * @author Kenny
+ */
+
 package src.PublicRelations.src;
 
 import src.App;
@@ -36,6 +40,8 @@ public class MainController {
                     contentSchedulerController.run();
                     break;
                 case "2":
+                    ActivitySchedulerController activitySchedulerController = new ActivitySchedulerController();
+                    activitySchedulerController.run();
                     break;
                 case "0":
                     System.out.println("Closing program...");

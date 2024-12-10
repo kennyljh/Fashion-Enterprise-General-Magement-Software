@@ -1,3 +1,7 @@
+/**
+ * @author Kenny
+ */
+
 package src.PublicRelations.src.interfaces;
 
 public interface ActivitySchedulerController {
@@ -21,6 +25,8 @@ public interface ActivitySchedulerController {
     boolean editActivity(String activityID);
     
     boolean showAllActivities();
+
+    boolean showDamageControlActivities();
 
     boolean showPlanningActivities();
 

@@ -3,20 +3,46 @@ employeeInfo/ID: teamMember, Name: Makeup Member, Department: Modeling, Position
 id/6
 team/Makeup
 
+Team Member 15:
+employeeInfo/ID: teamMember, Name: Storage Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
+id/15
+team/Storage
+
 Team Member 5:
 employeeInfo/ID: teamMember, Name: Makeup Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
 id/5
 team/Makeup
+
+Team Member 14:
+employeeInfo/ID: teamMember, Name: Storage Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
+id/14
+team/Storage
+
+Storage Manager:
+employeeInfo/ID: manager, Name: Storage Manager, Department: Modeling, Position: Manager, Status: Employeed, Salary: 100000
+id/3
+team/Storage
+teamMembers/[12, 13, 14, 15]
 
 Team Member 4:
 employeeInfo/ID: teamMember, Name: Makeup Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
 id/4
 team/Makeup
 
+Team Member 13:
+employeeInfo/ID: teamMember, Name: Storage Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
+id/13
+team/Storage
+
 Team Member 3:
 employeeInfo/ID: teamMember, Name: Modeling Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
 id/3
 team/Modeling
+
+Team Member 12:
+employeeInfo/ID: teamMember, Name: Storage Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
+id/12
+team/Storage
 
 Team Member 11:
 employeeInfo/ID: teamMember, Name: Clothing Member, Department: Modeling, Position: teamMember, Status: Employeed, Salary: 80000
