@@ -29,7 +29,7 @@ public class StorageManager extends Manager {
     public Boolean requestOrder(Item item, LocalDate date) {
         LocalDate today = LocalDate.now();
         if (date.isAfter(today.plusDays(3))) {
-            System.out.println("Requested item cannot be ordered in that time frame.");
+            System.out.println("Requested item cannot be ordered sooner than 3 days.");
             return false;
         }
         addItem(item);
