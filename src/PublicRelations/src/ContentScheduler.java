@@ -380,6 +380,12 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
     }
 
     @Override
+    public boolean editContentScheduleStatus() {
+        //todo
+        return false;
+    }
+
+    @Override
     public boolean showAllContentSchedules() {
 
         if (!retrieveAllSchedules()){
@@ -1260,7 +1266,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
         System.out.println("======================================================");
         System.out.println("Security Request ID: " + request.getRequestID());
-        System.out.println("Priority: " + request.getPriority());
+        System.out.println("Priority: " + request.getPriority() + " (0 = Normal | 1 = Urgent)");
         System.out.println("Department: " + request.getDepartment());
         System.out.println();
         System.out.println("Content Category: " + request.getContentCategory());
@@ -1289,7 +1295,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         System.out.println("is associated with");
         System.out.println("Request ID: " + schedule.getRequestID());
         System.out.println("------------------------------------------------------");
-        System.out.println("Status: " + schedule.getStatus());
+        System.out.println("Status: " + schedule.getStatus() + " (No status | Planning | Reviewing | Revising | Ready)");
         System.out.println("Priority: " + schedule.getPriority());
         System.out.println("Department: " + schedule.getDepartment());
         System.out.println("------------------------------------------------------");
