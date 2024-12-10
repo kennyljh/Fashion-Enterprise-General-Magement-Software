@@ -8,26 +8,31 @@ import java.util.List;
 
 public class ActivitySchedules {
 
-    private String scheduleID, activityName, activityType, duration, deadline, description,
-                    location, status, dateIssued, fileName;
+    private String scheduleID, activityName, activityType, objective, targetAudience, description,
+                    tasks, department, location, duration, deadline, status, dateScheduled, fileName;
     private List<String> planningTeamAssign, reviewTeamAssign;
 
     public ActivitySchedules(){}
 
     public ActivitySchedules(String scheduleID, String activityName, String activityType,
-                             String duration, String deadline, String description,
-                             String location, String status, String dateIssued,
-                             String fileName){
+                             String objective, String targetAudience, String description,
+                             String tasks, String department, String location,
+                             String duration, String deadline, String status,
+                             String dateIssued, String fileName){
 
         this.scheduleID = scheduleID;
         this.activityName = activityName;
         this.activityType = activityType;
+        this.objective = objective;
+        this.targetAudience = targetAudience;
+        this.description = description;
+        this.tasks = tasks;
+        this.department = department;
+        this.location = location;
         this.duration = duration;
         this.deadline = deadline;
-        this.description = description;
-        this.location = location;
         this.status = status;
-        this.dateIssued = dateIssued;
+        this.dateScheduled = dateIssued;
         this.fileName = fileName;
     }
 
@@ -43,6 +48,30 @@ public class ActivitySchedules {
         return activityType;
     }
 
+    public String getObjective() {
+        return objective;
+    }
+
+    public String getTargetAudience() {
+        return targetAudience;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTasks() {
+        return tasks;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public String getDuration() {
         return duration;
     }
@@ -51,20 +80,12 @@ public class ActivitySchedules {
         return deadline;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
     public String getStatus() {
         return status;
     }
 
-    public String getDateIssued() {
-        return dateIssued;
+    public String getDateScheduled() {
+        return dateScheduled;
     }
 
     public String getFileName() {
@@ -91,6 +112,30 @@ public class ActivitySchedules {
         this.activityType = activityType;
     }
 
+    public void setObjective(String objective) {
+        this.objective = objective;
+    }
+
+    public void setTargetAudience(String targetAudience) {
+        this.targetAudience = targetAudience;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTasks(String tasks) {
+        this.tasks = tasks;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public void setDuration(String duration) {
         this.duration = duration;
     }
@@ -99,20 +144,12 @@ public class ActivitySchedules {
         this.deadline = deadline;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public void setDateIssued(String dateIssued) {
-        this.dateIssued = dateIssued;
+    public void setDateScheduled(String dateScheduled) {
+        this.dateScheduled = dateScheduled;
     }
 
     public void setFileName(String fileName) {
