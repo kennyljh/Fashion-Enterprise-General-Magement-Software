@@ -3,6 +3,7 @@ package src.PublicRelations.src;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -19,18 +20,18 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
     // sorts content requests by deadline first, then by priority
     PriorityQueue<ContentRequests> pendingContentRequestsPriorityQueue = new PriorityQueue<>(
-            Comparator.comparing((ContentRequests request) -> {
+            Comparator.<ContentRequests, LocalDate>comparing(request -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                return LocalDateTime.parse(request.getDeadline(), formatter);
-            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+                return LocalDate.parse(request.getDeadline(), formatter);
+            }).thenComparingInt(request -> -Integer.parseInt(request.getPriority()))
     );
-    PriorityQueue<ContentRequests> allContentRequestPriorityQueue = new PriorityQueue<>(
-            Comparator.comparing((ContentRequests request) -> {
+    PriorityQueue<ContentRequests> allContentRequestsPriorityQueue = new PriorityQueue<>(
+            Comparator.<ContentRequests, LocalDate>comparing(request -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                return LocalDateTime.parse(request.getDeadline(), formatter);
-            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+                return LocalDate.parse(request.getDeadline(), formatter);
+            }).thenComparingInt(request -> -Integer.parseInt(request.getPriority()))
     );
     /**
      * Repository to store all content requests
@@ -39,40 +40,45 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
     // sorts content schedules by deadline first, then by priority
     PriorityQueue<ContentSchedules> planningContentSchedulesPriorityQueue = new PriorityQueue<>(
-            Comparator.comparing((ContentSchedules schedule) -> {
+            Comparator.<ContentSchedules, LocalDate>comparing(schedule -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                return LocalDateTime.parse(schedule.getDeadline(), formatter);
-            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+                return LocalDate.parse(schedule.getDeadline(), formatter);
+            }).thenComparingInt(schedule -> -Integer.parseInt(schedule.getPriority()))
     );
+
     PriorityQueue<ContentSchedules> reviewingContentSchedulesPriorityQueue = new PriorityQueue<>(
-            Comparator.comparing((ContentSchedules schedule) -> {
+            Comparator.<ContentSchedules, LocalDate>comparing(schedule -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                return LocalDateTime.parse(schedule.getDeadline(), formatter);
-            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+                return LocalDate.parse(schedule.getDeadline(), formatter);
+            }).thenComparingInt(schedule -> -Integer.parseInt(schedule.getPriority()))
     );
+
     PriorityQueue<ContentSchedules> revisingContentSchedulesPriorityQueue = new PriorityQueue<>(
-            Comparator.comparing((ContentSchedules schedule) -> {
+            Comparator.<ContentSchedules, LocalDate>comparing(schedule -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                return LocalDateTime.parse(schedule.getDeadline(), formatter);
-            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+                return LocalDate.parse(schedule.getDeadline(), formatter);
+            }).thenComparingInt(schedule -> -Integer.parseInt(schedule.getPriority()))
     );
+
     PriorityQueue<ContentSchedules> readyContentSchedulesPriorityQueue = new PriorityQueue<>(
-            Comparator.comparing((ContentSchedules schedule) -> {
+            Comparator.<ContentSchedules, LocalDate>comparing(schedule -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                return LocalDateTime.parse(schedule.getDeadline(), formatter);
-            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+                return LocalDate.parse(schedule.getDeadline(), formatter);
+            }).thenComparingInt(schedule -> -Integer.parseInt(schedule.getPriority()))
     );
+
     PriorityQueue<ContentSchedules> allContentSchedulesPriorityQueue = new PriorityQueue<>(
-            Comparator.comparing((ContentSchedules schedule) -> {
+            Comparator.<ContentSchedules, LocalDate>comparing(schedule -> {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                return LocalDateTime.parse(schedule.getDeadline(), formatter);
-            }).reversed().thenComparing(schedule -> -Integer.parseInt(schedule.getPriority()))
+                return LocalDate.parse(schedule.getDeadline(), formatter);
+            }).thenComparingInt(schedule -> -Integer.parseInt(schedule.getPriority()))
     );
+
     /**
      * Repository to store all content schedules
      */
@@ -174,8 +180,10 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        for (ContentRequests request : pendingContentRequestsPriorityQueue){
-            contentRequestToText(request);
+        PriorityQueue<ContentRequests> tempQueue = new PriorityQueue<>(pendingContentRequestsPriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            contentRequestToText(tempQueue.poll());
         }
         return true;
     }
@@ -187,8 +195,10 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        for (ContentRequests request : allContentRequestPriorityQueue){
-            contentRequestToText(request);
+        PriorityQueue<ContentRequests> tempQueue = new PriorityQueue<>(allContentRequestsPriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            contentRequestToText(tempQueue.poll());
         }
         return true;
     }
@@ -255,11 +265,11 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         // removing specific request from pending request queue
         pendingContentRequestsPriorityQueue.remove(request);
         // removing specific request in all queue
-        allContentRequestPriorityQueue.remove(request);
+        allContentRequestsPriorityQueue.remove(request);
         // setting resolve status of content request to true
         request.setRequestID("true");
         // adding back changed specific request
-        allContentRequestPriorityQueue.add(request);
+        allContentRequestsPriorityQueue.add(request);
 
         // editing content request resolved status in files
         editor.processTextFile(departmentRequestDir + request.getFileName());
@@ -964,7 +974,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
         // clearing repositories and queues
         pendingContentRequestsPriorityQueue.clear();
-        allContentRequestPriorityQueue.clear();
+        allContentRequestsPriorityQueue.clear();
         contentRequestsRepository.clear();
 
         File[] requestTextFiles = retrieveRequestFiles(departmentRequestDir);
@@ -1009,9 +1019,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                 if (!Boolean.parseBoolean(request.getResolved())){
                     pendingContentRequestsPriorityQueue.add(request);
                 }
-                else {
-                    allContentRequestPriorityQueue.add(request);
-                }
+                allContentRequestsPriorityQueue.add(request);
                 contentRequestsRepository.put(s,request);
             }
         }

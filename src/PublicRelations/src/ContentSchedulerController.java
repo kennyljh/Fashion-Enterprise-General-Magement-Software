@@ -31,6 +31,7 @@ public class ContentSchedulerController implements src.PublicRelations.src.inter
             Scanner scan = new Scanner(System.in);
 
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            System.out.println("Select An Action: ");
             System.out.println("1. Add New Public Relations Employee");
             System.out.println("2. Delete Public Relations Employee by ID");
             System.out.println();
