@@ -9,17 +9,21 @@ import java.util.Map;
 import static src.Modeling.ModelingDepartment.fileManager;
 
 public class StorageManager extends Manager {
+    Map<Team, Map<String, Item[]>> warehouse;
 
     public StorageManager(String name, Team team) {
         super(name, team);
+        warehouse = fileManager.convertItemsToTeamCategoryMap();
     }
 
     public StorageManager(Team team) {
         super(team);
+        warehouse = fileManager.convertItemsToTeamCategoryMap();
     }
 
     public StorageManager(int id, Employee employeeInfo, Team team) {
         super(id, employeeInfo, team);
+        warehouse = fileManager.convertItemsToTeamCategoryMap();
     }
 
     public void addItem(Item item) throws IOException {

@@ -331,6 +331,7 @@ public class ModelingDepartment {
                                  2: Type
                                  3: Team
                                  4: Recurrence
+                                 5: set Damaged
                                 """);
                     int choice = s.nextInt();
                     s.nextLine();
@@ -351,6 +352,9 @@ public class ModelingDepartment {
                         case 4 -> {
                             System.out.println("What is the new value of Recurrence? [DAILY, WEEKLY, MONTHLY, YEARLY, NONE]");
                             item.setAssociatedTeam(Team.parseTeam(s.nextLine()));
+                        }
+                        case 5 -> {
+                            item.flagDamaged();
                         }
                     }
 
@@ -419,7 +423,18 @@ public class ModelingDepartment {
                     }
                 }
                 case 4 -> {
-
+                    List<Item> damagedItems = fileManager.findDamagedItems();
+                    if(damagedItems.isEmpty()) {
+                        System.out.println("No damaged items found!");
+                    } else {
+                        System.out.println(damagedItems.size() + " damaged item(s) found, would you like to remove them?(y/n)");
+                        if(s.nextLine().equals("y")) {
+                            for(Item item: damagedItems) {
+                                System.out.println("Deleting Item " + item.getId());
+                                fileManager.deleteById(item.getAssociatedTeam(), item.getId());
+                            }
+                        }
+                    }
                 }
                 case 5 -> {
 

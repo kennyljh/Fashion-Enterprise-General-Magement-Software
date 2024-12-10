@@ -70,6 +70,9 @@ public class Item implements IItem {
     public String getItemLocation() {return itemLocation[0] + itemLocation[1];}
 
     @Override
+    public void flagDamaged() {this.damaged = true;}
+
+    @Override
     public String toString() {
         return "\n" + this.associatedTeam.toString() + " Item: " + id +
                 "\n Item Type: " + this.itemType +

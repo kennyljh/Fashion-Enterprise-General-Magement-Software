@@ -1,9 +1,9 @@
-Item 2:
+Item 1:
 itemType/makeup
 itemName/Mascara
 damaged/false
 associatedTeam/Makeup
-id/2
-itemLocation/[2, Ma]
-recurrenceType/MONTHLY
+id/1
+itemLocation/[1, Ma]
+recurrenceType/YEARLY
 

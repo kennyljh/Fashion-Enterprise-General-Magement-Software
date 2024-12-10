@@ -21,5 +21,7 @@ public interface IItem {
 
     String getItemLocation();
 
+    void flagDamaged();
+
     Map<String, String> toMap();
 }

@@ -5,5 +5,5 @@ damaged/false
 associatedTeam/Modeling
 id/0
 itemLocation/[0, Mo]
-recurrenceType/YEARLY
+recurrenceType/NONE
 
