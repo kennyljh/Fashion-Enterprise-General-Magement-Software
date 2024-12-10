@@ -1,3 +1,7 @@
+/**
+ * @author Kenny
+ */
+
 package src.PublicRelations;
 
 import src.PublicRelations.src.MainController;
