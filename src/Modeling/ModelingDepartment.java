@@ -8,6 +8,7 @@ import src.Security.src.SecurityRequestScheduler;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ModelingDepartment {
@@ -19,7 +20,7 @@ public class ModelingDepartment {
     public ModelingDepartment() {
         fileManager = new FileManager();
         hod = fileManager.getHOD();
-        storageManager = new StorageManager(Team.STORAGE);
+        storageManager = fileManager.getStorageManager();
     }
 
     public void start() throws Exception {
@@ -165,6 +166,7 @@ public class ModelingDepartment {
                 case 1 -> {
                     Team team = null;
                     String type = "";
+                    String name = "";
                     RecurrenceType recurrenceType = null;
 
                     int teamNumber = 10;
@@ -209,9 +211,22 @@ public class ModelingDepartment {
                         }
                     }
 
+
                     boolean verified = false;
                     while (!verified) {
-                        System.out.println("What item would you like to order?");
+                        System.out.println("What is the name of the item?");
+                        name = s.nextLine();
+                        System.out.println("Is " + name + " correct?(y/n)");
+                        String tmp = s.nextLine();
+                        if (tmp.equals("y")) {
+                            verified = true;
+                        }
+                    }
+
+                    verified = false;
+                    while (!verified) {
+                        assert team != null;
+                        System.out.println("What category is the item?\n["+ Arrays.toString(fileManager.getCategories(team))+"]");
                         type = s.nextLine();
                         System.out.println("Is " + type + " correct?(y/n)");
                         String tmp = s.nextLine();
@@ -248,7 +263,7 @@ public class ModelingDepartment {
                     }
 
                     assert team != null;
-                    Item newItem = new Item(team, type, recurrenceType);
+                    Item newItem = new Item(team, type, name, recurrenceType);
 
                     storageManager.addItem(newItem);
                     System.out.println(newItem);

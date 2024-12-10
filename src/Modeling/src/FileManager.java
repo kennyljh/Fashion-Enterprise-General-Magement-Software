@@ -45,6 +45,9 @@ public class FileManager {
         setItems();
     }
 //    Storage:
+    public StorageManager getStorageManager() {
+        return StorageManager.parse(teamMembers.get("Storage Manager"));
+    }
     public void setItems() {
         File folder = new File(repo + "warehouse/Clothing");
         String[] files = folder.list();
@@ -82,7 +85,8 @@ public class FileManager {
     }
 
     public boolean addItem(Item item) throws IOException {
-        File f = new File(repo + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
+        File f = new File(repo + "warehouse/" + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
+        System.out.println(f.getAbsolutePath());
         if(!f.exists()) {
             Scanner s = new Scanner(System.in);
             System.out.println("Type " + item.getItemType() + " is not found in the system.\n Would you like to create it?(y/n)");
@@ -104,7 +108,7 @@ public class FileManager {
         Map<String, Map<String, Map<String, String>>> teamCategories = items.get(item.getAssociatedTeam());
         if (teamCategories != null) {
             editor.setRepositoryStrings(teamCategories.get(item.getItemType())); // Returns the innermost map
-            editor.writeToTextFile(repo + item.getAssociatedTeam() + "/" + item.getItemType()+ ".txt");
+            editor.writeToTextFile(f.getPath());
             return true;
         }
         return false;

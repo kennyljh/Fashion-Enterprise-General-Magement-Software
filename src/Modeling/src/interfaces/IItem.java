@@ -11,6 +11,8 @@ public interface IItem {
 
     String getItemType();
 
+    String getItemName();
+
     String getItemLocation();
 
     Map<String, String> toMap();
