@@ -27,7 +27,7 @@ public class Item implements IItem {
         this.recurrenceType = recurrenceType;
     }
 
-    Item(Team associatedTeam, String itemType, RecurrenceType recurrenceType) {
+    public Item(Team associatedTeam, String itemType, RecurrenceType recurrenceType) {
         id = nextid;
         nextid++;
         this.associatedTeam = associatedTeam;

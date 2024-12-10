@@ -23,7 +23,7 @@ public enum RecurrenceType {
             case WEEKLY -> "Weekly on Mondays at 9am";
             case MONTHLY -> "First of the Month at 9am";
             case YEARLY -> "January 1st at 9am";
-            case NONE -> "None";
+            case NONE -> "Never";
         };
     }
 
