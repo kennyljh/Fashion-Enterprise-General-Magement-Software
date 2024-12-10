@@ -114,8 +114,10 @@ public class ActivityScheduler implements src.PublicRelations.src.interfaces.Act
             return false;
         }
 
-        for (PRPlanningEmployee employee : availablePRPlanningEmployeePriorityQueue){
-            planningEmployeeToText(employee);
+        PriorityQueue<PRPlanningEmployee> tempQueue = new PriorityQueue<>(availablePRPlanningEmployeePriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            planningEmployeeToText(tempQueue.poll());
         }
         return true;
     }
@@ -127,8 +129,10 @@ public class ActivityScheduler implements src.PublicRelations.src.interfaces.Act
             return false;
         }
 
-        for (PRPlanningEmployee employee : allPRPlanningEmployeePriorityQueue){
-            planningEmployeeToText(employee);
+        PriorityQueue<PRPlanningEmployee> tempQueue = new PriorityQueue<>(allPRPlanningEmployeePriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            planningEmployeeToText(tempQueue.poll());
         }
         return true;
     }
@@ -140,8 +144,10 @@ public class ActivityScheduler implements src.PublicRelations.src.interfaces.Act
             return false;
         }
 
-        for (PRReviewEmployee employee : availablePRReviewEmployeePriorityQueue){
-            reviewEmployeeToText(employee);
+        PriorityQueue<PRReviewEmployee> tempQueue = new PriorityQueue<>(availablePRReviewEmployeePriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            reviewEmployeeToText(tempQueue.poll());
         }
         return true;
     }
@@ -153,8 +159,10 @@ public class ActivityScheduler implements src.PublicRelations.src.interfaces.Act
             return false;
         }
 
-        for (PRReviewEmployee employee : allPRReviewEmployeePriorityQueue){
-            reviewEmployeeToText(employee);
+        PriorityQueue<PRReviewEmployee> tempQueue = new PriorityQueue<>(allPRReviewEmployeePriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            reviewEmployeeToText(tempQueue.poll());
         }
         return true;
     }
@@ -387,7 +395,7 @@ public class ActivityScheduler implements src.PublicRelations.src.interfaces.Act
                 }
                 case "10" -> {
                     System.out.println("Enter social activity status: (No status | Damage Control | Planning | Reviewing | Revising | Ready)");
-                    String status = scan.nextLine();
+                    schedule.setStatus(scan.nextLine());
                 }
                 case "11" -> {
                     addPlanningEmployeeToSchedule(schedule);
@@ -1166,7 +1174,9 @@ public class ActivityScheduler implements src.PublicRelations.src.interfaces.Act
         innerMap.put("activityType", schedule.getActivityType());
         innerMap.put("objective", schedule.getObjective());
         innerMap.put("targetAudience", schedule.getTargetAudience());
-        innerMap.put("description", schedule.getTargetAudience());
+        innerMap.put("description", schedule.getDescription());
+        innerMap.put("tasks", schedule.getTasks());
+        innerMap.put("department", schedule.getDepartment());
         innerMap.put("location", schedule.getLocation());
         innerMap.put("duration", schedule.getDuration());
         innerMap.put("deadline", schedule.getDeadline());
