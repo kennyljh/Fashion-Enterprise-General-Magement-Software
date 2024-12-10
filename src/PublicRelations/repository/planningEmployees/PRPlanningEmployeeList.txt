@@ -95,7 +95,7 @@ position/Social Media Strategist
 department/Department of Public Relations
 rating/4.1
 yearsOfExperience/2
-previousAssignment/free
+previousAssignment/socialActivity-12102024032725
 currentAssignment/free
 
 DoPR_Employee_Planning_0011:
@@ -105,7 +105,7 @@ position/Social Media Strategist
 department/Department of Public Relations
 rating/4.1
 yearsOfExperience/3
-previousAssignment/free
+previousAssignment/socialActivity-12102024032725
 currentAssignment/free
 
 DoPR_Employee_Planning_0012:
@@ -115,7 +115,7 @@ position/Content Planner
 department/Department of Public Relations
 rating/4.2
 yearsOfExperience/4
-previousAssignment/free
+previousAssignment/socialActivity-12102024032725
 currentAssignment/free
 
 DoPR_Employee_Planning_0013:
