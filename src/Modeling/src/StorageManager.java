@@ -1,7 +1,6 @@
 package src.Modeling.src;
 
 import src.HR.src.Employee;
-import src.Modeling.ModelingDepartment;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -31,8 +30,8 @@ public class StorageManager extends Manager {
         fileManager.updateItem(updatedItem, oldTeam);
     }
 
-    public Boolean deleteItem(Team team, int itemID) {
-        return null;
+    public void deleteItem(Team team, int itemID) {
+        fileManager.deleteById(team, itemID);
     }
 
     public Boolean lookForDamages() {

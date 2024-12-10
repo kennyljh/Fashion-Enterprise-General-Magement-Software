@@ -359,7 +359,64 @@ public class ModelingDepartment {
 
                 }
                 case 3 -> {
+                    Team team = null;
 
+                    int teamNumber = 10;
+                    while (teamNumber > 3) {
+                        System.out.println("""
+                                
+                                What team are you deleting the item for
+                                 1: Modeling
+                                 2: Makeup
+                                 3: Clothing
+                                """);
+                        teamNumber = s.nextInt();
+                        s.nextLine();
+                        switch (teamNumber) {
+                            case 1 -> {
+                                System.out.println("Is Modeling correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.MODELING;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                            case 2 -> {
+                                System.out.println("Is Makeup correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.MAKEUP;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                            case 3 -> {
+                                System.out.println("Is Clothing correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.CLOTHING;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                        }
+
+                        List<Integer> ids = fileManager.getAllItemIdsForTeam(team);
+                        int id = 0;
+
+                        System.out.println("What item are you deleting?\n "+ ids);
+                        id = s.nextInt();
+                        s.nextLine();
+
+                        Item item = fileManager.getItemById(team, id);
+                        System.out.println(item.toString());
+
+                        System.out.println("Are you sure you want to delete this item?(y/n)");
+                        if(s.nextLine().equals("y")){
+                            storageManager.deleteItem(team, id);
+                        }
+                    }
                 }
                 case 4 -> {
 

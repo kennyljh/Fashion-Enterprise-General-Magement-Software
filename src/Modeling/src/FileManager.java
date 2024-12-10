@@ -145,7 +145,6 @@ public class FileManager {
         return itemIds; // Return the list of item ids
     }
 
-
     public Item getItemById(Team team, String itemType, int itemId) {
         Map<String, Map<String, Map<String, String>>> categoryMap = items.get(team);
 
@@ -179,12 +178,10 @@ public class FileManager {
                 }
             }
         }
-
-        // Return null if no matching item was found
         return null;
     }
 
-    public boolean updateItem(Item item, Team oldTeam) throws IOException {
+    public void updateItem(Item item, Team oldTeam) throws IOException {
         // Get the new team from the item (this is already set in the item)
         Team newTeam = item.getAssociatedTeam();
 
@@ -192,7 +189,7 @@ public class FileManager {
         boolean deleted = deleteById(oldTeam, item.getId());
         if (!deleted) {
             System.out.println("Failed to delete item from old team.");
-            return false;
+            return;
         }
 
         // Define the old and new file paths
@@ -227,9 +224,7 @@ public class FileManager {
         editor.writeToTextFile(newFile.getPath());
 
         System.out.println("Item updated successfully.");
-        return true;
     }
-
 
     public String[] getCategories(Team team) {
         File f = new File(repo + "warehouse/" + team.toString());
@@ -243,27 +238,6 @@ public class FileManager {
             }
         }
         return files;
-    }
-
-    public boolean deleteItem(Item item) throws IOException {
-        File f = new File(repo + "warehouse/" + item.getAssociatedTeam() + "/" + item.getItemType() + ".txt");
-        if (!f.exists()) {
-            System.out.println("File for " + item.getItemType() + " does not exist.");
-            return false;
-        }
-
-        Map<String, Map<String, Map<String, String>>> teamCategories = items.get(item.getAssociatedTeam());
-        if (teamCategories != null) {
-            Map<String, Map<String, String>> categoryMap = teamCategories.get(item.getItemType());
-            if (categoryMap != null) {
-                categoryMap.remove("Item " + item.getId());
-
-                editor.setRepositoryStrings(categoryMap);
-                editor.writeToTextFile(f.getPath());
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean deleteById(Team team, int itemId) {
@@ -306,9 +280,6 @@ public class FileManager {
         System.out.println("Item with ID " + itemId + " not found.");
         return false;
     }
-
-
-
 
     public void printItems() {
         // Iterate through each team in the items map
