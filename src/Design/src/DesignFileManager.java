@@ -3,7 +3,11 @@ package src.Design.src;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DesignFileManager {
@@ -63,6 +67,68 @@ public class DesignFileManager {
         System.out.println("Mapped Data: " + mappedSketch);
         sketches.put("Sketch " + sketch.getDesignName(), mappedSketch);
         saveToFile("sketches.txt", sketches);
+    }
+
+//    public void deleteSketchFromList(String sketchName) {
+//
+//        String sketchToRemove = null;
+//
+//
+//        for (Map.Entry<String, Object> entry : sketches.entrySet()) {
+//            if (entry.getKey().equals(sketchName) && entry.getValue() instanceof DesignSketch) {
+//                sketchToRemove = entry.getKey();
+//                break;
+//            }
+//        }
+//
+//        // If sketch is found, remove it
+//        if (sketchToRemove != null) {
+//            sketches.remove(sketchToRemove); // Remove from the list in memory
+//            System.out.println("Sketch '" + sketchName + "' has been removed from memory.");
+//
+//            // Update the file using DesignFileManager
+//            deleteSketch(sketchToRemove);
+//        } else {
+//            System.out.println("Sketch '" + sketchName + "' was not found in memory.");
+//        }
+//    }
+
+    public void deleteSketch(DesignSketch sketch) {
+
+
+        if (sketch == null) {
+            System.out.println("sketch is null");
+            return;
+        }
+        String designName = sketch.getDesignName();
+        String key = "Sketch " + designName;
+        File file = new File(repo + key);
+        if (!file.exists()) {
+            System.out.println("The file does not exist.");
+            return;
+        }
+        List<String> allLines = new ArrayList<>();
+        try {
+            allLines = Files.readAllLines(file.toPath());
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+            return;
+        }
+
+        if (sketches.containsKey(key)) {
+            sketches.remove(key);
+            editor.removeArrayItem(designName);
+            saveToFile("sketches.txt", sketches);
+            System.out.println("Sketch: " + designName + " has been deleted.");
+        } else {
+            System.out.println("Sketch: " + designName + " does not exist.");
+        }
+
+    }
+
+
+    public void deleteFinalDesign(FinalDesign finalDesign) {
+
     }
 
     /*

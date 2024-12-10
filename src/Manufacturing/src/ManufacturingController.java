@@ -418,7 +418,7 @@ public class ManufacturingController {
                 case 7:
                     System.out.println("Exit Program");
                     exit = true;
-//                    App.prompt();
+                    App.prompt();
                     break;
 
                 default:

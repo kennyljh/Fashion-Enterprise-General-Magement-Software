@@ -171,35 +171,6 @@ public class ManufacturingFileManager {
         loadFromFile("ManufacturingReport.txt", manufacturingReport);
         return manufacturingReport;
     }
-
-
-//    public Map<String, Object> getMarketingDesign() {
-//        return new HashMap<>(marketingDesign);
-//    }
-//
-//    public void sendDataToRepo() {
-//        File f = new File(designRepo + "sketches.txt");
-//        if (f.exists()) {
-//            editor.processTextFile(designRepo + "sketches.txt");
-//            sketches = editor.getRepository();
-//        }
-//        f = new File(designRepo + "finalDesign.txt");
-//        if (f.exists()) {
-//            editor.processTextFile(designRepo + "finalDesign.txt");
-//            finalDesign = editor.getRepository();
-//        }
-//        f = new File(designRepo + "customDesign.txt");
-//        if (f.exists()) {
-//            editor.processTextFile(designRepo + "customDesign.txt");
-//            customDesign = editor.getRepository();
-//        }
-//        f = new File(designRepo + "marketingDesign.txt");
-//        if (f.exists()) {
-//            editor.processTextFile(designRepo + "marketingDesign.txt");
-//            marketingDesign = editor.getRepository();
-//
-//        }
-//    }
-
+    
 
 }
