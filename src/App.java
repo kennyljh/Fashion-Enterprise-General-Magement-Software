@@ -25,7 +25,8 @@ public class App {
     public static PublicRelationsDepartment publicRelationsDepartment = new PublicRelationsDepartment();
 
     public static void main(String[] args) throws Exception {
-        prompt();
+//        prompt();
+        marketingDepartment.start();
     }
 
     public static void prompt() throws Exception {

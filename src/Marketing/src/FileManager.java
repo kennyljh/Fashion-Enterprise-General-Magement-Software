@@ -12,6 +12,7 @@ public class FileManager {
     private Map<String, Map<String, String>> teamMembers = new HashMap<>();
     private Map<String, Map<String, String>> eventAdverts = new HashMap<>();
     private Map<String, Map<String, String>> designAdverts = new HashMap<>();
+    private Map<String, Map<String, String>> approvedCollabs = new HashMap<>();
 
     private final PoorTextEditor editor = new PoorTextEditor();
 
@@ -41,6 +42,8 @@ public class FileManager {
         }
     }
 
+//    BrandCollaborations
+
     //    EventsAdverts:
     public void addEventAdvert(EventAdvertisement advert) {
         eventAdverts.put("Advert " + advert.getId(), advert.toMap());
@@ -56,8 +59,6 @@ public class FileManager {
         }
         return tmp;
     }
-
-
 
     //    EventsAdverts:
     public void addDesignAdvert(DesignAdvertisement advert) {

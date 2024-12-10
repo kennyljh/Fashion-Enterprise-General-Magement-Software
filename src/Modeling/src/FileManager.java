@@ -151,10 +151,6 @@ public class FileManager {
         editor.writeToTextFile(file.getPath());
     }
 
-    public ArrayList<Item> getItems(Team team) {
-        return null;
-    }
-
     public List<Integer> getAllItemIdsForTeam(Team team) {
         List<Integer> itemIds = new ArrayList<>();
 
@@ -170,21 +166,6 @@ public class FileManager {
         }
 
         return itemIds; // Return the list of item IDs
-    }
-
-    public Item getItemById(Team team, String itemType, int itemId) {
-        Map<String, Map<String, String>> itemMap = getTargetMap(team);
-
-        for (Map.Entry<String, Map<String, String>> entry : itemMap.entrySet()) {
-            Map<String, String> itemDetails = entry.getValue();
-
-            if (itemDetails.containsKey("id") && Integer.parseInt(itemDetails.get("id")) == itemId
-                    && itemType.equalsIgnoreCase(itemDetails.get("itemType"))) {
-                return Item.parse(itemDetails); // Convert details back to an Item object
-            }
-        }
-
-        return null; // Return null if not found
     }
 
     public Item getItemById(Team team, int itemId) {
