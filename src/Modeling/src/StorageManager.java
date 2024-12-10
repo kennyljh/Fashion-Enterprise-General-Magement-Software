@@ -1,17 +1,22 @@
 package src.Modeling.src;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Map;
+
+import static src.Modeling.ModelingDepartment.fileManager;
 
 public class StorageManager extends Manager {
-    Map<Team, String> warehouse;
 
     public StorageManager(String name, Team team) {
         super(name, team);
     }
 
-    public Item addItem(Item item) {
-        return null;
+    public StorageManager(Team team) {
+        super(team);
+    }
+
+    public void addItem(Item item) throws IOException {
+        fileManager.addItem(item);
     }
 
     public Item updateItem(Team team, int itemID, Item updatedItem) {
@@ -26,7 +31,7 @@ public class StorageManager extends Manager {
         return null;
     }
 
-    public Boolean requestOrder(Item item, LocalDate date) {
+    public Boolean requestOrder(Item item, LocalDate date) throws IOException {
         LocalDate today = LocalDate.now();
         if (date.isAfter(today.plusDays(3))) {
             System.out.println("Requested item cannot be ordered sooner than 3 days.");
@@ -34,5 +39,9 @@ public class StorageManager extends Manager {
         }
         addItem(item);
         return true;
+    }
+
+    public void printWarehouse() {
+
     }
 }

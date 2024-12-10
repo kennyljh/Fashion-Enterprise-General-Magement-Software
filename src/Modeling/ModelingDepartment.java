@@ -5,20 +5,21 @@ import src.App;
 import src.Modeling.src.*;
 import src.Security.src.SecurityRequestScheduler;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ModelingDepartment {
     static HOD hod;
-    static Manager storageManager;
+    static StorageManager storageManager;
     public static FileManager fileManager;
     Scanner s = new Scanner(System.in);
 
     public ModelingDepartment() {
         fileManager = new FileManager();
         hod = fileManager.getHOD();
-        storageManager = hod.getManager(Team.STORAGE);
+        storageManager = new StorageManager(Team.STORAGE);
     }
 
     public void start() throws Exception {
@@ -145,7 +146,7 @@ public class ModelingDepartment {
         App.prompt();
     }
 
-    private void initiateStorageManager() {
+    private void initiateStorageManager() throws IOException {
         int userChoice = 0;
         while (userChoice != 6) {
             System.out.println("""
@@ -242,17 +243,15 @@ public class ModelingDepartment {
                         System.out.println("Recurring " + recurrenceType.getRecurrence() + "? (y/n)");
                         String tmp = s.nextLine();
                         if (!tmp.equals("y")) {
-                            teamNumber = 10;
+                            recurrence = 10;
                         }
-
-
                     }
 
                     assert team != null;
                     Item newItem = new Item(team, type, recurrenceType);
 
-                    System.out.println(newItem.toString());
-//                    TODO: Record in repository
+                    storageManager.addItem(newItem);
+                    System.out.println(newItem);
                 }
                 case 2 -> {
 
