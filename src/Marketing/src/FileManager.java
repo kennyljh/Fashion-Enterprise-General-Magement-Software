@@ -1,5 +1,7 @@
 package src.Marketing.src;
 
+import src.Marketing.src.interfaces.IAdvertisement;
+import src.Marketing.src.interfaces.ICollabMember;
 import src.Modeling.src.Event;
 import src.TextEditor.PoorTextEditor;
 
@@ -44,6 +46,13 @@ public class FileManager {
     }
 
 //    BrandCollaborations
+    public ArrayList<ICollabMember> getApprovedCollabMembers() {
+        return null;
+    }
+
+    public void addCollabMember(ICollabMember collabMember) {
+
+    }
 
     //    EventsAdverts:
     public void addEventAdvert(EventAdvertisement advert) {
@@ -61,7 +70,13 @@ public class FileManager {
         return tmp;
     }
 
-    //    EventsAdverts:
+    public EventAdvertisement getEventAdvertById(int id) {
+        String key = "Advert " + id;
+        Map<String, String> advertDetails = eventAdverts.get(key);
+        return (advertDetails != null) ? EventAdvertisement.parse(advertDetails) : null;
+    }
+
+    //    DesignAdverts:
     public void addDesignAdvert(DesignAdvertisement advert) {
         designAdverts.put("Advert " + advert.getId(), advert.toMap());
 
@@ -76,6 +91,13 @@ public class FileManager {
         }
         return tmp;
     }
+
+    public DesignAdvertisement getDesignAdvertById(int id) {
+        String key = "Advert " + id;
+        Map<String, String> advertDetails = designAdverts.get(key);
+        return (advertDetails != null) ? DesignAdvertisement.parse(advertDetails) : null;
+    }
+
 
     //    TeamMembers:
     public void addTeamMember(TeamMember teamMember) {

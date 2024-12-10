@@ -4,9 +4,15 @@ import src.App;
 
 import src.Marketing.src.*;
 import src.Modeling.src.Event;
+import src.Modeling.src.Item;
+import src.Modeling.src.RecurrenceType;
 import src.Security.src.SecurityRequestScheduler;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class MarketingDepartment {
@@ -45,12 +51,13 @@ public class MarketingDepartment {
         while (c != 6) {
             System.out.println("""
                     
-                    Please choose an action you want to take:\s
-                     1: advertiseEvent\s
+                    Please choose an action you want to take:
+                     1: advertiseEven
                      2: advertiseDesign
                      3: getAllEventAdvertisements
                      4: getAllDesignAdvertisements
-                     5: Back
+                     5: manageCollaborations
+                     6: Back
                      111: Create Security Schedule
                      112: Show All Security Requests
                      113: Delete Security Request By ID
@@ -115,6 +122,7 @@ public class MarketingDepartment {
                     }
                     System.out.println();
                 }
+                case 5 -> initiateManagement();
 
                 case 111 -> {
                     SecurityRequestScheduler scheduler = new SecurityRequestScheduler();
@@ -154,6 +162,35 @@ public class MarketingDepartment {
                         src.Modeling.src.HOD hod = new src.Modeling.src.HOD();
                         System.out.println(hod);
                     }
+                }
+            }
+        }
+    }
+
+    private void initiateManagement() {
+        int userChoice = 0;
+        while (userChoice != 7) {
+            System.out.println("""
+                    
+                    Please choose an action you want to take:
+                     1: requestCollab
+                     2: updateCollab
+                     3: deleteCollab
+                     4: printApprovedMembers
+                     5: printCollabs
+                     7: Back
+                    """);
+            userChoice = s.nextInt();
+            s.nextLine();
+            switch (userChoice) {
+                case 1 -> {
+                }
+                case 2 -> {}
+                case 3 -> {}
+                case 4 -> {}
+                case 5 -> {
+                }
+                case 6 -> {
                 }
             }
         }
