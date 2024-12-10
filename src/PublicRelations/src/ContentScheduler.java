@@ -157,7 +157,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
     @Override
     public boolean showAllReviewEmployees() {
-        
+
         if (!retrieveAllPREmployees()){
             return false;
         }
@@ -196,7 +196,52 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
     @Override
     public boolean createContentSchedule(String requestID) {
-        return false;
+
+        if (!retrieveAllRequests()){
+            return false;
+        }
+
+        if (!contentRequestsRepository.containsKey(requestID)){
+
+            System.out.println("Content request ID: " + requestID + " not found");
+            return false;
+        }
+
+        if (Boolean.parseBoolean(contentRequestsRepository.get(requestID).getResolved())){
+
+            System.out.println("Security request ID: " + requestID + " has already been resolved. Edit it instead");
+            return false;
+        }
+
+        ContentRequests request = contentRequestsRepository.get(requestID);
+        contentRequestToText(request);
+
+        ContentSchedules schedule = new ContentSchedules(
+                IDGenerator() + "-" + request.getRequestID(),
+                request.getRequestID(),
+                request.getTheme(),
+                request.getContentCategory(),
+                request.getPlatform(),
+                request.getDuration(),
+                request.getDeadline(),
+                request.getDescription(),
+                request.getTasks(),
+                request.getDepartment(),
+                request.getPriority(),
+                "no status",
+                dateIssuer(),
+                null);
+
+        // todo
+
+
+
+
+
+
+
+
+        return true;
     }
 
     @Override
@@ -360,6 +405,344 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
         contentScheduleToText(contentSchedulesRepository.get(contentID));
         return true;
+    }
+
+    /**
+     * To add planning employee to a schedule
+     * @param schedule given schedule
+     * @return true if successful, false otherwise
+     */
+    private boolean addPlanningEmployeeToSchedule(ContentSchedules schedule){
+
+        if (!retrieveAllPREmployees()){
+            return false;
+        }
+
+        List<String> selectedPlanningEmployeeIDs = new ArrayList<>();
+        if (!schedule.getPlanningTeamAssign().isEmpty()){
+            selectedPlanningEmployeeIDs = schedule.getPlanningTeamAssign();
+        }
+
+        Scanner scan = new Scanner(System.in);
+
+        boolean endProgram = false;
+        boolean returnValue = false;
+
+        while (!endProgram){
+
+            System.out.println("1. Add Planning Employee by ID");
+            System.out.println("2. Remove Planning Employee by ID");
+            System.out.println("3. Show Scheduled Planning Employees");
+            System.out.println("4. Complete Schedule");
+            System.out.println("5. Cancel Schedule");
+            System.out.println("0. Exit");
+
+            String choice = scan.nextLine();
+
+            switch (choice){
+
+                case "1" -> {
+
+                    System.out.println("Enter planning employee ID: ");
+                    String employeeID = scan.nextLine();
+
+                    if (!PRPlanningEmployeeRepository.containsKey(employeeID)){
+
+                        System.out.println("Planning employee with ID: " + employeeID + " does not exists");
+                        break;
+                    }
+
+                    PRPlanningEmployee employee = PRPlanningEmployeeRepository.get(employeeID);
+
+                    if (!employee.getCurrentAssignment().equals("free")){
+
+                        System.out.println("This employee has already been assigned to :" + employee.getCurrentAssignment() + "\n" +
+                                "Overwrite? (y/n)\n" +
+                                "!!!WARNING!!! This process is irreversible!");
+
+                        String yesNo = scan.nextLine();
+
+                        if (yesNo.equals("y")){
+
+                            employee.setPreviousAssignment(employee.getCurrentAssignment());
+                            employee.setCurrentAssignment(schedule.getScheduleID());
+
+                            if (!selectedPlanningEmployeeIDs.contains(employee.getEmployeeID())){
+
+                                selectedPlanningEmployeeIDs.add(employee.getEmployeeID());
+                            }
+
+                            // updating employee assignments to file
+                            editor.processTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                            editor.setValue(employee.getEmployeeID(), "previousAssignment", employee.getPreviousAssignment());
+                            editor.setValue(employee.getEmployeeID(), "currentAssignment", employee.getCurrentAssignment());
+                            editor.writeToTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                        }
+                    }
+                    else {
+
+                        availablePRPlanningEmployeePriorityQueue.remove(employee);
+                        employee.setCurrentAssignment(schedule.getScheduleID());
+                        selectedPlanningEmployeeIDs.add(employee.getEmployeeID());
+
+                        // updating employee assignments to file
+                        editor.processTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                        editor.setValue(employee.getEmployeeID(), "currentAssignment", employee.getCurrentAssignment());
+                        editor.writeToTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                    }
+                }
+                case "2" -> {
+
+                    if (selectedPlanningEmployeeIDs.isEmpty()){
+
+                        System.out.println("No planning employees to remove from this schedule");
+                        break;
+                    }
+
+                    System.out.println("Enter planning employee ID to remove: ");
+                    String removeID = scan.nextLine();
+
+                    if (!selectedPlanningEmployeeIDs.contains(removeID)){
+
+                        System.out.println("Planning employee ID: " + removeID + " not assigned to this schedule");
+                        break;
+                    }
+
+                    selectedPlanningEmployeeIDs.remove(removeID);
+                    PRPlanningEmployee employee = PRPlanningEmployeeRepository.get(removeID);
+                    employee.setCurrentAssignment("free");
+                    availablePRPlanningEmployeePriorityQueue.add(employee);
+
+                    // updating employee assignments to file
+                    editor.processTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                    editor.setValue(employee.getEmployeeID(), "currentAssignment", employee.getCurrentAssignment());
+                    editor.writeToTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                }
+                case "3" -> {
+
+                    if (selectedPlanningEmployeeIDs.isEmpty()){
+
+                        System.out.println("No planning employees to show from this schedule");
+                        break;
+                    }
+
+                    System.out.println("Selected planning employees by ID: ");
+                    for (String s : selectedPlanningEmployeeIDs){
+                        System.out.println(s);
+                    }
+                    System.out.println();
+                }
+                case "4" -> {
+                    if (selectedPlanningEmployeeIDs.isEmpty()){
+
+                        System.out.println("Have at least one assigned employee");
+                        break;
+                    }
+
+                    schedule.setPlanningTeamAssign(selectedPlanningEmployeeIDs);
+                    System.out.println("Planning assignment created");
+                    endProgram = true;
+                    returnValue = true;
+                }
+                case "5" -> {
+
+                    for (String s : selectedPlanningEmployeeIDs){
+
+                        PRPlanningEmployee resetEmployee = PRPlanningEmployeeRepository.get(s);
+                        resetEmployee.setCurrentAssignment("free");
+                        availablePRPlanningEmployeePriorityQueue.add(resetEmployee);
+
+                        // updating employee assignment to files
+                        editor.processTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                        editor.setValue(resetEmployee.getEmployeeID(), "currentAssignment", resetEmployee.getCurrentAssignment());
+                        editor.writeToTextFile(PRPlanningEmployeesDir + "PRPlanningEmployeeList.txt");
+                    }
+                    return returnValue;
+                }
+                case "0" -> {
+
+                    if (selectedPlanningEmployeeIDs.isEmpty()){
+
+                        endProgram = true;
+                    }
+                    else {
+
+                        System.out.println("Remove all assigned planning employees or cancel before exiting");
+                    }
+                }
+                default -> System.out.println("Invalid choice. Try again");
+            }
+        }
+        return returnValue;
+    }
+
+    /**
+     * To add review employee to a schedule
+     * @param schedule given schedule
+     * @return true if successful, false otherwise
+     */
+    private boolean addReviewEmployeeToSchedule(ContentSchedules schedule){
+
+        if (!retrieveAllPREmployees()){
+            return false;
+        }
+
+        List<String> selectedReviewEmployeeIDs = new ArrayList<>();
+        if (!schedule.getReviewTeamAssign().isEmpty()){
+            selectedReviewEmployeeIDs = schedule.getReviewTeamAssign();
+        }
+
+        Scanner scan = new Scanner(System.in);
+
+        boolean endProgram = false;
+        boolean returnValue = false;
+
+        while (!endProgram){
+
+            System.out.println("1. Add Review Employee by ID");
+            System.out.println("2. Remove Review Employee by ID");
+            System.out.println("3. Show Scheduled Review Employees");
+            System.out.println("4. Complete Schedule");
+            System.out.println("5. Cancel Schedule");
+            System.out.println("0. Exit");
+
+            String choice = scan.nextLine();
+
+            switch (choice){
+
+                case "1" -> {
+
+                    System.out.println("Enter review employee ID: ");
+                    String employeeID = scan.nextLine();
+
+                    if (!PRReviewEmployeeRepository.containsKey(employeeID)){
+
+                        System.out.println("Review employee with ID: " + employeeID + " does not exists");
+                        break;
+                    }
+
+                    PRReviewEmployee employee = PRReviewEmployeeRepository.get(employeeID);
+
+                    if (!employee.getCurrentAssignment().equals("free")){
+
+                        System.out.println("This employee has already been assigned to :" + employee.getCurrentAssignment() + "\n" +
+                                "Overwrite? (y/n)\n" +
+                                "!!!WARNING!!! This process is irreversible!");
+
+                        String yesNo = scan.nextLine();
+
+                        if (yesNo.equals("y")){
+
+                            employee.setPreviousAssignment(employee.getCurrentAssignment());
+                            employee.setCurrentAssignment(schedule.getScheduleID());
+
+                            if (!selectedReviewEmployeeIDs.contains(employee.getEmployeeID())){
+
+                                selectedReviewEmployeeIDs.add(employee.getEmployeeID());
+                            }
+
+                            // updating employee assignments to file
+                            editor.processTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                            editor.setValue(employee.getEmployeeID(), "previousAssignment", employee.getPreviousAssignment());
+                            editor.setValue(employee.getEmployeeID(), "currentAssignment", employee.getCurrentAssignment());
+                            editor.writeToTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                        }
+                    }
+                    else {
+
+                        availablePRReviewEmployeePriorityQueue.remove(employee);
+                        employee.setCurrentAssignment(schedule.getScheduleID());
+                        selectedReviewEmployeeIDs.add(employee.getEmployeeID());
+
+                        // updating employee assignments to file
+                        editor.processTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                        editor.setValue(employee.getEmployeeID(), "currentAssignment", employee.getCurrentAssignment());
+                        editor.writeToTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                    }
+                }
+                case "2" -> {
+
+                    if (selectedReviewEmployeeIDs.isEmpty()){
+
+                        System.out.println("No review employees to remove from this schedule");
+                        break;
+                    }
+
+                    System.out.println("Enter review employee ID to remove: ");
+                    String removeID = scan.nextLine();
+
+                    if (!selectedReviewEmployeeIDs.contains(removeID)){
+
+                        System.out.println("Review employee ID: " + removeID + " not assigned to this schedule");
+                        break;
+                    }
+
+                    selectedReviewEmployeeIDs.remove(removeID);
+                    PRReviewEmployee employee = PRReviewEmployeeRepository.get(removeID);
+                    employee.setCurrentAssignment("free");
+                    availablePRReviewEmployeePriorityQueue.add(employee);
+
+                    // updating employee assignments to file
+                    editor.processTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                    editor.setValue(employee.getEmployeeID(), "currentAssignment", employee.getCurrentAssignment());
+                    editor.writeToTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                }
+                case "3" -> {
+
+                    if (selectedReviewEmployeeIDs.isEmpty()){
+
+                        System.out.println("No review employees to show from this schedule");
+                        break;
+                    }
+
+                    System.out.println("Selected review employees by ID: ");
+                    for (String s : selectedReviewEmployeeIDs){
+                        System.out.println(s);
+                    }
+                    System.out.println();
+                }
+                case "4" -> {
+                    if (selectedReviewEmployeeIDs.isEmpty()){
+
+                        System.out.println("Have at least one assigned employee");
+                        break;
+                    }
+
+                    schedule.setReviewTeamAssign(selectedReviewEmployeeIDs);
+                    System.out.println("Planning assignment created");
+                    endProgram = true;
+                    returnValue = true;
+                }
+                case "5" -> {
+
+                    for (String s : selectedReviewEmployeeIDs){
+
+                        PRReviewEmployee resetEmployee = PRReviewEmployeeRepository.get(s);
+                        resetEmployee.setCurrentAssignment("free");
+                        availablePRReviewEmployeePriorityQueue.add(resetEmployee);
+
+                        // updating employee assignment to files
+                        editor.processTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                        editor.setValue(resetEmployee.getEmployeeID(), "currentAssignment", resetEmployee.getCurrentAssignment());
+                        editor.writeToTextFile(PRReviewEmployeesDir + "PRReviewEmployeeList.txt");
+                    }
+                    return returnValue;
+                }
+                case "0" -> {
+
+                    if (selectedReviewEmployeeIDs.isEmpty()){
+
+                        endProgram = true;
+                    }
+                    else {
+
+                        System.out.println("Remove all assigned review employees or cancel before exiting");
+                    }
+                }
+                default -> System.out.println("Invalid choice. Try again");
+            }
+        }
+        return returnValue;
     }
 
     /**
@@ -824,6 +1207,31 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         System.out.println("Current Assignment: " + employee.getCurrentAssignment());
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     }
+
+    /**
+     * Generates IDs for security schedules
+     * @return generated security schedule ID
+     */
+    private String IDGenerator(){
+
+        LocalDateTime timeNow = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyyHHmmss");
+
+        return timeNow.format(formatter);
+    }
+
+    /**
+     * Returns current time in MM-dd-yyyy-HH-mm-ss format when called
+     * @return date in MM-dd-yyyy-HH-mm-ss format
+     */
+    private String dateIssuer(){
+
+        LocalDateTime timeNow = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy-HH-mm-ss");
+
+        return timeNow.format(formatter);
+    }
+
 
 
 
