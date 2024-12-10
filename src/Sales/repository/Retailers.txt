@@ -1,17 +1,17 @@
 1:
 name/Mani
 retailerLocation/Ames
-rewardPoints/0
+rewardPoints/8
 
 2:
 name/Kenny
 retailerLocation/Ames
-rewardPoints/0
+rewardPoints/10
 
 3:
 name/Mia
 retailerLocation/Ames
-rewardPoints/0
+rewardPoints/2
 
 4:
 name/Doyle
@@ -26,7 +26,7 @@ rewardPoints/0
 6:
 name/Krish
 retailerLocation/Ames
-rewardPoints/0
+rewardPoints/18
 
 7:
 name/Sai

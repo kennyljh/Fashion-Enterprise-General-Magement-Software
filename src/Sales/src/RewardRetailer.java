@@ -18,7 +18,7 @@ public class RewardRetailer {
         System.out.println("----------------------------------------------------------------------------------------------------------");
         System.out.printf("%40s %n", "Reward details of " + rname + " associated with " + " order id " + oid);
         System.out.println("----------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-30s %-30s %s%n", "Order Total", "Points Earned", "Points Used");
+        System.out.printf("%-30s %-30s %-30s %s%n", "Order ID", "Order Total", "Points Earned", "Points Used");
         System.out.printf("%-30s %-30s %-30s %s%n", oid, rewardDetail[0], rewardDetail[1], rewardDetail[2]);
         System.out.println("----------------------------------------------------------------------------------------------------------");
 
@@ -32,7 +32,7 @@ public class RewardRetailer {
         System.out.println("----------------------------------------------------------------------------------------------------------");
         System.out.printf("%40s %n", "Reward details of " + rname + " in " +month +" month "+ year + " year");
         System.out.println("----------------------------------------------------------------------------------------------------------");
-
+        System.out.printf("%-30s %-30s %-30s %s%n", "Order ID", "Order Total", "Points Earned", "Points Used");
         for (Map.Entry<String, Map<String, String>> order : orders.entrySet()) {
             String oid = order.getKey();
             Map<String, String> odetail = order.getValue();
@@ -42,7 +42,7 @@ public class RewardRetailer {
                 if (dm.isInMonth(odetail.get("date"), month, year)) {
                      ++orderCount;
                     rewardDetail = sir.orderTotal(odetail);
-                    System.out.printf("%-30s %-30s %-30s %s%n", "Order ID", "Order Total", "Points Earned", "Points Used");
+
                     System.out.printf("%-30s %-30s %-30s %s%n", oid, rewardDetail[0], rewardDetail[1], rewardDetail[2]);
                 }
             }
@@ -63,7 +63,7 @@ public class RewardRetailer {
         System.out.println("----------------------------------------------------------------------------------------------------------");
         System.out.printf("%40s %n", "Reward details of " + rname + " in " + year + " year");
         System.out.println("----------------------------------------------------------------------------------------------------------");
-
+        System.out.printf("%-30s %-30s %-30s %s%n", "Order ID", "Order Total", "Points Earned", "Points Used");
         for (Map.Entry<String, Map<String, String>> order : orders.entrySet()) {
             String oid = order.getKey();
             Map<String, String> odetail = order.getValue();
@@ -73,7 +73,7 @@ public class RewardRetailer {
                 if (dm.isInYear(odetail.get("date"), year)) {
                     ++orderCount;
                     rewardDetail = sir.orderTotal(odetail);
-                    System.out.printf("%-30s %-30s %-30s %s%n", "Order ID", "Order Total", "Points Earned", "Points Used");
+
                     System.out.printf("%-30s %-30s %-30s %s%n", oid, rewardDetail[0], rewardDetail[1], rewardDetail[2]);
                 }
             }

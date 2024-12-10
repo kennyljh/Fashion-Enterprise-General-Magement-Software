@@ -136,7 +136,7 @@ public class SalesInventoryRequest {
         // order total
         rewardDetail[0] = total;
         // reward point earned with the order
-        rewardDetail[1] = total%5;
+        rewardDetail[1] = total/20;
         // reward point applied for the order
         rewardDetail[2] = Integer.parseInt(appliedRewardPoints);
 

@@ -100,12 +100,12 @@ public class BasicSalesManage implements SalesManagement {
 
             orders.put(String.valueOf(size + 1), odetail);
 
-            System.out.println("order placed by id: " + size + 1);
+            System.out.println("order placed by id: " + (size + 1));
             int points = calReward(odetail);
             System.out.println("Earned Reward Points with this order :" + points);
 
             System.out.println(" Reward Scheme: every 100 bucks purchase earn 5 reward points where 1 point equivalent to 1 buck");
-            System.out.println(" You can use these points for any your future orders.");
+            System.out.println(" You can use these points for any of your future orders.");
             textEditor = new PoorTextEditor();
             textEditor.setRepositoryStrings(orders);
             textEditor.writeToTextFile(repoPath + "Orders.txt");
@@ -170,6 +170,7 @@ public class BasicSalesManage implements SalesManagement {
                    int oid = sc.nextInt();
                    sc.nextLine();
                    rewardRetailer.rewardByOrderId(rid,oid,orders);
+                   break;
                case "month":
                    System.out.println("Enter the Month(MM) for reward analysis :");
                    int month = sc.nextInt();
@@ -178,21 +179,25 @@ public class BasicSalesManage implements SalesManagement {
                    int year = sc.nextInt();
                    sc.nextLine();
                    rewardRetailer.rewardByMonth(rid,month,year,orders);
+                   break;
                case "year":
                    System.out.println("Enter the Year(YYYY) for reward analysis :");
                    int year1 = sc.nextInt();
                    sc.nextLine();
                    rewardRetailer.rewardByYear(rid,year1,orders);
+                   break;
                default:
                    System.out.println("Select correct option('order' or 'month' or 'year'): ");
                    opt =sc.nextLine();
                    wantToCont = "yes";
+
            }
            System.out.println("Do you want analyse rewards with other scales (yes/no)?");
            wantToCont =sc.nextLine();
-           System.out.println("Specify how you want to track rewards (By 'order' or 'month' or 'year'): ");
-           opt =sc.nextLine();
-
+           if(wantToCont.equals("yes")) {
+               System.out.println("Specify how you want to track rewards (By 'order' or 'month' or 'year'): ");
+               opt = sc.nextLine();
+           }
        }while(wantToCont.equals("yes"));
     }
 
@@ -202,9 +207,7 @@ public class BasicSalesManage implements SalesManagement {
 
     private int calReward(Map<String, String> odetail) {
 
-        int orderAmount = sir.orderTotal(odetail)[0];
-
-        return orderAmount % 5;
+        return sir.orderTotal(odetail)[1];
     }
 
     public void returnOrder(int rid, int oid, Map<String, Integer> rproducts, int days) {

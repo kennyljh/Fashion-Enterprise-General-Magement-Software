@@ -82,7 +82,7 @@ public class App {
                 securityDepartment.start();
                 break;
             case 9:
-                SalesDepartment.start();
+               SalesDepartment.start();
                 break;
             case 10:
                 publicRelationsDepartment.start();

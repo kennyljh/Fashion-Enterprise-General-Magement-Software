@@ -9,3 +9,9 @@ Description/Clothing
 
 Shoes:
 Description/Footwear
+
+Perfume:
+Description/PersonalCare
+
+Watch:
+Description/Accessories
