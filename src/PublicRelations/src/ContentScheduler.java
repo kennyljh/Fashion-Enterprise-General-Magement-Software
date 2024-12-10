@@ -116,12 +116,130 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
     @Override
     public boolean addPREmployee() {
-        return false;
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Choose to add (Planning) or (Review) employee");
+        String choice = scan.nextLine();
+        String directoryInUse;
+        String employeeIdPrefix;
+        String fileNameInUse;
+
+        switch (choice){
+
+            case "Planning" -> {
+                directoryInUse = PRPlanningEmployeesDir;
+                employeeIdPrefix = "DoPR_Employee_Planning_";
+                fileNameInUse = "PRPlanningEmployeeList.txt";
+            }
+
+            case "Review" -> {
+                directoryInUse = PRReviewEmployeesDir;
+                employeeIdPrefix = "DoPR_Employee_Review_";
+                fileNameInUse = "PRReviewEmployeeList.txt";
+            }
+            default -> {
+                System.out.println("No such employee");
+                return false;
+            }
+        }
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap(directoryInUse);
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        String latestEmployeeID = null;
+        for (String ID : employeeHashMap.keySet()){
+            latestEmployeeID = ID;
+        }
+
+        String newEmployeeID = "-1";
+        if (latestEmployeeID != null){
+            newEmployeeID = latestEmployeeID.substring(latestEmployeeID.length() - 4);
+        }
+
+        String ID = String.format("%04d", Integer.parseInt(newEmployeeID) + 1);
+        newEmployeeID = employeeIdPrefix + ID;
+
+        Map<String, Object> newEmployeeData = new LinkedHashMap<>();
+
+        System.out.println("Adding employee under ID: " + newEmployeeID);
+        System.out.println("Enter employee name: ");
+        newEmployeeData.put("name", scan.nextLine());
+
+        System.out.println("Enter employee division: ");
+        newEmployeeData.put("division", scan.nextLine());
+
+        System.out.println("Enter employee position: ");
+        newEmployeeData.put("position", scan.nextLine());
+
+        newEmployeeData.put("department", "Department of Public Relations");
+
+        System.out.println("Enter employee rating: (0.0 - 5.0)");
+        newEmployeeData.put("rating", scan.nextLine());
+
+        System.out.println("Enter employee years of experience: ");
+        newEmployeeData.put("yearsOfExperience", scan.nextLine());
+
+        newEmployeeData.put("previousAssignment", "free");
+        newEmployeeData.put("currentAssignment", "free");
+
+        employeeHashMap.put(newEmployeeID, newEmployeeData);
+        editor.setRepository(employeeHashMap);
+        editor.writeToTextFile(directoryInUse + fileNameInUse);
+        return true;
     }
 
     @Override
     public boolean deletePREmployee(String employeeID) {
-        return false;
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Choose to delete (Planning) or (Review) employee");
+        String choice = scan.nextLine();
+        String directoryInUse;
+        String fileNameInUse;
+
+        switch (choice){
+
+            case "Planning" -> {
+                directoryInUse = PRPlanningEmployeesDir;
+                fileNameInUse = "PRPlanningEmployeeList.txt";
+            }
+
+            case "Review" -> {
+                directoryInUse = PRReviewEmployeesDir;
+                fileNameInUse = "PRReviewEmployeeList.txt";
+            }
+            default -> {
+                System.out.println("No such employee");
+                return false;
+            }
+        }
+
+        Map<String, Object> employeeHashMap = retrieveEmployeeHashmap(directoryInUse);
+
+        if (employeeHashMap == null){
+            return false;
+        }
+
+        if (!employeeHashMap.containsKey(employeeID)){
+
+            System.out.println("Employee with ID: " + employeeID + " not found");
+            return false;
+        }
+
+        editor.setRepository(employeeHashMap);
+        if (!editor.retrieveValue(employeeID, "currentAssignment").equals("free")){
+
+            System.out.println("Employee is already assigned to a task. Unassign first.");
+            return false;
+        }
+
+        editor.removeArrayItem(employeeID);
+        editor.writeToTextFile(directoryInUse + fileNameInUse);
+        System.out.println("Employee with ID: " + employeeID + " successfully deleted");
+        return true;
     }
 
     @Override
@@ -1284,6 +1402,42 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         outerMap.put(schedule.getScheduleID(), innerMap);
 
         return outerMap;
+    }
+
+    /**
+     * Returns all public relations employees hashmap repo
+     * @return all public relations employees hashmap repo
+     */
+    private Map<String, Object> retrieveEmployeeHashmap(String fileDirectory){
+
+        File directory = new File(fileDirectory);
+        File[] textFiles = null;
+
+        if (directory.exists() && directory.isDirectory()){
+
+            //grab list of text files
+            FilenameFilter textFileFilter = ((dir, name) -> name.toLowerCase().endsWith(".txt"));
+            textFiles = directory.listFiles(textFileFilter);
+        }
+        else {
+            System.out.println("Repository not found");
+            return null;
+        }
+
+        if (textFiles != null){
+
+            if (textFiles.length == 0){
+                System.out.println("No public relations employees found");
+                return null;
+            }
+        }
+        else {
+            System.out.println("No public relations employees found");
+            return null;
+        }
+
+        editor.processTextFile(fileDirectory + textFiles[0].getName());
+        return editor.getRepository();
     }
 
     /**
