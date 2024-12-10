@@ -1,9 +1,10 @@
 Item 1:
+checkedOut/false
 itemType/makeup
-itemName/Mascara
+itemName/Foundation
 damaged/false
 associatedTeam/Makeup
 id/1
 itemLocation/[1, Ma]
-recurrenceType/YEARLY
+recurrenceType/MONTHLY
 

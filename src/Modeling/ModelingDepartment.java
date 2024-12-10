@@ -145,7 +145,6 @@ public class ModelingDepartment {
                 }
             }
         }
-        App.prompt();
     }
 
     private void initiateStorageManager() throws IOException {
@@ -228,7 +227,7 @@ public class ModelingDepartment {
                     verified = false;
                     while (!verified) {
                         assert team != null;
-                        System.out.println("What category is the item?\n["+ Arrays.toString(fileManager.getCategories(team))+"]");
+                        System.out.println("What category is the item?\n"+ Arrays.toString(fileManager.getCategories(team)));
                         type = s.nextLine();
                         System.out.println("Is " + type + " correct?(y/n)");
                         String tmp = s.nextLine();
@@ -332,6 +331,7 @@ public class ModelingDepartment {
                                  3: Team
                                  4: Recurrence
                                  5: set Damaged
+                                 6: Check out
                                 """);
                     int choice = s.nextInt();
                     s.nextLine();
@@ -355,6 +355,9 @@ public class ModelingDepartment {
                         }
                         case 5 -> {
                             item.flagDamaged();
+                        }
+                        case 6 -> {
+                            item.flagCheckedOut();
                         }
                     }
 
@@ -437,7 +440,67 @@ public class ModelingDepartment {
                     }
                 }
                 case 5 -> {
+                    Team team = null;
+                    int teamNumber = 10;
+                    while (teamNumber > 3) {
+                        System.out.println("""
+                                
+                                What team are you requesting the item for
+                                 1: Modeling
+                                 2: Makeup
+                                 3: Clothing
+                                """);
+                        teamNumber = s.nextInt();
+                        s.nextLine();
+                        switch (teamNumber) {
+                            case 1 -> {
+                                System.out.println("Is Modeling correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.MODELING;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                            case 2 -> {
+                                System.out.println("Is Makeup correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.MAKEUP;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                            case 3 -> {
+                                System.out.println("Is Clothing correct? (y/n)");
+                                String tmp = s.nextLine();
+                                if (tmp.equals("y")) {
+                                    team = Team.CLOTHING;
+                                } else {
+                                    teamNumber = 10;
+                                }
+                            }
+                        }
+                    }
 
+                    List<Integer> checkedOutItems = fileManager.findCheckedOutIdsItems(team);
+                    if(checkedOutItems.isEmpty()) {
+                        System.out.println("No checked out items for "+ team);
+                        continue;
+                    }
+                    Item item = null;
+                    while (item == null) {
+                        System.out.println("Which item would you like to return?\n" + checkedOutItems);
+                        item = fileManager.getItemById(team, s.nextInt());
+                        s.nextLine();
+
+                        System.out.println("Is the item damaged?(y/n)");
+                        if(s.nextLine().equals("y")) item.flagDamaged();
+                        item.flagReturned();
+
+                        System.out.println(item);
+                        storageManager.updateItem(item, item.getAssociatedTeam());
+                    }
                 }
                 case 6 -> {
                     fileManager.printItems();

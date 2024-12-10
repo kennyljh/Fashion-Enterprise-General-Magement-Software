@@ -23,5 +23,9 @@ public interface IItem {
 
     void flagDamaged();
 
+    void flagCheckedOut();
+
+    void flagReturned();
+
     Map<String, String> toMap();
 }

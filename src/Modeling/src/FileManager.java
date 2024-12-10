@@ -216,6 +216,19 @@ public class FileManager {
         return damagedItems;
     }
 
+    public List<Integer> findCheckedOutIdsItems(Team team) {
+        List<Integer> checkedOutItems = new ArrayList<>();
+        Map<String, Map<String, String>> itemMap = getTargetMap(team);
+
+        for (Map<String, String> itemDetails : itemMap.values()) {
+            if ("true".equalsIgnoreCase(itemDetails.get("checkedOut"))) {
+                checkedOutItems.add(Item.parse(itemDetails).getId()); // Add the damaged item
+            }
+        }
+
+        return checkedOutItems;
+    }
+
     public void updateItem(Item item, Team oldTeam) throws IOException {
         Team newTeam = item.getAssociatedTeam();
 

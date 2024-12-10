@@ -16,10 +16,11 @@ public class Item implements IItem {
     String itemName;
     RecurrenceType recurrenceType;
 
+    boolean checkedOut;
     boolean damaged;
 
 
-    Item(int i, Team associatedTeam, String itemType, String[] itemLocation, String itemName, RecurrenceType recurrenceType, boolean damaged) {
+    Item(int i, Team associatedTeam, String itemType, String[] itemLocation, String itemName, RecurrenceType recurrenceType, boolean checkedOut, boolean damaged) {
         id = i;
         if (id >= nextid) nextid = id + 1;
         this.associatedTeam = associatedTeam;
@@ -27,6 +28,7 @@ public class Item implements IItem {
         this.itemLocation = itemLocation;
         this.itemName = itemName;
         this.recurrenceType = recurrenceType;
+        this.checkedOut = checkedOut;
         this.damaged = damaged;
     }
 
@@ -39,6 +41,7 @@ public class Item implements IItem {
         this.itemName = itemName;
         this.recurrenceType = recurrenceType;
 
+        checkedOut = false;
         damaged = false;
     }
 
@@ -73,12 +76,19 @@ public class Item implements IItem {
     public void flagDamaged() {this.damaged = true;}
 
     @Override
+    public void flagCheckedOut() {this.checkedOut = true;}
+
+    @Override
+    public void flagReturned() {this.checkedOut = false;}
+
+    @Override
     public String toString() {
         return "\n" + this.associatedTeam.toString() + " Item: " + id +
                 "\n Item Type: " + this.itemType +
                 "\n Item Location: " + this.getItemLocation() +
                 "\n Item Name: " + this.getItemName() +
                 "\n Recurrence: " + this.recurrenceType.getRecurrence() +
+                "\n Checked Out: " + this.checkedOut +
                 "\n Damaged: " + this.damaged;
     }
 
@@ -91,6 +101,7 @@ public class Item implements IItem {
         itemDetails.put("itemLocation", Arrays.toString(this.itemLocation));
         itemDetails.put("itemName", this.itemName);
         itemDetails.put("recurrenceType", this.recurrenceType.toString());
+        itemDetails.put("checkedOut", Boolean.toString(this.checkedOut));
         itemDetails.put("damaged", Boolean.toString(this.damaged));
         return itemDetails;
     }
@@ -103,6 +114,7 @@ public class Item implements IItem {
                 item.get("itemLocation").replaceAll("[\\[\\] ]", "").split(","),
                 item.get("itemName"),
                 RecurrenceType.parseType(item.get("recurrenceType")),
+                Boolean.parseBoolean(item.get("checkedOut")),
                 Boolean.parseBoolean(item.get("damaged"))
         );
     }
