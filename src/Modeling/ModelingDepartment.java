@@ -13,11 +13,13 @@ import java.util.Scanner;
 
 public class ModelingDepartment {
     static HOD hod;
+    static Manager storageManager;
     public static FileManager fileManager;
 
     public ModelingDepartment() {
         fileManager = new FileManager();
         hod = fileManager.getHOD();
+        storageManager = hod.getManager(Team.STORAGE);
     }
 
     public void start() throws Exception {
