@@ -5,8 +5,8 @@ position/Social Media Strategist
 department/Department of Public Relations
 rating/4.1
 yearsOfExperience/3
-previousAssignment/free
-currentAssignment/free
+previousAssignment/12092024224826-DoD_Content_Req_0001
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Planning_0002:
 name/Andrew Young
@@ -15,8 +15,8 @@ position/Social Media Strategist
 department/Department of Public Relations
 rating/4.2
 yearsOfExperience/4
-previousAssignment/free
-currentAssignment/free
+previousAssignment/12092024224826-DoD_Content_Req_0001
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Planning_0003:
 name/Andrew Hill
@@ -25,8 +25,8 @@ position/Social Media Strategist
 department/Department of Public Relations
 rating/4.2
 yearsOfExperience/5
-previousAssignment/free
-currentAssignment/free
+previousAssignment/12092024224826-DoD_Content_Req_0001
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Planning_0004:
 name/Michael Scott
@@ -35,8 +35,8 @@ position/Social Media Strategist
 department/Department of Public Relations
 rating/4.3
 yearsOfExperience/6
-previousAssignment/free
-currentAssignment/free
+previousAssignment/12092024224826-DoD_Content_Req_0001
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Planning_0005:
 name/Amanda King
@@ -46,7 +46,7 @@ department/Department of Public Relations
 rating/4.3
 yearsOfExperience/7
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Planning_0006:
 name/Sarah Allen
@@ -56,7 +56,7 @@ department/Department of Public Relations
 rating/4.4
 yearsOfExperience/8
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Planning_0007:
 name/Amanda Lewis
@@ -65,7 +65,7 @@ position/Social Media Strategist
 department/Department of Public Relations
 rating/4.4
 yearsOfExperience/9
-previousAssignment/free
+previousAssignment/12092024232356-DoD_Content_Req_0001
 currentAssignment/free
 
 DoPR_Employee_Planning_0008:

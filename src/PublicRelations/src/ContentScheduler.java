@@ -267,7 +267,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         // removing specific request in all queue
         allContentRequestsPriorityQueue.remove(request);
         // setting resolve status of content request to true
-        request.setRequestID("true");
+        request.setResolved("true");
         // adding back changed specific request
         allContentRequestsPriorityQueue.add(request);
 
@@ -362,7 +362,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        if (!contentRequestsRepository.containsKey(contentID)){
+        if (!contentSchedulesRepository.containsKey(contentID)){
 
             System.out.println("Content schedule with ID: " + contentID + " does not exists");
             return false;
@@ -396,7 +396,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        if (!contentRequestsRepository.containsKey(contentID)){
+        if (!contentSchedulesRepository.containsKey(contentID)){
 
             System.out.println("Content schedule with ID: " + contentID + " does not exists");
             return false;
@@ -424,9 +424,16 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         if (!retrieveAllSchedules()){
             return false;
         }
+        
+        if (allContentSchedulesPriorityQueue.isEmpty()){
+            System.out.println("Nothing was found");
+            return false;
+        }
 
-        for (ContentSchedules schedule : allContentSchedulesPriorityQueue){
-            contentScheduleToText(schedule);
+        PriorityQueue<ContentSchedules> tempQueue = new PriorityQueue<>(allContentSchedulesPriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            contentScheduleToText(tempQueue.poll());
         }
         return true;
     }
@@ -438,8 +445,15 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        for (ContentSchedules schedule : planningContentSchedulesPriorityQueue){
-            contentScheduleToText(schedule);
+        if (planningContentSchedulesPriorityQueue.isEmpty()){
+            System.out.println("Nothing was found");
+            return false;
+        }
+
+        PriorityQueue<ContentSchedules> tempQueue = new PriorityQueue<>(planningContentSchedulesPriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            contentScheduleToText(tempQueue.poll());
         }
         return true;
     }
@@ -451,8 +465,15 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        for (ContentSchedules schedule : reviewingContentSchedulesPriorityQueue){
-            contentScheduleToText(schedule);
+        if (reviewingContentSchedulesPriorityQueue.isEmpty()){
+            System.out.println("Nothing was found");
+            return false;
+        }
+
+        PriorityQueue<ContentSchedules> tempQueue = new PriorityQueue<>(reviewingContentSchedulesPriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            contentScheduleToText(tempQueue.poll());
         }
         return true;
     }
@@ -464,8 +485,15 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        for (ContentSchedules schedule : revisingContentSchedulesPriorityQueue){
-            contentScheduleToText(schedule);
+        if (revisingContentSchedulesPriorityQueue.isEmpty()){
+            System.out.println("Nothing was found");
+            return false;
+        }
+
+        PriorityQueue<ContentSchedules> tempQueue = new PriorityQueue<>(revisingContentSchedulesPriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            contentScheduleToText(tempQueue.poll());
         }
         return true;
     }
@@ -477,8 +505,15 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
             return false;
         }
 
-        for (ContentSchedules schedule : readyContentSchedulesPriorityQueue){
-            contentScheduleToText(schedule);
+        if (readyContentSchedulesPriorityQueue.isEmpty()){
+            System.out.println("Nothing was found");
+            return false;
+        }
+
+        PriorityQueue<ContentSchedules> tempQueue = new PriorityQueue<>(readyContentSchedulesPriorityQueue);
+
+        while (!tempQueue.isEmpty()){
+            contentScheduleToText(tempQueue.poll());
         }
         return true;
     }
@@ -512,7 +547,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         }
 
         List<String> selectedPlanningEmployeeIDs = new ArrayList<>();
-        if (!schedule.getPlanningTeamAssign().isEmpty()){
+        if (schedule.getPlanningTeamAssign() != null && !schedule.getPlanningTeamAssign().isEmpty()){
             selectedPlanningEmployeeIDs = schedule.getPlanningTeamAssign();
         }
 
@@ -576,7 +611,6 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
                         availablePRPlanningEmployeePriorityQueue.remove(employee);
                         employee.setCurrentAssignment(schedule.getScheduleID());
-                        selectedPlanningEmployeeIDs.add(employee.getEmployeeID());
                         selectedPlanningEmployeeIDs.add(employee.getEmployeeID());
 
                         // updating employee assignments to file
@@ -682,7 +716,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         }
 
         List<String> selectedReviewEmployeeIDs = new ArrayList<>();
-        if (!schedule.getReviewTeamAssign().isEmpty()){
+        if (schedule.getReviewTeamAssign() != null && !schedule.getReviewTeamAssign().isEmpty()){
             selectedReviewEmployeeIDs = schedule.getReviewTeamAssign();
         }
 
@@ -877,7 +911,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                         editor.retrieveValue(s, "department"),
                         editor.retrieveValue(s, "priority"),
                         editor.retrieveValue(s, "status"),
-                        editor.retrieveValue(s, "dateIssued"),
+                        editor.retrieveValue(s, "dateScheduled"),
                         f.getName());
 
                 List<String> planningEmployees = new ArrayList<>();
@@ -896,7 +930,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                 String reviewEmployeeID = "employeeReview" + num1;
                 while ((editor.retrieveValue(s, reviewEmployeeID)) != null){
 
-                    planningEmployees.add(editor.retrieveValue(s, reviewEmployeeID));
+                    reviewEmployees.add(editor.retrieveValue(s, reviewEmployeeID));
                     num1++;
                     reviewEmployeeID = "employeeReview" + num1;
                 }
@@ -908,7 +942,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                     schedule.getDescription() == null || schedule.getTasks() == null ||
                     schedule.getDepartment() == null || schedule.getPriority() == null ||
                     schedule.getStatus() == null || schedule.getDateScheduled() == null ||
-                    schedule.getFileName() == null || schedule.getPlanningTeamAssign().isEmpty() ||
+                    schedule.getRequestID() == null || schedule.getPlanningTeamAssign().isEmpty() ||
                     schedule.getReviewTeamAssign().isEmpty()){
 
                     System.out.println("Invalid schedule data detected");
@@ -917,10 +951,10 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
 
                 String status = schedule.getStatus();
                 switch (status){
-                    case "planning" -> planningContentSchedulesPriorityQueue.add(schedule);
-                    case "reviewing" -> reviewingContentSchedulesPriorityQueue.add(schedule);
-                    case "revising" -> revisingContentSchedulesPriorityQueue.add(schedule);
-                    case "ready" -> readyContentSchedulesPriorityQueue.add(schedule);
+                    case "Planning" -> planningContentSchedulesPriorityQueue.add(schedule);
+                    case "Reviewing" -> reviewingContentSchedulesPriorityQueue.add(schedule);
+                    case "Revising" -> revisingContentSchedulesPriorityQueue.add(schedule);
+                    case "Ready" -> readyContentSchedulesPriorityQueue.add(schedule);
                 }
 
                 allContentSchedulesPriorityQueue.add(schedule);
@@ -1327,7 +1361,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         System.out.println("Request ID: " + schedule.getRequestID());
         System.out.println("------------------------------------------------------");
         System.out.println("Status: " + schedule.getStatus() + " (No status | Planning | Reviewing | Revising | Ready)");
-        System.out.println("Priority: " + schedule.getPriority());
+        System.out.println("Priority: " + schedule.getPriority() + " (0 = Normal | 1 = Urgent)");
         System.out.println("Department: " + schedule.getDepartment());
         System.out.println("------------------------------------------------------");
         System.out.println("Content Category: " + schedule.getContentCategory());
@@ -1344,6 +1378,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
         for (String s : schedule.getPlanningTeamAssign()){
             System.out.println(s);
         }
+        System.out.println("------------------------------------------------------");
         System.out.println("Assigned Review Employees:");
         for (String s : schedule.getReviewTeamAssign()){
             System.out.println(s);

@@ -6,7 +6,7 @@ department/Department of Public Relations
 rating/4.1
 yearsOfExperience/3
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Review_0002:
 name/Ethan Garcia
@@ -16,7 +16,7 @@ department/Department of Public Relations
 rating/4.2
 yearsOfExperience/4
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Review_0003:
 name/Noah Harris
@@ -26,7 +26,7 @@ department/Department of Public Relations
 rating/4.2
 yearsOfExperience/5
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Review_0004:
 name/Isabella Anderson
@@ -36,7 +36,7 @@ department/Department of Public Relations
 rating/4.3
 yearsOfExperience/6
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Review_0005:
 name/Ethan Martinez
@@ -46,7 +46,7 @@ department/Department of Public Relations
 rating/4.3
 yearsOfExperience/7
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Review_0006:
 name/Olivia Thompson
@@ -56,7 +56,7 @@ department/Department of Public Relations
 rating/4.4
 yearsOfExperience/8
 previousAssignment/free
-currentAssignment/free
+currentAssignment/12092024225042-DoD_Content_Req_0001
 
 DoPR_Employee_Review_0007:
 name/Sophia Garcia
@@ -65,7 +65,7 @@ position/Content Quality Analyst
 department/Department of Public Relations
 rating/4.4
 yearsOfExperience/9
-previousAssignment/free
+previousAssignment/12092024232356-DoD_Content_Req_0001
 currentAssignment/free
 
 DoPR_Employee_Review_0008:

@@ -142,6 +142,8 @@ public class ContentSchedulerController implements src.PublicRelations.src.inter
                 }
                 case "18" -> {
                     System.out.println("Enter content schedule ID to view: ");
+                    String showScheduleID = scan.nextLine();
+                    showContentScheduleByID(showScheduleID);
                     System.out.println();
                 }
                 case "0" -> {
