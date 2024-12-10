@@ -1,0 +1,8 @@
+Item 1:
+itemType/makeup
+itemName/Foundation
+damaged/false
+associatedTeam/Makeup
+id/1
+itemLocation/[1, Ma]
+

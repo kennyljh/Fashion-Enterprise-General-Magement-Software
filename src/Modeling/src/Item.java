@@ -16,8 +16,10 @@ public class Item implements IItem {
     String itemName;
     RecurrenceType recurrenceType;
 
+    boolean damaged;
 
-    Item(int i, Team associatedTeam, String itemType, String[] itemLocation, String itemName, RecurrenceType recurrenceType) {
+
+    Item(int i, Team associatedTeam, String itemType, String[] itemLocation, String itemName, RecurrenceType recurrenceType, boolean damaged) {
         id = i;
         if (id >= nextid) nextid = id + 1;
         this.associatedTeam = associatedTeam;
@@ -25,6 +27,7 @@ public class Item implements IItem {
         this.itemLocation = itemLocation;
         this.itemName = itemName;
         this.recurrenceType = recurrenceType;
+        this.damaged = damaged;
     }
 
     public Item(Team associatedTeam, String itemType, String itemName, RecurrenceType recurrenceType) {
@@ -35,6 +38,8 @@ public class Item implements IItem {
         this.itemLocation = new String[]{Integer.toString(id), associatedTeam.toChar()};
         this.itemName = itemName;
         this.recurrenceType = recurrenceType;
+
+        damaged = false;
     }
 
     @Override
@@ -58,7 +63,8 @@ public class Item implements IItem {
                 "\n Item Type: " + this.itemType +
                 "\n Item Location: " + this.getItemLocation() +
                 "\n Item Name: " + this.getItemName() +
-                "\n Recurrence: " + this.recurrenceType.getRecurrence();
+                "\n Recurrence: " + this.recurrenceType.getRecurrence() +
+                "\n Damaged: " + this.damaged;
     }
 
     @Override
@@ -69,6 +75,7 @@ public class Item implements IItem {
         itemDetails.put("itemType", this.itemType);
         itemDetails.put("itemLocation", Arrays.toString(this.itemLocation));
         itemDetails.put("itemName", this.itemName);
+        itemDetails.put("damaged", Boolean.toString(this.damaged));
         return itemDetails;
     }
 
@@ -79,7 +86,8 @@ public class Item implements IItem {
                 item.get("itemType"),
                 item.get("itemLocation").replaceAll("[\\[\\] ]", "").split(","),
                 item.get("itemName"),
-                RecurrenceType.parseType(item.get("recurrenceType"))
+                RecurrenceType.parseType(item.get("recurrenceType")),
+                Boolean.parseBoolean(item.get("damaged"))
         );
     }
 }

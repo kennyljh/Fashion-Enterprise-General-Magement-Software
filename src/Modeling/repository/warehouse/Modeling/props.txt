@@ -1,6 +1,7 @@
 Item 0:
 itemType/props
-itemName/Sunglasses
+itemName/Feather Boa
+damaged/false
 associatedTeam/Modeling
 id/0
 itemLocation/[0, Mo]

@@ -221,6 +221,12 @@ public class FileManager {
             // Iterate through each category (itemType) for the current team
             for (Map.Entry<String, Map<String, Map<String, String>>> categoryEntry : categoryMap.entrySet()) {
                 String itemType = categoryEntry.getKey();
+
+                // Skip the ".txt" file suffix if it's there
+                if (itemType.endsWith(".txt")) {
+                    itemType = itemType.substring(0, itemType.length() - 4);  // Remove ".txt"
+                }
+
                 Map<String, Map<String, String>> itemMap = categoryEntry.getValue();
 
                 System.out.println("  ItemType: " + itemType);
@@ -240,6 +246,7 @@ public class FileManager {
             }
         }
     }
+
 
     //    Events:
     public void addEvent(Event event) {
