@@ -23,8 +23,7 @@ public class App {
     public static SecurityDepartment securityDepartment = new SecurityDepartment();
 
     public static void main(String[] args) throws Exception {
-//        prompt();
-        modelingDepartment.start();
+        prompt();
     }
 
     public static void prompt() throws Exception {

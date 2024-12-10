@@ -1,3 +1,13 @@
+Item 3:
+checkedOut/false
+itemType/makeup
+itemName/Mascara
+damaged/false
+associatedTeam/Makeup
+id/3
+itemLocation/[3, Ma]
+recurrenceType/MONTHLY
+
 Item 1:
 checkedOut/false
 itemType/makeup

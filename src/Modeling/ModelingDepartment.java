@@ -6,11 +6,11 @@ import src.Modeling.src.*;
 import src.Security.src.SecurityRequestScheduler;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.time.format.DateTimeFormatter;
+
 
 public class ModelingDepartment {
     static HOD hod;
@@ -170,15 +170,25 @@ public class ModelingDepartment {
                     String name = "";
                     RecurrenceType recurrenceType = null;
 
+                    LocalDate date = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+                    System.out.println("When do you need the item by?(mm/dd/yyyy)");
+                    date = LocalDate.parse(s.nextLine(), formatter);
+                    if(date.isBefore(LocalDate.now().plusDays(3))) {
+                        System.out.println("Cannot order an item sooner than 3 days, please move event or go without.");
+                        continue;
+                    }
+
                     int teamNumber = 10;
                     while (teamNumber > 3) {
                         System.out.println("""
-                                
-                                What team are you requesting the item for
-                                 1: Modeling
-                                 2: Makeup
-                                 3: Clothing
-                                """);
+                            
+                            What team are you requesting the item for
+                             1: Modeling
+                             2: Makeup
+                             3: Clothing
+                            """);
                         teamNumber = s.nextInt();
                         s.nextLine();
                         switch (teamNumber) {
@@ -239,14 +249,14 @@ public class ModelingDepartment {
                     int recurrence = 10;
                     while (recurrence > 5) {
                         System.out.println("""
-                                
-                                Will you add a recurrence flag to this item?
-                                 1: Daily
-                                 2: Weekly
-                                 3: Monthly
-                                 4: Yearly
-                                 5: None
-                                """);
+                            
+                            Will you add a recurrence flag to this item?
+                             1: Daily
+                             2: Weekly
+                             3: Monthly
+                             4: Yearly
+                             5: None
+                            """);
                         recurrence = s.nextInt();
                         s.nextLine();
                         switch (recurrence) {
