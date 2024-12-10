@@ -30,6 +30,7 @@ public class HOD implements IHOD {
         managers.add(new Manager(Team.MODELING));
         managers.add(new Manager(Team.MAKEUP));
         managers.add(new Manager(Team.CLOTHING));
+        managers.add(new Manager(Team.STORAGE));
 
         ModelingDepartment.fileManager.addHOD(this);
     }
