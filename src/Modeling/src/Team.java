@@ -3,13 +3,15 @@ package src.Modeling.src;
 public enum Team {
     MODELING,
     MAKEUP,
-    CLOTHING;
+    CLOTHING,
+    STORAGE;
 
     public String toString() {
         return switch (this) {
             case MODELING -> "Modeling";
             case MAKEUP -> "Makeup";
             case CLOTHING -> "Clothing";
+            case STORAGE -> "Storage";
         };
     }
 
@@ -18,6 +20,7 @@ public enum Team {
             case "Modeling" -> MODELING;
             case "Makeup" -> MAKEUP;
             case "Clothing" -> CLOTHING;
+            case "Storage" -> STORAGE;
             default -> throw new IllegalArgumentException();
         };
     }
