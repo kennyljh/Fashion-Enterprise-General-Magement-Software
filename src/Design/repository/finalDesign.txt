@@ -1,0 +1,16 @@
+Final Design NewSketch:
+DesignRawMaterials/poly
+DesignName/NewSketch
+DesignQuantities/20
+DesignSizes/S, M, L
+DesignImage/new.txt
+DesignColors/red,blue
+
+Final Design New:
+DesignRawMaterials/cotton
+DesignName/New
+DesignQuantities/4
+DesignSizes/S, M, L
+DesignImage/fhs.txt
+DesignColors/red
+

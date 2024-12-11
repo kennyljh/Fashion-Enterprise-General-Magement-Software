@@ -2,6 +2,8 @@ package src.Manufacturing.src.interfaces;
 
 import src.Manufacturing.src.Product;
 
+import java.util.Map;
+
 public interface ProductInterface {
 
     void setName(String name);
@@ -19,5 +21,7 @@ public interface ProductInterface {
     String displayProducts();
     void setPrice(String price);
     String getPrice();
+
+
 
 }

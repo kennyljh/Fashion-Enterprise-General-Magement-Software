@@ -1,0 +1,178 @@
+Manufacturing Report
+----------------------------
+Design Name: {DesignRawMaterials=cotton, DesignName=New, DesignQuantities=4, DesignSizes=S, M, L, DesignImage=fhs.txt, DesignColors=red}
+Manufacturing Report
+----------------------------
+Design Name: {DesignRawMaterials=cotton, DesignName=New, DesignQuantities=4, DesignSizes=S, M, L, DesignImage=fhs.txt, DesignColors=red}
+Manufacturing Report
+----------------------------
+Design Name: {DesignRawMaterials=cotton, DesignName=New, DesignQuantities=4, DesignSizes=S, M, L, DesignImage=fhs.txt, DesignColors=red}
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-12-10 08:12:14
+Verification Time: Not Set
+
+Process Durations:
+Time taken to collect Materials Missing DataTime taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: cotton
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-12-10 08:12:14
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: -1415 hours -59 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: New
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-12-10 08:12:14
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: -1415 hours -59 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: cotton
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: Not Set
+Verification Time: 2024-10-12 08:12:14
+
+Process Durations:
+Time taken to collect Materials Missing DataTime taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: New
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: Not Set
+Verification Time: 2024-12-10 09:12:14
+
+Process Durations:
+Time taken to collect Materials Missing DataTime taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: designName
+Start Time: 2024-12-10 09:05:03
+End Time: Not Set
+Collecting Materials Time: Not Set
+Verification Time: 2024-12-10 09:12:14
+
+Process Durations:
+Time taken to collect Materials Missing DataTime taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: {DesignRawMaterials=cotton, DesignName=New, DesignQuantities=4, DesignSizes=S, M, L, DesignImage=fhs.txt, DesignColors=red}
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:15:12
+Verification Time: Not Set
+
+Process Durations:
+Time taken to collect Materials Missing DataTime taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: cotton
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:15:12
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: 0 hours -2 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: New
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:15:12
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: 0 hours -2 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: designName
+Start Time: 2024-12-10 08:12:15
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:15:12
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: 0 hours -2 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: New
+Start Time: 2024-12-10 08:12:15
+End Time: 2024-10-12 08:12:15
+Collecting Materials Time: 2024-10-12 08:15:12
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: 0 hours -2 minutes
+Manufacturing Process Time: -1416 hours 0 minutes
+----------------------------
+Manufacturing Report
+----------------------------
+Design Name: {DesignRawMaterials=cotton, DesignName=New, DesignQuantities=4, DesignSizes=S, M, L, DesignImage=fhs.txt, DesignColors=red}
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:12:10
+Verification Time: Not Set
+
+Process Durations:
+Time taken to collect Materials Missing DataTime taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: cotton
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:12:10
+Verification Time: 2024-10-12 04:35:10
+
+Process Durations:
+Time Taken to Collect Materials: -3 hours -37 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: New
+Start Time: Not Set
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:12:10
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: 0 hours 0 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: designName
+Start Time: 2024-12-10 04:10:12
+End Time: Not Set
+Collecting Materials Time: 2024-10-12 08:12:10
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: 0 hours 0 minutes
+Time taken for Manufacturing Process Missing Data----------------------------
+Manufacturing Report
+----------------------------
+Design Name: New
+Start Time: 2024-12-10 04:10:12
+End Time: 2024-12-10 05:12:15
+Collecting Materials Time: 2024-10-12 08:12:10
+Verification Time: 2024-10-12 08:12:15
+
+Process Durations:
+Time Taken to Collect Materials: 0 hours 0 minutes
+Manufacturing Process Time: 1 hours 2 minutes
+----------------------------

@@ -1,0 +1,15 @@
+Quantity:
+Details/5
+
+Description:
+Details/new clothes
+
+Category:
+Details/shirts
+
+Price:
+Details/30
+
+Name:
+Details/New
+

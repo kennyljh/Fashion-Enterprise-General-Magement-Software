@@ -1,0 +1,16 @@
+Sketch New:
+Design Size/S,M,L
+Design Quantities/4
+Design Colors/red
+Design Raw Materials/cotton
+Design Image/fhs.txt
+Design Name/New
+
+Sketch NewSketch:
+Design Size/S,M,L
+Design Quantities/20
+Design Colors/red,blue
+Design Raw Materials/poly
+Design Image/new.txt
+Design Name/NewSketch
+

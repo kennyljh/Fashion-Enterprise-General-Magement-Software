@@ -1,0 +1,6 @@
+cotton:
+Quantity/3
+
+New:
+Quantity/4
+

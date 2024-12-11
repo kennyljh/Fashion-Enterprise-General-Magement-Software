@@ -5,6 +5,7 @@ package src.Design.src;
 
 import src.App;
 import src.Design.src.interfaces.DesignSpecifications;
+import src.Design.src.interfaces.HeadOfDesignInterface;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,10 +43,12 @@ public class DesignSpecificationsController {
         while (!exit) {
             System.out.println("1. Create a Design Sketch");
             System.out.println("2. View and Select a Design Sketch");
-            System.out.println("3. Set a Final Design for Manufacturing");
-            System.out.println("4. Create and Set a Final Design for Marketing");
-            System.out.println("5. Create and Set a custom Design for Modelling");
-            System.out.println("6. Exit Program");
+            System.out.println("3. Delete a Design Sketch");
+            System.out.println("4. Delete a Final Design");
+            System.out.println("5. Set a Final Design for Manufacturing");
+            System.out.println("6. Create and Set a Final Design for Marketing");
+            System.out.println("7. Create and Set a custom Design for Modelling");
+            System.out.println("8. Exit Program");
 
             int option = scan.nextInt();
             scan.nextLine();
@@ -127,13 +130,6 @@ public class DesignSpecificationsController {
                     newSketch.setSizes(sizeList);
                     newSketch.setQuantities(sketchQuantities);
                     newSketch.setDesignImage(sketchDesignImage);
-//                    newSketch.setDesignName((String) selectedSketch.get("DesignName"));
-//                    newSketch.setRawMaterials(List.of((String) selectedSketch.get("DesignRawMaterials")));
-//                    newSketch.setColor(List.of((String) selectedSketch.get("DesignColors")));
-//                    newSketch.setSizes(List.of((String) selectedSketch.get("DesignSizes")));
-//                    newSketch.setQuantities((String) selectedSketch.get("DesignQuantities"));
-//                    newSketch.setDesignImage((String) selectedSketch.get("DesignImage"));
-
                     sketches.add(newSketch);
 
 
@@ -141,10 +137,6 @@ public class DesignSpecificationsController {
                     if (sketchIndex != -1) {
                         headOfDesignTeam.selectSketch(sketchIndex, sketches);
                     }
-//                    else {
-//                        System.out.println("Failed to find the newly added sketch.");
-//                        break;
-//                    }
 
 //                    headOfDesignTeam.selectSketch(sketchNumber, sketches);
                     System.out.println("(Y/N) Do you want to verify the design sketch?");
@@ -170,6 +162,160 @@ public class DesignSpecificationsController {
                     }
                     break;
                 case 3:
+                    Map<String, Object> deletedSketch = designFileManager.getSketch(); //check to see if it retrieves all the sketches
+                    if (deletedSketch == null || deletedSketch.isEmpty()) {
+                        System.out.println("No sketches found in repository.");
+                        return;
+                    }
+                    System.out.println("Available Design Sketches: ");
+                    List<String> deletedPosition = new ArrayList<>(deletedSketch.keySet());
+                    for (int i = 0; i < deletedPosition.size(); i++) {
+                        System.out.println((i + 1) + ". " + deletedPosition.get(i));
+                    }
+
+                    //ask for input
+                    System.out.println("Select the Design Sketch to delete by the number");
+                    int deletedNumber = scan.nextInt() - 1;
+                    scan.nextLine();
+
+                    if (deletedNumber < 0 || deletedNumber >= deletedPosition.size()) {
+                        System.out.println("Invalid sketch number");
+                        return;
+                    }
+
+                    String deletedSketchName = deletedPosition.get(deletedNumber);
+//                    DesignSketch selectedSketch = (DesignSketch) deletedSketch.get(deletedSketchName);
+                    Map<String, Object> selectedDeletedSketch = (Map<String, Object>) deletedSketch.get(deletedSketchName);
+
+                    if (selectedDeletedSketch == null) {
+                        System.out.println("No sketch found with name " + deletedSketchName);
+                        return;
+                    }
+                    System.out.println("You selected the following sketch: " + deletedSketchName);
+                    selectedDeletedSketch.forEach((key, value) -> {
+                        System.out.println(key + ": " + value);
+                    });
+
+                    String newSketchName = (String) selectedDeletedSketch.get("Design Name");
+                    String deletedSketchRawMaterials = (String) selectedDeletedSketch.get("Design Raw Materials");
+                    String deletedSketchColors = (String) selectedDeletedSketch.get("Design Colors");
+                    String deletedSketchSizes = (String) selectedDeletedSketch.get("Design Size");
+                    String deletedSketchQuantities = (String) selectedDeletedSketch.get("Design Quantities");
+                    String deletedSketchDesignImage = (String) selectedDeletedSketch.get("Design Image");
+
+                    List<String> rawMaterialsListDeleted = deletedSketchRawMaterials != null && !deletedSketchRawMaterials.isEmpty() ?
+                            List.of(deletedSketchRawMaterials.split(",")) : new ArrayList<>();
+                    List<String> colorListDeleted = deletedSketchColors != null && !deletedSketchColors.isEmpty() ?
+                            List.of(deletedSketchColors.split(",")) : new ArrayList<>();
+                    List<String> sizeListDeleted = deletedSketchSizes != null && !deletedSketchSizes.isEmpty() ?
+                            List.of(deletedSketchSizes.split(",")) : new ArrayList<>();
+
+
+                    DesignSketch newSketchDeleted = new DesignSketch(deletedSketchName);
+                    newSketchDeleted.setDesignName(newSketchName);
+                    newSketchDeleted.setRawMaterials(rawMaterialsListDeleted);
+                    newSketchDeleted.setColor(colorListDeleted);
+                    newSketchDeleted.setSizes(sizeListDeleted);
+                    newSketchDeleted.setQuantities(deletedSketchQuantities);
+                    newSketchDeleted.setDesignImage(deletedSketchDesignImage);
+                    sketches.add(newSketchDeleted);
+
+                    int sketchIndexDeleted = sketches.indexOf(newSketchDeleted);
+                    if (sketchIndexDeleted != -1) {
+                        headOfDesignTeam.selectSketch(sketchIndexDeleted, sketches);
+
+                    }
+                    //Prompt User to delete items
+                    System.out.println("(Y/N) Do you want to delete this design sketch?");
+                    String deletedResponse = scan.nextLine().trim();
+
+                    DesignSketch sketchToDelete = null;
+                    for (DesignSketch sketch : sketches) {
+                        if (sketch.getDesignName().equals(deletedSketchName)) {
+                            sketchToDelete = sketch;
+                            break;
+                        }
+                    }
+                    if (deletedResponse.equalsIgnoreCase("Y")) {
+                        // Call deleteSketch with the DesignSketch object
+                        if (newSketchDeleted != null) {
+                            designFileManager.deleteSketch(sketchToDelete);
+                            sketches.removeIf(s -> s.getDesignName().equals(newSketchDeleted.getDesignName())); // Remove from local memory list
+                            System.out.println("The selected design sketch has been deleted.");
+                        }
+                    } else if (deletedResponse.equalsIgnoreCase("N")) {
+                        System.out.println("The design sketch was not deleted.");
+                        return;
+                    } else {
+                        System.out.println("Invalid input. No action taken.");
+                        return;
+                    }
+
+                    break;
+
+
+                case 4:
+                    Map<String, Object> deletedFinalDesigns = designFileManager.getFinalDesign();
+                    if (deletedFinalDesigns == null || deletedFinalDesigns.isEmpty()) {
+                        System.out.println("No sketches found in repository.");
+                        return;
+                    }
+                    System.out.println("Available Final Designs: ");
+                    List<String> deletedFinalDesignNames = new ArrayList<>(deletedFinalDesigns.keySet());
+                    for (int i = 0; i < deletedFinalDesignNames.size(); i++) {
+                        System.out.println((i + 1) + ". " + deletedFinalDesignNames.get(i));
+                    }
+
+                    System.out.println("Select a Final Design for Manufacturing");
+                    int designNumberDeleted = scan.nextInt() - 1;
+                    scan.nextLine();
+
+                    if (designNumberDeleted < 0 || designNumberDeleted >= deletedFinalDesignNames.size()) {
+                        System.out.println("Invalid design number");
+                        return;
+                    }
+                    String selectedFinalDesignNameDeleted = deletedFinalDesignNames.get(designNumberDeleted);
+                    Map<String, Object> selectedFinalDesignDeleted = (Map<String, Object>) deletedFinalDesigns.get(selectedFinalDesignNameDeleted);
+
+                    finalDesign = new FinalDesign(selectedFinalDesignNameDeleted);
+                    finalDesign.setDesignName((String) selectedFinalDesignDeleted.get("DesignName"));
+                    finalDesign.setRawMaterials(List.of((String) selectedFinalDesignDeleted.get("DesignRawMaterials")));
+                    finalDesign.setColor(List.of((String) selectedFinalDesignDeleted.get("DesignColors")));
+                    finalDesign.setSizes(List.of((String) selectedFinalDesignDeleted.get("DesignSizes")));
+                    finalDesign.setQuantities((String) selectedFinalDesignDeleted.get("DesignQuantities"));
+                    finalDesign.setDesignImage((String) selectedFinalDesignDeleted.get("DesignImage"));
+
+
+                    System.out.println("Current Final Design Specifications: \n" + finalDesign.displayAllSpecifications());
+                    //Prompt User to delete items
+                    System.out.println("(Y/N) Do you want to delete this design sketch?");
+                    String deletedFinal = scan.nextLine().trim();
+
+                    DesignSketch designToDelete = null;
+                    for (DesignSketch sketch : sketches) {
+                        if (sketch.getDesignName().equals(finalDesign.getDesignName())) {
+                            designToDelete = sketch;
+                            break;
+                        }
+                    }
+                    if (deletedFinal.equalsIgnoreCase("Y")) {
+                        // Call deleteSketch with the DesignSketch object
+                        if (finalDesign != null) {
+                            designFileManager.deleteSketch(designToDelete);
+                            sketches.removeIf(s -> s.getDesignName().equals(finalDesign.getDesignName())); // Remove from local memory list
+                            System.out.println("The selected design sketch has been deleted.");
+                        }
+                    } else if (deletedFinal.equalsIgnoreCase("N")) {
+                        System.out.println("The design sketch was not deleted.");
+                        return;
+                    } else {
+                        System.out.println("Invalid input. No action taken.");
+                        return;
+                    }
+
+                    break;
+
+                case 5:
                     Map<String, Object> storedFinalDesigns = designFileManager.getFinalDesign();
                     if (storedFinalDesigns == null || storedFinalDesigns.isEmpty()) {
                         System.out.println("No sketches found in repository.");
@@ -227,7 +373,7 @@ public class DesignSpecificationsController {
                         System.out.println("Invalid Input. Select Y or N");
                     }
                     break;
-                case 4:
+                case 6:
 
                     Map<String, Object> storedMarketingDesigns = designFileManager.getFinalDesign();
                     if (storedMarketingDesigns == null || storedMarketingDesigns.isEmpty()) {
@@ -289,7 +435,7 @@ public class DesignSpecificationsController {
                         System.out.println("Invalid Input. Select Y or N");
                     }
                     break;
-                case 5:
+                case 7:
                     System.out.println("Do you want to create a custom Design for modelling?");
                     System.out.println("(Y/N)");
                     String response = scan.nextLine();
@@ -317,7 +463,7 @@ public class DesignSpecificationsController {
                         System.out.println("Invalid Input. Select Y or N");
                     }
                     break;
-                case 6:
+                case 8:
                     System.out.println("Exit Program");
                     exit = true;
                     App.prompt();
