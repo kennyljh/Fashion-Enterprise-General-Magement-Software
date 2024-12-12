@@ -1,6 +1,7 @@
 package src.Marketing.src;
 
 import src.Marketing.src.interfaces.IAdvertisement;
+import src.Marketing.src.interfaces.ICollab;
 import src.Marketing.src.interfaces.ICollabMember;
 import src.Modeling.src.Event;
 import src.TextEditor.PoorTextEditor;
@@ -43,16 +44,105 @@ public class FileManager {
             editor.processTextFile(repo + "designAdvert.txt");
             designAdverts = editor.getRepositoryStringMap();
         }
+
+        f = new File(repo + "collaborations/approved.txt");
+        if(f.exists()) {
+            editor.processTextFile(repo + "collaborations/approved.txt");
+            approvedCollabs = editor.getRepositoryStringMap();
+        }
+
+        f = new File(repo + "collaborations/collaborations.txt");
+        if(f.exists()) {
+            editor.processTextFile(repo + "collaborations/collaborations.txt");
+            collaborations = editor.getRepositoryStringMap();
+        }
     }
 
-//    BrandCollaborations
+//    ApprovedMembers
     public ArrayList<ICollabMember> getApprovedCollabMembers() {
-        return null;
+        ArrayList<ICollabMember> tmp = new ArrayList<>();
+        for(Map<String, String> advert: approvedCollabs.values()) {
+            if (advert.containsKey("contractInfo")) {
+                tmp.add(Celebrity.parse(advert));
+            } else {
+                tmp.add(Brand.parse(advert));
+            }
+        }
+        return tmp;
+    }
+
+    public void printApprovedMembers() {
+        System.out.println(getApprovedCollabMembers().toString());
     }
 
     public void addCollabMember(ICollabMember collabMember) {
+        String memberType = collabMember instanceof Brand ? "Brand" : "Celebrity";
+        approvedCollabs.put(memberType + " Member " + collabMember.getId(), collabMember.toMap());
 
+        editor.setRepositoryStrings(approvedCollabs);
+        editor.writeToTextFile(repo + "collaborations/approved.txt");
     }
+
+    public Brand getBrandById(int id) {
+        for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
+            String key = entry.getKey();
+            Map<String, String> memberData = entry.getValue();
+
+            if (key.startsWith("Brand Member") && key.endsWith(Integer.toString(id))) {
+                return Brand.parse(memberData);
+            }
+        }
+        return null;
+    }
+
+    public Celebrity getCelebrityById(int id) {
+        for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
+            String key = entry.getKey();
+            Map<String, String> memberData = entry.getValue();
+
+            if (key.startsWith("Celebrity Member") && key.endsWith(Integer.toString(id))) {
+                return Celebrity.parse(memberData);
+            }
+        }
+        return null;
+    }
+
+    public void removeCollabMember(ICollabMember collabMember) {
+        String memberType = collabMember instanceof Brand ? "Brand" : "Celebrity";
+        String key = memberType + " Member " + collabMember.getId();
+
+        if (approvedCollabs.containsKey(key)) {
+            approvedCollabs.remove(key);
+
+            editor.setRepositoryStrings(approvedCollabs);
+            editor.writeToTextFile(repo + "collaborations/approved.txt");
+
+            System.out.println("Collaboration member with ID " + collabMember.getId() + " has been removed.");
+        } else {
+            System.out.println("Collaboration member with ID " + collabMember.getId() + " not found.");
+        }
+    }
+
+//    Collabs
+    public ArrayList<ICollab> getCollaborations() {
+        ArrayList<ICollab> tmp = new ArrayList<>();
+        for(Map<String, String> collab: collaborations.values()) {
+    //        if (collab.containsKey("contractInfo")) {
+    //            tmp.add(Celebrity.parse(collab));
+    //        } else {
+    //            tmp.add(Brand.parse(collab));
+    //        }
+        }
+        return tmp;
+    }
+
+    public void addCollab(ICollab collab) {
+        approvedCollabs.put("Collab " + collab.getId(), collab.toMap());
+
+        editor.setRepositoryStrings(approvedCollabs);
+        editor.writeToTextFile(repo + "collaborations/approved.txt");
+    }
+
 
     //    EventsAdverts:
     public void addEventAdvert(EventAdvertisement advert) {

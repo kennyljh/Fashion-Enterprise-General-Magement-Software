@@ -9,5 +9,11 @@ public interface ICollabMember {
 
     String getName();
 
+    void addAdvertisement(int id);
+
+    void removeAdvertisement(Integer id);
+
+    void changeName(String name);
+
     Map<String, String> toMap();
 }

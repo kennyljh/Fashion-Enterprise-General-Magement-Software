@@ -18,8 +18,10 @@ public class HOD implements IHOD {
     private final ArrayList<Manager> managers;
 
     public ArrayList<EventAdvertisement> eventAdverts;
-
     public ArrayList<DesignAdvertisement> designAdverts;
+
+    public ArrayList<ICollabMember> approvedCollabMembers;
+    public ArrayList<ICollab> collabs;
 
 
     public HOD(Employee employeeInfo, ArrayList<Manager> managers) {
@@ -28,6 +30,8 @@ public class HOD implements IHOD {
 
         eventAdverts = MarketingDepartment.fileManager.getEventAdverts();
         designAdverts = MarketingDepartment.fileManager.getDesignAdverts();
+
+        approvedCollabMembers = MarketingDepartment.fileManager.getApprovedCollabMembers();
     }
 
     public HOD() {
@@ -41,6 +45,7 @@ public class HOD implements IHOD {
         MarketingDepartment.fileManager.addHOD(this);
     }
 
+//    Get methods
     @Override
     public int getId() {
         return 0;
@@ -58,6 +63,10 @@ public class HOD implements IHOD {
     public ArrayList<DesignAdvertisement> getDesignAdverts() {return designAdverts;}
 
     @Override
+    public ArrayList<ICollabMember> getApprovedCollabMembers() {return approvedCollabMembers;}
+
+//    Creation
+    @Override
     public EventAdvertisement createEventAdvert(Event event, AdvertType type) {
         EventAdvertisement ad = new EventAdvertisement(event, type);
         eventAdverts.add(ad);
@@ -69,6 +78,18 @@ public class HOD implements IHOD {
         DesignAdvertisement ad = new DesignAdvertisement(type, notes);
         designAdverts.add(ad);
         return ad;
+    }
+
+    @Override
+    public ICollabMember addApprovedCollab(ICollabMember member) {
+        approvedCollabMembers.add(member);
+        return member;
+    }
+
+    @Override
+    public ICollab addCollab(ICollab collab) {
+        collabs.add(collab);
+        return collab;
     }
 
     @Override

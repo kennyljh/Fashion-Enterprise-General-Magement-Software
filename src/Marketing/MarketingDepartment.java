@@ -169,28 +169,77 @@ public class MarketingDepartment {
 
     private void initiateManagement() {
         int userChoice = 0;
-        while (userChoice != 7) {
+        while (userChoice != 3) {
             System.out.println("""
                     
                     Please choose an action you want to take:
-                     1: requestCollab
-                     2: updateCollab
-                     3: deleteCollab
-                     4: printApprovedMembers
-                     5: printCollabs
-                     7: Back
+                     1: manageApprovalList
+                     2: manageCollaborations
+                     3: Back
                     """);
             userChoice = s.nextInt();
             s.nextLine();
             switch (userChoice) {
                 case 1 -> {
+                    int choice = 0;
+                    while (choice != 5) {
+                        System.out.println("""
+                            
+                            Please choose an action you want to take:
+                             1: addApprovedMember
+                             2: updateApprovedMember
+                             3: deleteApprovedMember
+                             4: printApprovedMembers
+                             5: Back
+                            """);
+                        choice = s.nextInt();
+                        s.nextLine();
+
+                        switch (choice) {
+                            case 1 -> {
+
+                            }
+                            case 2 -> {
+
+                            }
+                            case 3 -> {
+
+                            }
+                            case 4 -> {
+                                fileManager.printApprovedMembers();
+                            }
+                        }
+                    }
                 }
-                case 2 -> {}
-                case 3 -> {}
-                case 4 -> {}
-                case 5 -> {
-                }
-                case 6 -> {
+                case 2 -> {
+                    int choice = 0;
+                    while (choice != 5) {
+                        System.out.println("""
+                            
+                            Please choose an action you want to take:
+                             1: addCollaboration
+                             2: updateCollaboration
+                             3: deleteCollaboration
+                             4: printCollaborations
+                             5: Back
+                            """);
+                        choice = s.nextInt();
+                        s.nextLine();
+
+                        switch (choice) {
+                            case 1 -> {
+
+                            }
+                            case 2 -> {
+
+                            }
+                            case 3 -> {
+
+                            }
+                            case 4 -> {
+                                fileManager.printApprovedMembers();
+                            }
+                        }
                 }
             }
         }

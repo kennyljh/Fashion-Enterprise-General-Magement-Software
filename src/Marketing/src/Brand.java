@@ -1,18 +1,11 @@
 package src.Marketing.src;
 
-import src.HR.src.Department;
-import src.HR.src.Employee;
 import src.Marketing.MarketingDepartment;
-import src.Marketing.src.interfaces.IAdvertisement;
 import src.Marketing.src.interfaces.ICollabMember;
-import src.Modeling.ModelingDepartment;
-import src.Modeling.src.Event;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Brand implements ICollabMember {
     static int nextid = 0;
@@ -56,11 +49,15 @@ public class Brand implements ICollabMember {
         return name;
     }
 
+
+    @Override
+    public void changeName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
-        String str = "\nCollab Member " + id + ":" + "\n Name: " + getName() +
-                "\n Advertisements: " + advertisements;
-        return str;
+        return "\nCollab Member " + id + ":" + "\n Name: " + getName();
     }
 
     @Override
@@ -72,16 +69,16 @@ public class Brand implements ICollabMember {
         return brandDetails;
     }
 
-    public static Brand parse(Map<String, String> event) {
-        String[] elements = event.get("advertisements").replaceAll("[\\[\\] ]", "").split(",");
+    public static Brand parse(Map<String, String> brand) {
+        String[] elements = brand.get("advertisements").replaceAll("[\\[\\] ]", "").split(",");
         ArrayList<Integer> list = new ArrayList<>();
         for (String element : elements) {
             list.add(Integer.parseInt(element));
         }
 
         return new Brand(
-                Integer.parseInt(event.get("id")),
-                event.get("name"),
+                Integer.parseInt(brand.get("id")),
+                brand.get("name"),
                 list
         );
     }
