@@ -11,10 +11,10 @@ import static src.Modeling.ModelingDepartment.fileManager;
 public class StorageManager extends Manager {
     Map<Team, Map<String, Item[]>> warehouse;
 
-    public StorageManager(String name, Team team) {
-        super(name, team);
-        warehouse = fileManager.convertItemsToTeamCategoryMap();
-    }
+//    public StorageManager(String name, Team team) {
+//        super(name, team);
+//        warehouse = fileManager.convertItemsToTeamCategoryMap();
+//    }
 
     public StorageManager(Team team) {
         super(team);

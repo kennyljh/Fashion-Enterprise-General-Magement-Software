@@ -22,7 +22,7 @@ public class Manager implements IManager {
     public Manager(String name, Team team) {
         id = nextid;
         nextid++;
-        employeeInfo = App.hrDepartment.getEmployee(Department.MODELING, name);
+        employeeInfo = null;
         teamMembers = MarketingDepartment.fileManager.getTeamMembers(team);
         this.team = team;
     }

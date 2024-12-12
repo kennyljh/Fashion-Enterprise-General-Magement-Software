@@ -6,6 +6,7 @@ import src.HR.src.Employee;
 import src.Modeling.ModelingDepartment;
 import src.Modeling.src.interfaces.IManager;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -17,10 +18,12 @@ public class Manager implements IManager {
     private final ArrayList<TeamMember> teamMembers;
     private final Team team;
 
-    public Manager(String name, Team team) {
+    public Manager(String empId, Employee employeeInfo, Team team) throws Exception {
+        this.employeeInfo = employeeInfo;
         id = nextid;
         nextid++;
-        employeeInfo = App.hrDepartment.getEmployee(Department.MODELING, name);
+        //Provide employeeID as String
+        employeeInfo = App.hrDepartment.getEmployee(empId);
         teamMembers = ModelingDepartment.fileManager.getTeamMembers(team);
         this.team = team;
     }
@@ -44,6 +47,12 @@ public class Manager implements IManager {
         this.team = team;
 
         ModelingDepartment.fileManager.addManager(this);
+    }
+
+    public Manager(String name, Team team, Employee employeeInfo, ArrayList<TeamMember> teamMembers, Team team1) {
+        this.employeeInfo = employeeInfo;
+        this.teamMembers = teamMembers;
+        this.team = team1;
     }
 
     @Override
