@@ -68,6 +68,10 @@ public class EventAdvertisement implements IAdvertisement {
         modelEvent = MarketingDepartment.hod.requestPhotoshoot(modelId);
     }
 
+    public Event getEvent() {
+        return event;
+    }
+
     @Override
     public String toString() {
         String str =  "\nEvent Advertisement " + id + ":" +

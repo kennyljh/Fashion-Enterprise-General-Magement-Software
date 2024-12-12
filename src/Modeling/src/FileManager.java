@@ -1,5 +1,6 @@
 package src.Modeling.src;
 
+import src.Marketing.src.Brand;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.File;
@@ -45,6 +46,7 @@ public class FileManager {
         setItems(Team.CLOTHING);
         setItems(Team.MAKEUP);
     }
+
 //    Storage:
     private Map<String, Map<String, String>> getTargetMap(Team team) {
         switch (team) {
@@ -151,10 +153,6 @@ public class FileManager {
         editor.writeToTextFile(file.getPath());
     }
 
-    public ArrayList<Item> getItems(Team team) {
-        return null;
-    }
-
     public List<Integer> getAllItemIdsForTeam(Team team) {
         List<Integer> itemIds = new ArrayList<>();
 
@@ -170,21 +168,6 @@ public class FileManager {
         }
 
         return itemIds; // Return the list of item IDs
-    }
-
-    public Item getItemById(Team team, String itemType, int itemId) {
-        Map<String, Map<String, String>> itemMap = getTargetMap(team);
-
-        for (Map.Entry<String, Map<String, String>> entry : itemMap.entrySet()) {
-            Map<String, String> itemDetails = entry.getValue();
-
-            if (itemDetails.containsKey("id") && Integer.parseInt(itemDetails.get("id")) == itemId
-                    && itemType.equalsIgnoreCase(itemDetails.get("itemType"))) {
-                return Item.parse(itemDetails); // Convert details back to an Item object
-            }
-        }
-
-        return null; // Return null if not found
     }
 
     public Item getItemById(Team team, int itemId) {
@@ -328,7 +311,7 @@ public class FileManager {
     }
 
 
-    //    Events:
+//    Events:
     public void addEvent(Event event) {
         events.put("Event " + event.getId(), event.toMap());
 
@@ -355,6 +338,22 @@ public class FileManager {
         return tmp;
     }
 
+    public void updateEvent(Event event) {
+        String key = "Event " + event.getId();
+
+        if (events.containsKey(key)) {
+            events.put(key, event.toMap());
+
+            editor.setRepositoryStrings(events);
+            editor.writeToTextFile(repo + "events.txt");
+
+            System.out.println("Event with ID " + event.getId() + " has been updated.");
+        } else {
+            System.out.println("Event with ID " + event.getId() + " not found.");
+        }
+    }
+
+//    Fittings:
     public ArrayList<Fitting> getFittings() {
         ArrayList<Fitting> tmp = new ArrayList<>();
         for(Map<String, String> event: fittings.values()) {

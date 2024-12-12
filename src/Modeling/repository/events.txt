@@ -6,6 +6,14 @@ completionStatus/false
 type/Photoshoot
 teamMembers/[]
 
+Event 3:
+celebrity/
+collab/
+id/3
+completionStatus/false
+type/Fashion Show
+teamMembers/[]
+
 Event 0:
 celebrity/Beyonce
 collab/Nike

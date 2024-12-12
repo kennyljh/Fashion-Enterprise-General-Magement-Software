@@ -62,6 +62,11 @@ public class Event implements IEvent {
     }
 
     @Override
+    public void addCelebrity(String name) {
+        this.celebrity = name;
+    }
+
+    @Override
     public String getCollab() {
         return this.collab;
     }

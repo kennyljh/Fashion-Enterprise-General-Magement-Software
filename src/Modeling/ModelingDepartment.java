@@ -2,6 +2,7 @@ package src.Modeling;
 
 import src.App;
 
+import src.Marketing.src.Celebrity;
 import src.Modeling.src.*;
 import src.Security.src.SecurityRequestScheduler;
 
@@ -545,5 +546,13 @@ public class ModelingDepartment {
 
     public Item requestItem(int id) {
         return null;
+    }
+
+    public Event addCelebrityToEvent(int id, Celebrity celebrity) {
+        Event event = fileManager.getEvent(id);
+        event.addCelebrity(celebrity.getName());
+
+        hod.updateEvent(event);
+        return event;
     }
 }

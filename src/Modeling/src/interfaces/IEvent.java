@@ -6,6 +6,9 @@ public interface IEvent {
     int getId();
     String getType();
     String getCelebrity();
+
+    void addCelebrity(String name);
+
     String getCollab();
     String getCompletion();
 //    void endEvent();

@@ -77,6 +77,18 @@ public class HOD implements IHOD {
     public ArrayList<Event> getEvents() {return events;}
 
     @Override
+    public Event updateEvent(Event event) {
+        for(Event e: events) {
+            if(e.getId() == event.getId()) {
+                e = event;
+                ModelingDepartment.fileManager.updateEvent(event);
+                return e;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Fitting> getFittings() {return fittings;}
 
     @Override

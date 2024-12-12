@@ -18,8 +18,10 @@ public class HOD implements IHOD {
     private final ArrayList<Manager> managers;
 
     public ArrayList<EventAdvertisement> eventAdverts;
-
     public ArrayList<DesignAdvertisement> designAdverts;
+
+    public ArrayList<ICollabMember> approvedCollabMembers;
+    public ArrayList<ICollab> collabs;
 
 
     public HOD(Employee employeeInfo, ArrayList<Manager> managers) {
@@ -28,6 +30,9 @@ public class HOD implements IHOD {
 
         eventAdverts = MarketingDepartment.fileManager.getEventAdverts();
         designAdverts = MarketingDepartment.fileManager.getDesignAdverts();
+
+        approvedCollabMembers = MarketingDepartment.fileManager.getApprovedCollabMembers();
+        collabs = MarketingDepartment.fileManager.getCollabs();
     }
 
     public HOD() {
@@ -41,6 +46,7 @@ public class HOD implements IHOD {
         MarketingDepartment.fileManager.addHOD(this);
     }
 
+//    HOD personal methods
     @Override
     public int getId() {
         return 0;
@@ -58,18 +64,7 @@ public class HOD implements IHOD {
     public ArrayList<DesignAdvertisement> getDesignAdverts() {return designAdverts;}
 
     @Override
-    public EventAdvertisement createEventAdvert(Event event, AdvertType type) {
-        EventAdvertisement ad = new EventAdvertisement(event, type);
-        eventAdverts.add(ad);
-        return ad;
-    }
-
-    @Override
-    public DesignAdvertisement createDesignAdvert(AdvertType type, String notes) {
-        DesignAdvertisement ad = new DesignAdvertisement(type, notes);
-        designAdverts.add(ad);
-        return ad;
-    }
+    public ArrayList<ICollabMember> getApprovedCollabMembers() {return approvedCollabMembers;}
 
     @Override
     public Map<String, String> toMap() {
@@ -83,6 +78,25 @@ public class HOD implements IHOD {
         return memberDetails;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("\nHOD: ");
+        str.append("\nEmployeeInfo: ").append(this.employeeInfo.toString());
+        str.append("\nManagers: ");
+        for (Manager manager : managers) {
+            str.append("\n  ").append(manager.toString());
+        }
+        return str.toString();
+    }
+
+    public static HOD parse(Map<String, String> hod) {
+        return new HOD(
+                Employee.parseEmployee(hod.get("employeeInfo")),
+                MarketingDepartment.fileManager.getManagers()
+        );
+    }
+
+//    Team Members
     @Override
     public void addManager(Manager manager) {
         managers.add(manager);
@@ -100,25 +114,140 @@ public class HOD implements IHOD {
     }
 
     @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder("\nHOD: ");
-        str.append("\nEmployeeInfo: ").append(this.employeeInfo.toString());
-        str.append("\nManagers: ");
-        for (Manager manager : managers) {
-            str.append("\n  ").append(manager.toString());
-        }
-        return str.toString();
-    }
-
-    @Override
     public Event requestPhotoshoot(int modelId) {
         return App.modelingDepartment.requestPhotoshoot(Integer.toString(modelId), "");
     }
 
-    public static HOD parse(Map<String, String> hod) {
-        return new HOD(
-                Employee.parseEmployee(hod.get("employeeInfo")),
-                MarketingDepartment.fileManager.getManagers()
-        );
+//    Event CRUD
+    @Override
+    public EventAdvertisement createEventAdvert(Event event, AdvertType type) {
+        EventAdvertisement ad = new EventAdvertisement(event, type);
+        eventAdverts.add(ad);
+        return ad;
+    }
+
+//    Design CRUD
+    @Override
+    public DesignAdvertisement createDesignAdvert(AdvertType type, String notes) {
+        DesignAdvertisement ad = new DesignAdvertisement(type, notes);
+        designAdverts.add(ad);
+        return ad;
+    }
+
+//    Approval List
+    @Override
+    public ICollabMember addApprovedCollab(ICollabMember member) {
+        approvedCollabMembers.add(member);
+        MarketingDepartment.fileManager.addCollabMember(member);
+        return member;
+    }
+
+    @Override
+    public void updateMember(ICollabMember member) {
+        for (ICollabMember m: approvedCollabMembers) {
+            if(member instanceof Celebrity && m instanceof Celebrity && m.getId() == member.getId()) {
+                m.changeName(member.getName());
+                MarketingDepartment.fileManager.updateCollabMember(member);
+                return;
+            }
+            else if(member instanceof Brand && m instanceof Brand && m.getId() == member.getId()) {
+                m.changeName(member.getName());
+                MarketingDepartment.fileManager.updateCollabMember(member);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void printCelebrities() {
+        for(ICollabMember member: approvedCollabMembers) {
+            if(member instanceof Celebrity) {
+                System.out.println(member.getName());
+            }
+        }
+    }
+
+    @Override
+    public void printBrand() {
+        for(ICollabMember member: approvedCollabMembers) {
+            if(member instanceof Brand) {
+                System.out.println(member.getName());
+            }
+        }
+    }
+
+    @Override
+    public void printApprovedMembers() {
+        for(ICollabMember member: approvedCollabMembers) {
+            System.out.println(member.getName());
+        }
+    }
+
+    @Override
+    public ICollabMember getMember(String name) {
+        for (ICollabMember member: approvedCollabMembers) {
+            if(member.getName().equalsIgnoreCase(name)) {
+                return member;
+            }
+        }
+        return null;
+    }
+
+    public void removeMember(ICollabMember member) {
+        if(approvedCollabMembers.remove(member)) {
+            for (int i = 0; i < approvedCollabMembers.size(); i++) {
+                ICollabMember m = approvedCollabMembers.get(i);
+                if (m.getId() == member.getId()) {
+                    approvedCollabMembers.remove(i);
+                    MarketingDepartment.fileManager.removeCollabMember(m);
+                    return;
+                }
+            }
+            MarketingDepartment.fileManager.removeCollabMember(member);
+        } else {
+            System.out.println("\nError removing collab member.");
+        }
+    }
+
+//    Collabs
+
+    @Override
+    public ICollab addCollab(ICollab collab) {
+        collabs.add(collab);
+        MarketingDepartment.fileManager.addCollab(collab);
+        return collab;
+    }
+
+    @Override
+    public void updateCollab(ICollab collab) {
+        for (int i = 0; i < collabs.size(); i++) {
+            ICollab m = collabs.get(i);
+            if (m.getId() == collab.getId()) {
+                collabs.set(i, collab);
+                MarketingDepartment.fileManager.updateCollab(collab);
+                return;
+            }
+        }
+
+    }
+
+    @Override
+    public void removeCollab(ICollab collab) {
+        for (int i = 0; i < collabs.size(); i++) {
+            ICollab m = collabs.get(i);
+            if (m.getId() == collab.getId()) {
+                collabs.remove(i);
+                MarketingDepartment.fileManager.removeCollab(collab);
+                return;
+            }
+        }
+
+    }
+
+    @Override
+    public void printCollabs() {
+        for(ICollab collab: collabs) {
+            System.out.println(collab);
+        }
     }
 }
