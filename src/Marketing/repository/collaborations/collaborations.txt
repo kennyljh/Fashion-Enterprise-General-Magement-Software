@@ -1,0 +1,12 @@
+Collab 0:
+designAdverts/[1]
+eventAdverts/[]
+member/0
+id/0
+
+Collab 1:
+designAdverts/[2]
+eventAdverts/[]
+member/1
+id/1
+

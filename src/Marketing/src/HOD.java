@@ -32,6 +32,7 @@ public class HOD implements IHOD {
         designAdverts = MarketingDepartment.fileManager.getDesignAdverts();
 
         approvedCollabMembers = MarketingDepartment.fileManager.getApprovedCollabMembers();
+        collabs = MarketingDepartment.fileManager.getCollabs();
     }
 
     public HOD() {
@@ -195,9 +196,11 @@ public class HOD implements IHOD {
         }
     }
 
+//    Collabs
     @Override
     public ICollab addCollab(ICollab collab) {
         collabs.add(collab);
+        MarketingDepartment.fileManager.addCollab(collab);
         return collab;
     }
 }

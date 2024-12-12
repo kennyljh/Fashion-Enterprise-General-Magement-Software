@@ -2,11 +2,9 @@ package src.Marketing.src;
 
 import src.Marketing.src.interfaces.ICollab;
 import src.Marketing.src.interfaces.ICollabMember;
-import src.Modeling.src.Item;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,11 +59,11 @@ public class FileManager {
 //    ApprovedMembers
     public ArrayList<ICollabMember> getApprovedCollabMembers() {
         ArrayList<ICollabMember> tmp = new ArrayList<>();
-        for(Map<String, String> advert: approvedCollabs.values()) {
-            if (advert.containsKey("contractDetail")) {
-                tmp.add(Celebrity.parse(advert));
+        for(Map<String, String> members: approvedCollabs.values()) {
+            if (members.containsKey("contractDetail")) {
+                tmp.add(Celebrity.parse(members));
             } else {
-                tmp.add(Brand.parse(advert));
+                tmp.add(Brand.parse(members));
             }
         }
         return tmp;
@@ -140,23 +138,19 @@ public class FileManager {
 
 
 //    Collabs
-    public ArrayList<ICollab> getCollaborations() {
+    public ArrayList<ICollab> getCollabs() {
         ArrayList<ICollab> tmp = new ArrayList<>();
         for(Map<String, String> collab: collaborations.values()) {
-    //        if (collab.containsKey("contractInfo")) {
-    //            tmp.add(Celebrity.parse(collab));
-    //        } else {
-    //            tmp.add(Brand.parse(collab));
-    //        }
+            tmp.add(Collab.parse(collab));
         }
         return tmp;
     }
 
     public void addCollab(ICollab collab) {
-        approvedCollabs.put("Collab " + collab.getId(), collab.toMap());
+        collaborations.put("Collab " + collab.getId(), collab.toMap());
 
-        editor.setRepositoryStrings(approvedCollabs);
-        editor.writeToTextFile(repo + "collaborations/approved.txt");
+        editor.setRepositoryStrings(collaborations);
+        editor.writeToTextFile(repo + "collaborations/collaborations.txt");
     }
 
 
@@ -241,16 +235,6 @@ public class FileManager {
         ArrayList<TeamMember> tmp = new ArrayList<>();
         for(Map<String, String> member: teamMembers.values()) {
             if (member.containsValue(team.toString()) && !member.containsKey("teamMembers") && !member.containsKey("managers")) {
-                tmp.add(TeamMember.parse(member));
-            }
-        }
-        return tmp;
-    }
-
-    public ArrayList<TeamMember> getTeamMembers() {
-        ArrayList<TeamMember> tmp = new ArrayList<>();
-        for(Map<String, String> member: teamMembers.values()) {
-            if (!member.containsKey("teamMembers") && !member.containsKey("managers")) {
                 tmp.add(TeamMember.parse(member));
             }
         }

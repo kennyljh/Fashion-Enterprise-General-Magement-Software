@@ -294,7 +294,66 @@ public class MarketingDepartment {
 
                         switch (choice) {
                             case 1 -> {
+                                boolean memberApproval = false;
 
+                                while (!memberApproval) {
+                                    System.out.println("\nWhich approved Celebrity/Brand will you like to collab with (full name)");
+                                    hod.printApprovedMembers();
+
+                                    String name = s.nextLine();
+                                    ICollabMember member = hod.getMember(name);
+                                    if(member != null) {
+                                        memberApproval = member.requestCollab();
+                                        if(memberApproval) {
+                                            System.out.println("""
+                                                
+                                                Which type of collaboration will you do?
+                                                 1: Design
+                                                 2: Event""");
+                                            int adType = s.nextInt();
+                                            s.nextLine();
+
+                                            switch (adType) {
+                                                case 1 -> {
+                                                    ArrayList<DesignAdvertisement> designAds = fileManager.getDesignAdverts();
+                                                    System.out.println("\nWhich design ad would you like to collab with?(id)");
+                                                    for(DesignAdvertisement ad: designAds) {
+                                                        System.out.println("\nID:" + ad.getId() +
+                                                                "\n Type:" + ad.getAdvertType() +
+                                                                "\n Design: " + ad.getDesign().getDesignName() +
+                                                                "\n Notes: " + ad.getNotes());
+                                                    }
+
+                                                    DesignAdvertisement ad = fileManager.getDesignAdvertById(s.nextInt());
+                                                    s.nextLine();
+
+                                                    System.out.println(ad);
+                                                    System.out.println("\nAre you sure you want to add this Celebrity/Brand to this Ad?(y/n)");
+
+                                                    if(s.nextLine().equalsIgnoreCase("y")) {
+                                                        Collab collab = new Collab(member);
+                                                        collab.addAdvertisement(true, ad);
+
+                                                        System.out.println(collab);
+                                                        hod.addCollab(collab);
+                                                    } else {
+                                                        System.out.println("Aborting collab request...");
+                                                    }
+                                                }
+                                            }
+
+                                        } else {
+                                            System.out.println("\n" + member.getName() + " rejected your request" +
+                                                    "\nWould you like to do a different brand or try again?(y/n)");
+                                            if(s.nextLine().equalsIgnoreCase("y")) {
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("Celebrity/Brand with the name " + name + " is not found." +
+                                                "\n Please get them approved before requesting collaborations.");
+                                    }
+                                }
                             }
                             case 2 -> {
 

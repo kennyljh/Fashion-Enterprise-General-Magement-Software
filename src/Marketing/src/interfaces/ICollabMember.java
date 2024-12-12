@@ -9,6 +9,8 @@ public interface ICollabMember {
 
     String getName();
 
+    boolean requestCollab();
+
     void changeName(String name);
 
     Map<String, String> toMap();

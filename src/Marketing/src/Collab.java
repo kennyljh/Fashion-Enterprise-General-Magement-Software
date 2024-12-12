@@ -33,8 +33,6 @@ public class Collab implements ICollab {
         this.member = member;
         this.designAdvertisements = designAdvertisements;
         this.eventAdvertisements = eventAdvertisements;
-
-        MarketingDepartment.fileManager.addCollab(this);
     }
 
     public Collab(ICollabMember member) {
@@ -43,8 +41,6 @@ public class Collab implements ICollab {
         this.member = member;
         this.designAdvertisements = new ArrayList<>();
         this.eventAdvertisements = new ArrayList<>();
-
-        MarketingDepartment.fileManager.addCollab(this);
     }
 
     @Override
@@ -92,7 +88,7 @@ public class Collab implements ICollab {
 
     @Override
     public String toString() {
-        return "\nCollab " + id + ":" + "\n Member: " + member.toString() +
+        return "\nCollab " + id + ":" + "\n Member: " + member.getName() +
                 "\n DesignAdverts: " + getAdvertisementIds(true) +
                 "\n EventAdverts: " + getAdvertisementIds(false);
     }
@@ -108,14 +104,14 @@ public class Collab implements ICollab {
     }
 
     public static Collab parse(Map<String, String> collab) {
-        String[] elements = collab.get("designAdverts").replaceAll("[\\[\\] ]", "").split(",");
+        String[] elements = collab.get("designAdverts").equals("[]") ? new String[0] : collab.get("designAdverts").replaceAll("[\\[\\] ]", "").split(",");
         ArrayList<DesignAdvertisement> designAdverts = new ArrayList<>();
         for (String element : elements) {
             designAdverts.add(MarketingDepartment.fileManager.getDesignAdvertById(Integer.parseInt(element)));
         }
 
 
-        elements = collab.get("eventAdverts").replaceAll("[\\[\\] ]", "").split(",");
+        elements = collab.get("eventAdverts").equals("[]") ? new String[0] : collab.get("eventAdverts").replaceAll("[\\[\\] ]", "").split(",");
         ArrayList<EventAdvertisement> eventAdverts = new ArrayList<>();
         for (String element : elements) {
             eventAdverts.add(MarketingDepartment.fileManager.getEventAdvertById(Integer.parseInt(element)));

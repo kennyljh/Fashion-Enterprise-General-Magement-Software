@@ -41,6 +41,11 @@ public class Brand implements ICollabMember {
     }
 
     @Override
+    public boolean requestCollab() {
+        return Math.random() < 0.8;
+    }
+
+    @Override
     public String toString() {
         return "\nCollab Member " + id + ":" + "\n Name: " + getName();
     }
