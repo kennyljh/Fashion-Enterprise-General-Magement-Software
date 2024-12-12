@@ -26,7 +26,7 @@ public class DesignAdvertisement implements IAdvertisement {
         nextid++;
         assignTeams(advertType);
         this.advertType = advertType;
-        this.design = getDesign();
+        this.design = generateDesign();
         this.notes = notes;
     }
 
@@ -35,7 +35,7 @@ public class DesignAdvertisement implements IAdvertisement {
         if (id >= nextid) nextid = id + 1;
         assignTeams(advertType);
         this.advertType = advertType;
-        this.design = getDesign();
+        this.design = generateDesign();
         this.notes = notes;
     }
 
@@ -44,7 +44,7 @@ public class DesignAdvertisement implements IAdvertisement {
         if (id >= nextid) nextid = id + 1;
         assignTeams(advertType);
         this.advertType = advertType;
-        this.design = getDesign();
+        this.design = generateDesign();
         this.photoshoot = photoshoot;
         this.notes = notes;
     }
@@ -76,6 +76,10 @@ public class DesignAdvertisement implements IAdvertisement {
         return notes;
     }
 
+    public FinalDesign getDesign() {
+        return design;
+    }
+
     @Override
     public void changeAdvertType(AdvertType type) {
         advertType = type;
@@ -89,7 +93,7 @@ public class DesignAdvertisement implements IAdvertisement {
 
     @Override
     public String toString() {
-        String str =  "\nEvent Advertisement " + id + ":" +
+        String str =  "\nDesign Advertisement " + id + ":" +
                 "\n Design: " + design.getDesignName() +
                 "\n AdvertType: " + advertType.toString() +
                 "\n Associated Teams: " + associatedTeams[0].toString() + ", " + associatedTeams[1].toString() +
@@ -119,7 +123,7 @@ public class DesignAdvertisement implements IAdvertisement {
         return advertDetails;
     }
 
-    private FinalDesign getDesign() {
+    private FinalDesign generateDesign() {
         FinalDesign d = new FinalDesign("Ball Gown");
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add("Red");
