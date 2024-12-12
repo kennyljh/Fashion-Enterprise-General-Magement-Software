@@ -75,8 +75,11 @@ public class hiringProcess {
 
     private final Path folderPathSchedules = Paths.get("src", "HR", "repository", "scheduleStorage");
     private final Path folderPathIDs = Paths.get("src", "HR", "repository", "scheduleStorage", "idStorage");
-
-    //TODO: Works
+    valueHandling valueHandler = new valueHandling();
+    /**
+     *
+     * @throws IOException
+     */
     public void createInterview() throws IOException {
         /*
         TODO:
@@ -84,76 +87,48 @@ public class hiringProcess {
                 and upon assigning a card to them, either the folder exists and it is deposited there
                 or it creates a new folder after prompting the user to confirm that the chosen interviewer is correct
          */
+        String interviewTime;
+        String candidateName;
         String data = "";
-        Scanner input = new Scanner(System.in);
+        String interviewer;
+        String notes;
         System.out.println("Please enter Interview Time (HH:MM)");
-        String interviewTime = input.nextLine();
-        System.out.println("Please ensure this is the correct time y/n: " + interviewTime);
-        String answer = input.nextLine();
-        if (answer.equals("n") || answer.equals("N")) {
-            //Currently needs to be this way otherwise pulling data will not work correctly (NO SEMICOLONS)
-            System.out.println("Please enter Interview Time (HHMM)");
-            interviewTime = input.nextLine();
-        }
-        data += "Interview Time: " + interviewTime + "\n";
+        interviewTime = valueHandler.inputValidator();
 
 
         //candidate name
         System.out.println("Please enter Candidate Name (First Last):");
-        String candidateName = input.nextLine().strip();
-        System.out.println("Please ensure this is the correct Candidate y/n: " + candidateName);
-        answer = input.nextLine();
-        if (answer.equals("n") || answer.equals("N")) {
-            System.out.println("Please enter Candidate Name (First Last):");
-            candidateName = input.nextLine();
-        }
+        candidateName = valueHandler.inputValidator();
         data += "Candidate Name: " + candidateName + "\n";
 
 
         //assign interviewer
         System.out.println("Please choose Interviewer to assign:");
         //File folder = folderPathSchedules.toFile();
-        String interviewer = input.nextLine();
-        System.out.println("Please ensure this is the correct Interviewer y/n: " + interviewer);
-        answer = input.nextLine();
-        if (answer.equals("n") || answer.equals("N")) {
-            System.out.println("Please choose Interviewer to assign:");
-            interviewer = input.nextLine();
-        }
+        interviewer = valueHandler.inputValidator();
         data += "Interviewer: " + interviewer + "\n";
 
         //add notes
-        System.out.println("PLease enter notes: ");
-        String notes = input.nextLine();
-        System.out.println("Please ensure this is correct (y/n): " + notes);
-        answer = input.nextLine();
-        if (answer.equals("n") || answer.equals("N")) {
-            System.out.println("Please choose Interviewer to assign:");
-            notes = input.nextLine();
-        }
+        System.out.println("Please enter notes: ");
+        notes = valueHandler.inputValidator();
         data += "Notes: " + notes + "\n";
 
         System.out.println("generating ID...");
 
         //checking to make sure folder is there
-        int idCounter = 0;
-//        System.out.println("idCounter: " + idCounter);
+        int idCounter;
         Path filePath;
         try {
             filePath = Paths.get(folderPathIDs.toString(), "idFile.txt");
         } catch (Exception e) {
             throw new FileNotFoundException("File not found");
         }
-//        System.out.println(filePath);
 
         //read integer then increment and write to file
         try(BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {
             String line = br.readLine();
-//            System.out.println(line);
             idCounter = Integer.parseInt(line);
-//            System.out.println("idCounter" + idCounter);
             CharSequence chars = ++idCounter + "";
-//            System.out.println(chars);
             Files.writeString(filePath, chars);
         }
 
@@ -163,14 +138,12 @@ public class hiringProcess {
         if (interview.createNewFile()) {
             System.out.println("File Created");
         }
-//        String content = new String(Files.readAllBytes(interview.toPath()));
-//        System.out.println("Total Space: " + content.length() + " Bytes");
-//        System.out.println("folderPathSchedules: " + folderPathSchedules);
-//        System.out.println("Interview Time: " + interviewTime);
-//        System.out.println(interview.exists());
-//        System.out.println(data);
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void editInterview() throws IOException {
         /* TODO
             - trawl through scheduleStorage until file is found
@@ -209,7 +182,7 @@ public class hiringProcess {
         String[] payload = null;
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderPathSchedules)) {
             for (Path path : directoryStream) {
-                //TODO prolly need to rework to iterate through the file name until after the _ for ID
+                //TODO prolly need to rework to iterate through the file name until after the _ for ID with regex
                 if (path.getFileName().toString().contains(interviewID)) {
                     filePath = path;
                     System.out.println("Found file: " + path.getFileName().toString());
@@ -249,7 +222,6 @@ public class hiringProcess {
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Interviewer")) {
-//                                    System.out.println("Found Interviewer section at: " + j);
                                     int temp = j;
                                     datum[++temp] = newInterviewer;
                                     System.out.println(datum[j + 1]);
@@ -319,7 +291,6 @@ public class hiringProcess {
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Notes")) {
-//                                    System.out.println("Found notes section at: " + j);
                                     int temp = j;
                                     datum[++temp] = newNotes;
                                     System.out.println(datum[j + 1]);
@@ -341,7 +312,6 @@ public class hiringProcess {
                         Files.writeString(filePath, newPayload);
                     }
                     default -> {
-                        break;
                     }
                 }
             }
@@ -391,6 +361,11 @@ public class hiringProcess {
 
     }
 
+    /**
+     *
+     * @param interviewID
+     * @throws IOException
+     */
     public void printInterview(String interviewID) throws IOException {
         System.out.println("Interview ID: " + interviewID);
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderPathSchedules)) {
@@ -437,4 +412,6 @@ public class hiringProcess {
             - check bytes of file
          */
     }
+
+
 }

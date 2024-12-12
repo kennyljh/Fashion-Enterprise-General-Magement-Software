@@ -14,12 +14,8 @@ import java.util.*;
  */
 public class candidateRecordManager {
     Map<String, Map<String, String>> data = new LinkedHashMap<>();
-    private final fileStorageHR storageHR;
-
-    public candidateRecordManager(fileStorageHR storageHR) {
-        this.storageHR = storageHR;
-    }
-
+    private final fileStorageHR storageHR = new fileStorageHR();
+    private final valueHandling valueHandler = new valueHandling();
 
     /**
      * Add a new candidate into a txt file in format "candID".txt and stores it to candidateStorage
@@ -67,6 +63,12 @@ public class candidateRecordManager {
         }
     }
 
+    /**
+     *
+     * @param candidateID
+     * @return
+     * @throws IOException
+     */
     public Path findCandidateFile(String candidateID) throws IOException {
         Path base = storageHR.getDefault_filepath_candidateStorage();
         String candidateFileName = candidateID + ".txt"; // The candidate file name format
@@ -84,7 +86,12 @@ public class candidateRecordManager {
         return null; // Return null if the candidate file is not found
     }
 
-
+    /**
+     *
+     * @param candidateID
+     * @param status
+     * @throws IOException
+     */
     private void moveCandidate(String candidateID, candidateStatus status) throws IOException {
         // Find the current candidate file path
         Path currentCandidateFile = findCandidateFile(candidateID);
@@ -115,6 +122,9 @@ public class candidateRecordManager {
      */
     public void updateCandidate(String candidateId) throws Exception {
         String filepath;
+        String name;
+        String positionApplied;
+        String candidateStatus;
 
         //As findCandidateFolder may return null, we need to make sure that doesn't happen
         filepath = Objects.requireNonNull(findCandidateFile(candidateId)).toString();
@@ -140,7 +150,7 @@ public class candidateRecordManager {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter candidate name: ");
-        String name = scanner.next();
+        name = scanner.next();
         System.out.println("Enter position applied: ");
         String positionApplied = scanner.next();
         System.out.println("Enter in new candidate hiring status: \nApplied\nPending\nApproved\nRejected\nHiring\n Enter Here: ");
@@ -155,7 +165,11 @@ public class candidateRecordManager {
         storageHR.deleteFile(filepath);
     }
 
-
+    /**
+     *
+     * @param canStatus
+     * @throws Exception
+     */
     public void displayCandidatesByStatus(String canStatus) throws Exception {
         try {
             String statusDirName = canStatus.toUpperCase();

@@ -1,9 +1,7 @@
 package src.HR.src;
 import src.TextEditor.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,12 +38,9 @@ public class fileStorageHR {
         try {
             Path filePath = Paths.get(getFilepath(), filename);
             File file = filePath.toFile();
-            System.out.println("Attempting to delete: " + file.getAbsolutePath());
 
             if (file.exists()) {
-                if (file.delete()) {
-                    System.out.println(filename + " deleted successfully");
-                } else {
+                if (!file.delete()) {
                     throw new Exception("Failed to delete " + filename);
                 }
             } else {
@@ -113,6 +108,37 @@ public class fileStorageHR {
         } catch (Exception e) {
             throw new Exception("Error encountered in loadFileAndPrint with file: "
                     + filePath + "\n" + e.getMessage(), e);
+        }
+    }
+
+    /**
+     *
+     * @param folderPath
+     * @throws Exception
+     */
+    public void displayFileRecords(String folderPath) throws Exception {
+        File folder = new File(folderPath);
+        if(folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            int i = 0;
+            do {
+                assert files != null;
+                File file = files[i];
+                if(file.isFile() && file.getName().endsWith(".txt")) {
+                    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                i++;
+            } while (i < files.length);
+        }
+        else {
+            throw new Exception("File is not a directory");
         }
     }
 

@@ -16,7 +16,8 @@ import java.util.Scanner;
  */
 public class employeeRecordManager {
     Map<String, Map<String, String>> data = new LinkedHashMap<>();
-    private final fileStorageHR storageHR;
+    private final fileStorageHR storageHR = new fileStorageHR();
+    valueHandling valueHandler = new valueHandling();
 
     /*
         TODO:
@@ -24,30 +25,70 @@ public class employeeRecordManager {
             - implement this in updateEmployee
      */
 
-    public employeeRecordManager(fileStorageHR storageHR) {
-        this.storageHR = storageHR;
-    }
-
     /**
      * Adds an Employee to record, then persistently stores it in "empID".txt
-     *
-     * @param employee the Employee object to be added
      */
     // Add a new employee
-    public void addEmployee(Employee employee) throws IOException {
+    public void addEmployee() throws IOException {
         //TODO: have counter that increments for employeeID
+        String name;
+        String employeeId;
+        String initialDep;
+        String position;
+        String employmentStatus;
+        String salary;
+
+        //Name
+        System.out.println("Enter employee name: ");
+
+        name = valueHandler.inputValidator();
+
+        //ID
+        System.out.println("Enter employeeID: ");
+        employeeId = valueHandler.inputValidator();
+
+        //Department
+        Department department;
+        System.out.println("Enter employee department: ");
+        for(int i = 0; i < Department.values().length; i++) {
+            System.out.println(Department.values()[i].name());
+        }
+        initialDep = valueHandler.inputValidator();
+
+        //handling Human Resources
+        if (initialDep.contains("Human Resources")
+                || initialDep.contains("human resources")) {
+            department = Department.HUMAN_RESOURCES;
+        } else {
+            department = Department.valueOf(initialDep.toUpperCase());
+        }
+
+        //Position
+        System.out.println("Enter employee position: ");
+        position = valueHandler.inputValidator();
+
+        //Status
+        System.out.println("Enter employee employment status (i.e. onboarding): ");
+        employmentStatus = valueHandler.inputValidator().toUpperCase();
+
+        //Salary
+        System.out.println("Enter employee salary: ");
+        salary = valueHandler.inputValidator();
+
+        //adding employee
         Map<String, String> employeeObject = new LinkedHashMap<>();
-        employeeObject.put("name", employee.getName());
-        employeeObject.put("employeeID", employee.getEmployeeID());
-        employeeObject.put("employeeDepartment", employee.getDepartment());
-        employeeObject.put("employeePosition", employee.getPosition());
-        employeeObject.put("employeeStatus", employee.getEmployementStatus());
-        employeeObject.put("employeeSalary", employee.getSalary());
-        data.put(employee.getEmployeeID(), employeeObject);
+        employeeObject.put("name", name);
+        employeeObject.put("employeeID", employeeId);
+        employeeObject.put("employeeDepartment", department.toString());
+        employeeObject.put("employeePosition", position);
+        employeeObject.put("employeeStatus", employmentStatus);
+        employeeObject.put("employeeSalary", String.valueOf(salary));
+        data.put(employeeId, employeeObject);
         storageHR.poorJarser.setRepositoryStrings(data);
-        String filepathToEmployeeStorage = String.valueOf(storageHR.getEmployeeStoragePath(String.valueOf(employee.getDepartment())));
-        storageHR.poorJarser.writeToTextFile(filepathToEmployeeStorage + "/" + employee.getEmployeeID() + ".txt");
+        String filepathToEmployeeStorage = String.valueOf(storageHR.getEmployeeStoragePath(String.valueOf(department)));
+        storageHR.poorJarser.writeToTextFile(filepathToEmployeeStorage + "/" + employeeId + ".txt");
     }
+
 
     /**
      * Removes employee FILE from employeeStorage repo, uses fileStorageHR filepath to find file.
@@ -74,14 +115,18 @@ public class employeeRecordManager {
 
         try {
             storageHR.deleteFile(filepath);
-
         } catch (Exception e) {
             throw new Exception("Error in removeEmployee when deleting file from repository with file path: "
                     + filepath + "\n" + e.getMessage());
         }
     }
 
-
+    /**
+     *
+     * @param employeeID
+     * @param department
+     * @throws IOException
+     */
     private void moveEmployee(String employeeID, Department department) throws IOException {
         // Find the current employee file path
         Path currentEmployeeFile = findEmployeeFile(employeeID);
@@ -103,6 +148,7 @@ public class employeeRecordManager {
 
         System.out.println("Employee was successfully moved to " + destinationFile);
     }
+
     /**
      * Takes the EmployeeID of the Employee object to be changed, then checks the LinkedHashMap
      * for the ID; if it finds the ID, the associated Employee is altered and re-uploaded to file,
@@ -121,9 +167,8 @@ public class employeeRecordManager {
         //initialize data from current repo
         Map<String, Map<String, String>> data = storageHR.poorJarser.getRepositoryStringMap();
 
-        //make sure data is not null
-        //TODO: is this necessary?
-        if(data == null) {
+        //make sure data is not initialized with nothing
+        if(data.isEmpty()) {
             throw new Exception("data was not initialized properly: \n");
         }
 
@@ -138,8 +183,9 @@ public class employeeRecordManager {
         for(int i = 0; i < Department.values().length; i++) {
             System.out.println(Department.values()[i].name());
         }
+
         System.out.println("Enter new employee Department: ");
-        Department department = src.HR.src.Department.valueOf(scanner.next().toUpperCase());
+        Department department = Department.valueOf(scanner.next().toUpperCase());
 
         System.out.println("Enter in new employee position: ");
         String position = scanner.next();
@@ -159,47 +205,11 @@ public class employeeRecordManager {
 
         data.put(employeeID, employeeObject);
 
-
         storageHR.poorJarser.setRepositoryStrings(data);
         storageHR.poorJarser.writeToTextFile(filepath);
+
         moveEmployee(employeeID, department);
     }
-
-    /**
-     * Display all records currently in the LinkedHashMap "data"
-     */
-    public void displayCurrentEmployeeRecords() {
-        data.values().forEach(System.out::println);
-    }
-
-    //TODO: move this to fileStorageHR and replace with method call
-    public void displayFileRecords(String folderPath) throws Exception {
-        File folder = new File(folderPath);
-        if(folder.isDirectory()) {
-            File[] files = folder.listFiles();
-            int i = 0;
-            do {
-                assert files != null;
-                File file = files[i];
-                if(file.isFile() && file.getName().endsWith(".txt")) {
-                    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            System.out.println(line);
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                i++;
-            } while (i < files.length);
-        }
-        else {
-            throw new Exception("File is not a directory");
-        }
-    }
-
-
 
     /**
      * @param departmentName the Department to iterate through.
@@ -234,6 +244,12 @@ public class employeeRecordManager {
         }
     }
 
+    /**
+     *
+     * @param employeeID
+     * @return
+     * @throws IOException
+     */
     public Path findEmployeeFile(String employeeID) throws IOException {
         Path base = storageHR.getDefault_filepath_employeeStorage();
         String employeeFileName = employeeID + ".txt";
@@ -249,5 +265,43 @@ public class employeeRecordManager {
             }
         }
         return null; // Return null if the candidate file is not found
+    }
+
+    /**
+     *
+     * @param employeeID
+     * @return
+     * @throws Exception
+     */
+    public Employee getEmployee(String employeeID) throws Exception {
+        String filepath;
+
+        filepath = Objects.requireNonNull(findEmployeeFile(employeeID)).toString();
+        System.out.println(filepath);
+        //read from Employee file
+        storageHR.poorJarser.processTextFile(filepath);
+
+        Map<String, Map<String, String>> data = storageHR.poorJarser.getRepositoryStringMap();
+
+        if(data.isEmpty()) {
+            throw new Exception("data was not initialized properly: \n");
+        }
+
+
+        //initialize data from current repo
+        Map<String, String> employeeObject = data.get(employeeID);
+
+        assert employeeObject != null;
+
+        String name = employeeObject.get("name");
+        String empID = employeeObject.get("employeeID");
+        Department department = Department.valueOf(employeeObject.get("employeeDepartment").toUpperCase());
+        String position = employeeObject.get("employeePosition");
+        String status = employeeObject.get("employeeStatus");
+        int salary = Integer.parseInt(employeeObject.get("employeeSalary"));
+
+        Employee employee = new Employee(empID, name, department, position, status, salary);
+
+        return employee;
     }
 }
