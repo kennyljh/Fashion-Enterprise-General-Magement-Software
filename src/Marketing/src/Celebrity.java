@@ -44,6 +44,7 @@ public class Celebrity implements ICollabMember {
 
     @Override
     public void changeName(String name) {
+        this.tempEmployeeInfo.changeName(name);
         this.name = name;
     }
 

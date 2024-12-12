@@ -72,7 +72,9 @@ public class FileManager {
     }
 
     public void printApprovedMembers() {
-        System.out.println(getApprovedCollabMembers().toString());
+        for(ICollabMember member: getApprovedCollabMembers()) {
+            System.out.println(member);
+        }
     }
 
     public void addCollabMember(ICollabMember collabMember) {
@@ -97,23 +99,11 @@ public class FileManager {
 
     public Boolean checkExistence(String name) {
         for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
-            if (entry.getValue().get("name").equals(name)) {
+            if (entry.getValue().get("name").equalsIgnoreCase(name)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public Celebrity getCelebrityById(int id) {
-        for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
-            String key = entry.getKey();
-            Map<String, String> memberData = entry.getValue();
-
-            if (key.startsWith("Celebrity Member") && key.endsWith(Integer.toString(id))) {
-                return Celebrity.parse(memberData);
-            }
-        }
-        return null;
     }
 
     public void updateCollabMember(ICollabMember collabMember) {
@@ -132,7 +122,6 @@ public class FileManager {
         }
     }
 
-
     public void removeCollabMember(ICollabMember collabMember) {
         String memberType = collabMember instanceof Brand ? "Brand" : "Celebrity";
         String key = memberType + " Member " + collabMember.getId();
@@ -145,9 +134,10 @@ public class FileManager {
 
             System.out.println("Collaboration member with ID " + collabMember.getId() + " has been removed.");
         } else {
-            System.out.println("Collaboration member with ID " + collabMember.getId() + " not found.");
+            System.out.println("Collaboration member with ID " + collabMember.getId() + " not found. No action taken.");
         }
     }
+
 
 //    Collabs
     public ArrayList<ICollab> getCollaborations() {

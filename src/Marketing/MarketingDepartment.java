@@ -3,7 +3,6 @@ package src.Marketing;
 import src.App;
 
 import src.Marketing.src.*;
-import src.Marketing.src.interfaces.ICollab;
 import src.Marketing.src.interfaces.ICollabMember;
 import src.Modeling.src.Event;
 import src.Security.src.SecurityRequestScheduler;
@@ -218,7 +217,7 @@ public class MarketingDepartment {
                                     System.out.println(member);
                                     System.out.println("\nAre you sure you want to approve this Celeb/Brand?(y/n)");
 
-                                    if(s.nextLine().equals("y")) {
+                                    if(s.nextLine().equalsIgnoreCase("y")) {
                                         System.out.println("\nSending Approval to System...");
                                         hod.addApprovedCollab(member);
                                     } else {
@@ -233,7 +232,7 @@ public class MarketingDepartment {
                                         
                                         Which Celebrity/Brand would you like to change?(full name)""");
                                 hod.printApprovedMembers();
-                                String name = s.nextLine().toLowerCase();
+                                String name = s.nextLine();
 
                                 ICollabMember member = hod.getMember(name);
 
@@ -243,10 +242,11 @@ public class MarketingDepartment {
 
                                 if(!fileManager.checkExistence(newName)) {
                                     System.out.println("Is this correct: " + newName + "?(y/n)");
-                                    if(s.nextLine().equals("y")) {
+                                    if(s.nextLine().equalsIgnoreCase("y")) {
                                         System.out.println("Updating member...");
                                         member.changeName(newName);
                                         hod.updateMember(member);
+                                        System.out.println(member);
                                     } else {
                                         System.out.println("Aborting change...");
                                     }
@@ -255,11 +255,25 @@ public class MarketingDepartment {
                                 }
                             }
                             case 3 -> {
+                                System.out.println("\nWhich member would you like to remove?(full name)");
+                                hod.printApprovedMembers();
 
+                                String name = s.nextLine();
+
+                                if(fileManager.checkExistence(name)) {
+                                    ICollabMember member = hod.getMember(name);
+
+                                    System.out.println(member);
+                                    System.out.println("\nAre you sure you want to remove " + member.getName() + "?(y/n)");
+
+                                    if(s.nextLine().equalsIgnoreCase("y")) {
+                                        hod.removeMember(member);
+                                    } else {
+                                        System.out.println("\n Aborting removal...");
+                                    }
+                                }
                             }
-                            case 4 -> {
-                                fileManager.printApprovedMembers();
-                            }
+                            case 4 -> fileManager.printApprovedMembers();
                         }
                     }
                 }
@@ -288,9 +302,7 @@ public class MarketingDepartment {
                             case 3 -> {
 
                             }
-                            case 4 -> {
-                                fileManager.printApprovedMembers();
-                            }
+                            case 4 -> fileManager.printApprovedMembers();
                         }
                     }
                 }

@@ -43,6 +43,11 @@ public class Employee implements IEmployee {
         return name;
     }
 
+    @Override
+    public void changeName(String name) {
+        this.name = name;
+    }
+
     /**
      *
      * @return employeeId

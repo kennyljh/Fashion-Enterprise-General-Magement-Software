@@ -123,14 +123,22 @@ public class HOD implements IHOD {
         }
     }
 
+    @Override
     public ICollabMember getMember(String name) {
-        ArrayList<ICollabMember> tmp = new ArrayList<>();
         for (ICollabMember member: approvedCollabMembers) {
-            if(member.getName().equals(name)) {
+            if(member.getName().equalsIgnoreCase(name)) {
                 return member;
             }
         }
         return null;
+    }
+
+    public void removeMember(ICollabMember member) {
+        if(approvedCollabMembers.remove(member)) {
+            MarketingDepartment.fileManager.removeCollabMember(member);
+        } else {
+            System.out.println("\nError removing collab member.");
+        }
     }
 
     @Override

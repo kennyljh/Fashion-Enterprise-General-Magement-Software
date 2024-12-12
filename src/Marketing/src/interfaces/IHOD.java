@@ -25,6 +25,8 @@ public interface IHOD extends ITeamMember{
 
     void printApprovedMembers();
 
+    ICollabMember getMember(String name);
+
     ICollab addCollab(ICollab collab);
 
     Map<String, String> toMap();
