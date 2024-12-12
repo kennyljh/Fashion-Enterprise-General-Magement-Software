@@ -1,3 +1,12 @@
+Celebrity Member 2:
+contractDetail/ID: Celebrity, Name: Usher, Department: Modeling, Position: Temp Worker, Status: Contract, Salary: 1000000
+name/Usher
+id/2
+
+Brand Member 1:
+name/Nike
+id/1
+
 Celebrity Member 0:
 contractDetail/ID: Celebrity, Name: Beyonce, Department: Modeling, Position: Temp Worker, Status: Contract, Salary: 1000000
 name/Beyonce

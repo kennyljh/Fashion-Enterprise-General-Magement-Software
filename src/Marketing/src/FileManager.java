@@ -62,7 +62,7 @@ public class FileManager {
     public ArrayList<ICollabMember> getApprovedCollabMembers() {
         ArrayList<ICollabMember> tmp = new ArrayList<>();
         for(Map<String, String> advert: approvedCollabs.values()) {
-            if (advert.containsKey("contractInfo")) {
+            if (advert.containsKey("contractDetail")) {
                 tmp.add(Celebrity.parse(advert));
             } else {
                 tmp.add(Brand.parse(advert));

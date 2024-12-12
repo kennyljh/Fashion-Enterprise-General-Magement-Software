@@ -49,6 +49,11 @@ public class Celebrity implements ICollabMember {
     }
 
     @Override
+    public String toString() {
+        return "\nCollab Member " + id + ":" + "\n Name: " + getName() + "\n Contract Details: " + getEmployeeInfo();
+    }
+
+    @Override
     public Map<String, String> toMap() {
         Map<String, String> brandDetails = new HashMap<>();
         brandDetails.put("id", Integer.toString(this.id));
