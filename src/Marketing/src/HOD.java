@@ -45,7 +45,7 @@ public class HOD implements IHOD {
         MarketingDepartment.fileManager.addHOD(this);
     }
 
-//    Get methods
+//    HOD personal methods
     @Override
     public int getId() {
         return 0;
@@ -65,7 +65,59 @@ public class HOD implements IHOD {
     @Override
     public ArrayList<ICollabMember> getApprovedCollabMembers() {return approvedCollabMembers;}
 
-//    Creation
+    @Override
+    public Map<String, String> toMap() {
+        Map<String, String> memberDetails = new HashMap<>();
+        memberDetails.put("employeeInfo", this.employeeInfo.toString());
+        Integer[] tmp = new Integer[managers.size()];
+        for(int i = 0; i < managers.size(); i++) {
+            tmp[i] = managers.get(i).getId();
+        }
+        memberDetails.put("managers", Arrays.toString(tmp));
+        return memberDetails;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("\nHOD: ");
+        str.append("\nEmployeeInfo: ").append(this.employeeInfo.toString());
+        str.append("\nManagers: ");
+        for (Manager manager : managers) {
+            str.append("\n  ").append(manager.toString());
+        }
+        return str.toString();
+    }
+
+    public static HOD parse(Map<String, String> hod) {
+        return new HOD(
+                Employee.parseEmployee(hod.get("employeeInfo")),
+                MarketingDepartment.fileManager.getManagers()
+        );
+    }
+
+//    Team Members
+    @Override
+    public void addManager(Manager manager) {
+        managers.add(manager);
+        MarketingDepartment.fileManager.addManager(manager);
+    }
+
+    @Override
+    public Manager getManager(Team team) {
+        for (Manager manager: managers) {
+            if (manager.getTeam() == team) {
+                return manager;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Event requestPhotoshoot(int modelId) {
+        return App.modelingDepartment.requestPhotoshoot(Integer.toString(modelId), "");
+    }
+
+//    Event CRUD
     @Override
     public EventAdvertisement createEventAdvert(Event event, AdvertType type) {
         EventAdvertisement ad = new EventAdvertisement(event, type);
@@ -73,6 +125,7 @@ public class HOD implements IHOD {
         return ad;
     }
 
+//    Design CRUD
     @Override
     public DesignAdvertisement createDesignAdvert(AdvertType type, String notes) {
         DesignAdvertisement ad = new DesignAdvertisement(type, notes);
@@ -80,6 +133,7 @@ public class HOD implements IHOD {
         return ad;
     }
 
+//    Approval List
     @Override
     public ICollabMember addApprovedCollab(ICollabMember member) {
         approvedCollabMembers.add(member);
@@ -145,56 +199,5 @@ public class HOD implements IHOD {
     public ICollab addCollab(ICollab collab) {
         collabs.add(collab);
         return collab;
-    }
-
-    @Override
-    public Map<String, String> toMap() {
-        Map<String, String> memberDetails = new HashMap<>();
-        memberDetails.put("employeeInfo", this.employeeInfo.toString());
-        Integer[] tmp = new Integer[managers.size()];
-        for(int i = 0; i < managers.size(); i++) {
-            tmp[i] = managers.get(i).getId();
-        }
-        memberDetails.put("managers", Arrays.toString(tmp));
-        return memberDetails;
-    }
-
-    @Override
-    public void addManager(Manager manager) {
-        managers.add(manager);
-        MarketingDepartment.fileManager.addManager(manager);
-    }
-
-    @Override
-    public Manager getManager(Team team) {
-        for (Manager manager: managers) {
-            if (manager.getTeam() == team) {
-                return manager;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder("\nHOD: ");
-        str.append("\nEmployeeInfo: ").append(this.employeeInfo.toString());
-        str.append("\nManagers: ");
-        for (Manager manager : managers) {
-            str.append("\n  ").append(manager.toString());
-        }
-        return str.toString();
-    }
-
-    @Override
-    public Event requestPhotoshoot(int modelId) {
-        return App.modelingDepartment.requestPhotoshoot(Integer.toString(modelId), "");
-    }
-
-    public static HOD parse(Map<String, String> hod) {
-        return new HOD(
-                Employee.parseEmployee(hod.get("employeeInfo")),
-                MarketingDepartment.fileManager.getManagers()
-        );
     }
 }
