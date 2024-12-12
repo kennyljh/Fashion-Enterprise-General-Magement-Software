@@ -1,0 +1,5 @@
+Celebrity Member 0:
+contractDetail/ID: Celebrity, Name: Beyonce, Department: Modeling, Position: Temp Worker, Status: Contract, Salary: 1000000
+name/Beyonce
+id/0
+

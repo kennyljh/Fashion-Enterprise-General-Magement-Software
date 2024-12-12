@@ -95,6 +95,15 @@ public class FileManager {
         return null;
     }
 
+    public Boolean checkExistence(String name) {
+        for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
+            if (entry.getValue().get("name").equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Celebrity getCelebrityById(int id) {
         for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
             String key = entry.getKey();

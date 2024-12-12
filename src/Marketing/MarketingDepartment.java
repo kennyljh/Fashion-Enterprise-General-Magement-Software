@@ -3,16 +3,11 @@ package src.Marketing;
 import src.App;
 
 import src.Marketing.src.*;
+import src.Marketing.src.interfaces.ICollabMember;
 import src.Modeling.src.Event;
-import src.Modeling.src.Item;
-import src.Modeling.src.RecurrenceType;
 import src.Security.src.SecurityRequestScheduler;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class MarketingDepartment {
@@ -197,7 +192,38 @@ public class MarketingDepartment {
 
                         switch (choice) {
                             case 1 -> {
+                                System.out.println("""
+                                        
+                                        What kind of member would you like to approve?
+                                         1: Celebrity
+                                         2: Brand""");
+                                int type = s.nextInt();
+                                s.nextLine();
 
+                                System.out.println("""
+                                        
+                                        What is the name of the Celebrity/Brand you will like to approve?""");
+                                String name = s.nextLine();
+
+                                if(!fileManager.checkExistence(name)) {
+                                    ICollabMember member;
+
+                                    if(type == 1) {
+                                        member = new Celebrity(name);
+                                    } else {
+                                        member = new Brand(name);
+                                    }
+                                    
+                                    System.out.println(member);
+                                    System.out.println("\nAre you sure you want to approve this Celeb/Brand?(y/n)");
+
+                                    if(s.nextLine().equals("y")) {
+                                        System.out.println("\nSending Approval to System...");
+                                        fileManager.addCollabMember(member);
+                                    } else {
+                                        System.out.println("\nCanceling approval...");
+                                    }
+                                }
                             }
                             case 2 -> {
 
@@ -215,14 +241,14 @@ public class MarketingDepartment {
                     int choice = 0;
                     while (choice != 5) {
                         System.out.println("""
-                            
-                            Please choose an action you want to take:
-                             1: addCollaboration
-                             2: updateCollaboration
-                             3: deleteCollaboration
-                             4: printCollaborations
-                             5: Back
-                            """);
+                                
+                                Please choose an action you want to take:
+                                 1: addCollaboration
+                                 2: updateCollaboration
+                                 3: deleteCollaboration
+                                 4: printCollaborations
+                                 5: Back
+                                """);
                         choice = s.nextInt();
                         s.nextLine();
 
@@ -240,6 +266,7 @@ public class MarketingDepartment {
                                 fileManager.printApprovedMembers();
                             }
                         }
+                    }
                 }
             }
         }
