@@ -984,7 +984,7 @@ public class ActivityScheduler implements src.PublicRelations.src.interfaces.Act
                     }
 
                     schedule.setReviewTeamAssign(selectedReviewEmployeeIDs);
-                    System.out.println("Planning assignment created");
+                    System.out.println("Review assignment created");
                     endProgram = true;
                     returnValue = true;
                 }

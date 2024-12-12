@@ -968,7 +968,7 @@ public class ContentScheduler implements src.PublicRelations.src.interfaces.Cont
                     }
 
                     schedule.setReviewTeamAssign(selectedReviewEmployeeIDs);
-                    System.out.println("Planning assignment created");
+                    System.out.println("Review assignment created");
                     endProgram = true;
                     returnValue = true;
                 }
