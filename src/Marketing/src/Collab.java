@@ -7,6 +7,7 @@ import src.Marketing.src.interfaces.ICollabMember;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Collab implements ICollab {
@@ -55,11 +56,34 @@ public class Collab implements ICollab {
     @Override
     public void removeAdvertisement(Boolean design, IAdvertisement advert) {
         if(design) {
-            designAdvertisements.remove((DesignAdvertisement) advert);
+            removeDesignAdvertisementById(advert.getId());
         } else {
-            eventAdvertisements.remove((EventAdvertisement) advert);
+            removeEventAdvertisementById(advert.getId());
         }
     }
+
+    private void removeDesignAdvertisementById(int id) {
+        Iterator<DesignAdvertisement> iterator = designAdvertisements.iterator();
+        while (iterator.hasNext()) {
+            DesignAdvertisement advert = iterator.next();
+            if (advert.getId() == id) { // Assuming getId() returns the ID of the advert
+                iterator.remove();
+                return; // Exit after removing the first match
+            }
+        }
+    }
+
+    private void removeEventAdvertisementById(int id) {
+        Iterator<EventAdvertisement> iterator = eventAdvertisements.iterator();
+        while (iterator.hasNext()) {
+            EventAdvertisement advert = iterator.next();
+            if (advert.getId() == id) { // Assuming getId() returns the ID of the advert
+                iterator.remove();
+                return; // Exit after removing the first match
+            }
+        }
+    }
+
 
     @Override
     public ArrayList<Integer> getAdvertisementIds(Boolean design) {
@@ -97,7 +121,11 @@ public class Collab implements ICollab {
     public Map<String, String> toMap() {
         Map<String, String> brandDetails = new HashMap<>();
         brandDetails.put("id", Integer.toString(this.id));
-        brandDetails.put("member", Integer.toString(this.member.getId()));
+        if(this.member instanceof Celebrity) {
+            brandDetails.put("celebrity", Integer.toString(this.member.getId()));
+        } else {
+            brandDetails.put("brand", Integer.toString(this.member.getId()));
+        }
         brandDetails.put("designAdverts", this.getAdvertisementIds(true).toString());
         brandDetails.put("eventAdverts", this.getAdvertisementIds(false).toString());
         return brandDetails;
@@ -117,9 +145,16 @@ public class Collab implements ICollab {
             eventAdverts.add(MarketingDepartment.fileManager.getEventAdvertById(Integer.parseInt(element)));
         }
 
+        ICollabMember m;
+        if(collab.containsKey("celebrity")) {
+            m = MarketingDepartment.fileManager.getMemberById(true, Integer.parseInt(collab.get("celebrity")));
+        } else {
+            m = MarketingDepartment.fileManager.getMemberById(false, Integer.parseInt(collab.get("brand")));
+        }
+
         return new Collab(
                 Integer.parseInt(collab.get("id")),
-                MarketingDepartment.fileManager.getBrandById(Integer.parseInt(collab.get("member"))),
+                m,
                 designAdverts,
                 eventAdverts
         );

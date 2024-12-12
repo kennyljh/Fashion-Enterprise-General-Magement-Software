@@ -93,7 +93,7 @@ public class DesignAdvertisement implements IAdvertisement {
 
     @Override
     public String toString() {
-        String str =  "\nEvent Advertisement " + id + ":" +
+        String str =  "\nDesign Advertisement " + id + ":" +
                 "\n Design: " + design.getDesignName() +
                 "\n AdvertType: " + advertType.toString() +
                 "\n Associated Teams: " + associatedTeams[0].toString() + ", " + associatedTeams[1].toString() +

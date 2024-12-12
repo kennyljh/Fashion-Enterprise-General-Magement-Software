@@ -3,6 +3,7 @@ package src.Marketing;
 import src.App;
 
 import src.Marketing.src.*;
+import src.Marketing.src.interfaces.ICollab;
 import src.Marketing.src.interfaces.ICollabMember;
 import src.Modeling.src.Event;
 import src.Security.src.SecurityRequestScheduler;
@@ -284,7 +285,7 @@ public class MarketingDepartment {
                                 
                                 Please choose an action you want to take:
                                  1: addCollaboration
-                                 2: updateCollaboration
+                                 2: removeCollaboration
                                  3: deleteCollaboration
                                  4: printCollaborations
                                  5: Back
@@ -366,7 +367,7 @@ public class MarketingDepartment {
                                                         collab.addAdvertisement(false, ad);
 
                                                         System.out.println(collab);
-                                                        hod.addCollab(collab);
+                                                        hod.updateCollab(collab);
                                                     } else {
                                                         System.out.println("Aborting collab request...");
                                                     }
@@ -383,12 +384,52 @@ public class MarketingDepartment {
                                 }
                             }
                             case 2 -> {
+                                System.out.println("\nWhich Collab would you like to change?(id)");
+                                hod.printCollabs();
 
+                                int collabId = s.nextInt();
+                                s.nextLine();
+
+                                ICollab collab = fileManager.getCollabById(collabId);
+
+                                System.out.println("""
+                                        
+                                        Which ad will you remove?
+                                         1: Design
+                                         2: Event""");
+
+                                switch (s.nextInt()) {
+                                    case 1 -> {
+                                        System.out.println("\nWhich ad will you remove?");
+                                        System.out.println(collab.getAdvertisementIds(true));
+
+                                        DesignAdvertisement designAd = fileManager.getDesignAdvertById(s.nextInt());
+                                        collab.removeAdvertisement(true, designAd);
+
+                                        hod.updateCollab(collab);
+                                    }
+                                    case 2 -> {
+                                        System.out.println("\nWhich ad will you remove?");
+                                        System.out.println(collab.getAdvertisementIds(false));
+
+                                        EventAdvertisement eventAd = fileManager.getEventAdvertById(s.nextInt());
+                                        collab.removeAdvertisement(false, eventAd);
+
+                                        hod.updateCollab(collab);
+                                    }
+                                }
+                                s.nextLine();
                             }
                             case 3 -> {
+                                System.out.println("\nWhich Collab would you like to delete?(id)");
+                                hod.printCollabs();
 
+                                ICollab collab = fileManager.getCollabById(s.nextInt());
+                                s.nextLine();
+
+                                fileManager.removeCollab(collab);
                             }
-                            case 4 -> fileManager.printApprovedMembers();
+                            case 4 -> hod.printCollabs();
                         }
                     }
                 }

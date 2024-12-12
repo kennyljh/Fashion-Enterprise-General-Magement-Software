@@ -84,12 +84,16 @@ public class FileManager {
         editor.writeToTextFile(repo + "collaborations/approved.txt");
     }
 
-    public Brand getBrandById(int id) {
+    public ICollabMember getMemberById(boolean celebrity, int id) {
+        String memberType = celebrity ? "Celebrity" : "Brand";
         for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
             String key = entry.getKey();
             Map<String, String> memberData = entry.getValue();
 
-            if (key.startsWith("Brand Member") && key.endsWith(Integer.toString(id))) {
+            if (key.startsWith(memberType + " Member") && key.endsWith(Integer.toString(id))) {
+                if(memberType.equals("Celebrity")) {
+                    return Celebrity.parse(memberData);
+                }
                 return Brand.parse(memberData);
             }
         }
@@ -137,7 +141,6 @@ public class FileManager {
         }
     }
 
-
 //    Collabs
     public ArrayList<ICollab> getCollabs() {
         ArrayList<ICollab> tmp = new ArrayList<>();
@@ -153,19 +156,61 @@ public class FileManager {
 
         for (Map.Entry<String, Map<String, String>> entry : collaborations.entrySet()) {
             Map<String, String> memberData = entry.getValue();
-            if (memberData.containsKey("member") && memberData.get("member").equals(memberId)) {
+            if ((memberData.containsKey("celebrity") && memberData.get("celebrity").equals(memberId)) ||
+                    (memberData.containsKey("brand") && memberData.get("brand").equals(memberId))) {
                 return Collab.parse(memberData);
             }
         }
         return null;
     }
 
-
     public void addCollab(ICollab collab) {
         collaborations.put("Collab " + collab.getId(), collab.toMap());
 
         editor.setRepositoryStrings(collaborations);
         editor.writeToTextFile(repo + "collaborations/collaborations.txt");
+    }
+
+    public void updateCollab(ICollab collab) {
+        String key = "Collab " + collab.getId();
+
+        if (collaborations.containsKey(key)) {
+            collaborations.put(key, collab.toMap());
+
+            editor.setRepositoryStrings(collaborations);
+            editor.writeToTextFile(repo + "collaborations/collaborations.txt");
+
+            System.out.println("Collab with ID " + collab.getId() + " has been updated.");
+        } else {
+            System.out.println("Collab with ID " + collab.getId() + " not found.");
+        }
+    }
+
+    public ICollab getCollabById(int id) {
+        for (Map.Entry<String, Map<String, String>> entry : collaborations.entrySet()) {
+            String key = entry.getKey();
+            Map<String, String> collabData = entry.getValue();
+
+            if (key.endsWith(Integer.toString(id))) {
+                return Collab.parse(collabData);
+            }
+        }
+        return null;
+    }
+
+    public void removeCollab(ICollab collab) {
+        String key = "Collab " + collab.getId();
+
+        if (collaborations.containsKey(key)) {
+            collaborations.remove(key);
+
+            editor.setRepositoryStrings(collaborations);
+            editor.writeToTextFile(repo + "collaborations/collaborations.txt");
+
+            System.out.println("Collab with ID " + collab.getId() + " has been removed.");
+        } else {
+            System.out.println("Collab with ID " + collab.getId() + " not found. No action taken.");
+        }
     }
 
     //    EventsAdverts:

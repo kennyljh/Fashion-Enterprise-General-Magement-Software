@@ -4,3 +4,15 @@ id/0
 event/0
 advertType/Magazine
 
+Advert 1:
+associatedTeams/[Editing, Distribution]
+id/1
+event/3
+advertType/Billboard
+
+Advert 2:
+associatedTeams/[Editing, Video]
+id/2
+event/1
+advertType/Commercial
+

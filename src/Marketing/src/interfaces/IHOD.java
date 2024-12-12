@@ -33,4 +33,10 @@ public interface IHOD extends ITeamMember{
     void addManager(Manager manager);
     Manager getManager(Team team);
     Event requestPhotoshoot(int modelId);
+
+    void updateCollab(ICollab collab);
+
+    void removeCollab(ICollab collab);
+
+    void printCollabs();
 }

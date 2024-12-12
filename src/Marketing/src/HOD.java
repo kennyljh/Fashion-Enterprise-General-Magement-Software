@@ -150,6 +150,11 @@ public class HOD implements IHOD {
                 MarketingDepartment.fileManager.updateCollabMember(member);
                 return;
             }
+            else if(member instanceof Brand && m instanceof Brand && m.getId() == member.getId()) {
+                m.changeName(member.getName());
+                MarketingDepartment.fileManager.updateCollabMember(member);
+                return;
+            }
         }
     }
 
@@ -190,6 +195,14 @@ public class HOD implements IHOD {
 
     public void removeMember(ICollabMember member) {
         if(approvedCollabMembers.remove(member)) {
+            for (int i = 0; i < approvedCollabMembers.size(); i++) {
+                ICollabMember m = approvedCollabMembers.get(i);
+                if (m.getId() == member.getId()) {
+                    approvedCollabMembers.remove(i);
+                    MarketingDepartment.fileManager.removeCollabMember(m);
+                    return;
+                }
+            }
             MarketingDepartment.fileManager.removeCollabMember(member);
         } else {
             System.out.println("\nError removing collab member.");
@@ -197,10 +210,44 @@ public class HOD implements IHOD {
     }
 
 //    Collabs
+
     @Override
     public ICollab addCollab(ICollab collab) {
         collabs.add(collab);
         MarketingDepartment.fileManager.addCollab(collab);
         return collab;
+    }
+
+    @Override
+    public void updateCollab(ICollab collab) {
+        for (int i = 0; i < collabs.size(); i++) {
+            ICollab m = collabs.get(i);
+            if (m.getId() == collab.getId()) {
+                collabs.set(i, collab);
+                MarketingDepartment.fileManager.updateCollab(collab);
+                return;
+            }
+        }
+
+    }
+
+    @Override
+    public void removeCollab(ICollab collab) {
+        for (int i = 0; i < collabs.size(); i++) {
+            ICollab m = collabs.get(i);
+            if (m.getId() == collab.getId()) {
+                collabs.remove(i);
+                MarketingDepartment.fileManager.removeCollab(collab);
+                return;
+            }
+        }
+
+    }
+
+    @Override
+    public void printCollabs() {
+        for(ICollab collab: collabs) {
+            System.out.println(collab);
+        }
     }
 }
