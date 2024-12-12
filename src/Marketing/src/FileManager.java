@@ -1,5 +1,6 @@
 package src.Marketing.src;
 
+import src.Marketing.MarketingDepartment;
 import src.Marketing.src.interfaces.ICollab;
 import src.Marketing.src.interfaces.ICollabMember;
 import src.TextEditor.PoorTextEditor;
@@ -95,7 +96,7 @@ public class FileManager {
         return null;
     }
 
-    public Boolean checkExistence(String name) {
+    public Boolean checkMemberExistence(String name) {
         for (Map.Entry<String, Map<String, String>> entry : approvedCollabs.entrySet()) {
             if (entry.getValue().get("name").equalsIgnoreCase(name)) {
                 return true;
@@ -146,13 +147,26 @@ public class FileManager {
         return tmp;
     }
 
+    public Collab checkCollabExistence(String name) {
+        ICollabMember member = MarketingDepartment.hod.getMember(name);
+        String memberId = Integer.toString(member.getId());
+
+        for (Map.Entry<String, Map<String, String>> entry : collaborations.entrySet()) {
+            Map<String, String> memberData = entry.getValue();
+            if (memberData.containsKey("member") && memberData.get("member").equals(memberId)) {
+                return Collab.parse(memberData);
+            }
+        }
+        return null;
+    }
+
+
     public void addCollab(ICollab collab) {
         collaborations.put("Collab " + collab.getId(), collab.toMap());
 
         editor.setRepositoryStrings(collaborations);
         editor.writeToTextFile(repo + "collaborations/collaborations.txt");
     }
-
 
     //    EventsAdverts:
     public void addEventAdvert(EventAdvertisement advert) {

@@ -42,7 +42,7 @@ public class Brand implements ICollabMember {
 
     @Override
     public boolean requestCollab() {
-        return Math.random() < 0.8;
+        return Math.random() < 0.5;
     }
 
     @Override

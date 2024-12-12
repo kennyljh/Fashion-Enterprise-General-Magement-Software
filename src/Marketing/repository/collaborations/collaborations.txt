@@ -6,7 +6,7 @@ id/0
 
 Collab 1:
 designAdverts/[2]
-eventAdverts/[]
+eventAdverts/[0]
 member/1
 id/1
 

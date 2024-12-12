@@ -1,5 +1,6 @@
 package src.Modeling.src;
 
+import src.Marketing.src.Brand;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.File;
@@ -45,6 +46,7 @@ public class FileManager {
         setItems(Team.CLOTHING);
         setItems(Team.MAKEUP);
     }
+
 //    Storage:
     private Map<String, Map<String, String>> getTargetMap(Team team) {
         switch (team) {
@@ -309,7 +311,7 @@ public class FileManager {
     }
 
 
-    //    Events:
+//    Events:
     public void addEvent(Event event) {
         events.put("Event " + event.getId(), event.toMap());
 
@@ -336,6 +338,22 @@ public class FileManager {
         return tmp;
     }
 
+    public void updateEvent(Event event) {
+        String key = "Event " + event.getId();
+
+        if (events.containsKey(key)) {
+            events.put(key, event.toMap());
+
+            editor.setRepositoryStrings(events);
+            editor.writeToTextFile(repo + "events.txt");
+
+            System.out.println("Event with ID " + event.getId() + " has been updated.");
+        } else {
+            System.out.println("Event with ID " + event.getId() + " not found.");
+        }
+    }
+
+//    Fittings:
     public ArrayList<Fitting> getFittings() {
         ArrayList<Fitting> tmp = new ArrayList<>();
         for(Map<String, String> event: fittings.values()) {

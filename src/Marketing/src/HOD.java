@@ -145,7 +145,7 @@ public class HOD implements IHOD {
     @Override
     public void updateMember(ICollabMember member) {
         for (ICollabMember m: approvedCollabMembers) {
-            if(member instanceof Celebrity && m instanceof Celebrity) {
+            if(member instanceof Celebrity && m instanceof Celebrity && m.getId() == member.getId()) {
                 m.changeName(member.getName());
                 MarketingDepartment.fileManager.updateCollabMember(member);
                 return;

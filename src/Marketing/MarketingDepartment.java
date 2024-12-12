@@ -205,7 +205,7 @@ public class MarketingDepartment {
                                         What is the name of the Celebrity/Brand you will like to approve?""");
                                 String name = s.nextLine();
 
-                                if(!fileManager.checkExistence(name)) {
+                                if(!fileManager.checkMemberExistence(name)) {
                                     ICollabMember member;
 
                                     if(type == 1) {
@@ -240,7 +240,7 @@ public class MarketingDepartment {
                                 System.out.println("\nWhat is the new name of the celebrity");
                                 String newName = s.nextLine();
 
-                                if(!fileManager.checkExistence(newName)) {
+                                if(!fileManager.checkMemberExistence(newName)) {
                                     System.out.println("Is this correct: " + newName + "?(y/n)");
                                     if(s.nextLine().equalsIgnoreCase("y")) {
                                         System.out.println("Updating member...");
@@ -260,7 +260,7 @@ public class MarketingDepartment {
 
                                 String name = s.nextLine();
 
-                                if(fileManager.checkExistence(name)) {
+                                if(fileManager.checkMemberExistence(name)) {
                                     ICollabMember member = hod.getMember(name);
 
                                     System.out.println(member);
@@ -331,8 +331,39 @@ public class MarketingDepartment {
                                                     System.out.println("\nAre you sure you want to add this Celebrity/Brand to this Ad?(y/n)");
 
                                                     if(s.nextLine().equalsIgnoreCase("y")) {
-                                                        Collab collab = new Collab(member);
+                                                        Collab collab = fileManager.checkCollabExistence(name);
+                                                        if(collab == null) {
+                                                            collab = new Collab(member);
+                                                        }
                                                         collab.addAdvertisement(true, ad);
+
+                                                        System.out.println(collab);
+                                                        hod.addCollab(collab);
+                                                    } else {
+                                                        System.out.println("Aborting collab request...");
+                                                    }
+                                                }
+                                                case 2 -> {
+                                                    ArrayList<EventAdvertisement> eventAds = fileManager.getEventAdverts();
+                                                    System.out.println("\nWhich event ad would you like to collab with?(id)");
+                                                    for(EventAdvertisement ad: eventAds) {
+                                                        System.out.println("\nID:" + ad.getId() +
+                                                                "\n Type:" + ad.getAdvertType() +
+                                                                "\n Event: " + ad.getEvent().getType());
+                                                    }
+
+                                                    EventAdvertisement ad = fileManager.getEventAdvertById(s.nextInt());
+                                                    s.nextLine();
+
+                                                    System.out.println(ad);
+                                                    System.out.println("\nAre you sure you want to add this Celebrity/Brand to this Ad?(y/n)");
+
+                                                    if(s.nextLine().equalsIgnoreCase("y")) {
+                                                        Collab collab = fileManager.checkCollabExistence(name);
+                                                        if(collab == null) {
+                                                            collab = new Collab(member);
+                                                        }
+                                                        collab.addAdvertisement(false, ad);
 
                                                         System.out.println(collab);
                                                         hod.addCollab(collab);
@@ -343,11 +374,7 @@ public class MarketingDepartment {
                                             }
 
                                         } else {
-                                            System.out.println("\n" + member.getName() + " rejected your request" +
-                                                    "\nWould you like to do a different brand or try again?(y/n)");
-                                            if(s.nextLine().equalsIgnoreCase("y")) {
-                                                break;
-                                            }
+                                            System.out.println("\n" + member.getName() + " rejected your request");
                                         }
                                     } else {
                                         System.out.println("Celebrity/Brand with the name " + name + " is not found." +
