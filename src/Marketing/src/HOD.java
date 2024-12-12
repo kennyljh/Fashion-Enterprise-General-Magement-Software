@@ -83,7 +83,54 @@ public class HOD implements IHOD {
     @Override
     public ICollabMember addApprovedCollab(ICollabMember member) {
         approvedCollabMembers.add(member);
+        MarketingDepartment.fileManager.addCollabMember(member);
         return member;
+    }
+
+    @Override
+    public void updateMember(ICollabMember member) {
+        for (ICollabMember m: approvedCollabMembers) {
+            if(member instanceof Celebrity && m instanceof Celebrity) {
+                m.changeName(member.getName());
+                MarketingDepartment.fileManager.updateCollabMember(member);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void printCelebrities() {
+        for(ICollabMember member: approvedCollabMembers) {
+            if(member instanceof Celebrity) {
+                System.out.println(member.getName());
+            }
+        }
+    }
+
+    @Override
+    public void printBrand() {
+        for(ICollabMember member: approvedCollabMembers) {
+            if(member instanceof Brand) {
+                System.out.println(member.getName());
+            }
+        }
+    }
+
+    @Override
+    public void printApprovedMembers() {
+        for(ICollabMember member: approvedCollabMembers) {
+            System.out.println(member.getName());
+        }
+    }
+
+    public ICollabMember getMember(String name) {
+        ArrayList<ICollabMember> tmp = new ArrayList<>();
+        for (ICollabMember member: approvedCollabMembers) {
+            if(member.getName().equals(name)) {
+                return member;
+            }
+        }
+        return null;
     }
 
     @Override

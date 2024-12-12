@@ -3,6 +3,7 @@ package src.Marketing;
 import src.App;
 
 import src.Marketing.src.*;
+import src.Marketing.src.interfaces.ICollab;
 import src.Marketing.src.interfaces.ICollabMember;
 import src.Modeling.src.Event;
 import src.Security.src.SecurityRequestScheduler;
@@ -28,7 +29,7 @@ public class MarketingDepartment {
                     Which User are you Logging in as?
                      1: Head of Department
                      2: Admin
-                     3: Exit Modeling Department
+                     3: Exit Marketing Department
                     """);
             login = s.nextInt();
             s.nextLine();
@@ -219,14 +220,39 @@ public class MarketingDepartment {
 
                                     if(s.nextLine().equals("y")) {
                                         System.out.println("\nSending Approval to System...");
-                                        fileManager.addCollabMember(member);
+                                        hod.addApprovedCollab(member);
                                     } else {
                                         System.out.println("\nCanceling approval...");
                                     }
+                                } else {
+                                    System.out.println("\nCelebrity/Brand already in approval list, aborting task...");
                                 }
                             }
                             case 2 -> {
+                                System.out.println("""
+                                        
+                                        Which Celebrity/Brand would you like to change?(full name)""");
+                                hod.printApprovedMembers();
+                                String name = s.nextLine().toLowerCase();
 
+                                ICollabMember member = hod.getMember(name);
+
+                                System.out.println(member);
+                                System.out.println("\nWhat is the new name of the celebrity");
+                                String newName = s.nextLine();
+
+                                if(!fileManager.checkExistence(newName)) {
+                                    System.out.println("Is this correct: " + newName + "?(y/n)");
+                                    if(s.nextLine().equals("y")) {
+                                        System.out.println("Updating member...");
+                                        member.changeName(newName);
+                                        hod.updateMember(member);
+                                    } else {
+                                        System.out.println("Aborting change...");
+                                    }
+                                } else {
+                                    System.out.println("Name already exists in the system, aborting change...");
+                                }
                             }
                             case 3 -> {
 

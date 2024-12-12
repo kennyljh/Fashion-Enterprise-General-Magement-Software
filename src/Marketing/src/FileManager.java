@@ -1,12 +1,12 @@
 package src.Marketing.src;
 
-import src.Marketing.src.interfaces.IAdvertisement;
 import src.Marketing.src.interfaces.ICollab;
 import src.Marketing.src.interfaces.ICollabMember;
-import src.Modeling.src.Event;
+import src.Modeling.src.Item;
 import src.TextEditor.PoorTextEditor;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -115,6 +115,23 @@ public class FileManager {
         }
         return null;
     }
+
+    public void updateCollabMember(ICollabMember collabMember) {
+        String memberType = collabMember instanceof Brand ? "Brand" : "Celebrity";
+        String key = memberType + " Member " + collabMember.getId();
+
+        if (approvedCollabs.containsKey(key)) {
+            approvedCollabs.put(key, collabMember.toMap());
+
+            editor.setRepositoryStrings(approvedCollabs);
+            editor.writeToTextFile(repo + "collaborations/approved.txt");
+
+            System.out.println("Collaboration member with ID " + collabMember.getId() + " has been updated.");
+        } else {
+            System.out.println("Collaboration member with ID " + collabMember.getId() + " not found.");
+        }
+    }
+
 
     public void removeCollabMember(ICollabMember collabMember) {
         String memberType = collabMember instanceof Brand ? "Brand" : "Celebrity";
