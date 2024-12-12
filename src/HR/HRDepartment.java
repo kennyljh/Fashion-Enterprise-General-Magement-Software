@@ -5,7 +5,6 @@ import src.HR.src.*;
 import src.Security.src.SecurityRequestScheduler;
 
 import java.nio.file.Path;
-import java.util.Scanner;
 
 public class HRDepartment {
     fileStorageHR storage = new fileStorageHR();

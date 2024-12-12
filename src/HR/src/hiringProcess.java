@@ -142,7 +142,7 @@ public class hiringProcess {
 
     /**
      *
-     * @throws IOException
+     * @throws IOException if txt file that is being looked for doesn't exist or is invalid
      */
     public void editInterview() throws IOException {
         /* TODO
@@ -176,13 +176,13 @@ public class hiringProcess {
         }
         Path filePath = null;
         List<String[]> data = new ArrayList<>();
-        String[] payload = null;
+        String[] payload;
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderPathSchedules)) {
             for (Path path : directoryStream) {
                 //TODO prolly need to rework to iterate through the file name until after the _ for ID with regex
                 if (path.getFileName().toString().contains(interviewID)) {
                     filePath = path;
-                    System.out.println("Found file: " + path.getFileName().toString());
+                    System.out.println("Found file: " + path.getFileName());
                     Scanner fileScanner = new Scanner(path);
                     while (fileScanner.hasNextLine()) {
                         //TODO replace with HashMap prolly
@@ -250,16 +250,16 @@ public class hiringProcess {
                         }
                         assert filePath != null;
                         System.out.println("Started the writing process");
-                        String newPayload = "";
+                        StringBuilder newPayload = new StringBuilder();
                         for (String[] datum : data) {
-                            for (int j = 0; j < datum.length; j++) {
-                                newPayload += datum[j] + " ";
-                                System.out.println(datum[j].toString());
+                            for (String s : datum) {
+                                newPayload.append(s).append(" ");
+                                System.out.println(s);
                             }
-                            newPayload += "\n";
+                            newPayload.append("\n");
                         }
                         System.out.println("Finished writing process: " + newPayload);
-                        Files.writeString(filePath, newPayload);
+                        Files.writeString(filePath, newPayload.toString());
                     }
                     case "N" -> {
                         System.out.println("Please enter new notes: ");
@@ -276,16 +276,16 @@ public class hiringProcess {
                         }
                         assert filePath != null;
                         System.out.println("Started the writing process");
-                        String newPayload = "";
+                        StringBuilder newPayload = new StringBuilder();
                         for (String[] datum : data) {
-                            for (int j = 0; j < datum.length; j++) {
-                                newPayload += datum[j] + " ";
-                                System.out.println(datum[j].toString());
+                            for (String s : datum) {
+                                newPayload.append(s).append(" ");
+                                System.out.println(s);
                             }
-                            newPayload += "\n";
+                            newPayload.append("\n");
                         }
                         System.out.println("Finished writing process: " + newPayload);
-                        Files.writeString(filePath, newPayload);
+                        Files.writeString(filePath, newPayload.toString());
                     }
                     default -> {
                     }
@@ -339,8 +339,8 @@ public class hiringProcess {
 
     /**
      *
-     * @param interviewID
-     * @throws IOException
+     * @param interviewID String ID of the interview to print to console
+     * @throws IOException if file is missing or invalid
      */
     public void printInterview(String interviewID) throws IOException {
         System.out.println("Interview ID: " + interviewID);

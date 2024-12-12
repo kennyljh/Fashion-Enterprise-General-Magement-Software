@@ -123,9 +123,9 @@ public class employeeRecordManager {
 
     /**
      *
-     * @param employeeID
-     * @param department
-     * @throws IOException
+     * @param employeeID String ID of the employee to be moved
+     * @param department Department object of the department to move the employee to
+     * @throws IOException if file input is invalid
      */
     private void moveEmployee(String employeeID, Department department) throws IOException {
         // Find the current employee file path
@@ -246,9 +246,9 @@ public class employeeRecordManager {
 
     /**
      *
-     * @param employeeID
-     * @return
-     * @throws IOException
+     * @param employeeID String ID of the employee to be found
+     * @return a Path object containing the path to the employee File
+     * @throws IOException if file encountered is invalid
      */
     public Path findEmployeeFile(String employeeID) throws IOException {
         Path base = storageHR.getDefault_filepath_employeeStorage();
@@ -269,9 +269,9 @@ public class employeeRecordManager {
 
     /**
      *
-     * @param employeeID
-     * @return
-     * @throws Exception
+     * @param employeeID String ID of the employee to be returned
+     * @return complete Employee object created from employee File
+     * @throws Exception if text file is invalid
      */
     public Employee getEmployee(String employeeID) throws Exception {
         String filepath;

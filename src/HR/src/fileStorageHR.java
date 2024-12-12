@@ -110,36 +110,4 @@ public class fileStorageHR {
                     + filePath + "\n" + e.getMessage(), e);
         }
     }
-
-    /**
-     *
-     * @param folderPath an absolute folder path String
-     * @throws Exception if folder does not exist
-     */
-    public void displayFileRecords(String folderPath) throws Exception {
-        File folder = new File(folderPath);
-        if(folder.isDirectory()) {
-            File[] files = folder.listFiles();
-            int i = 0;
-            do {
-                assert files != null;
-                File file = files[i];
-                if(file.isFile() && file.getName().endsWith(".txt")) {
-                    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            System.out.println(line);
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                i++;
-            } while (i < files.length);
-        }
-        else {
-            throw new Exception("File is not a directory");
-        }
-    }
-
 }
