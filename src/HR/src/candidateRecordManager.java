@@ -20,6 +20,7 @@ public class candidateRecordManager {
     /**
      * Add a new candidate into a txt file in format "candID".txt and stores it to candidateStorage
      * @param candidate the Candidate object to be stored to file
+     * @throws IOException Throws IOException for internal mechanisms
      */
     public void addCandidate(Candidate candidate) throws IOException {
         Map<String, String> candidateObject = new LinkedHashMap<>();
@@ -36,9 +37,9 @@ public class candidateRecordManager {
     }
 
     /**
-     * Remove a candidate by ID
-     * @param candidateID ID of the Candidate file to remove
-     *
+     * //TODO: add description
+     * @param candidateID String ID of the candidate file to be removed
+     * @throws Exception Throws Exception if file deleteFile fails
      */
     public void removeCandidate(String candidateID) throws Exception {
         if(data.containsKey(candidateID)) {
@@ -64,10 +65,10 @@ public class candidateRecordManager {
     }
 
     /**
-     *
-     * @param candidateID
-     * @return
-     * @throws IOException
+     * //TODO: add description
+     * @param candidateID String ID of the candidate that is being searched for
+     * @return returns a Path object of the found candidate file
+     * @throws IOException Throws an IOException if input is invalid
      */
     public Path findCandidateFile(String candidateID) throws IOException {
         Path base = storageHR.getDefault_filepath_candidateStorage();
@@ -87,10 +88,10 @@ public class candidateRecordManager {
     }
 
     /**
-     *
-     * @param candidateID
-     * @param status
-     * @throws IOException
+     * //TODO: add description
+     * @param candidateID String ID of the candidate file to be moved
+     * @param status String name of the folder the candidate will be moved to
+     * @throws IOException Throws IOException when input is malformed or invalid
      */
     private void moveCandidate(String candidateID, candidateStatus status) throws IOException {
         // Find the current candidate file path
@@ -119,6 +120,7 @@ public class candidateRecordManager {
      * for the ID. If found, the filepath is returned, and the candidateObject is parsed, altered, and
      * moved to the new Status folder if necessary.
      * @param candidateId ID of the candidate to be updated
+     * @throws Exception Throws an Exception for internal mechanisms
      */
     public void updateCandidate(String candidateId) throws Exception {
         String filepath;
@@ -147,28 +149,28 @@ public class candidateRecordManager {
         if(candidateObject == null) {
             candidateObject = new LinkedHashMap<>();
         }
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter candidate name: ");
-        name = scanner.next();
+        name = valueHandler.inputValidator(true);
         System.out.println("Enter position applied: ");
-        String positionApplied = scanner.next();
+        positionApplied = valueHandler.inputValidator(true);
         System.out.println("Enter in new candidate hiring status: \nApplied\nPending\nApproved\nRejected\nHiring\n Enter Here: ");
-        candidateStatus candidateStatus = src.HR.src.candidateStatus.valueOf(scanner.next().toUpperCase());
+        candidateStatus = valueHandler.inputValidator(true).toUpperCase();
         candidateObject.put("candidateName", name);
         candidateObject.put("positionApplied", positionApplied);
-        candidateObject.put("candidateStatus", String.valueOf(candidateStatus));
+        candidateObject.put("candidateStatus", candidateStatus);
         data.put(candidateId, candidateObject);
         storageHR.poorJarser.setRepositoryStrings(data);
-        moveCandidate(candidateId, candidateStatus);
+        moveCandidate(candidateId, src.HR.src.candidateStatus.valueOf(candidateStatus));
         storageHR.poorJarser.writeToTextFile(filepath);
         storageHR.deleteFile(filepath);
     }
 
     /**
-     *
-     * @param canStatus
-     * @throws Exception
+     * //TODO: add description, list of Folders
+     * @param canStatus String name of the candidate folder to display.
+     * @throws Exception Throws Exception if method failed to read through the given
+     *                      path of a Folder
      */
     public void displayCandidatesByStatus(String canStatus) throws Exception {
         try {
@@ -176,6 +178,7 @@ public class candidateRecordManager {
 
             Path statusDir = storageHR.getCandidateStoragePath(statusDirName);
 
+            //TODO: extract into method
             if(statusDir == null) {
                 throw new NullPointerException("statusDir is null");
             }
@@ -199,7 +202,4 @@ public class candidateRecordManager {
             throw new Exception("displayCandidatesByStatus failed: \n" + e.getMessage(), e);
         }
     }
-
-
-
 }

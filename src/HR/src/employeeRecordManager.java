@@ -41,11 +41,11 @@ public class employeeRecordManager {
         //Name
         System.out.println("Enter employee name: ");
 
-        name = valueHandler.inputValidator();
+        name = valueHandler.inputValidator(true);
 
         //ID
         System.out.println("Enter employeeID: ");
-        employeeId = valueHandler.inputValidator();
+        employeeId = valueHandler.inputValidator(true);
 
         //Department
         Department department;
@@ -53,7 +53,7 @@ public class employeeRecordManager {
         for(int i = 0; i < Department.values().length; i++) {
             System.out.println(Department.values()[i].name());
         }
-        initialDep = valueHandler.inputValidator();
+        initialDep = valueHandler.inputValidator(true);
 
         //handling Human Resources
         if (initialDep.contains("Human Resources")
@@ -65,15 +65,15 @@ public class employeeRecordManager {
 
         //Position
         System.out.println("Enter employee position: ");
-        position = valueHandler.inputValidator();
+        position = valueHandler.inputValidator(true);
 
         //Status
         System.out.println("Enter employee employment status (i.e. onboarding): ");
-        employmentStatus = valueHandler.inputValidator().toUpperCase();
+        employmentStatus = valueHandler.inputValidator(true).toUpperCase();
 
         //Salary
         System.out.println("Enter employee salary: ");
-        salary = valueHandler.inputValidator();
+        salary = valueHandler.inputValidator(true);
 
         //adding employee
         Map<String, String> employeeObject = new LinkedHashMap<>();
@@ -300,8 +300,6 @@ public class employeeRecordManager {
         String status = employeeObject.get("employeeStatus");
         int salary = Integer.parseInt(employeeObject.get("employeeSalary"));
 
-        Employee employee = new Employee(empID, name, department, position, status, salary);
-
-        return employee;
+        return new Employee(empID, name, department, position, status, salary);
     }
 }

@@ -78,7 +78,7 @@ public class hiringProcess {
     valueHandling valueHandler = new valueHandling();
     /**
      *
-     * @throws IOException
+     * @throws IOException if File is invalid
      */
     public void createInterview() throws IOException {
         /*
@@ -93,24 +93,24 @@ public class hiringProcess {
         String interviewer;
         String notes;
         System.out.println("Please enter Interview Time (HH:MM)");
-        interviewTime = valueHandler.inputValidator();
+        interviewTime = valueHandler.inputValidator(true);
 
 
         //candidate name
         System.out.println("Please enter Candidate Name (First Last):");
-        candidateName = valueHandler.inputValidator();
+        candidateName = valueHandler.inputValidator(true);
         data += "Candidate Name: " + candidateName + "\n";
 
 
         //assign interviewer
         System.out.println("Please choose Interviewer to assign:");
         //File folder = folderPathSchedules.toFile();
-        interviewer = valueHandler.inputValidator();
+        interviewer = valueHandler.inputValidator(true);
         data += "Interviewer: " + interviewer + "\n";
 
         //add notes
         System.out.println("Please enter notes: ");
-        notes = valueHandler.inputValidator();
+        notes = valueHandler.inputValidator(true);
         data += "Notes: " + notes + "\n";
 
         System.out.println("generating ID...");
@@ -157,19 +157,16 @@ public class hiringProcess {
                 - iterate through String and change marked section
                 - replace file with new string
          */
+        String interviewID;
+        String operation;
+        String userInput;
+        String newInterviewer;
+        String newCandidate;
+        String newNotes;
+
         //Take user input
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter interview ID to edit:");
-        String interviewID = scanner.nextLine();
-        System.out.println("Please ensure this is the correct time y/n: " + interviewID);
-        String answer = scanner.nextLine();
-        //TODO: replace with while loop
-        if (answer.equals("n") || answer.equals("N")) {
-            System.out.println("Please enter Candidate Name (First Last):");
-            interviewID = scanner.nextLine();
-        }
-
-
+        interviewID = valueHandler.inputValidator(true);
 
         //search for file and read to string
         //TODO: extract into a method that returns data()[]
@@ -186,8 +183,6 @@ public class hiringProcess {
                 if (path.getFileName().toString().contains(interviewID)) {
                     filePath = path;
                     System.out.println("Found file: " + path.getFileName().toString());
-//                    System.out.println("interviewPath: " + path);
-                    //System.out.println(Files.exists(path) ? "Yes" : "No");
                     Scanner fileScanner = new Scanner(path);
                     while (fileScanner.hasNextLine()) {
                         //TODO replace with HashMap prolly
@@ -204,21 +199,15 @@ public class hiringProcess {
         //TODO: this will eventually call the above method and use the data()[] it returns
         while(true) {
             System.out.println("Please choose operation: [E]dit, [Q]uit:");
-            String operation = scanner.nextLine();
+            operation = valueHandler.inputValidator(false);
 
             if (operation.equals("E")) {
                 System.out.println("Choose what information to edit: \n[I]nterviewer Assigned\n[C]andidate Name\n[N]otes");
-                String userInput = scanner.nextLine();
+                userInput = valueHandler.inputValidator(false);
                 switch (userInput) {
                     case "I" -> {
                         System.out.println("Please enter new Interviewer to assign: ");
-                        String newInterviewer = scanner.nextLine();
-                        System.out.println("Is " + newInterviewer + " correct? (y/n): " );
-                        answer = scanner.nextLine();
-                        if(answer.equals("n") || newInterviewer.equals("N")) {
-                            System.out.println("Please enter new Interviewer to assign: ");
-                            newInterviewer = scanner.nextLine();
-                        }
+                        newInterviewer = valueHandler.inputValidator(true);
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Interviewer")) {
@@ -245,17 +234,10 @@ public class hiringProcess {
 
                     case "C" -> {
                         System.out.println("Please enter new Candidate name: ");
-                        String newCandidate = scanner.nextLine();
-                        System.out.println("Is " + newCandidate + " correct? (y/n): " );
-                        answer = scanner.nextLine();
-                        if(answer.equals("n") || newCandidate.equals("N")) {
-                            System.out.println("Please enter new Candidate name: ");
-                            newCandidate = scanner.nextLine();
-                        }
+                        newCandidate = valueHandler.inputValidator(true);
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Candidate")) {
-//                                    System.out.println("Found Candidate section at: " + j);
                                     int temp = j;
                                     datum[++temp] = newCandidate;
                                     System.out.println(datum[j + 1]);
@@ -281,13 +263,7 @@ public class hiringProcess {
                     }
                     case "N" -> {
                         System.out.println("Please enter new notes: ");
-                        String newNotes = scanner.nextLine();
-                        System.out.println("Is '" + newNotes + "' correct? (y/n): " );
-                        answer = scanner.nextLine();
-                        if(answer.equals("n") || newNotes.equals("N")) {
-                            System.out.println("Please enter new notes: ");
-                            newNotes = scanner.nextLine();
-                        }
+                        newNotes = valueHandler.inputValidator(true);
                         for (String[] datum : data) {
                             for (int j = 0; j < datum.length; j++) {
                                 if (datum[j].equals("Notes")) {

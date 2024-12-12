@@ -4,7 +4,6 @@ import src.App;
 import src.HR.src.*;
 import src.Security.src.SecurityRequestScheduler;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
@@ -13,10 +12,11 @@ public class HRDepartment {
     employeeRecordManager empHandler = new employeeRecordManager();
     candidateRecordManager canHandler = new candidateRecordManager();
     hiringProcess hireHandler = new hiringProcess();
+    valueHandling valHandler = new valueHandling();
 
     /**
      *
-     * @throws Exception
+     * @throws Exception from internal mechanisms
      */
     public void start() throws Exception {
         boolean loop = true;
@@ -78,8 +78,8 @@ public class HRDepartment {
             System.out.println("0. Exit");
 
 
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+
+            int choice = Integer.parseInt(valHandler.inputValidator(false));
             switch (choice) {
                 case 1: //add employee
                     empHandler.addEmployee();
@@ -88,22 +88,22 @@ public class HRDepartment {
 
                 case 2: //remove employee
                     System.out.println("Enter employee ID: ");
-                    String markedEmployee = input.next();
+                    String markedEmployee = valHandler.inputValidator(true);
                     empHandler.removeEmployee(markedEmployee);
                     System.out.println("Employee removed successfully!");
                     break;
 
                 case 3: //retrieve employee
                     System.out.println("Enter Employee ID: ");
-                    String markedEmpID = input.next();
+                    String markedEmpID = valHandler.inputValidator(true);
                     Path currentEmpFile = empHandler.findEmployeeFile(markedEmpID);
                     storage.loadFileAndPrint(currentEmpFile.toString());
                     System.out.println("Employee retrieved successfully!");
                     break;
 
-                case 4: //update employee //TODO working i think
+                case 4: //update employee
                     System.out.println("Enter employee ID: ");
-                    String updateEmployeeID = input.next();
+                    String updateEmployeeID = valHandler.inputValidator(true);
                     empHandler.updateEmployee(updateEmployeeID);
                     System.out.println("Employee updated successfully!");
                     break;
@@ -118,7 +118,7 @@ public class HRDepartment {
 
                 case 6: //display employees in a department
                     System.out.print("Please enter Department folder to list: ");
-                    Department departmentFolder = Department.valueOf(input.next().toUpperCase());
+                    Department departmentFolder = Department.valueOf(valHandler.inputValidator(true).toUpperCase());
                     System.out.println();
                     empHandler.displayEmployeesByDepartment(departmentFolder);
                     System.out.println("END OF LIST");
@@ -126,13 +126,13 @@ public class HRDepartment {
 
                 case 7: //add candidate
                     System.out.println("Enter candidate name: ");
-                    String candidateName = input.next();
+                    String candidateName = valHandler.inputValidator(true);
                     System.out.println("Enter candidateId");
-                    String candidateId = input.next();
+                    String candidateId = valHandler.inputValidator(true);
                     System.out.println("Enter position candidate applied for: ");
-                    String positionApplied = input.next();
+                    String positionApplied = valHandler.inputValidator(true);
                     System.out.print("Enter candidate status: \nApplied\nApproved\nHiring\nPending\nRejected\nEnter Here: ");
-                    candidateStatus candidateStatus = src.HR.src.candidateStatus.valueOf(input.next().toUpperCase());
+                    candidateStatus candidateStatus = src.HR.src.candidateStatus.valueOf(valHandler.inputValidator(true).toUpperCase());
                     Candidate newCandidate = new Candidate(candidateId, candidateName, positionApplied, candidateStatus);
                     canHandler.addCandidate(newCandidate);
                     System.out.println("Candidate added successfully!");
@@ -140,21 +140,21 @@ public class HRDepartment {
 
                 case 8: //remove candidate
                     System.out.println("Enter candidate ID to be removed: ");
-                    String candidateID = input.next();
+                    String candidateID = valHandler.inputValidator(true);
                     canHandler.removeCandidate(candidateID);
                     System.out.println("Candidate removed successfully!");
                     break;
 
                 case 9: //retrieve candidate by id
                     System.out.println("Enter Candidate ID: ");
-                    String candidateID3 = input.next();
+                    String candidateID3 = valHandler.inputValidator(true);
                     Path currentCandidateFile = canHandler.findCandidateFile(candidateID3);
                     storage.loadFileAndPrint(currentCandidateFile.toString());
                     break;
 
                 case 10: //update candidate
                     System.out.println("Enter Candidate ID: ");
-                    String candidateID2 = input.next();
+                    String candidateID2 = valHandler.inputValidator(true);
                     canHandler.updateCandidate(candidateID2);
                     System.out.println("\nReturning to menu");
                     break;
@@ -169,7 +169,8 @@ public class HRDepartment {
 
                 case 12: //list candidates by status
                     System.out.print("Please enter Status folder to list: ");
-                    String statusFolder = input.next().toUpperCase();
+                    //TODO: list Status folders
+                    String statusFolder = valHandler.inputValidator(true).toUpperCase();
                     System.out.println();
                     canHandler.displayCandidatesByStatus(statusFolder);
                     System.out.println("END OF LIST");
@@ -182,7 +183,7 @@ public class HRDepartment {
 
                 case 14: //display interview
                     System.out.println("Enter Interview ID: ");
-                    String interviewID = input.next();
+                    String interviewID = valHandler.inputValidator(true);
                     hireHandler.printInterview(interviewID);
                     System.out.println("END OF LIST");
                     break;
@@ -212,7 +213,6 @@ public class HRDepartment {
 
                 case 0:
                     loop = false;
-                    input.close();
                     System.out.println("EXITING...");
                     App.prompt(); //<---- Kicks you back to the main homepage
                     break;
@@ -222,12 +222,11 @@ public class HRDepartment {
 
     /**
      *
-     * @param employeeID
-     * @return
-     * @throws Exception
+     * @param employeeID String ID of the employee to be returned.
+     * @return returns a complete Employee object
+     * @throws Exception if getEmployee fails to return a valid object
      */
     public Employee getEmployee(String employeeID) throws Exception {
-        Employee employee = empHandler.getEmployee(employeeID);
-        return employee;
+        return empHandler.getEmployee(employeeID);
     }
 }

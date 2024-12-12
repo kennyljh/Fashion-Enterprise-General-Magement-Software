@@ -113,8 +113,8 @@ public class fileStorageHR {
 
     /**
      *
-     * @param folderPath
-     * @throws Exception
+     * @param folderPath an absolute folder path String
+     * @throws Exception if folder does not exist
      */
     public void displayFileRecords(String folderPath) throws Exception {
         File folder = new File(folderPath);

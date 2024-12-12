@@ -1,8 +1,0 @@
-1:
-name/jerry
-employeeID/1
-employeeDepartment/Manufacturing
-employeePosition/idk
-employeeStatus/active
-employeeSalary/10
-
